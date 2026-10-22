@@ -1,0 +1,96 @@
+{
+ "opt": [
+  6.83,
+  6.644,
+  7.0
+ ],
+ "savant": [
+  6.062,
+  5.874,
+  6.247
+ ],
+ "best_stake": [
+  6.672,
+  6.482,
+  6.859
+ ],
+ "obs_rule_sim": [
+  3.068,
+  2.928,
+  3.211
+ ],
+ "observed": [
+  3.34,
+  3.179,
+  3.501
+ ],
+ "opt-savant": [
+  0.768,
+  0.707,
+  0.827
+ ],
+ "opt-best_stake": [
+  0.158,
+  0.12,
+  0.198
+ ],
+ "opt-observed": [
+  3.491,
+  3.343,
+  3.642
+ ],
+ "opt-obs_rule_sim": [
+  3.762,
+  3.66,
+  3.862
+ ],
+ "best_stake-observed": [
+  3.332,
+  3.187,
+  3.478
+ ],
+ "opt-best_stake(reselected)": [
+  0.158,
+  0.116,
+  0.194
+ ],
+ "best_stake_d": "stake_0.0125",
+ "side": {
+  "opt:batter": 2.945,
+  "opt:batter:n_per_team_game": 1.833,
+  "opt:fielder": 3.885,
+  "opt:fielder:n_per_team_game": 2.208,
+  "savant:batter": 2.473,
+  "savant:batter:n_per_team_game": 1.225,
+  "savant:fielder": 3.589,
+  "savant:fielder:n_per_team_game": 1.706,
+  "stake_0.0125:batter": 2.836,
+  "stake_0.0125:batter:n_per_team_game": 1.401,
+  "stake_0.0125:fielder": 3.837,
+  "stake_0.0125:fielder:n_per_team_game": 1.842,
+  "observed:batter": 1.442,
+  "observed:batter:n_per_team_game": 0.98,
+  "observed:fielder": 1.898,
+  "observed:fielder:n_per_team_game": 1.191,
+  "obs_rule:batter": 1.281,
+  "obs_rule:batter:n_per_team_game": 0.383,
+  "obs_rule:fielder": 1.787,
+  "obs_rule:fielder:n_per_team_game": 0.596
+ },
+ "g_ref": 0.01117,
+ "thresholds_at_gref": {
+  "early_c2": 0.5249,
+  "early_c1": 0.7367,
+  "late8_c2": 0.1667,
+  "late8_c1": 0.4591,
+  "mid5_c2": 0.3756,
+  "mid5_c1": 0.637,
+  "D1_early": 0.0313,
+  "D1_mid": 0.0196,
+  "D1_late": 0.0095,
+  "D2_early": 0.0123
+ },
+ "bar2_early_vs_late_c1_pp": 27.8,
+ "bar2_early_vs_late_c2_pp": 35.8,
+ "bar2_c1_vs_c2_mid_pp": 26.1
+}

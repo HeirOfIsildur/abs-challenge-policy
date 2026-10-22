@@ -1,0 +1,54 @@
+{
+ "counts": {
+  "Test": {
+   "matches": 331,
+   "bat_decisions": 8683,
+   "bowl_rev": 2326,
+   "bowl_success": 456,
+   "bowl_lost": 1520,
+   "bat_rev": 1822,
+   "bat_uc": 377,
+   "bat_dec_lbw": 1497,
+   "bat_rev_lbw_failed": 1046,
+   "bat_success": 642,
+   "bat_lost": 803,
+   "bowl_uc": 350
+  },
+  "ODI": {
+   "matches": 623,
+   "bat_decisions": 6738,
+   "bowl_rev": 1092,
+   "bowl_lost": 680,
+   "bat_rev": 809,
+   "bat_success": 310,
+   "bat_uc": 146,
+   "bat_dec_lbw": 824,
+   "bat_rev_lbw_failed": 467,
+   "bowl_success": 263,
+   "bat_lost": 353,
+   "bowl_uc": 149
+  },
+  "T20": {
+   "matches": 1331,
+   "bat_decisions": 12246,
+   "bowl_rev": 1477,
+   "bowl_lost": 960,
+   "bat_rev": 914,
+   "bat_success": 321,
+   "bat_lost": 428,
+   "bat_dec_lbw": 862,
+   "bat_rev_lbw_failed": 532,
+   "bowl_success": 329,
+   "bowl_uc": 188,
+   "bat_uc": 165
+  }
+ },
+ "review_types": {
+  "": 4791,
+  "wicket": 3649
+ },
+ "none_left": {
+  "Test_bat": 1,
+  "T20_bowl": 1
+ }
+}

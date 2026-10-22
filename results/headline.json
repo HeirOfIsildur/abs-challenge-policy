@@ -1,0 +1,1446 @@
+{
+ "spec": "kappa_sr_region_g (BIC-best homogeneous model) on raw Statcast 2026 geometry with a deterministic ABS truth, sim.draw with isotonic calibration cross-fitted on an auxiliary draw, no-ABS games dropped",
+ "units": "wins per team-season (162 games); challenges per team-game",
+ "B": 397,
+ "wins_lost": {
+  "point": 0.693,
+  "ci": [
+   0.582,
+   0.814
+  ],
+  "league": 20.785
+ },
+ "wins_lost_by_role": {
+  "batter": {
+   "lost": 0.39,
+   "ci": [
+    0.321,
+    0.487
+   ]
+  },
+  "fielder": {
+   "lost": 0.303,
+   "ci": [
+    0.221,
+    0.38
+   ]
+  }
+ },
+ "exit_rule": {
+  "rule": "switch to TAS if the 95 % CI of wins lost includes <= 0.25 or is wider than 1.5",
+  "passes": true
+ },
+ "policies": [
+  {
+   "policy": "clairvoyant",
+   "label": "Clairvoyant ceiling (knows the future (p, g) of its team-game)",
+   "wins": 4.849,
+   "wins_ci": [
+    4.676,
+    5.054
+   ],
+   "share": 1.203,
+   "share_ci": [
+    1.186,
+    1.219
+   ],
+   "lost": -0.817,
+   "lost_ci": [
+    -0.894,
+    -0.755
+   ],
+   "challenges": 3.4131,
+   "challenges_ci": [
+    3.375,
+    3.457
+   ],
+   "batter": 0.0,
+   "fielder": 4.849
+  },
+  {
+   "policy": "opt_score",
+   "label": "Optimum (score-aware DP)",
+   "wins": 4.032,
+   "wins_ci": [
+    3.878,
+    4.194
+   ],
+   "share": 1.0,
+   "share_ci": [
+    1.0,
+    1.0
+   ],
+   "lost": 0.0,
+   "lost_ci": [
+    0.0,
+    0.0
+   ],
+   "challenges": 2.706,
+   "challenges_ci": [
+    2.67,
+    2.747
+   ],
+   "batter": 1.832,
+   "fielder": 2.2
+  },
+  {
+   "policy": "runs_dp",
+   "label": "Namuduri runs rule (rebuilt on our model)",
+   "wins": 3.948,
+   "wins_ci": [
+    3.799,
+    4.114
+   ],
+   "share": 0.979,
+   "share_ci": [
+    0.974,
+    0.987
+   ],
+   "lost": 0.083,
+   "lost_ci": [
+    0.051,
+    0.106
+   ],
+   "challenges": 2.9779,
+   "challenges_ci": [
+    2.942,
+    3.021
+   ],
+   "batter": 1.782,
+   "fielder": 2.166
+  },
+  {
+   "policy": "opt",
+   "label": "Pooled DP (original 'optimum')",
+   "wins": 3.921,
+   "wins_ci": [
+    3.773,
+    4.078
+   ],
+   "share": 0.972,
+   "share_ci": [
+    0.964,
+    0.98
+   ],
+   "lost": 0.111,
+   "lost_ci": [
+    0.082,
+    0.146
+   ],
+   "challenges": 2.681,
+   "challenges_ci": [
+    2.645,
+    2.726
+   ],
+   "batter": 1.782,
+   "fielder": 2.139
+  },
+  {
+   "policy": "stake_0.008",
+   "label": "One-line rule, delta = 0.008",
+   "wins": 3.845,
+   "wins_ci": [
+    3.694,
+    3.992
+   ],
+   "share": 0.954,
+   "share_ci": [
+    0.944,
+    0.961
+   ],
+   "lost": 0.186,
+   "lost_ci": [
+    0.158,
+    0.228
+   ],
+   "challenges": 2.2146,
+   "challenges_ci": [
+    2.153,
+    2.275
+   ],
+   "batter": 1.725,
+   "fielder": 2.12
+  },
+  {
+   "policy": "stake_0.01",
+   "label": "One-line rule, delta = 0.01",
+   "wins": 3.763,
+   "wins_ci": [
+    3.596,
+    3.936
+   ],
+   "share": 0.933,
+   "share_ci": [
+    0.919,
+    0.941
+   ],
+   "lost": 0.269,
+   "lost_ci": [
+    0.247,
+    0.322
+   ],
+   "challenges": 1.899,
+   "challenges_ci": [
+    1.836,
+    1.959
+   ],
+   "batter": 1.667,
+   "fielder": 2.096
+  },
+  {
+   "policy": "card_pub",
+   "label": "Arora card, published thresholds",
+   "wins": 3.801,
+   "wins_ci": [
+    3.652,
+    3.941
+   ],
+   "share": 0.943,
+   "share_ci": [
+    0.929,
+    0.949
+   ],
+   "lost": 0.23,
+   "lost_ci": [
+    0.202,
+    0.288
+   ],
+   "challenges": 2.588,
+   "challenges_ci": [
+    2.54,
+    2.643
+   ],
+   "batter": 1.692,
+   "fielder": 2.11
+  },
+  {
+   "policy": "card_refit",
+   "label": "Arora card, refit on our DP",
+   "wins": 3.761,
+   "wins_ci": [
+    3.609,
+    3.893
+   ],
+   "share": 0.933,
+   "share_ci": [
+    0.919,
+    0.938
+   ],
+   "lost": 0.27,
+   "lost_ci": [
+    0.245,
+    0.333
+   ],
+   "challenges": 2.5155,
+   "challenges_ci": [
+    2.466,
+    2.558
+   ],
+   "batter": 1.671,
+   "fielder": 2.09
+  },
+  {
+   "policy": "obs_rule",
+   "label": "Fitted behavioural rule (simulated)",
+   "wins": 3.307,
+   "wins_ci": [
+    3.163,
+    3.447
+   ],
+   "share": 0.82,
+   "share_ci": [
+    0.803,
+    0.835
+   ],
+   "lost": 0.724,
+   "lost_ci": [
+    0.659,
+    0.81
+   ],
+   "challenges": 2.1529,
+   "challenges_ci": [
+    2.116,
+    2.195
+   ],
+   "batter": 1.426,
+   "fielder": 1.882
+  },
+  {
+   "policy": "savant",
+   "label": "Savant 0.2 rule",
+   "wins": 2.467,
+   "wins_ci": [
+    2.335,
+    2.659
+   ],
+   "share": 0.612,
+   "share_ci": [
+    0.595,
+    0.639
+   ],
+   "lost": 1.564,
+   "lost_ci": [
+    1.469,
+    1.623
+   ],
+   "challenges": 1.0236,
+   "challenges_ci": [
+    0.986,
+    1.08
+   ],
+   "batter": 0.956,
+   "fielder": 1.511
+  },
+  {
+   "policy": "observed",
+   "label": "Observed (realised)",
+   "wins": 3.339,
+   "wins_ci": [
+    3.178,
+    3.499
+   ],
+   "share": 0.828,
+   "share_ci": [
+    0.798,
+    0.854
+   ],
+   "lost": 0.693,
+   "lost_ci": [
+    0.582,
+    0.814
+   ],
+   "challenges": 2.174,
+   "challenges_ci": [
+    2.133,
+    2.217
+   ],
+   "batter": 1.442,
+   "fielder": 1.897
+  },
+  {
+   "policy": "savant_tuned",
+   "label": "Savant form, run cost tuned (savant_c_0.08)",
+   "wins": 3.712,
+   "wins_ci": [
+    3.572,
+    3.881
+   ],
+   "share": 0.921,
+   "share_ci": [
+    0.91,
+    0.933
+   ],
+   "lost": 0.319,
+   "lost_ci": [
+    0.273,
+    0.363
+   ],
+   "challenges": 2.4384,
+   "challenges_ci": [
+    2.382,
+    2.497
+   ],
+   "batter": 1.637,
+   "fielder": 2.075
+  }
+ ],
+ "one_line_rule": {
+  "delta": "stake_0.008",
+  "best_delta": "stake_0.008",
+  "best_share": 0.954,
+  "best_minus_rule": 0.0,
+  "best_delta_boot": {
+   "stake_0.007": 62,
+   "stake_0.008": 333,
+   "stake_0.009": 2
+  },
+  "share_reselected": 0.953,
+  "share_reselected_ci": [
+   0.944,
+   0.961
+  ]
+ },
+ "per_player_model": {
+  "point_opt": 4.104,
+  "point_lost": 0.765,
+  "best_stake": "stake_0.008",
+  "best_stake_share": 0.954,
+  "per_player_lost_ci": [
+   0.657,
+   0.919
+  ],
+  "per_player_B": 150,
+  "main_noref_lost_ci": [
+   0.557,
+   0.817
+  ],
+  "main_noref_B": 150
+ },
+ "savant_tuned": {
+  "c": 0.08,
+  "policy": "savant_c_0.08",
+  "wins": 3.712,
+  "share": 0.921,
+  "share_ci": [
+   0.91,
+   0.933
+  ],
+  "n": 2.438
+ },
+ "monte_carlo": {
+  "point_R": 40,
+  "lost_sd_per_draw": 0.05255471067365057,
+  "lost_mc_se": 0.008309629374994893,
+  "boot_R": 10,
+  "boot_sd": 0.057,
+  "boot_R2": {
+   "R": 2,
+   "B": 120,
+   "ci": [
+    0.502,
+    0.753
+   ],
+   "sd": 0.069
+  }
+ },
+ "causal": {
+  "R": 10,
+  "K": 1000,
+  "game_bootstrap": {
+   "opt_score": {
+    "path": [
+     4.0389,
+     3.891,
+     4.1873
+    ],
+    "causal_rb": [
+     4.0393,
+     3.8915,
+     4.1886
+    ],
+    "causal_rb_own": [
+     4.0382,
+     3.8898,
+     4.1869
+    ],
+    "causal_binary": [
+     4.0088,
+     3.8634,
+     4.1579
+    ],
+    "opp_effect": [
+     0.0012,
+     -0.0002,
+     0.0026
+    ],
+    "rb_own_minus_path": [
+     -0.0008,
+     -0.0026,
+     0.001
+    ],
+    "causal_minus_path": [
+     0.0004,
+     -0.0013,
+     0.002
+    ],
+    "binary_minus_rb": [
+     -0.0305,
+     -0.0483,
+     -0.0135
+    ],
+    "path_minus_observed": [
+     0.7002,
+     0.5921,
+     0.8128
+    ],
+    "causal_minus_observed": [
+     0.7005,
+     0.5921,
+     0.8129
+    ],
+    "binary_minus_observed": [
+     0.67,
+     0.5626,
+     0.7795
+    ],
+    "fidelity_noflip_minus_recorded": [
+     -0.0267,
+     -0.0948,
+     0.0395
+    ]
+   },
+   "opt": {
+    "path": [
+     3.9291,
+     3.7887,
+     4.0766
+    ],
+    "causal_rb": [
+     3.9328,
+     3.792,
+     4.0793
+    ],
+    "causal_rb_own": [
+     3.9306,
+     3.79,
+     4.0774
+    ],
+    "causal_binary": [
+     3.9082,
+     3.7649,
+     4.0553
+    ],
+    "opp_effect": [
+     0.0022,
+     0.0008,
+     0.0037
+    ],
+    "rb_own_minus_path": [
+     0.0015,
+     -0.0003,
+     0.0033
+    ],
+    "causal_minus_path": [
+     0.0038,
+     0.002,
+     0.0054
+    ],
+    "binary_minus_rb": [
+     -0.0247,
+     -0.0427,
+     -0.0064
+    ],
+    "path_minus_observed": [
+     0.5903,
+     0.4769,
+     0.7051
+    ],
+    "causal_minus_observed": [
+     0.5941,
+     0.4807,
+     0.708
+    ],
+    "binary_minus_observed": [
+     0.5694,
+     0.4542,
+     0.6824
+    ],
+    "fidelity_noflip_minus_recorded": [
+     -0.0019,
+     -0.0675,
+     0.0621
+    ]
+   },
+   "stake_0.008": {
+    "path": [
+     3.8571,
+     3.7127,
+     4.0024
+    ],
+    "causal_rb": [
+     3.8577,
+     3.7137,
+     4.0028
+    ],
+    "causal_rb_own": [
+     3.8569,
+     3.7126,
+     4.0021
+    ],
+    "causal_binary": [
+     3.8333,
+     3.6867,
+     3.9815
+    ],
+    "opp_effect": [
+     0.0008,
+     -0.0006,
+     0.0022
+    ],
+    "rb_own_minus_path": [
+     -0.0002,
+     -0.0021,
+     0.0017
+    ],
+    "causal_minus_path": [
+     0.0006,
+     -0.0012,
+     0.0023
+    ],
+    "binary_minus_rb": [
+     -0.0244,
+     -0.0417,
+     -0.0066
+    ],
+    "path_minus_observed": [
+     0.5183,
+     0.4115,
+     0.6292
+    ],
+    "causal_minus_observed": [
+     0.5189,
+     0.4118,
+     0.6298
+    ],
+    "binary_minus_observed": [
+     0.4945,
+     0.3861,
+     0.6062
+    ],
+    "fidelity_noflip_minus_recorded": [
+     -0.0083,
+     -0.0765,
+     0.0582
+    ]
+   },
+   "stake_0.01": {
+    "path": [
+     3.759,
+     3.6075,
+     3.9075
+    ],
+    "causal_rb": [
+     3.7601,
+     3.6077,
+     3.9085
+    ],
+    "causal_rb_own": [
+     3.7589,
+     3.6074,
+     3.907
+    ],
+    "causal_binary": [
+     3.7365,
+     3.5864,
+     3.8884
+    ],
+    "opp_effect": [
+     0.0012,
+     -0.0003,
+     0.0026
+    ],
+    "rb_own_minus_path": [
+     -0.0001,
+     -0.002,
+     0.0019
+    ],
+    "causal_minus_path": [
+     0.0011,
+     -0.0006,
+     0.0029
+    ],
+    "binary_minus_rb": [
+     -0.0236,
+     -0.0412,
+     -0.006
+    ],
+    "path_minus_observed": [
+     0.4202,
+     0.3151,
+     0.5274
+    ],
+    "causal_minus_observed": [
+     0.4213,
+     0.3165,
+     0.5292
+    ],
+    "binary_minus_observed": [
+     0.3977,
+     0.2917,
+     0.5046
+    ],
+    "fidelity_noflip_minus_recorded": [
+     -0.0052,
+     -0.0709,
+     0.0564
+    ]
+   },
+   "savant": {
+    "path": [
+     2.4681,
+     2.347,
+     2.5904
+    ],
+    "causal_rb": [
+     2.4693,
+     2.3489,
+     2.5909
+    ],
+    "causal_rb_own": [
+     2.4682,
+     2.3481,
+     2.5904
+    ],
+    "causal_binary": [
+     2.4623,
+     2.3404,
+     2.586
+    ],
+    "opp_effect": [
+     0.0011,
+     -0.0003,
+     0.0025
+    ],
+    "rb_own_minus_path": [
+     0.0001,
+     -0.0015,
+     0.0017
+    ],
+    "causal_minus_path": [
+     0.0012,
+     -0.0003,
+     0.0027
+    ],
+    "binary_minus_rb": [
+     -0.007,
+     -0.0251,
+     0.0098
+    ],
+    "path_minus_observed": [
+     -0.8706,
+     -0.975,
+     -0.7592
+    ],
+    "causal_minus_observed": [
+     -0.8694,
+     -0.9738,
+     -0.7582
+    ],
+    "binary_minus_observed": [
+     -0.8765,
+     -0.9827,
+     -0.7656
+    ],
+    "fidelity_noflip_minus_recorded": [
+     0.0011,
+     -0.0324,
+     0.0308
+    ]
+   },
+   "obs_rule": {
+    "path": [
+     3.3099,
+     3.179,
+     3.4417
+    ],
+    "causal_rb": [
+     3.311,
+     3.1802,
+     3.4428
+    ],
+    "causal_rb_own": [
+     3.31,
+     3.1794,
+     3.4415
+    ],
+    "causal_binary": [
+     3.3039,
+     3.1692,
+     3.4384
+    ],
+    "opp_effect": [
+     0.001,
+     -0.0004,
+     0.0024
+    ],
+    "rb_own_minus_path": [
+     0.0001,
+     -0.0012,
+     0.0014
+    ],
+    "causal_minus_path": [
+     0.0011,
+     -0.0004,
+     0.0025
+    ],
+    "binary_minus_rb": [
+     -0.0071,
+     -0.0246,
+     0.0095
+    ],
+    "path_minus_observed": [
+     -0.0289,
+     -0.1311,
+     0.0734
+    ],
+    "causal_minus_observed": [
+     -0.0278,
+     -0.1301,
+     0.0742
+    ],
+    "binary_minus_observed": [
+     -0.0349,
+     -0.1372,
+     0.0651
+    ],
+    "fidelity_noflip_minus_recorded": [
+     -0.1445,
+     -0.1967,
+     -0.0885
+    ]
+   },
+   "card_refit": {
+    "path": [
+     3.7782,
+     3.641,
+     3.9101
+    ],
+    "causal_rb": [
+     3.7791,
+     3.6424,
+     3.9104
+    ],
+    "causal_rb_own": [
+     3.7774,
+     3.6399,
+     3.9091
+    ],
+    "causal_binary": [
+     3.7597,
+     3.6214,
+     3.8924
+    ],
+    "opp_effect": [
+     0.0017,
+     0.0003,
+     0.0031
+    ],
+    "rb_own_minus_path": [
+     -0.0008,
+     -0.0025,
+     0.0009
+    ],
+    "causal_minus_path": [
+     0.0009,
+     -0.0008,
+     0.0025
+    ],
+    "binary_minus_rb": [
+     -0.0194,
+     -0.0363,
+     -0.0017
+    ],
+    "path_minus_observed": [
+     0.4394,
+     0.3369,
+     0.5465
+    ],
+    "causal_minus_observed": [
+     0.4403,
+     0.3381,
+     0.5482
+    ],
+    "binary_minus_observed": [
+     0.4209,
+     0.3167,
+     0.531
+    ],
+    "fidelity_noflip_minus_recorded": [
+     0.0003,
+     -0.0624,
+     0.0632
+    ]
+   },
+   "card_pub": {
+    "path": [
+     3.8205,
+     3.6853,
+     3.9543
+    ],
+    "causal_rb": [
+     3.8224,
+     3.6876,
+     3.9566
+    ],
+    "causal_rb_own": [
+     3.821,
+     3.6859,
+     3.9548
+    ],
+    "causal_binary": [
+     3.8193,
+     3.6843,
+     3.9538
+    ],
+    "opp_effect": [
+     0.0014,
+     0.0001,
+     0.0027
+    ],
+    "rb_own_minus_path": [
+     0.0005,
+     -0.0011,
+     0.0021
+    ],
+    "causal_minus_path": [
+     0.0019,
+     0.0003,
+     0.0036
+    ],
+    "binary_minus_rb": [
+     -0.0031,
+     -0.0214,
+     0.014
+    ],
+    "path_minus_observed": [
+     0.4817,
+     0.3756,
+     0.5908
+    ],
+    "causal_minus_observed": [
+     0.4836,
+     0.3779,
+     0.5924
+    ],
+    "binary_minus_observed": [
+     0.4805,
+     0.3734,
+     0.5885
+    ],
+    "fidelity_noflip_minus_recorded": [
+     -0.0026,
+     -0.0675,
+     0.0634
+    ]
+   },
+   "runs_dp": {
+    "path": [
+     3.9511,
+     3.804,
+     4.0953
+    ],
+    "causal_rb": [
+     3.9528,
+     3.8058,
+     4.0977
+    ],
+    "causal_rb_own": [
+     3.9507,
+     3.8041,
+     4.0953
+    ],
+    "causal_binary": [
+     3.9337,
+     3.7893,
+     4.08
+    ],
+    "opp_effect": [
+     0.0021,
+     0.0007,
+     0.0034
+    ],
+    "rb_own_minus_path": [
+     -0.0004,
+     -0.0021,
+     0.0014
+    ],
+    "causal_minus_path": [
+     0.0017,
+     0.0001,
+     0.0033
+    ],
+    "binary_minus_rb": [
+     -0.0191,
+     -0.0371,
+     -0.0012
+    ],
+    "path_minus_observed": [
+     0.6123,
+     0.503,
+     0.7241
+    ],
+    "causal_minus_observed": [
+     0.614,
+     0.5052,
+     0.7254
+    ],
+    "binary_minus_observed": [
+     0.5949,
+     0.4849,
+     0.7081
+    ],
+    "fidelity_noflip_minus_recorded": [
+     0.0013,
+     -0.0649,
+     0.0664
+    ]
+   },
+   "observed": {
+    "path": [
+     3.3388,
+     3.181,
+     3.5005
+    ]
+   }
+  },
+  "calibration": {
+   "opt_score": {
+    "winB_minus_engine": -0.012,
+    "slope": 1.0
+   },
+   "opt": {
+    "winB_minus_engine": -0.012,
+    "slope": 1.0
+   },
+   "stake_0.008": {
+    "winB_minus_engine": -0.012,
+    "slope": 1.001
+   },
+   "stake_0.01": {
+    "winB_minus_engine": -0.012,
+    "slope": 1.0
+   },
+   "savant": {
+    "winB_minus_engine": -0.011,
+    "slope": 1.001
+   },
+   "obs_rule": {
+    "winB_minus_engine": -0.012,
+    "slope": 1.001
+   },
+   "card_refit": {
+    "winB_minus_engine": -0.012,
+    "slope": 1.001
+   },
+   "card_pub": {
+    "winB_minus_engine": -0.012,
+    "slope": 1.0
+   },
+   "runs_dp": {
+    "winB_minus_engine": -0.012,
+    "slope": 1.0
+   }
+  },
+  "simulator": "run"
+ },
+ "causal_sim": {
+  "R": 4,
+  "K": 300,
+  "binary_minus_rb": [
+   -0.0153,
+   -0.0595,
+   0.0332
+  ],
+  "binary_minus_observed": [
+   0.7,
+   0.5767,
+   0.8258
+  ]
+ },
+ "causal_gap": {
+  "predicted_opt_score": {
+   "sim": -0.075,
+   "kc": -0.0409,
+   "kcob": -0.0615,
+   "run": -0.0091
+  },
+  "g_over_engine": {
+   "sim": 0.967,
+   "run": 0.992
+  },
+  "mc_minus_chain": {
+   "sim": [
+    -0.00057,
+    0.00049
+   ],
+   "run": [
+    0.00015,
+    0.00052
+   ]
+  }
+ },
+ "flat_bound": {
+  "R": 3,
+  "variant": "kappa_sr_region_g",
+  "best_delta": 0.008,
+  "table": [
+   {
+    "delta": 0.004,
+    "vstar": 0.0513583,
+    "vdelta": 0.0411581,
+    "loss": 0.0102001,
+    "identity": 0.0102001,
+    "bound": 0.0256064,
+    "local": 0.008171,
+    "loss_pct": 19.8607476,
+    "bound_pct": 49.8584415,
+    "local_pct": 15.9098242,
+    "identity_gap": 0.0
+   },
+   {
+    "delta": 0.005,
+    "vstar": 0.0513583,
+    "vdelta": 0.0448139,
+    "loss": 0.0065443,
+    "identity": 0.0065443,
+    "bound": 0.0188968,
+    "local": 0.0055573,
+    "loss_pct": 12.7424622,
+    "bound_pct": 36.7941026,
+    "local_pct": 10.820734,
+    "identity_gap": 0.0
+   },
+   {
+    "delta": 0.006,
+    "vstar": 0.0513583,
+    "vdelta": 0.0469994,
+    "loss": 0.0043588,
+    "identity": 0.0043588,
+    "bound": 0.0168132,
+    "local": 0.0039438,
+    "loss_pct": 8.487111,
+    "bound_pct": 32.737065,
+    "local_pct": 7.6790504,
+    "identity_gap": 0.0
+   },
+   {
+    "delta": 0.007,
+    "vstar": 0.0513583,
+    "vdelta": 0.0480478,
+    "loss": 0.0033105,
+    "identity": 0.0033105,
+    "bound": 0.0185531,
+    "local": 0.0032578,
+    "loss_pct": 6.4458803,
+    "bound_pct": 36.1248018,
+    "local_pct": 6.343225,
+    "identity_gap": 0.0
+   },
+   {
+    "delta": 0.008,
+    "vstar": 0.0513583,
+    "vdelta": 0.0482869,
+    "loss": 0.0030714,
+    "identity": 0.0030714,
+    "bound": 0.0233593,
+    "local": 0.0033083,
+    "loss_pct": 5.9802554,
+    "bound_pct": 45.4829576,
+    "local_pct": 6.4415278,
+    "identity_gap": 0.0
+   },
+   {
+    "delta": 0.009,
+    "vstar": 0.0513583,
+    "vdelta": 0.0479361,
+    "loss": 0.0034222,
+    "identity": 0.0034222,
+    "bound": 0.0303167,
+    "local": 0.0038894,
+    "loss_pct": 6.6633069,
+    "bound_pct": 59.0297875,
+    "local_pct": 7.5731094,
+    "identity_gap": 0.0
+   },
+   {
+    "delta": 0.01,
+    "vstar": 0.0513583,
+    "vdelta": 0.0472158,
+    "loss": 0.0041424,
+    "identity": 0.0041424,
+    "bound": 0.0391196,
+    "local": 0.0047949,
+    "loss_pct": 8.0657165,
+    "bound_pct": 76.1699622,
+    "local_pct": 9.3362264,
+    "identity_gap": 0.0
+   },
+   {
+    "delta": 0.011,
+    "vstar": 0.0513583,
+    "vdelta": 0.0462436,
+    "loss": 0.0051147,
+    "identity": 0.0051147,
+    "bound": 0.049406,
+    "local": 0.0059055,
+    "loss_pct": 9.9587889,
+    "bound_pct": 96.1987703,
+    "local_pct": 11.4986504,
+    "identity_gap": 0.0
+   },
+   {
+    "delta": 0.012,
+    "vstar": 0.0513583,
+    "vdelta": 0.0450628,
+    "loss": 0.0062954,
+    "identity": 0.0062954,
+    "bound": 0.0610752,
+    "local": 0.0072639,
+    "loss_pct": 12.2578571,
+    "bound_pct": 118.9198607,
+    "local_pct": 14.1435717,
+    "identity_gap": 0.0
+   },
+   {
+    "delta": 0.013,
+    "vstar": 0.0513583,
+    "vdelta": 0.0437905,
+    "loss": 0.0075678,
+    "identity": 0.0075678,
+    "bound": 0.0736722,
+    "local": 0.0087132,
+    "loss_pct": 14.7353123,
+    "bound_pct": 143.4476501,
+    "local_pct": 16.9655011,
+    "identity_gap": 0.0
+   },
+   {
+    "delta": 0.014,
+    "vstar": 0.0513583,
+    "vdelta": 0.0425124,
+    "loss": 0.0088459,
+    "identity": 0.0088459,
+    "bound": 0.0869602,
+    "local": 0.0101714,
+    "loss_pct": 17.2238856,
+    "bound_pct": 169.3208294,
+    "local_pct": 19.8047553,
+    "identity_gap": 0.0
+   },
+   {
+    "delta": 0.015,
+    "vstar": 0.0513583,
+    "vdelta": 0.0412516,
+    "loss": 0.0101067,
+    "identity": 0.0101067,
+    "bound": 0.1008744,
+    "local": 0.0116359,
+    "loss_pct": 19.6787877,
+    "bound_pct": 196.4131948,
+    "local_pct": 22.6562974,
+    "identity_gap": 0.0
+   },
+   {
+    "delta": 0.016,
+    "vstar": 0.0513583,
+    "vdelta": 0.039973,
+    "loss": 0.0113852,
+    "identity": 0.0113852,
+    "bound": 0.1154295,
+    "local": 0.0130586,
+    "loss_pct": 22.1682877,
+    "bound_pct": 224.7535401,
+    "local_pct": 25.4264831,
+    "identity_gap": 0.0
+   },
+   {
+    "delta": 0.017,
+    "vstar": 0.0513583,
+    "vdelta": 0.0387606,
+    "loss": 0.0125977,
+    "identity": 0.0125977,
+    "bound": 0.1301923,
+    "local": 0.0144785,
+    "loss_pct": 24.5290278,
+    "bound_pct": 253.4983848,
+    "local_pct": 28.1912474,
+    "identity_gap": 0.0
+   },
+   {
+    "delta": 0.018,
+    "vstar": 0.0513583,
+    "vdelta": 0.0375632,
+    "loss": 0.0137951,
+    "identity": 0.0137951,
+    "bound": 0.1452569,
+    "local": 0.0158669,
+    "loss_pct": 26.8605157,
+    "bound_pct": 282.8306097,
+    "local_pct": 30.894474,
+    "identity_gap": 0.0
+   },
+   {
+    "delta": 0.019,
+    "vstar": 0.0513583,
+    "vdelta": 0.0363931,
+    "loss": 0.0149651,
+    "identity": 0.0149651,
+    "bound": 0.1606339,
+    "local": 0.0172652,
+    "loss_pct": 29.1387061,
+    "bound_pct": 312.7713509,
+    "local_pct": 33.6172039,
+    "identity_gap": 0.0
+   },
+   {
+    "delta": 0.02,
+    "vstar": 0.0513583,
+    "vdelta": 0.035233,
+    "loss": 0.0161253,
+    "identity": 0.0161253,
+    "bound": 0.1763416,
+    "local": 0.0186596,
+    "loss_pct": 31.3976388,
+    "bound_pct": 343.3559139,
+    "local_pct": 36.3322044,
+    "identity_gap": 0.0
+   }
+  ],
+  "best": {
+   "vstar": 0.0513583,
+   "vdelta": 0.0482869,
+   "loss": 0.0030714,
+   "identity": 0.0030714,
+   "bound": 0.0233593,
+   "local": 0.0033083,
+   "loss_pct": 5.9802554,
+   "bound_pct": 45.4829576,
+   "local_pct": 6.4415278,
+   "identity_gap": 0.0
+  },
+  "max_identity_gap": 6.678685382510707e-17,
+  "note": "model world = regulation-only score-aware DP; values per game, both team sides summed, WP points"
+ },
+ "dp_checks": {
+  "R": 40,
+  "variant": "kappa_sr_region_g",
+  "results": {
+   "DM6": {
+    "in_sample": {
+     "opt_score": 4.0369,
+     "opt": 3.9281,
+     "runs_dp": 3.958,
+     "stake_0008": 3.8583,
+     "stake_001": 3.7601
+    },
+    "cross_fit": {
+     "opt_score": 4.0316,
+     "opt": 3.9269,
+     "runs_dp": 3.9567,
+     "stake_0008": 3.8583,
+     "stake_001": 3.76
+    }
+   },
+   "DM10": {
+    "in_sample": {
+     "opt_score": 4.0384,
+     "opt": 3.9281,
+     "runs_dp": 3.958,
+     "stake_0008": 3.8583,
+     "stake_001": 3.7601
+    },
+    "cross_fit": {
+     "opt_score": 4.0341,
+     "opt": 3.9269,
+     "runs_dp": 3.9567,
+     "stake_0008": 3.8583,
+     "stake_001": 3.76
+    }
+   }
+  }
+ },
+ "model_spread": {
+  "sm_edge": {
+   "lost": 0.64,
+   "lost_pooled_dp": 0.541
+  },
+  "sm_region": {
+   "lost": 0.653,
+   "lost_pooled_dp": 0.548
+  },
+  "normal": {
+   "lost": 0.653,
+   "lost_pooled_dp": 0.547
+  },
+  "logistic": {
+   "lost": 0.888,
+   "lost_pooled_dp": 0.771
+  },
+  "t10": {
+   "lost": 0.846,
+   "lost_pooled_dp": 0.74
+  },
+  "t5": {
+   "lost": 1.005,
+   "lost_pooled_dp": 0.888
+  },
+  "t3": {
+   "lost": 1.19,
+   "lost_pooled_dp": 1.069
+  },
+  "sr_edge": {
+   "lost": 0.656,
+   "lost_pooled_dp": 0.552
+  },
+  "sr_region": {
+   "lost": 0.688,
+   "lost_pooled_dp": 0.582
+  },
+  "sr_slope": {
+   "lost": 0.626,
+   "lost_pooled_dp": 0.516
+  },
+  "sr_region_slope": {
+   "lost": 0.643,
+   "lost_pooled_dp": 0.539
+  },
+  "kappa_region": {
+   "lost": 0.673,
+   "lost_pooled_dp": 0.568
+  },
+  "kappa_sr_region": {
+   "lost": 0.702,
+   "lost_pooled_dp": 0.584
+  },
+  "kappa_sr_region_slope": {
+   "lost": 0.657,
+   "lost_pooled_dp": 0.544
+  },
+  "kappa_sr_region_g": {
+   "lost": 0.708,
+   "lost_pooled_dp": 0.592
+  },
+  "re": {
+   "lost": 0.775,
+   "lost_pooled_dp": 0.669
+  },
+  "main_logistic": {
+   "lost": 0.917,
+   "lost_pooled_dp": 0.806
+  },
+  "main_t10": {
+   "lost": 0.885,
+   "lost_pooled_dp": 0.781
+  },
+  "main_t5": {
+   "lost": 1.04,
+   "lost_pooled_dp": 0.924
+  },
+  "main_t3": {
+   "lost": 1.229,
+   "lost_pooled_dp": 1.096
+  },
+  "main_lapse": {
+   "lost": 0.863,
+   "lost_pooled_dp": 0.754
+  },
+  "main_glow": {
+   "lost": 0.707,
+   "lost_pooled_dp": 0.592
+  },
+  "main_sr_g": {
+   "lost": 0.744,
+   "lost_pooled_dp": 0.635
+  },
+  "linear_lapse": {
+   "lost": 0.847,
+   "lost_pooled_dp": 0.736
+  },
+  "re_lapse": {
+   "lost": 0.922,
+   "lost_pooled_dp": 0.819
+  }
+ },
+ "kernel_checks": {
+  "wolframVersion": "15.0.0 for Mac OS X ARM (64-bit) (May 26, 2026)",
+  "T1_regret_D_gt_delta": "True",
+  "T1_regret_D_lt_delta": "True",
+  "T1_envelope_r'(D)=0": "True",
+  "T2_causal_decomposition": "True",
+  "T2_rb_difference": "True",
+  "T2_rb_difference_signed": "True",
+  "T2_rb_own_only_misses_opponent": "True",
+  "T3_runs_rule": "True",
+  "T3_stake_rule": "True"
+ }
+}

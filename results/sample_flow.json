@@ -1,0 +1,30 @@
+{
+ "called_feed": 370963,
+ "challenges_feed": 10557,
+ "overturned_feed": 5685,
+ "no_location": 385,
+ "misjoined_located": 170,
+ "misjoined_challenges": 7,
+ "located": 370408,
+ "located_challenges": 10544,
+ "located_overturned": 5680,
+ "position_player_pitches": 1143,
+ "position_player_challenges": 0,
+ "position_players": 54,
+ "nonmonotone_cells": 331,
+ "nonmonotone_challenged": 9,
+ "nonmonotone_min": -0.011490333526883001,
+ "evaluation_opportunities": 369265,
+ "outside_fit_window": 109594,
+ "likelihood": {
+  "off": {
+   "n": 100614,
+   "challenges": 4759
+  },
+  "def": {
+   "n": 141078,
+   "challenges": 5784
+  }
+ },
+ "half_innings_restarted": 478
+}

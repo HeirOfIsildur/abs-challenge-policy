@@ -1,0 +1,39 @@
+{
+	"wolframVersion":"15.0.0 for Mac OS X ARM (64-bit) (May 26, 2026)",
+	"A_cutoff":"g > 0 && dl > 0 && Inequality[dl\/(dl + g), LessEqual, p, LessEqual, 1]",
+	"A_equiv_counterexample":"False",
+	"B_dDelta":"g\/(dl + g)^2",
+	"B_dg":"-(dl\/(dl + g)^2)",
+	"B_signs":[
+		true,
+		true
+	],
+	"C_conv_maxabs":4.256629337865047e-29,
+	"C_conv_symbolic_density":"True",
+	"D_bvn_vs_quad_maxabs":1.6098277806424015e-23,
+	"E_flat_posterior":"True",
+	"F_home":{
+		"sqrt_coef":[
+			-2.7749475653383576e-3,
+			3.10165361360298e-3
+		],
+		"sqrt_R2":0.9975889151565746,
+		"linear_R2":0.9526678598365654,
+		"D1_first":1.993193140666955e-2,
+		"D1_last":0.0,
+		"n_first":5.280115273775215e1,
+		"n_last":1.2951832029641828
+	},
+	"F_away":{
+		"sqrt_coef":[
+			-1.2947815838338216e-3,
+			3.0566332572719485e-3
+		],
+		"sqrt_R2":0.9976742051518953,
+		"linear_R2":0.9493349779137201,
+		"D1_first":2.0925077152853553e-2,
+		"D1_last":2.189368068378314e-3,
+		"n_first":5.318937834499794e1,
+		"n_last":1.7953890489913544
+	}
+}

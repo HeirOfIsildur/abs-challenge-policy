@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "If you use this code or these results, please cite the paper."
+title: "ABS challenges: wins left on the table — code and results"
+type: software
+license: MIT
+repository-code: "https://github.com/HeirOfIsildur/abs-challenge-policy"
+authors:
+  - family-names: "Janoušek"
+    given-names: "Jan"
+    orcid: "https://orcid.org/0009-0007-3731-4416"
+    affiliation: "Charles University, Faculty of Mathematics and Physics"
+  - family-names: "Pešta"
+    given-names: "Michal"
+    orcid: "https://orcid.org/0000-0001-5311-0797"
+    affiliation: "Charles University, Faculty of Mathematics and Physics"
+    email: "pesta@karlin.mff.cuni.cz"
+preferred-citation:
+  type: article
+  title: "ABS challenges: wins left on the table"
+  authors:
+    - family-names: "Janoušek"
+      given-names: "Jan"
+      orcid: "https://orcid.org/0009-0007-3731-4416"
+    - family-names: "Pešta"
+      given-names: "Michal"
+      orcid: "https://orcid.org/0000-0001-5311-0797"
+  year: 2026
+  status: submitted
+  journal: "Annals of Applied Statistics"

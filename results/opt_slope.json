@@ -1,0 +1,18 @@
+{
+ "R": 4,
+ "variant": "kappa_sr_region_g",
+ "opt": {
+  "off": {
+   "n": 106209,
+   "slope_log_g": 0.5812447005810928,
+   "slope_log_g_score_controls": 0.8324449741580768,
+   "mean_pstar": 0.4607606381877016
+  },
+  "def": {
+   "n": 237325,
+   "slope_log_g": 0.5966481941746113,
+   "slope_log_g_score_controls": 0.8625481162568153,
+   "mean_pstar": 0.4263922671148387
+  }
+ }
+}

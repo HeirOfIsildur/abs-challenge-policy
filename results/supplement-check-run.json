@@ -1,0 +1,13 @@
+{
+  "command": [
+    "wolframscript",
+    "-file",
+    "wolfram/supplement.wl"
+  ],
+  "cwd": ".",
+  "elapsed_seconds": 4.4444411669974215,
+  "return_code": 0,
+  "stderr": "",
+  "stdout": "S1_integrand_on_line InputForm[True]\nS1_jacobian InputForm[True]\nS2_small_stake_in_local_window InputForm[True]\nS2_large_stake_bound InputForm[True]\nS2_small_stake_bound InputForm[True]\nS3_integrand_form InputForm[True]\nS3_bound_equals_closed_form InputForm[True]\nS3_density_integral_is_upper_bound InputForm[True]\nS4_derivative InputForm[True]\nS4_derivative_nondecreasing InputForm[True]\nS4_bracket_a_in_{0,1/2,1,2,3} InputForm[True]\nS5_crude InputForm[True]\n{\n\t\"wolframVersion\":\"15.0.0 for Mac OS X ARM (64-bit) (May 26, 2026)\",\n\t\"S1_integrand_on_line\":\"True\",\n\t\"S1_jacobian\":\"True\",\n\t\"S2_small_stake_in_local_window\":\"True\",\n\t\"S2_large_stake_bound\":\"True\",\n\t\"S2_small_stake_bound\":\"True\",\n\t\"S3_integrand_form\":\"True\",\n\t\"S3_bound_equals_closed_form\":\"True\",\n\t\"S3_density_integral_is_upper_bound\":\"True\",\n\t\"S4_derivative\":\"True\",\n\t\"S4_derivative_nondecreasing\":\"True\",\n\t\"S4_bracket_a_in_{0,1\\/2,1,2,3}\":\"True\",\n\t\"S5_crude\":\"True\"\n}\n",
+  "timed_out": false
+}

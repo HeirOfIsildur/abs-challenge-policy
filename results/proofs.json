@@ -1,0 +1,428 @@
+{
+	"wolframVersion":"15.0.0 for Mac OS X ARM (64-bit) (May 26, 2026)",
+	"T1a_phi_nonincreasing":"True",
+	"T1a_psi_nondecreasing":"True",
+	"T1a_phi_slope_in_[-1,0]":"True",
+	"T1b_concavity_step":"True",
+	"T1b_nonneg_step":"True",
+	"T1b_monotone_in_t_step":"True",
+	"T1b_concavity_step_c1":"True",
+	"T1c_exact_random_laws":{
+		"retention_iid":{
+			"Delta nondecreasing in t":true,
+			"Delta nonincreasing in c":true,
+			"Delta >= 0":true,
+			"nLaws":100,
+			"arithmetic":"exact rationals"
+		},
+		"retention_time_varying":{
+			"Delta nondecreasing in t":true,
+			"Delta nonincreasing in c":true,
+			"Delta >= 0":true,
+			"nLaws":100,
+			"arithmetic":"exact rationals"
+		},
+		"consumption_time_varying":{
+			"Delta nondecreasing in t":true,
+			"Delta nonincreasing in c":true,
+			"Delta >= 0":true,
+			"nLaws":100,
+			"arithmetic":"exact rationals"
+		}
+	},
+	"T1d_c_dependent_law_Delta(1),Delta(2) (p=1\/10 at c=1, p=9\/10 at c=2, g=1)":"{11111\/100000, 180589\/50000}",
+	"T1d_concavity_fails":true,
+	"T2a_phi_powerlaw":"(g*(g\/(d + g))^aa)\/(1 + aa)",
+	"T2a_lim_d^a_phi":"g^(1 + aa)\/(1 + aa)",
+	"T2a_lim_d_phi_generic_density":"(g^2*h)\/2",
+	"T2a_phi_uniform_p":"g^2\/(2*(d + g))",
+	"T2b_square_increment":"0",
+	"T2c_fluid_solution":"{{y[s] -> ((-1 - aa)*(-(0^(1 + aa)\/(1 + aa)) - kk*s))^(1 + aa)^(-1)}}",
+	"T2d_phi_density2p":"(gg^2*(3*d + 2*gg))\/(3*(d + gg)^2)",
+	"T2d_phi_density2(1-p)":"gg^3\/(3*(d + gg)^2)",
+	"T2d_K1=lim d phi":"9\/8",
+	"T2d_E[h g^2]\/2":"9\/8",
+	"T2d_K2=lim d^2 phi":"83\/144",
+	"T2d_E[g^3]\/3":"83\/144",
+	"T2d_alpha1_Delta\/sqrt(2 K1 t)":[
+		[
+			10,
+			0.6984990966400888
+		],
+		[
+			100,
+			0.8813094203262659
+		],
+		[
+			1000,
+			0.9590395174163101
+		],
+		[
+			10000,
+			0.986605874698952
+		],
+		[
+			100000,
+			0.9957107387871468
+		],
+		[
+			1000000,
+			0.9986373033737165
+		]
+	],
+	"T2d_alpha2_Delta\/(3 K2 t)^(1\/3)":[
+		[
+			10,
+			0.49559544133862027
+		],
+		[
+			100,
+			0.719557574914692
+		],
+		[
+			1000,
+			0.8602970553283025
+		],
+		[
+			10000,
+			0.9334084111773314
+		],
+		[
+			100000,
+			0.9687696169336774
+		],
+		[
+			1000000,
+			0.9854426855122422
+		]
+	],
+	"T2d_atom_Delta\/t":[
+		[
+			10,
+			0.2898947711372872
+		],
+		[
+			100,
+			0.15769624315217795
+		],
+		[
+			1000,
+			0.10717486177150362
+		],
+		[
+			10000,
+			9.438806851008612e-2
+		],
+		[
+			100000,
+			9.206422883230508e-2
+		],
+		[
+			1000000,
+			9.171911490764552e-2
+		]
+	],
+	"T2d_atom_limit E[g; p=1]":"11\/120",
+	"T2e_k2_exact":"(-1 + Sqrt[5])\/2",
+	"T2e_k2_equals_GoldenRatio-1":true,
+	"T2e_k_c c=1..6":[
+		1.0,
+		0.6180339887498949,
+		0.47725999647401973,
+		0.4006500146102763,
+		0.3512259592415181,
+		0.31612597173129053
+	],
+	"T2e_cumsum_k (V_t(c)\/sqrt(2Kt))":[
+		1.0,
+		1.618033988749895,
+		2.0952939852239147,
+		2.495943999834191,
+		2.847169959075709,
+		3.1632959308069997
+	],
+	"T2e_drift_root_c2":"{{yy -> (-1 + Sqrt[5])^2\/4}}",
+	"T2e_drift_root_check":true,
+	"T2e_drift_decreasing":"kp > 0",
+	"T2e_uniform_Delta_t(c)\/sqrt(t) c=1..4":[
+		[
+			10,
+			[
+				0.7648385518064685,
+				0.35343817775740144,
+				0.20287120613330642,
+				0.12227328387383005
+			]
+		],
+		[
+			100,
+			[
+				0.9111086603859712,
+				0.5249252827206268,
+				0.38260170643330604,
+				0.30515170091774513
+			]
+		],
+		[
+			1000,
+			[
+				0.9697789637153172,
+				0.5872779412210533,
+				0.4463068180558423,
+				0.3695895836828938
+			]
+		],
+		[
+			10000,
+			[
+				0.9901690123170651,
+				0.6081384504211,
+				0.4673406686284017,
+				0.3907177407561455
+			]
+		],
+		[
+			100000,
+			[
+				0.9968575026905852,
+				0.6148839361168613,
+				0.4741071593288593,
+				0.3974956621240435
+			]
+		],
+		[
+			1000000,
+			[
+				0.9990022658710936,
+				0.6170353891367574,
+				0.47626107788588407,
+				0.39965092243430556
+			]
+		]
+	],
+	"T2f_consumption_bound_step":"True",
+	"T2f_uniform_cons_Delta at t=1e6 (sup pg = 1)":0.9999980000311705,
+	"T2g_kappa_uniform":"(g^2*(2*d + g)^2)\/(4*(d + g)^2)",
+	"T2g_dkappa\/dd":"(g^3*(2*d + g))\/(2*(d + g)^3)",
+	"T2g_kappa(0)\/g^2, kappa(inf)\/g^2":"{1\/4, 1}",
+	"T2g_argmin_kappa (g=1, d>=0)":"{1\/4, {d -> 0}}",
+	"T2g_kappa(d)\/g^2 at d\/g = 0, .25, .5, 1, 2":[
+		0.25,
+		0.36,
+		0.4444444444444444,
+		0.5625,
+		0.6944444444444444
+	],
+	"T2h_time_varying_Delta^2\/sum(g_s^2)":[
+		[
+			10,
+			0.5215478571576024
+		],
+		[
+			100,
+			0.7854273251483633
+		],
+		[
+			1000,
+			0.9209414776833131
+		],
+		[
+			10000,
+			0.9734393694923081
+		],
+		[
+			100000,
+			0.9914062103896173
+		],
+		[
+			1000000,
+			0.9972593771867733
+		]
+	],
+	"T2i_calibrated_home":{
+		"Delta1^2 = a + b n: coef":[
+			-2.411320132131274e-5,
+			7.674451320426052e-6
+		],
+		"R2":0.9961106601745118,
+		"Delta2\/Delta1 at n_first, mid":[
+			0.5237889256988599,
+			0.4682702150838306
+		],
+		"Delta1>=Delta2 all rows":false,
+		"Delta1, Delta2 nondecreasing in n":true
+	},
+	"T2i_calibrated_away":{
+		"Delta1^2 = a + b n: coef":[
+			-9.329243309870381e-6,
+			8.317296163813737e-6
+		],
+		"R2":0.9991720080698474,
+		"Delta2\/Delta1 at n_first, mid":[
+			0.5238531959388258,
+			0.47767961005125453
+		],
+		"Delta1>=Delta2 all rows":true,
+		"Delta1, Delta2 nondecreasing in n":true
+	},
+	"T3a_gap_at_pd":"True",
+	"T3a_cutoff_distance":"dD\/(dD + g) - de\/(de + g)",
+	"T3a_regret_density1_(de>D)":"((dD - de)^2*g^2)\/(2*(dD + g)*(de + g)^2)",
+	"T3a_regret_closed_form_both_sides":"{True, True}",
+	"T3a_envelope: d\/dde, d2\/dde2 at de=D":"{0, g^2\/(dD + g)^3}",
+	"T3a_g^2\/((g+D)(g+de)^2) <= 1\/(4 de)":"True",
+	"T3b_f_convex":"True",
+	"T3b_setup":"T=60, c0=2, g in {3,8,20,50}\/1000 x (0.6+1.2(1-t\/T)), w {.4,.3,.2,.1}, f(p)=0.9*4(1-p)^3+0.1*4p^3",
+	"T3b_Vstar":9.751846608860268e-2,
+	"T3b_best_delta":2.4490883722481847e-2,
+	"T3b_V_best_delta":9.009285858387861e-2,
+	"T3b_rel_loss_best_delta":7.61456553057075e-2,
+	"T3b_regret_identity {Vstar-Vdelta, sum occupation-weighted gaps}":[
+		7.425607504724069e-3,
+		7.425607504724105e-3
+	],
+	"T3b_quadratic_bound {abs, rel}":[
+		1.48782081057906e-2,
+		0.1525681104568714
+	],
+	"T3b_crude_bound M(D-de)^2\/(8de) {abs, rel}":[
+		0.17997497456178158,
+		1.8455476360575762
+	],
+	"T3b_Delta_range_on_path":[
+		0.0,
+		6.546822339934319e-2
+	],
+	"T3b_rel_loss_vs_delta":[
+		[
+			1.0e-3,
+			0.8653829476722749
+		],
+		[
+			2.0e-3,
+			0.7985300534328574
+		],
+		[
+			5.0e-3,
+			0.6173949854212543
+		],
+		[
+			1.0e-2,
+			0.3500337791727398
+		],
+		[
+			2.0e-2,
+			9.32791346887678e-2
+		],
+		[
+			3.0e-2,
+			9.206743230640213e-2
+		],
+		[
+			5.0e-2,
+			0.22922590234519802
+		]
+	],
+	"T4_uniform_p_g1":[
+		{
+			"t":1,
+			"cons1":0.5,
+			"NBA":0.5,
+			"ret1":0.5,
+			"cons2":0.5,
+			"ret2":0.5,
+			"ordering cons1<=NBA<=min(ret1,cons2), cons2<=ret2":true
+		},
+		{
+			"t":2,
+			"cons1":0.625,
+			"NBA":0.8333333333333333,
+			"ret1":0.8333333333333333,
+			"cons2":1.0,
+			"ret2":1.0,
+			"ordering cons1<=NBA<=min(ret1,cons2), cons2<=ret2":true
+		},
+		{
+			"t":3,
+			"cons1":0.6953125,
+			"NBA":1.0261752136752136,
+			"ret1":1.106060606060606,
+			"cons2":1.1953125,
+			"ret2":1.4285714285714286,
+			"ordering cons1<=NBA<=min(ret1,cons2), cons2<=ret2":true
+		},
+		{
+			"t":5,
+			"cons1":0.7750815008766949,
+			"NBA":1.255968905333663,
+			"ret1":1.556829438875651,
+			"cons2":1.4091087435372174,
+			"ret2":2.148364078867571,
+			"ordering cons1<=NBA<=min(ret1,cons2), cons2<=ret2":true
+		},
+		{
+			"t":10,
+			"cons1":0.8610982122057119,
+			"NBA":1.5211080850382137,
+			"ret1":2.418631866013131,
+			"cons2":1.636003737229042,
+			"ret2":3.5363015197859826,
+			"ordering cons1<=NBA<=min(ret1,cons2), cons2<=ret2":true
+		},
+		{
+			"t":20,
+			"cons1":0.9198874457215741,
+			"NBA":1.715058870610838,
+			"ret1":3.6739688080073143,
+			"cons2":1.7902111834475016,
+			"ret2":5.564669635649788,
+			"ordering cons1<=NBA<=min(ret1,cons2), cons2<=ret2":true
+		},
+		{
+			"t":50,
+			"cons1":0.9641450748220074,
+			"NBA":1.8691838103200067,
+			"ret1":6.215593225886604,
+			"cons2":1.9061270935865924,
+			"ret2":9.675705369644408,
+			"ordering cons1<=NBA<=min(ret1,cons2), cons2<=ret2":true
+		},
+		{
+			"t":100,
+			"cons1":0.9812084402587709,
+			"NBA":1.930718340333155,
+			"ret1":9.111086603859711,
+			"cons2":1.9508026397573413,
+			"ret2":1.4360339431065977e1,
+			"ordering cons1<=NBA<=min(ret1,cons2), cons2<=ret2":true
+		},
+		{
+			"t":1000,
+			"cons1":0.9980172182771184,
+			"NBA":1.9926100565400044,
+			"ret1":3.0667103522581886e1,
+			"cons2":1.9948090097771451,
+			"ret2":4.923846266091202e1,
+			"ordering cons1<=NBA<=min(ret1,cons2), cons2<=ret2":true
+		},
+		{
+			"t":10000,
+			"cons1":0.9998002193468017,
+			"NBA":1.9992545099432637,
+			"ret1":9.901690123170651e1,
+			"cons2":1.999476967459467,
+			"ret2":1.5983074627381572e2,
+			"ordering cons1<=NBA<=min(ret1,cons2), cons2<=ret2":true
+		}
+	],
+	"T4_ret1>cons2_for_all_t>=":4,
+	"T4_ret1>cons3_for_all_t>=":10,
+	"T4_ret1>cons5_for_all_t>=":27,
+	"T4_T3b_law_T60":{
+		"cons1":3.184759491989396e-2,
+		"NBA":4.824298597128289e-2,
+		"ret1":6.593904303331533e-2,
+		"cons2":5.514441412618176e-2,
+		"ret2":9.751846608860268e-2
+	}
+}

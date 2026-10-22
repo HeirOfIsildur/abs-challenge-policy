@@ -1,0 +1,33 @@
+{
+ "games": 2425,
+ "team_games": 4850,
+ "challenges": 10557,
+ "team_games_counts_match": 4849,
+ "games_counts_mismatch": [
+  822717
+ ],
+ "mismatch_detail": [
+  {
+   "game_pk": 822717,
+   "side": "home",
+   "ours_s": 0,
+   "ours_f": 1,
+   "ours_left": 1,
+   "granted": 0,
+   "feed_s": 1.0,
+   "feed_f": 1.0,
+   "feed_rem": 1.0
+  }
+ ],
+ "feed_remaining_is_max0_2_minus_failed": 1.0,
+ "max_used_failed": 4,
+ "team_games_with_grant": 145,
+ "grants": 151,
+ "extra_innings": 285,
+ "ours_left_differs_from_feed": 113,
+ "ours_left_differs_from_feed_without_grant": 0,
+ "challenges_with_zero_left": 0,
+ "extra_inning_challenges": 210,
+ "challenges_beyond_8in": 1,
+ "challenges_no_location": 13
+}

@@ -1,0 +1,13 @@
+{
+  "command": [
+    "wolframscript",
+    "-file",
+    "wolfram/headline.wl"
+  ],
+  "cwd": ".",
+  "elapsed_seconds": 24.16656483299994,
+  "return_code": 0,
+  "stderr": "",
+  "stdout": "<|wolframVersion -> 15.0.0 for Mac OS X ARM (64-bit) (May 26, 2026), T1_regret_D_gt_delta -> True, T1_regret_D_lt_delta -> True, T1_envelope_r'(D)=0 -> True, T2_causal_decomposition -> True, T2_rb_difference -> True, T3_runs_rule -> True, T3_stake_rule -> True|>\n",
+  "timed_out": false
+}

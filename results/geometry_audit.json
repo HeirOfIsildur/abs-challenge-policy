@@ -1,0 +1,717 @@
+{
+ "plane": {
+  "statcast_2026": {
+   "n": 714115,
+   "front": {
+    "dz_mean": 0.967429454195173,
+    "dz_sd": 0.29913373466250137,
+    "dx_mean": -0.09138862737682796,
+    "dx_sd": 0.34532190332694523
+   },
+   "mid": {
+    "dz_mean": 0.0032820204657758602,
+    "dz_sd": 0.03523664005620598,
+    "dx_mean": 0.00011965025057424012,
+    "dx_sd": 0.035289711001220206
+   },
+   "back": {
+    "dz_mean": -0.9730753866624736,
+    "dz_sd": 0.3021317801479975,
+    "dx_mean": 0.09096279330776738,
+    "dx_sd": 0.3460379030941979
+   },
+   "ystar_ft_quantiles_5_25_50_75_95": [
+    0.66,
+    0.68,
+    0.71,
+    0.73,
+    0.75
+   ]
+  },
+  "statcast_2024_one_day": {
+   "n": 4386,
+   "front": {
+    "dz_mean": 0.00338423592445098,
+    "dz_sd": 0.03483459637765613,
+    "dx_mean": -0.0002715958879177029,
+    "dx_sd": 0.03461793942407125
+   },
+   "mid": {
+    "dz_mean": -0.9722311571181057,
+    "dz_sd": 0.30112547785163324,
+    "dx_mean": 0.10222020898051633,
+    "dx_sd": 0.33777086156615066
+   },
+   "back": {
+    "dz_mean": -1.9601310057468384,
+    "dz_sd": 0.6050104635150254,
+    "dx_mean": 0.20411420034303893,
+    "dx_sd": 0.6746059291506292
+   },
+   "ystar_ft_quantiles_5_25_50_75_95": [
+    1.37,
+    1.39,
+    1.41,
+    1.44,
+    1.46
+   ]
+  },
+  "statcast_2025_one_day": {
+   "n": 8639,
+   "front": {
+    "dz_mean": 0.0032059504285542836,
+    "dz_sd": 0.034661866984550135,
+    "dx_mean": 0.0006423960033172231,
+    "dx_sd": 0.034667864154453436
+   },
+   "mid": {
+    "dz_mean": -0.9782775674311639,
+    "dz_sd": 0.3069069536146945,
+    "dx_mean": 0.11363175039244122,
+    "dx_sd": 0.33674114235666547
+   },
+   "back": {
+    "dz_mean": -1.9721827618701675,
+    "dz_sd": 0.6172172962690311,
+    "dx_mean": 0.22617972434153588,
+    "dx_sd": 0.6719894739568214
+   },
+   "ystar_ft_quantiles_5_25_50_75_95": [
+    1.37,
+    1.39,
+    1.41,
+    1.44,
+    1.46
+   ]
+  },
+  "statcast_post2026": {
+   "n": 9462,
+   "front": {
+    "dz_mean": 0.9434199779427286,
+    "dz_sd": 0.30807766338328174,
+    "dx_mean": -0.03857358601940316,
+    "dx_sd": 0.36126725600773174
+   },
+   "mid": {
+    "dz_mean": 0.0032500597589708445,
+    "dz_sd": 0.03477885383326795,
+    "dx_mean": 0.00044235975071716955,
+    "dx_sd": 0.03445219581505033
+   },
+   "back": {
+    "dz_mean": -0.9484349276345534,
+    "dz_sd": 0.3107137715701834,
+    "dx_mean": 0.039014942744547705,
+    "dx_sd": 0.3629229707801161
+   },
+   "ystar_ft_quantiles_5_25_50_75_95": [
+    0.66,
+    0.68,
+    0.71,
+    0.73,
+    0.75
+   ]
+  }
+ },
+ "misjoined_challenged_dropped": 7,
+ "feed_vs_statcast": {
+  "n": 10544,
+  "dz_raw_in": 0.9462436741028954,
+  "dz_raw_sd": 0.26545465911745764,
+  "dx_raw_in": -0.08034141332287807,
+  "dz_feed_projected_to_mid_in": 0.0031295737944830202,
+  "dz_feed_projected_sd": 0.15093385842468737,
+  "dz_feed_projected_abs_p99": 0.009425648984341154,
+  "dx_feed_projected_to_mid_in": -0.0022671858327477958,
+  "sz_top_diff_in": 0.0037800214267832265,
+  "sz_bot_diff_in": 0.003410757812594886,
+  "sz_identical_share": 0.9996206373292867,
+  "trajectory_identical_share": 0.9998103186646434,
+  "feed_ystar_ft_quantiles_5_25_50_75_95": [
+   1.37,
+   1.39,
+   1.42,
+   1.44,
+   1.46
+  ]
+ },
+ "reproduction": {
+  "statcast_raw": {
+   "share": 0.9995257966616085,
+   "mismatches": 5,
+   "n": 10544
+  },
+  "statcast_raw_no_ball_radius": {
+   "share": 0.6565819423368741,
+   "mismatches": 3621,
+   "n": 10544
+  },
+  "statcast_projected_old": {
+   "share": 0.8483497723823976,
+   "mismatches": 1599,
+   "n": 10544
+  },
+  "statcast_projected_old_no_ball_radius": {
+   "share": 0.6253793626707133,
+   "mismatches": 3950,
+   "n": 10544
+  },
+  "statcast_raw_radius_sweep": {
+   "1.35": 249,
+   "1.40": 121,
+   "1.43": 51,
+   "1.44": 22,
+   "1.45": 5,
+   "1.46": 33,
+   "1.47": 61,
+   "1.50": 130,
+   "1.55": 266
+  },
+  "statcast_raw_square_corners": {
+   "share": 0.9970599393019727,
+   "mismatches": 31,
+   "n": 10544,
+   "relabelled_challenged": 26,
+   "relabelled_called": 353,
+   "n_called": 371029
+  },
+  "feed_raw_front": {
+   "share": 0.8499620637329287,
+   "mismatches": 1582,
+   "n": 10544
+  },
+  "feed_projected_mid": {
+   "share": 0.9997154779969651,
+   "mismatches": 3,
+   "n": 10544
+  },
+  "statcast_raw_best_line_shift": {
+   "bottom_line_shift_in": 1.7763568394002505e-15,
+   "bottom_best_share": 0.9995257966616085,
+   "top_line_shift_in": 1.7763568394002505e-15,
+   "top_best_share": 0.9995257966616085
+  },
+  "statcast_projected_old_best_line_shift": {
+   "bottom_line_shift_in": -0.9999999999999991,
+   "bottom_best_share": 0.9264036418816388,
+   "top_line_shift_in": -0.7499999999999989,
+   "top_best_share": 0.8670333839150227
+  }
+ },
+ "by": {
+  "edge4": {
+   "bottom": {
+    "n": 3616,
+    "raw": 0.9988938053097345,
+    "projected": 0.7480641592920354,
+    "mismatches_raw": 4
+   },
+   "inside (lik 'arm')": {
+    "n": 1844,
+    "raw": 0.9994577006507592,
+    "projected": 0.9170281995661606,
+    "mismatches_raw": 1
+   },
+   "outside (lik 'glove')": {
+    "n": 3320,
+    "raw": 1.0,
+    "projected": 0.9153614457831325,
+    "mismatches_raw": 0
+   },
+   "top": {
+    "n": 1764,
+    "raw": 1.0,
+    "projected": 0.8560090702947846,
+    "mismatches_raw": 0
+   }
+  },
+  "edge_pitcher": {
+   "bottom": {
+    "n": 3616,
+    "raw": 0.9988938053097345,
+    "projected": 0.7480641592920354,
+    "mismatches_raw": 4
+   },
+   "pitcher arm side": {
+    "n": 2708,
+    "raw": 0.9996307237813885,
+    "projected": 0.8969719350073855,
+    "mismatches_raw": 1
+   },
+   "pitcher glove side": {
+    "n": 2456,
+    "raw": 1.0,
+    "projected": 0.9368892508143323,
+    "mismatches_raw": 0
+   },
+   "top": {
+    "n": 1764,
+    "raw": 1.0,
+    "projected": 0.8560090702947846,
+    "mismatches_raw": 0
+   }
+  },
+  "stand": {
+   "L": {
+    "n": 5203,
+    "raw": 0.999615606380934,
+    "projected": 0.8585431481837401,
+    "mismatches_raw": 2
+   },
+   "R": {
+    "n": 5341,
+    "raw": 0.9994383074330649,
+    "projected": 0.8384197715783561,
+    "mismatches_raw": 3
+   }
+  },
+  "month": {
+   "2026-03": {
+    "n": 286,
+    "raw": 1.0,
+    "projected": 0.8671328671328671,
+    "mismatches_raw": 0
+   },
+   "2026-04": {
+    "n": 1640,
+    "raw": 1.0,
+    "projected": 0.850609756097561,
+    "mismatches_raw": 0
+   },
+   "2026-05": {
+    "n": 1699,
+    "raw": 0.9994114184814596,
+    "projected": 0.836962919364332,
+    "mismatches_raw": 1
+   },
+   "2026-06": {
+    "n": 1699,
+    "raw": 0.998234255444379,
+    "projected": 0.8493231312536786,
+    "mismatches_raw": 3
+   },
+   "2026-07": {
+    "n": 1643,
+    "raw": 1.0,
+    "projected": 0.855143031040779,
+    "mismatches_raw": 0
+   },
+   "2026-08": {
+    "n": 1920,
+    "raw": 1.0,
+    "projected": 0.8526041666666667,
+    "mismatches_raw": 0
+   },
+   "2026-09": {
+    "n": 1657,
+    "raw": 0.9993964996982498,
+    "projected": 0.8418829209414604,
+    "mismatches_raw": 1
+   }
+  },
+  "role": {
+   "batter": {
+    "n": 4759,
+    "raw": 0.9993696154654339,
+    "projected": 0.8617356587518387,
+    "mismatches_raw": 3
+   },
+   "catcher": {
+    "n": 5606,
+    "raw": 0.9996432393863718,
+    "projected": 0.836603638958259,
+    "mismatches_raw": 2
+   },
+   "pitcher": {
+    "n": 179,
+    "raw": 1.0,
+    "projected": 0.8603351955307262,
+    "mismatches_raw": 0
+   }
+  }
+ },
+ "zone_vs_height": {
+  "batters": 662,
+  "top_mean_in": 0.0011740556435034292,
+  "top_sd_in": 0.15516861003970617,
+  "bot_mean_in": 0.0005925139758294328,
+  "bot_sd_in": 0.07830939205287238,
+  "share_within_025in": 0.9441087613293051,
+  "max_abs_in": 0.26749999599999796,
+  "within_batter_sd_in_median": 0.0,
+  "off_batters": [
+   {
+    "batter": 571448,
+    "name": "Nolan Arenado",
+    "height_in": 74,
+    "sz_top": 39.3246063,
+    "sz_bot": 19.846062996,
+    "n": 2380
+   },
+   {
+    "batter": 571912,
+    "name": "Luke Maile",
+    "height_in": 75,
+    "sz_top": 39.861712596000004,
+    "sz_bot": 20.11712598,
+    "n": 177
+   },
+   {
+    "batter": 600869,
+    "name": "Jeimer Candelario",
+    "height_in": 73,
+    "sz_top": 38.787500004,
+    "sz_bot": 19.575000000000003,
+    "n": 83
+   },
+   {
+    "batter": 602104,
+    "name": "Ram\u00f3n Ur\u00edas",
+    "height_in": 69,
+    "sz_top": 37.176181103999994,
+    "sz_bot": 18.761811024,
+    "n": 362
+   },
+   {
+    "batter": 608701,
+    "name": "Rob Refsnyder",
+    "height_in": 71,
+    "sz_top": 38.239862208000005,
+    "sz_bot": 19.298622048000002,
+    "n": 519
+   },
+   {
+    "batter": 608841,
+    "name": "Joey Meneses",
+    "height_in": 76,
+    "sz_top": 40.398818904,
+    "sz_bot": 20.388188976000002,
+    "n": 76
+   },
+   {
+    "batter": 621438,
+    "name": "Tyrone Taylor",
+    "height_in": 72,
+    "sz_top": 38.776968503999996,
+    "sz_bot": 19.569685044,
+    "n": 895
+   },
+   {
+    "batter": 624641,
+    "name": "Edmundo Sosa",
+    "height_in": 71,
+    "sz_top": 38.239862208000005,
+    "sz_bot": 19.298622048000002,
+    "n": 898
+   },
+   {
+    "batter": 641820,
+    "name": "Trey Mancini",
+    "height_in": 75,
+    "sz_top": 40.377755904,
+    "sz_bot": 20.377559052000002,
+    "n": 49
+   },
+   {
+    "batter": 641933,
+    "name": "Tyler O'Neill",
+    "height_in": 69,
+    "sz_top": 37.165649604,
+    "sz_bot": 18.756496068,
+    "n": 1049
+   },
+   {
+    "batter": 663967,
+    "name": "C\u00e9sar Salazar",
+    "height_in": 68,
+    "sz_top": 36.639074808000004,
+    "sz_bot": 18.490748028,
+    "n": 95
+   },
+   {
+    "batter": 663993,
+    "name": "Nathaniel Lowe",
+    "height_in": 76,
+    "sz_top": 40.398818904,
+    "sz_bot": 20.388188976000002,
+    "n": 1766
+   },
+   {
+    "batter": 668942,
+    "name": "Josh Rojas",
+    "height_in": 73,
+    "sz_top": 38.798031492,
+    "sz_bot": 19.580314956,
+    "n": 413
+   },
+   {
+    "batter": 669208,
+    "name": "Ryan Bliss",
+    "height_in": 67,
+    "sz_top": 35.585925192,
+    "sz_bot": 17.959251971999997,
+    "n": 45
+   },
+   {
+    "batter": 669364,
+    "name": "Xavier Edwards",
+    "height_in": 69,
+    "sz_top": 36.660137796,
+    "sz_bot": 18.501377952,
+    "n": 2301
+   },
+   {
+    "batter": 669717,
+    "name": "Will Wilson",
+    "height_in": 69,
+    "sz_top": 37.176181103999994,
+    "sz_bot": 18.761811024,
+    "n": 25
+   },
+   {
+    "batter": 669720,
+    "name": "Austin Hays",
+    "height_in": 70,
+    "sz_top": 37.702755912,
+    "sz_bot": 19.027559052,
+    "n": 396
+   },
+   {
+    "batter": 670224,
+    "name": "Kameron Misner",
+    "height_in": 75,
+    "sz_top": 40.388287403999996,
+    "sz_bot": 20.38287402,
+    "n": 184
+   },
+   {
+    "batter": 671286,
+    "name": "Johnathan Rodr\u00edguez",
+    "height_in": 74,
+    "sz_top": 39.3351378,
+    "sz_bot": 19.851377952,
+    "n": 76
+   },
+   {
+    "batter": 672386,
+    "name": "Alejandro Kirk",
+    "height_in": 68,
+    "sz_top": 36.1230315,
+    "sz_bot": 18.230314956,
+    "n": 1208
+   },
+   {
+    "batter": 672724,
+    "name": "Oswald Peraza",
+    "height_in": 71,
+    "sz_top": 38.239862208000005,
+    "sz_bot": 19.298622048000002,
+    "n": 1416
+   },
+   {
+    "batter": 677595,
+    "name": "Ronny Mauricio",
+    "height_in": 75,
+    "sz_top": 40.377755904,
+    "sz_bot": 20.377559052000002,
+    "n": 220
+   },
+   {
+    "batter": 679529,
+    "name": "Spencer Torkelson",
+    "height_in": 73,
+    "sz_top": 38.787500004,
+    "sz_bot": 19.575000000000003,
+    "n": 2592
+   },
+   {
+    "batter": 680716,
+    "name": "Jonathan Ornelas",
+    "height_in": 73,
+    "sz_top": 38.798031492,
+    "sz_bot": 19.580314956,
+    "n": 89
+   },
+   {
+    "batter": 680779,
+    "name": "Henry Davis",
+    "height_in": 71,
+    "sz_top": 38.250393695999996,
+    "sz_bot": 19.303937003999998,
+    "n": 1121
+   },
+   {
+    "batter": 681146,
+    "name": "Jonah Bride",
+    "height_in": 71,
+    "sz_top": 37.7343504,
+    "sz_bot": 19.043503932,
+    "n": 22
+   },
+   {
+    "batter": 682668,
+    "name": "Luisangel Acu\u00f1a",
+    "height_in": 67,
+    "sz_top": 36.1019685,
+    "sz_bot": 18.219685044,
+    "n": 779
+   },
+   {
+    "batter": 682927,
+    "name": "Ronny Simon",
+    "height_in": 68,
+    "sz_top": 36.1230315,
+    "sz_bot": 18.230314956,
+    "n": 264
+   },
+   {
+    "batter": 682987,
+    "name": "Spencer Jones",
+    "height_in": 79,
+    "sz_top": 41.999606304000004,
+    "sz_bot": 21.196062996000002,
+    "n": 1227
+   },
+   {
+    "batter": 685133,
+    "name": "Wade Meckler",
+    "height_in": 69,
+    "sz_top": 37.176181103999994,
+    "sz_bot": 18.761811024,
+    "n": 1213
+   },
+   {
+    "batter": 690993,
+    "name": "Colt Keith",
+    "height_in": 74,
+    "sz_top": 39.3351378,
+    "sz_bot": 19.851377952,
+    "n": 1608
+   },
+   {
+    "batter": 694388,
+    "name": "Joey Loperfido",
+    "height_in": 75,
+    "sz_top": 39.861712596000004,
+    "sz_bot": 20.11712598,
+    "n": 478
+   },
+   {
+    "batter": 694673,
+    "name": "Abimelec Ortiz",
+    "height_in": 70,
+    "sz_top": 37.702755912,
+    "sz_bot": 19.027559052,
+    "n": 592
+   },
+   {
+    "batter": 696285,
+    "name": "Jacob Young",
+    "height_in": 71,
+    "sz_top": 38.250393695999996,
+    "sz_bot": 19.303937003999998,
+    "n": 1741
+   },
+   {
+    "batter": 700932,
+    "name": "Kyle Manzardo",
+    "height_in": 71,
+    "sz_top": 38.250393695999996,
+    "sz_bot": 19.303937003999998,
+    "n": 1455
+   },
+   {
+    "batter": 701538,
+    "name": "Jackson Merrill",
+    "height_in": 74,
+    "sz_top": 39.840649608,
+    "sz_bot": 20.106496068,
+    "n": 2539
+   },
+   {
+    "batter": 801126,
+    "name": "Brock Rodden",
+    "height_in": 67,
+    "sz_top": 35.585925192,
+    "sz_bot": 17.959251971999997,
+    "n": 286
+   }
+  ]
+ },
+ "other_feeds": {
+  "mlb2026feed": {
+   "n": 10557,
+   "raw": {
+    "share": 0.8500520981339396,
+    "mismatches": 1583
+   },
+   "projected_to_mid": {
+    "share": 0.9997158283603297,
+    "mismatches": 3
+   }
+  },
+  "aaa2025": {
+   "n": 9341,
+   "raw": {
+    "share": 0.8565464083074618,
+    "mismatches": 1340
+   },
+   "projected_to_mid": {
+    "share": 0.9994647254041323,
+    "mismatches": 5
+   }
+  },
+  "spring2026": {
+   "n": 1907,
+   "raw": {
+    "share": 0.8531725222863136,
+    "mismatches": 280
+   },
+   "projected_to_mid": {
+    "share": 1.0,
+    "mismatches": 0
+   }
+  },
+  "post2026": {
+   "n": 156,
+   "raw": {
+    "share": 0.8333333333333334,
+    "mismatches": 26
+   },
+   "projected_to_mid": {
+    "share": 1.0,
+    "mismatches": 0
+   }
+  },
+  "post2026_statcast": {
+   "n": 156,
+   "raw": {
+    "share": 1.0,
+    "mismatches": 0
+   }
+  }
+ },
+ "mismatches": {
+  "n": 5,
+  "by_class": {
+   "boundary tie (|d| <= 0.5 in, sources agree)": 3,
+   "tracking disagreement (feed agrees with ruling)": 1,
+   "other": 1
+  },
+  "abs_d_statcast_quantiles_50_90_max": [
+   0.005,
+   0.834,
+   1.386
+  ],
+  "within_1in": 4,
+  "within_05in": 4,
+  "challenged_within_05in": 2698,
+  "mismatch_rate_within_05in": 0.0014825796886582653,
+  "mismatch_rate_beyond_1in": 0.0001839587932303164,
+  "challenged_statcast_feed_disagree_05in": 4,
+  "disagree_feed_right_statcast_wrong": 1,
+  "disagree_statcast_right_feed_wrong": 0,
+  "boundary_ties_d_positive_ruled_ball": 1,
+  "boundary_ties_d_negative_ruled_strike": 2
+ }
+}

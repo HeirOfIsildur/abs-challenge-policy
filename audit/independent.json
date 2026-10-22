@@ -1,0 +1,32 @@
+{
+ "games_total": 2429,
+ "games_with_abs": 2425,
+ "challenges_feed": 10557,
+ "challenges_joined": 10557,
+ "by_role": {
+  "batter": {
+   "n": 4766,
+   "overturn": 0.4884599244649601
+  },
+  "catcher": {
+   "n": 5612,
+   "overturn": 0.5855310049893087
+  },
+  "pitcher": {
+   "n": 179,
+   "overturn": 0.39664804469273746
+  }
+ },
+ "overturn_all": 0.5385052571753339,
+ "challenges_per_team_game": 2.176701030927835,
+ "rule_reproduces_rulings": 0.9989574447919628,
+ "observed_wins_per_team_season": 3.177335281049371,
+ "observed_wins_batter": 1.321599707479276,
+ "observed_wins_fielder": 1.855735573570095,
+ "sim_R": 5,
+ "savant_wins_per_team_season": 2.0320893864917795,
+ "savant_challenges_per_team_game": 0.9981855670103092,
+ "stake_0.008_wins_per_team_season": 3.7092116510357087,
+ "stake_0.008_challenges_per_team_game": 2.1576907216494847,
+ "savant_over_observed": 0.6395577446962557
+}

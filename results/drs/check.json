@@ -1,0 +1,46 @@
+{
+	"wolframVersion":"15.0.0 for Mac OS X ARM (64-bit) (May 26, 2026)",
+	"A_posterior":"True",
+	"A_marginal":"True",
+	"B_sstar":"True",
+	"B_p_increasing_in_S":"True",
+	"C_corr":"True",
+	"C_bvn_maxabs":1.1102230246251565e-16,
+	"C_sstar":-0.34173057239406609,
+	"C_q_J_diff_vs_python":[
+		-4.549554283613968e-17,
+		2.3255541663282434e-17
+	],
+	"D_general":"True",
+	"D_const_counterexample":"False",
+	"D_drho":"-((dU*(aa + g))\/(aa + dU + g - dU*rho)^2)",
+	"D_noextra":"True",
+	"D_noextra_is_A0":"True",
+	"E_Test":{
+		"R2_sqrt":0.9397287131760698,
+		"R2_linear":0.9892913397820386,
+		"power_exponent":1.6553661635340067,
+		"power_exponent_CI":[
+			1.5077536611107265,
+			1.8029786659572868
+		]
+	},
+	"E_ODI":{
+		"R2_sqrt":0.9226058917580212,
+		"R2_linear":0.9845316134627077,
+		"power_exponent":1.6752237586457337,
+		"power_exponent_CI":[
+			1.4913767302758845,
+			1.859070787015583
+		]
+	},
+	"E_T20":{
+		"R2_sqrt":0.9345224279385145,
+		"R2_linear":0.9885025394991918,
+		"power_exponent":1.8461893112483303,
+		"power_exponent_CI":[
+			1.5664997083877437,
+			2.1258789141089167
+		]
+	}
+}

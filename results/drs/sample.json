@@ -1,0 +1,65 @@
+{
+ "ODI": {
+  "matches": 623,
+  "reviewed": 566,
+  "added_zero_review": 57,
+  "excluded_reviews_missing": 1,
+  "not_drs_zero_review": 365,
+  "added_without_tv_umpire": 0,
+  "zero_share_obs": 0.0915,
+  "zero_share_ztpoisson": 0.0397,
+  "by_comp": {
+   "odis": {
+    "reviewed": 566,
+    "no_drs_zero_review": 365,
+    "added_zero_review": 57,
+    "excluded_reviews_missing": 1
+   }
+  },
+  "old_rule_matches": 566,
+  "matches_with_balls": 623
+ },
+ "T20": {
+  "matches": 1331,
+  "reviewed": 1116,
+  "added_zero_review": 215,
+  "excluded_reviews_missing": 13,
+  "not_drs_zero_review": 2365,
+  "added_without_tv_umpire": 1,
+  "zero_share_obs": 0.1615,
+  "zero_share_ztpoisson": 0.1681,
+  "by_comp": {
+   "ipl": {
+    "reviewed": 491,
+    "added_zero_review": 110,
+    "no_drs_zero_review": 6
+   },
+   "t20s": {
+    "no_drs_zero_review": 2359,
+    "reviewed": 625,
+    "added_zero_review": 105,
+    "excluded_reviews_missing": 13
+   }
+  },
+  "old_rule_matches": 1116,
+  "matches_with_balls": 1331
+ },
+ "Test": {
+  "matches": 331,
+  "reviewed": 331,
+  "added_zero_review": 0,
+  "excluded_reviews_missing": 0,
+  "not_drs_zero_review": 16,
+  "added_without_tv_umpire": 0,
+  "zero_share_obs": 0.0,
+  "zero_share_ztpoisson": 0.0,
+  "by_comp": {
+   "tests": {
+    "reviewed": 331,
+    "no_drs_zero_review": 16
+   }
+  },
+  "old_rule_matches": 331,
+  "matches_with_balls": 331
+ }
+}

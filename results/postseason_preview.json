@@ -1,0 +1,579 @@
+{
+ "note": "PREVIEW: 2026 postseason through 17 Oct (World Series not started); all model parameters fitted on the 2026 regular season only; intervals are wide by construction.",
+ "model": "kappa_sr_region_g",
+ "sample": {
+  "Wild Card": {
+   "games": 9,
+   "called": 1315,
+   "challenges": 41,
+   "per_team_game": 2.278,
+   "overturn": 0.585,
+   "ch_batter": 16,
+   "ch_catcher": 25,
+   "ch_pitcher": 0,
+   "ch_other": 0,
+   "over_batter": 0.438,
+   "over_catcher": 0.68,
+   "over_pitcher": null
+  },
+  "Division Series": {
+   "games": 16,
+   "called": 2431,
+   "challenges": 80,
+   "per_team_game": 2.5,
+   "overturn": 0.588,
+   "ch_batter": 35,
+   "ch_catcher": 44,
+   "ch_pitcher": 1,
+   "ch_other": 0,
+   "over_batter": 0.629,
+   "over_catcher": 0.545,
+   "over_pitcher": 1.0
+  },
+  "LCS": {
+   "games": 8,
+   "called": 1145,
+   "challenges": 35,
+   "per_team_game": 2.188,
+   "overturn": 0.686,
+   "ch_batter": 9,
+   "ch_catcher": 26,
+   "ch_pitcher": 0,
+   "ch_other": 0,
+   "over_batter": 1.0,
+   "over_catcher": 0.577,
+   "over_pitcher": null
+  },
+  "Postseason": {
+   "games": 33,
+   "called": 4891,
+   "challenges": 156,
+   "per_team_game": 2.364,
+   "overturn": 0.609,
+   "ch_batter": 60,
+   "ch_catcher": 95,
+   "ch_pitcher": 1,
+   "ch_other": 0,
+   "over_batter": 0.633,
+   "over_catcher": 0.589,
+   "over_pitcher": 1.0
+  },
+  "Regular season": {
+   "games": 2425,
+   "called": 370408,
+   "challenges": 10544,
+   "per_team_game": 2.174,
+   "overturn": 0.539,
+   "ch_batter": 4759,
+   "ch_catcher": 5606,
+   "ch_pitcher": 179,
+   "ch_other": 0,
+   "over_batter": 0.489,
+   "over_catcher": 0.585,
+   "over_pitcher": 0.397
+  }
+ },
+ "wins": {
+  "rs": {
+   "opt_score": {
+    "wp_per_team_game": 0.02483,
+    "batter": 0.01138,
+    "fielder": 0.01346,
+    "challenges_per_team_game": 2.71
+   },
+   "stake_0.008": {
+    "wp_per_team_game": 0.02373,
+    "batter": 0.01068,
+    "fielder": 0.01305,
+    "challenges_per_team_game": 2.228
+   },
+   "obs_rule": {
+    "wp_per_team_game": 0.02047,
+    "batter": 0.0089,
+    "fielder": 0.01157,
+    "challenges_per_team_game": 2.156
+   },
+   "observed": {
+    "wp_per_team_game": 0.02065,
+    "batter": 0.00892,
+    "fielder": 0.01173,
+    "challenges_per_team_game": 2.174
+   },
+   "opt_minus_observed": {
+    "wp_per_team_game": 0.00418,
+    "batter": 0.00246,
+    "fielder": 0.00172,
+    "share_of_opt_captured": 0.832
+   },
+   "games": 2425
+  },
+  "po": {
+   "opt_score": {
+    "wp_per_team_game": 0.02598,
+    "batter": 0.01344,
+    "fielder": 0.01254,
+    "challenges_per_team_game": 2.723
+   },
+   "stake_0.008": {
+    "wp_per_team_game": 0.02556,
+    "batter": 0.0124,
+    "fielder": 0.01316,
+    "challenges_per_team_game": 2.354
+   },
+   "obs_rule": {
+    "wp_per_team_game": 0.02123,
+    "batter": 0.00976,
+    "fielder": 0.01147,
+    "challenges_per_team_game": 2.06
+   },
+   "observed": {
+    "wp_per_team_game": 0.02377,
+    "batter": 0.01027,
+    "fielder": 0.01349,
+    "challenges_per_team_game": 2.364
+   },
+   "opt_minus_observed": {
+    "wp_per_team_game": 0.00221,
+    "batter": 0.00316,
+    "fielder": -0.00095,
+    "share_of_opt_captured": 0.915,
+    "ci95": [
+     -0.00265,
+     0.00664
+    ],
+    "batter_ci95": [
+     0.00069,
+     0.00586
+    ],
+    "fielder_ci95": [
+     -0.00514,
+     0.00297
+    ],
+    "share_ci95": [
+     0.73585,
+     1.10047
+    ],
+    "series_wp_per_team_game": 0.00081,
+    "series_wp_ci95": [
+     -0.00125,
+     0.00268
+    ],
+    "bootstrap_B": 2000
+   },
+   "games": 33
+  },
+  "R": 20
+ },
+ "perception_transfer": {
+  "transfer": {
+   "off": {
+    "games": 33,
+    "eligible": 1359,
+    "ch_obs": 60,
+    "ch_pred": 61.5,
+    "ch_z": -0.22,
+    "ch_per_team_game_obs": 0.909,
+    "ch_per_team_game_pred": 0.932,
+    "over_n": 38,
+    "over_obs": 0.6333,
+    "over_pred": 0.6332,
+    "over_z": 0.04,
+    "logscore_overturn": -0.0005,
+    "brier_overturn": 0.0,
+    "over_rate_model": 0.5326,
+    "over_rate_model_z": 1.56,
+    "logscore_challenge": -0.11199,
+    "logscore_challenge_null": -0.18093,
+    "challenge_skill": 0.381
+   },
+   "def": {
+    "games": 33,
+    "eligible": 1913,
+    "ch_obs": 96,
+    "ch_pred": 79.6,
+    "ch_z": 2.24,
+    "ch_per_team_game_obs": 1.455,
+    "ch_per_team_game_pred": 1.206,
+    "over_n": 57,
+    "over_obs": 0.5938,
+    "over_pred": 0.5937,
+    "over_z": 0.04,
+    "logscore_overturn": -0.0005,
+    "brier_overturn": 0.0,
+    "over_rate_model": 0.594,
+    "over_rate_model_z": -0.0,
+    "logscore_challenge": -0.10893,
+    "logscore_challenge_null": -0.19992,
+    "challenge_skill": 0.4551
+   }
+  },
+  "transfer_second_half_fit": {
+   "converged": true,
+   "off": {
+    "games": 33,
+    "eligible": 1359,
+    "ch_obs": 60,
+    "ch_pred": 62.4,
+    "ch_z": -0.34,
+    "ch_per_team_game_obs": 0.909,
+    "ch_per_team_game_pred": 0.945,
+    "over_n": 38,
+    "over_obs": 0.6333,
+    "over_pred": 0.6333,
+    "over_z": 0.03,
+    "logscore_overturn": -0.0002,
+    "brier_overturn": 0.0,
+    "over_rate_model": 0.534,
+    "over_rate_model_z": 1.54,
+    "logscore_challenge": -0.11202,
+    "logscore_challenge_null": -0.18095,
+    "challenge_skill": 0.381
+   },
+   "def": {
+    "games": 33,
+    "eligible": 1913,
+    "ch_obs": 96,
+    "ch_pred": 88.4,
+    "ch_z": 1.01,
+    "ch_per_team_game_obs": 1.455,
+    "ch_per_team_game_pred": 1.339,
+    "over_n": 57,
+    "over_obs": 0.5938,
+    "over_pred": 0.5937,
+    "over_z": 0.03,
+    "logscore_overturn": -0.0002,
+    "brier_overturn": 0.0,
+    "over_rate_model": 0.5905,
+    "over_rate_model_z": 0.07,
+    "logscore_challenge": -0.1084,
+    "logscore_challenge_null": -0.19923,
+    "challenge_skill": 0.4559
+   }
+  },
+  "second_half_fit_sr": {
+   "off": 2.904,
+   "def": 1.706
+  },
+  "refit_sr_only": {
+   "converged": true,
+   "nll": 358.96,
+   "off": {
+    "sr_regular": 2.879,
+    "sr_regular_ci95": [
+     2.76,
+     3.003
+    ],
+    "sr_playoff": 2.687,
+    "sr_playoff_ci95": [
+     2.429,
+     2.971
+    ]
+   },
+   "def": {
+    "sr_regular": 1.816,
+    "sr_regular_ci95": [
+     1.75,
+     1.884
+    ],
+    "sr_playoff": 1.933,
+    "sr_playoff_ci95": [
+     1.753,
+     2.131
+    ]
+   }
+  },
+  "refit_sr_and_intercept": {
+   "converged": true,
+   "nll": 356.71,
+   "off": {
+    "sr_regular": 2.879,
+    "sr_regular_ci95": [
+     2.76,
+     3.003
+    ],
+    "sr_playoff": 2.395,
+    "sr_playoff_ci95": [
+     1.985,
+     2.89
+    ],
+    "intercept_shift": -0.525,
+    "intercept_shift_ci95": [
+     -1.215,
+     0.166
+    ]
+   },
+   "def": {
+    "sr_regular": 1.816,
+    "sr_regular_ci95": [
+     1.75,
+     1.884
+    ],
+    "sr_playoff": 1.73,
+    "sr_playoff_ci95": [
+     1.477,
+     2.027
+    ],
+    "intercept_shift": -0.338,
+    "intercept_shift_ci95": [
+     -0.703,
+     0.026
+    ]
+   }
+  },
+  "regular_season_insample": {
+   "off": {
+    "games": 2425,
+    "eligible": 100614,
+    "ch_obs": 4759,
+    "ch_pred": 4752.7,
+    "ch_z": 0.1,
+    "ch_per_team_game_obs": 0.981,
+    "ch_per_team_game_pred": 0.98,
+    "over_n": 2327,
+    "over_obs": 0.489,
+    "over_pred": 0.4892,
+    "over_z": -0.7,
+    "logscore_overturn": -0.0053,
+    "brier_overturn": 0.0006,
+    "over_rate_model": 0.4992,
+    "over_rate_model_z": -1.41,
+    "logscore_challenge": -0.13323,
+    "logscore_challenge_null": -0.19049,
+    "challenge_skill": 0.3006
+   },
+   "def": {
+    "games": 2425,
+    "eligible": 141078,
+    "ch_obs": 5784,
+    "ch_pred": 5767.2,
+    "ch_z": 0.27,
+    "ch_per_team_game_obs": 1.193,
+    "ch_per_team_game_pred": 1.189,
+    "over_n": 3352,
+    "over_obs": 0.5795,
+    "over_pred": 0.5795,
+    "over_z": 0.26,
+    "logscore_overturn": -0.0031,
+    "brier_overturn": 0.0003,
+    "over_rate_model": 0.5826,
+    "over_rate_model_z": -0.47,
+    "logscore_challenge": -0.09906,
+    "logscore_challenge_null": -0.17111,
+    "challenge_skill": 0.4211
+   }
+  }
+ },
+ "stakes_response": {
+  "off": {
+   "beta_logg_regular": -0.001,
+   "beta_logg_regular_ci95": [
+    -0.063,
+    0.061
+   ],
+   "beta_logg_playoff": 0.103,
+   "beta_logg_playoff_ci95": [
+    -0.253,
+    0.458
+   ],
+   "intercept_shift_playoff": 0.602,
+   "refit_converged": true,
+   "implied_slope_regular": 0.059,
+   "mean_pstar_regular": 0.444,
+   "implied_slope_playoff_regular_params": 0.063,
+   "implied_slope_playoff_refit": 0.03,
+   "mean_pstar_playoff_refit": 0.449,
+   "implied_slope_playoff_refit_ci95": [
+    -0.071,
+    0.143
+   ]
+  },
+  "def": {
+   "beta_logg_regular": 0.011,
+   "beta_logg_regular_ci95": [
+    -0.029,
+    0.05
+   ],
+   "beta_logg_playoff": 0.042,
+   "beta_logg_playoff_ci95": [
+    -0.167,
+    0.252
+   ],
+   "intercept_shift_playoff": -0.103,
+   "refit_converged": true,
+   "implied_slope_regular": 0.069,
+   "mean_pstar_regular": 0.448,
+   "implied_slope_playoff_regular_params": 0.087,
+   "implied_slope_playoff_refit": 0.064,
+   "mean_pstar_playoff_refit": 0.408,
+   "implied_slope_playoff_refit_ci95": [
+    -0.066,
+    0.202
+   ]
+  },
+  "series": {
+   "leverage_by_round": {
+    "Division Series": [
+     0.25,
+     0.375,
+     1.0
+    ],
+    "Wild Card": [
+     0.5,
+     0.5,
+     1.0
+    ],
+    "LCS": [
+     0.125,
+     0.312,
+     0.375
+    ]
+   },
+   "nll_game_wp": 358.35,
+   "nll_series_wp": 360.55,
+   "beta_logg_series": {
+    "off": [
+     -0.146,
+     [
+      -0.514,
+      0.222
+     ]
+    ],
+    "def": [
+     0.008,
+     [
+      -0.203,
+      0.219
+     ]
+    ]
+   },
+   "by_leverage": {
+    "L>=0.5": {
+     "games": 14,
+     "off": {
+      "ch_obs": 25,
+      "ch_pred": 20.6,
+      "ch_z": 1.1,
+      "over_obs": 0.4,
+      "over_pred": 0.4001
+     },
+     "def": {
+      "ch_obs": 34,
+      "ch_pred": 28.0,
+      "ch_z": 1.32,
+      "over_obs": 0.5882,
+      "over_pred": 0.5882
+     }
+    },
+    "L<0.5": {
+     "games": 19,
+     "off": {
+      "ch_obs": 35,
+      "ch_pred": 40.9,
+      "ch_z": -1.07,
+      "over_obs": 0.8,
+      "over_pred": 0.7997
+     },
+     "def": {
+      "ch_obs": 62,
+      "ch_pred": 51.6,
+      "ch_z": 1.81,
+      "over_obs": 0.5968,
+      "over_pred": 0.5967
+     }
+    }
+   }
+  }
+ },
+ "learning": {
+  "first_half": {
+   "games": 1442,
+   "batter_per_team_game": 0.973,
+   "catcher_per_team_game": 1.081,
+   "pitcher_per_team_game": 0.038,
+   "batter_overturn": 0.479,
+   "catcher_overturn": 0.587,
+   "model": {
+    "off": {
+     "eligible": 60190,
+     "ch_obs": 2807,
+     "ch_pred": 2827.7,
+     "ch_z": -0.44,
+     "over_obs": 0.4792,
+     "over_pred": 0.4795,
+     "over_z": -0.91,
+     "ch_per_100_eligible": 4.66
+    },
+    "def": {
+     "eligible": 84541,
+     "ch_obs": 3225,
+     "ch_pred": 3476.2,
+     "ch_z": -5.12,
+     "over_obs": 0.5792,
+     "over_pred": 0.5788,
+     "over_z": 1.0,
+     "ch_per_100_eligible": 3.81
+    }
+   }
+  },
+  "second_half": {
+   "games": 983,
+   "batter_per_team_game": 0.993,
+   "catcher_per_team_game": 1.266,
+   "pitcher_per_team_game": 0.036,
+   "batter_overturn": 0.503,
+   "catcher_overturn": 0.584,
+   "model": {
+    "off": {
+     "eligible": 40424,
+     "ch_obs": 1952,
+     "ch_pred": 1925.0,
+     "ch_z": 0.7,
+     "over_obs": 0.5031,
+     "over_pred": 0.5031,
+     "over_z": 0.01,
+     "ch_per_100_eligible": 4.83
+    },
+    "def": {
+     "eligible": 56537,
+     "ch_obs": 2559,
+     "ch_pred": 2291.0,
+     "ch_z": 6.72,
+     "over_obs": 0.5799,
+     "over_pred": 0.5802,
+     "over_z": -0.73,
+     "ch_per_100_eligible": 4.53
+    }
+   }
+  },
+  "postseason": {
+   "games": 33,
+   "batter_per_team_game": 0.909,
+   "catcher_per_team_game": 1.439,
+   "pitcher_per_team_game": 0.015,
+   "batter_overturn": 0.633,
+   "catcher_overturn": 0.589,
+   "model": {
+    "off": {
+     "eligible": 1359,
+     "ch_obs": 60,
+     "ch_pred": 61.5,
+     "ch_z": -0.22,
+     "over_obs": 0.6333,
+     "over_pred": 0.6332,
+     "over_z": 0.04,
+     "ch_per_100_eligible": 4.42
+    },
+    "def": {
+     "eligible": 1913,
+     "ch_obs": 96,
+     "ch_pred": 79.6,
+     "ch_z": 2.24,
+     "over_obs": 0.5938,
+     "over_pred": 0.5937,
+     "over_z": 0.04,
+     "ch_per_100_eligible": 5.02
+    }
+   }
+  }
+ }
+}

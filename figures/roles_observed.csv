@@ -1,0 +1,4 @@
+role,n,overturn,wins_gained_per_team,mean_g,mean_p_model
+batter,4763,0.4886,1.4421,0.021,0.4885
+catcher,5609,0.5853,1.8551,0.0191,0.5805
+pitcher,179,0.3966,0.0424,0.0223,0.4582

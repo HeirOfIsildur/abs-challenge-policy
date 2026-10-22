@@ -1,0 +1,1165 @@
+%% Supplementary Material to "ABS challenges: wins left on the table".
+%% Every number is a macro from generated/numbers.tex or a table from generated/tab_s_*.tex (paper/make_numbers.py and
+%% paper/supplement_numbers.py read results/); references to the main text are \Mref{label}, written by paper/xrefs.py from main.aux. Build: make -C paper.
+\documentclass[aoas]{imsart}
+
+\RequirePackage{amsthm,amsmath,amsfonts,amssymb}
+\RequirePackage[authoryear]{natbib}
+\RequirePackage{xurl}
+\RequirePackage[colorlinks,citecolor=blue,urlcolor=blue,pdftitle={Supplement to ABS challenges: wins left on the table},
+  pdfauthor={Jan Janou\v{s}ek and Michal Pe\v{s}ta}]{hyperref}
+\RequirePackage{graphicx,booktabs}
+\RequirePackage[section]{placeins}
+
+\startlocaldefs
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{remark}{Remark}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newenvironment{restate}[1]{\par\medskip\noindent\textbf{#1 (main text).}\ \itshape}{\par\medskip}
+\newcommand{\status}[1]{\textup{[\textsc{#1}]}}
+\newcommand{\tstatus}[1]{\textup{\textsc{#1}}}
+\renewcommand{\thesection}{S\arabic{section}}
+\renewcommand{\thetheorem}{S\arabic{theorem}}
+\renewcommand{\theremark}{S\arabic{remark}}
+\renewcommand{\theequation}{S\arabic{equation}}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\setcounter{secnumdepth}{3}
+\input{generated/numbers}
+\input{generated/xref_main}
+\endlocaldefs
+
+\begin{document}
+% fix the order of same-author 2026 references (natbib letters a, b) identically in both documents
+\nocite{Savant2026abs,SavantCSV2026,Tango2026costbenefit,Tango2026naive}
+
+\begin{frontmatter}
+\title{Supplement to ``ABS challenges: wins left on the table'': Proofs, symbolic verification and additional results}
+\runtitle{Supplement: proofs, symbolic verification and additional results}
+
+\begin{aug}
+\author[A]{\fnms{Jan}~\snm{Janoušek}}
+\author[A]{\fnms{Michal}~\snm{Pešta}\ead[label=e1]{pesta@karlin.mff.cuni.cz}}
+\address[A]{Department of Probability and Mathematical Statistics, Faculty of Mathematics and Physics, Charles
+University, Prague, Czech Republic\printead[presep={,\ }]{e1}}
+\end{aug}
+\runauthor{J. Janoušek and M. Pešta}
+
+\begin{abstract}
+Section~\ref{sec:proofs} proves Theorems~\Mref{thm:mono}--\Mref{thm:flat} of the main text and a comparison of
+retention with consumable challenges, and marks which statements are proved and which are numerical only.
+Section~\ref{sec:kernel} lists the Mathematica checks behind the paper's algebra. Section~\ref{sec:geometry} is the
+geometry and data audit. Section~\ref{sec:perception} gives the perception model in full: every variant, player
+heterogeneity, out-of-sample and minor-league fits, identification and the sensitivity of the wins lost to perception
+noise. Section~\ref{sec:policy} documents the policy evaluation: the causal re-simulation, the competitor rules, the
+decomposition of the gap between the simulator and the WP engine, the flat-optimum bound on the calibrated pools
+and the bootstrap. Section~\ref{sec:postseason} gives the 2026 postseason check in full, and Section~\ref{sec:drs}
+describes the cricket DRS replication.
+\end{abstract}
+
+\end{frontmatter}
+\hypersetup{pdftitle={Supplement to \textquotedblleft ABS challenges: wins left on the table\textquotedblright: proofs, symbolic
+  verification and additional results}, pdfkeywords={supplementary material}}
+
+Equation, theorem and section numbers without the prefix S refer to the main text.
+
+%% ============================================================================================================
+\section{Proofs}\label{sec:proofs}
+
+Each statement carries a status: \status{proved} means the proof is complete here and its algebraic steps are
+checked in Mathematica (Section~\ref{sec:kernel}); \status{proved, sketch} means the argument is complete but uses a
+standard lemma that is cited rather than reproduced; \status{numerical} means the statement rests on deterministic
+computation only. Table~\ref{tab:status} at the end of the section collects them.
+
+\subsection{Setting}\label{sec:setting}
+Let $t$ be the number of opportunities left and $c$ the challenges held. At each opportunity a pair $(p,g)$ with law
+$F_t$ arrives: $g\ge0$ is the stake and $p\in[0,1]$ the calibrated probability that a challenge succeeds. A successful
+challenge gains $g$ and keeps the challenge; a failed one loses it. With $V_0(\cdot)=V_t(0)=0$ the value of
+challenging at $(t,c)$ is $p\{g+V_{t-1}(c)\}+(1-p)V_{t-1}(c-1)=V_{t-1}(c)+pg-(1-p)\Delta_{t-1}(c)$ and the value of
+waiting is $V_{t-1}(c)$, which gives the Bellman equation~(\Mref{eq:bellman}),
+\[ V_t(c)=V_{t-1}(c)+\varphi_t\{\Delta_{t-1}(c)\},\qquad \varphi_t(d)=\E_t\{(pg-(1-p)d)^+\}, \]
+and the cutoff~(\Mref{eq:cutoff}): challenge iff $pg\ge(1-p)\Delta_{t-1}(c)$, that is
+$p\ge\Delta_{t-1}(c)/\{g+\Delta_{t-1}(c)\}$. The Q-gap between the two actions is
+\begin{equation}\label{eq:qgap}
+|pg-(1-p)D| = |p(g+D)-D|, \qquad D=\Delta_{t-1}(c).
+\end{equation}
+Throughout, $\psi_t(d)=d+\varphi_t(d)$. Since $V_t(0)=0$, $\Delta_t(1)=V_t(1)$, and the Bellman equation gives
+\begin{equation}\label{eq:delta}
+\Delta_t(1)=\psi_t\{\Delta_{t-1}(1)\},\qquad \Delta_t(c)=\psi_t\{\Delta_{t-1}(c)\}-\varphi_t\{\Delta_{t-1}(c-1)\}\quad(c\ge2).
+\end{equation}
+
+\subsection{Monotone thresholds}
+\begin{lemma}[\tstatus{proved}]\label{lem:phi}
+For any law $F$ of $(p,g)$ on $[0,1]\times[0,\infty)$ with $\E g<\infty$, $\varphi(d)=\E\{(pg-(1-p)d)^+\}$ is
+nonnegative and nonincreasing on $[0,\infty)$, with difference quotients in $[-1,0]$, and $\psi(d)=d+\varphi(d)$ is
+nondecreasing.
+\end{lemma}
+\begin{proof}
+Fix $(p,g)$. The map $j(x)=(pg-(1-p)x)^+$ is the positive part of an affine function of slope $-(1-p)\in[-1,0]$, so it
+is nonnegative, nonincreasing, and its difference quotients lie in $[-(1-p),0]\subset[-1,0]$. Then $x+j(x)$ has
+difference quotients in $[0,1]$. Taking expectations (finite because $j(x)\le g$) preserves all three properties.
+\end{proof}
+
+\begin{restate}{Theorem~\Mref{thm:mono}}
+Under Assumption~\Mref{ass:exo}, for all $t$ and $c\ge1$: (a) $\Delta_t(c)\ge\Delta_t(c+1)\ge0$; (b)
+$\Delta_t(c)\ge\Delta_{t-1}(c)$.
+\end{restate}
+\begin{proof}[Proof \status{proved}]
+By induction on $t$. For $t=0$, $\Delta_0\equiv0$ and both claims hold. Suppose they hold at $t-1$ and fix $c\ge1$.
+Write $a=\Delta_{t-1}(c-1)$ (only for $c\ge2$), $b=\Delta_{t-1}(c)$ and $e=\Delta_{t-1}(c+1)$; by hypothesis
+$a\ge b\ge e\ge0$. Under Assumption~\Mref{ass:exo} the same function $\varphi_t$ applies at every $c$, so
+by~\eqref{eq:delta}
+\[ \Delta_t(c)=\psi_t(b)-\varphi_t(a),\qquad \Delta_t(c+1)=\psi_t(e)-\varphi_t(b), \]
+with the $\varphi_t(a)$ term absent when $c=1$. By Lemma~\ref{lem:phi}, $\psi_t(b)\ge\psi_t(e)$ and
+$\varphi_t(b)\ge\varphi_t(a)$, so
+$\Delta_t(c)-\Delta_t(c+1)=\{\psi_t(b)-\psi_t(e)\}+\{\varphi_t(b)-\varphi_t(a)\}\ge0$, which is (a). Next
+$\Delta_t(c)-\Delta_{t-1}(c)=\varphi_t(b)-\varphi_t(a)\ge0$ (and $=\varphi_t(b)\ge0$ for $c=1$), which is (b); with
+$b\ge0$ it also gives $\Delta_t(c)\ge0$. The optimal cutoff $D/(g+D)$ is increasing in $D$ (its derivative in $D$ is
+$g/(g+D)^2>0$), so it falls as $t$ decreases and rises as $c$ decreases.
+\end{proof}
+
+\begin{remark}[Where the theorem fails]\label{rem:counter}
+\emph{A law that depends on $c$.} Let $g=1$, $p=1/10$ when one challenge is held and $p=9/10$ when two are held.
+After five opportunities the exact DP gives $\Delta(1)=\SCdepOne$ and $\Delta(2)=\SCdepTwo$, so $V$ is convex in $c$:
+the second challenge is worth more than the first because holding it changes the opportunities themselves. Exogeneity
+in Assumption~\Mref{ass:exo} cannot be dropped.
+\emph{The extra-inning top-up.} The calibrated DP refills $c=0$ to $c=1$ at the start of each extra inning, which sets
+$V(0)=V(1)$ at the last regulation opportunity of the home side. There, and only there, $\Delta(1)=0<\Delta(2)$; every
+other row of the calibrated DP satisfies both monotonicities on both sides.
+\emph{Exact random laws.} On \SRandomLaws{} seeded random discrete laws (i.i.d.\ and time-varying, $p$ and $g$
+dependent, retention and consumption) the exact rational DP satisfies both monotonicities in every case.
+\end{remark}
+
+\noindent\emph{Relation to the stochastic knapsack.} In \citet{DermanEtAl1972} and \citet{KleywegtPapastavrou1998} a
+unit of capacity is spent whenever an item is accepted, and the analogue of $\varphi$ is $\E(pg-d)^+$. Under retention
+the unit is spent only on failure, so the continuation value enters the gain as $p(g+\Delta)$. The induction above
+uses only the properties in Lemma~\ref{lem:phi}, which both gain functions share.
+
+\subsection{The square-root law}
+\begin{restate}{Theorem~\Mref{thm:sqrt}}
+Let $c=1$, $F_t=F$ for all $t$, $q=1-p$, and suppose that given $g$, $q$ has a density $f(\cdot\mid g)$ near $0$ with
+$f(0+\mid g)=h(g)$, bounded by $M(g)$ on $[0,x_0]$ with $\E[g^2M(g)]<\infty$, $\E g^2<\infty$, and
+$K=\E[h(g)g^2]/2\in(0,\infty)$. Then $\Delta_t(1)\sim\sqrt{\E[h(g)g^2]\,t}$.
+\end{restate}
+\begin{proof}[Proof \status{proved}]
+Write $\Delta_t=\Delta_t(1)$ and $\varphi=\varphi_t$.
+
+\emph{Step 1: $\Delta_t\to\infty$.} By Theorem~\Mref{thm:mono}(b), $\Delta_t$ is nondecreasing. If $\Delta_t\le L$
+for all $t$, then by~\eqref{eq:delta} and Lemma~\ref{lem:phi}, $\Delta_t=\Delta_{t-1}+\varphi(\Delta_{t-1})\ge
+\Delta_{t-1}+\varphi(L)$, so $\Delta_t\ge t\varphi(L)\to\infty$, a contradiction as soon as $\varphi(L)>0$. And
+$\varphi(L)=\E\{(g-q(g+L))^+\}>0$ because $K>0$ forces $h(g)g^2>0$ on a set of positive probability, on which $q$ has
+positive density near $0$, so that $q<g/(g+L)$ with positive probability.
+
+\emph{Step 2: $d\varphi(d)\to K$ as $d\to\infty$.} Since $pg-(1-p)d=g-q(g+d)$, the integrand is positive iff
+$q<g/(g+d)$. Let $c_0=x_0/(1-x_0)$ and split $d\varphi(d)=A(d)+B(d)$ over $\{g\le c_0d\}$ and $\{g>c_0d\}$. On the
+first set $g/(g+d)\le x_0$, so the positive part only involves $q\in[0,x_0]$, where $q$ has the density $f$, and
+substituting $q=ug/(g+d)$ (the integrand becomes $g(1-u)$ and $dq=g\,du/(g+d)$) gives
+\[ A(d)=\E\Bigl[\frac{dg^2}{g+d}\int_0^1(1-u)\,f\Bigl(\frac{ug}{g+d}\Bigm| g\Bigr)du\,;\,g\le c_0d\Bigr]. \]
+For fixed $g$ and $u$ the integrand converges to $g^2(1-u)h(g)$, whose expectation is $K$, and it is at most
+$g^2M(g)/2$, so $A(d)\to K$ by dominated convergence. On the second set the density is not used:
+$B(d)=d\,\E[(g-q(g+d))^+;\,g>c_0d]\le\E[dg;\,g>c_0d]\le\E[g^2\mathbf1\{g>c_0d\}]/c_0\to0$. Hence $d\varphi(d)\to K$.
+
+\emph{Step 3.} By~\eqref{eq:delta}, $\Delta_t^2-\Delta_{t-1}^2=\eta(\Delta_{t-1})$ with
+$\eta(d)=2d\varphi(d)+\varphi(d)^2$ (identity~(\Mref{eq:sqinc})). By Steps 1--2, $\varphi(\Delta_t)\to0$ and
+$\eta(\Delta_t)\to2K$, so by Ces\`aro $\Delta_t^2/t=t^{-1}\sum_{s\le t}\eta(\Delta_{s-1})\to2K$.
+\end{proof}
+
+\noindent Step 2 needs $\E g^2<\infty$ to control the large-stake set. It holds trivially for stakes in win
+probability ($0\le g\le1$), and the statement in the main text includes it.
+
+\begin{remark}[Other rates, \status{proved, sketch}; constants exact]\label{rem:alpha}
+If $\Prob(q\le x\mid g)\sim c(g)x^\alpha$, the same substitution gives $d^\alpha\varphi(d)\to K_\alpha=\E[c(g)
+g^{1+\alpha}]/(1+\alpha)$. By the mean value theorem $\Delta_t^{1+\alpha}-\Delta_{t-1}^{1+\alpha}=(1+\alpha)
+\xi^\alpha\varphi(\Delta_{t-1})$ with $\xi\in[\Delta_{t-1},\Delta_t]$ and $\xi/\Delta_{t-1}\to1$, so the increments
+converge to $(1+\alpha)K_\alpha$ and $\Delta_t\sim\{(1+\alpha)K_\alpha t\}^{1/(1+\alpha)}$. The domination step for
+$\alpha\ne1$ is analogous to Step 2 and is not written out; it needs $\E[c(g)g^{1+\alpha}]<\infty$ and a local bound on
+$\Prob(q\le x\mid g)/x^\alpha$ that is integrable against $g^{1+\alpha}$, the analogues of the conditions of
+Theorem~\Mref{thm:sqrt}. Numerically, at $t=\STLast$: with a positive finite density
+of $p$ at $1$ ($\alpha=1$, $K_1=9/8$ exactly) $\Delta_t/\sqrt{2K_1t}=\SAlphaOne$; with a density vanishing linearly at
+$1$ ($\alpha=2$, $K_2=83/144$) $\Delta_t/(3K_2t)^{1/3}=\SAlphaTwo$; with an atom at $p=1$ the growth is linear,
+$\Delta_t/t=\SAtom$ against the limit $\E[g;p=1]=11/120=\SAtomLimit$.
+\end{remark}
+
+\begin{remark}[Time-varying laws, \status{proved, sketch}]
+If $F_t$ varies with $t$, $K_t\in[K_{\min},K_{\max}]\subset(0,\infty)$ and Step 2 holds uniformly in $t$, the same
+argument with weighted Ces\`aro sums gives $\Delta_t^2/\sum_{s\le t}2K_s\to1$: the option value is the square root of
+the cumulative squared-stake mass. With stakes alternating between $1$ and $3$ and uniform $p$, the ratio is
+\STimeVarying{} at $t=\STLast$.
+\end{remark}
+
+\begin{remark}[More challenges, \status{proved, sketch}; constants exact]\label{rem:kc}
+For $c\ge2$, $\Delta_t(c)\sim k_c\sqrt{2Kt}$ with $k_1=1$ and $k_c^2+k_c/k_{c-1}=1$. Sketch: $\Delta_t(c)\to\infty$ by
+the argument of Step 1; $y_t=\Delta_t(c)^2/(2Kt)$ satisfies a deterministic stochastic-approximation recursion with
+step $1/t$ and drift $1-\sqrt{y}/k_{c-1}-y+o(1)$, which is strictly decreasing with unique root $k_c^2$; the
+Robbins--Monro/Chung lemma \citep[e.g.][Ch.~5]{KushnerYin2003} gives $y_t\to k_c^2$: the recursion is
+deterministic, its steps are $O(1/t)$, the drift is continuous and strictly decreasing with a unique root, and the
+$o(1)$ term comes from $\Delta_t(c-1)/\{k_{c-1}\sqrt{2Kt}\}\to1$, the induction hypothesis; a full proof would write out
+that error bound. Hence $k_2=(\sqrt5-1)/2$, and
+$k_1,\dots,k_6=\SKc$. With uniform $p$ and $g=1$, $\Delta_t(c)/\sqrt t$ for $c=1,\dots,4$ at $t=\STLast$ is
+\SUniformKc.
+\end{remark}
+
+\begin{remark}[Consumption, \status{proved}]
+Under consumption, $\Delta^{\rm cons}_t(c)\le s$ for all $t$, where $s=\operatorname{ess\,sup}(pg)$. The
+inductive step is
+$x\le s,\ Y\le s\Rightarrow x+\E(Y-x)^+\le s$. With uniform $p$ and $g=1$, $\Delta^{\rm cons}$ at $t=\STLast$ is
+\SConsBound.
+\end{remark}
+
+\begin{remark}[The calibrated game, \status{numerical}]\label{rem:calibrated}
+In the calibrated 2026 DP, $\Delta_1$ is of the same order as the stakes, so the game is pre-asymptotic. What carries
+over exactly is identity~(\Mref{eq:sqinc}): for uniform $p$, $\eta(d)=g^2(2d+g)^2/\{4(d+g)^2\}$ rises only from
+$g^2/4$ to $g^2$ as $d/g$ goes from $0$ to $\infty$, so $\Delta^2$ is close to linear in the opportunities left even
+far from the asymptote. The calibrated $p$ is concentrated near zero, where $\eta$ varies much more, so for the
+calibrated game the near-linearity below is an empirical finding rather than a consequence of the identity. In the
+score-aware DP the score is part of the state, so the law of $(p,g)$ is no longer exogenous; the object that
+Theorem~\Mref{thm:sqrt} speaks to is the continuation value averaged over the score states the 2026 games actually
+visit. For that average, a linear fit of $\Delta_1^2$ on the expected regulation opportunities left $n$ has
+$R^2=\DeltaSqRTwoHome$ (home) and $\DeltaSqRTwoAway$ (away), and $\Delta_1\approx a+\SqrtCoef\sqrt n$ has
+$R^2=\SqrtRTwo$ and $\SqrtRTwoAway$, against $\LinRTwo$ for a linear fit in $n$. Along a path held at a tied score
+the fit is poor ($R^2$ of \SqrtRTwoTied): late in a tied game the continuation value stays high, because every
+remaining call matters. We therefore say that the option value \emph{scales like} $\sqrt{n}$ on average over game
+states, not that it follows the asymptotic law; an $R^2$ near one on a smooth monotone curve discriminates only
+weakly between exponents, and the linearity of $\Delta^2$ is what identity~(\Mref{eq:sqinc}) suggests. The ratio
+$\Delta_2/\Delta_1$ at the first pitch is \DeltaRatio, below the limit $0.618$, as the pre-asymptotic iteration
+predicts.
+\end{remark}
+
+\subsection{The flat optimum}
+\begin{restate}{Theorem~\Mref{thm:flat}}
+(i) Exactly,
+\[ V^\star_T(c_0)-V^\delta_T(c_0)=\sum_t\sum_{c\ge1}\Prob^\delta(c_t=c)\,\E_g\int_{I_t(c,g)}|p(g+D)-D|\,dF_t(p\mid g). \]
+(ii) If the conditional density of $p$ on $I_t$ is at most $M$, then $V^\star_T-V^\delta_T\le
+(M/2)\sum_t\sum_c\Prob^\delta(c_t=c)\,\E_g[g^2(D-\delta)^2/\{(g+D)(g+\delta)^2\}]$.
+\end{restate}
+\begin{proof}[Proof \status{proved}]
+(i) Let $Q^\star_t(c,a)$ be the value of taking action $a$ at $(t,c)$ and acting optimally afterwards, and
+$V^\delta_t$ the value of following $\rho_\delta$. For the action $a=\rho_\delta(t,c,p,g)$,
+\[ V^\star_t(c)-V^\delta_t(c) = \{V^\star_t(c)-Q^\star_t(c,a)\}+\E\{V^\star_{t-1}(c')-V^\delta_{t-1}(c')\mid t,c,a\}, \]
+because $Q^\star_t(c,a)$ and the value of $a$ under $\rho_\delta$ share the immediate reward and the transition to $c'$
+and differ only in the continuation. Unrolling from $(T,c_0)$ along the trajectory of $\rho_\delta$ gives
+$V^\star_T(c_0)-V^\delta_T(c_0)=\E^\delta\sum_t\{V^\star_t(c_t)-Q^\star_t(c_t,a_t)\}$
+\citep{KakadeLangford2002,Puterman1994}. The bracket is zero when $\rho_\delta$ takes the optimal action and equals the
+Q-gap~\eqref{eq:qgap} otherwise. With $c_t=c\ge1$ the two rules differ exactly for $p$ between $D/(g+D)$ and
+$\delta/(g+\delta)$, which is the interval $I_t(c,g)$. The Q-gap vanishes at the first endpoint. At the second,
+$\rho_\delta$ challenges when $p=\delta/(g+\delta)$ exactly (the convention of the policy code), so $I_t$ is open there
+when $\delta<D$ and closed when $\delta>D$; with this convention (i) holds for any law of $p$, atoms included. The values
+compared are those before $(p,g)$ is observed at $t$; the decomposition conditions on $(p,g)$ inside the expectation. Finally, $c_t$ is a function of the past and by
+Assumption~\Mref{ass:exo} the current $(p,g)$ is independent of it, so conditioning on $c_t=c$ leaves the law $F_t$
+unchanged. States with $c=0$ have no action and contribute nothing.
+
+(ii) On $I_t(c,g)$ the Q-gap is $(g+D)|p-D/(g+D)|$, linear in $p$ and zero at the endpoint $D/(g+D)$. The interval has
+length $L=g|D-\delta|/\{(g+D)(g+\delta)\}$. With density at most $M$,
+$\int_I(g+D)|p-D/(g+D)|\,dF\le M(g+D)\int_0^Lu\,du=M(g+D)L^2/2=Mg^2(D-\delta)^2/\{2(g+D)(g+\delta)^2\}$.
+
+(iii, crude form) Since $g+D\ge g$ and $(g+\delta)^2\ge4g\delta$, $g^2/\{(g+D)(g+\delta)^2\}\le1/(4\delta)$, so the
+regret is at most $(M/8\delta)\sum_t\E^\delta[(\Delta_{t-1}(c_t)-\delta)^2;c_t\ge1]$.
+\end{proof}
+
+\noindent\emph{Envelope.} The unit-density integral underlying bound (ii), $r(\delta)=g^2(D-\delta)^2/\{2(g+D)(g+\delta)^2\}$
+(the integral of the Q-gap over $I_t$ against $dp$), has $r(D)=r'(D)=0$ and $r''(D)=g^2/(g+D)^3$. It is not the
+per-state regret of a general law of $p$ (with $g=D=1$, $\delta=2$ and density $2p$ the regret is $11/324$, $r=1/36$;
+\nolinkurl{wolfram/regret.wl}), but it bounds that regret by $M\,r(\delta)$: under a bounded density, mis-setting the
+constant costs nothing to first order, so the loss of the best constant is at most quadratic in the spread of
+$\Delta$ along the path. Where the best $\delta$ sits depends on the density near each cutoff and on how the
+occupation of states moves with $\delta$; it is near a weighted mean of $\Delta$ only when those weights are roughly
+constant. For a law with atoms, (ii) with a histogram height in place of $M$ is an approximation, not a bound
+(Section~\ref{sec:flat}).
+
+\noindent\emph{Stylized illustration \status{numerical}.} In a stylized game with 60 opportunities, two challenges,
+stakes rising through the game and a mostly low posterior ($p$ density $0.9\,\mathrm{Beta}(1,4)+0.1\,
+\mathrm{Beta}(4,1)$), $\Delta$ ranges over $[0,\SStylDeltaMax]$ along the path. The best constant
+$\delta=\SStylBestDelta$ loses \SStylLoss\% of the optimum; identity (i) holds to \SStylIdentityGap; bound (ii) gives
+\SStylBound\% and the crude form (iii) \SStylCrude\%, so (ii) is the form to use. The loss curve is flat near its
+minimum: \SStylLossVsDelta. The theorem on the calibrated 2026 pools is in Section~\ref{sec:flat}.
+
+\subsection{Retention against consumable challenges}
+Three allotment rules: \emph{retention} (MLB ABS, a success keeps the challenge); \emph{consumption} (every challenge
+is spent); and the \emph{NBA cap} (one challenge; a success earns a second, consumable one, so at most two are used).
+Let $s=\operatorname{ess\,sup}(pg)$.
+
+\begin{theorem}[\tstatus{proved}]\label{thm:rules}
+Under Assumption~\Mref{ass:exo}:
+(a) $V^{\rm cons}_t(c)\le V^{\rm ret}_t(c)$ and
+\[ V^{\rm cons}_t(1)\le V^{\rm NBA}_t\le\min\{V^{\rm ret}_t(1),V^{\rm cons}_t(2)\}; \]
+(b) $V^{\rm cons}_t(c)\le cs$ and $V^{\rm NBA}_t\le2s$ for all $t$;
+(c) if $F_t=F$ and there is $g_0>0$ with $\Prob(p>1-\varepsilon,\,g>g_0)>0$ for every $\varepsilon>0$, then
+$V^{\rm ret}_t(1)\to\infty$, and
+under the conditions of Theorem~\Mref{thm:sqrt}, $V^{\rm ret}_t(1)\sim\sqrt{\E[h(g)g^2]\,t}$. Hence one retained
+challenge eventually beats any fixed allotment of consumable ones.
+\end{theorem}
+\begin{proof}
+(a) By coupling. Run both rules on the same sequence of $(p,g)$ and the same success events. The player under the
+richer rule copies the poorer player's actions and, wherever the poorer rule has removed a challenge that the richer
+rule keeps, stops challenging. This is feasible because on every path the richer rule holds at least as many
+challenges. NBA against consumption with one: after the single use consumption holds none. Retention with one against
+NBA: after a success both hold one, after a failure both hold none, and once NBA's consumable second challenge is spent
+retention may still hold one. Consumption with two against NBA: after a success both hold one; after a failure NBA
+holds none and consumption one. Retention against consumption with the same $c$: retention never holds fewer. Along
+coupled paths the gains are identical, so the richer rule's optimal value is at least the poorer one's.
+(b) At most $c$ (respectively two) challenges are used, and each use has conditional expected gain $pg\le s$.
+(c) Fix $L\ge0$ and let $\varepsilon=g_0/\{2(g_0+L)\}$. On $\{q\le\varepsilon,\ g>g_0\}$, with $q=1-p$,
+$pg-(1-p)L=g-q(g+L)\ge g(1-\varepsilon)-\varepsilon L\ge g_0-\varepsilon(g_0+L)=g_0/2$, so
+$\varphi(L)\ge(g_0/2)\Prob(p\ge1-\varepsilon,\,g>g_0)>0$. Step 1 of the proof of Theorem~\Mref{thm:sqrt} then applies,
+and the rate is that theorem. With (b), $V^{\rm ret}_t(1)>cs\ge V^{\rm cons}_t(c)$ for all large $t$. The stake bound
+$g_0$ cannot be dropped: with $q=g=U\sim\mathrm{Unif}(0,1)$, $\Prob(p>1-\varepsilon,\,g>0)=\varepsilon>0$ for every
+$\varepsilon$, but $\varphi(L)=\E\{U(1-U-L)^+\}=(1-L)^3/6$ vanishes for $L\ge1$, so $\Delta_t(1)<1$ for all $t$
+($\Delta_{2000}(1)=\SCtrExDelta$).
+\end{proof}
+
+\begin{table}[!htbp]
+\caption{Values under the three allotment rules, uniform $p$ and $g=1$ ($s=1$), exact DP. The ordering of
+Theorem~\ref{thm:rules}(a) holds at \SRuleOrderAll{} $t$ computed.}\label{tab:rules}
+\centering\small
+\input{generated/tab_s_rules}
+\end{table}
+
+\noindent Table~\ref{tab:rules} gives the values in the uniform case: one retained challenge beats 2, 3 and 5
+consumable ones for all $t\ge\CrossTwo$, $\CrossThree$ and $\CrossFive$ respectively. In the stylized game above (60
+opportunities, WP per team-game) the values are \STSixtyConsOne{} (consumption, one), \STSixtyNBA{} (NBA cap),
+\STSixtyConsTwo{} (consumption, two), \STSixtyRetOne{} (retention, one) and \STSixtyRetTwo{} (retention, two): two
+retained challenges are worth \STSixtyGain\% more than two consumable ones, and a single retained challenge already
+beats two consumable ones.
+
+\begin{table}[!htbp]
+\caption{Status of the theoretical statements.}\label{tab:status}
+\centering\small
+\begin{tabular}{p{8.8cm}l}
+\toprule
+Statement & Status \\
+\midrule
+Lemma~\ref{lem:phi}; Theorem~\Mref{thm:mono} (any exogenous, time-varying law) & proved \\
+Failure for $c$-dependent laws; top-up row of the calibrated DP (Remark~\ref{rem:counter}) & counterexample; numerical \\
+Theorem~\Mref{thm:sqrt}, with its exact constant & proved \\
+Rate $t^{1/(1+\alpha)}$ for $\alpha\ne1$ (Remark~\ref{rem:alpha}) & proved, sketch; constants exact \\
+Time-varying laws, $\Delta_t^2\sim\sum_s2K_s$ & proved, sketch \\
+$c\ge2$: $k_c^2+k_c/k_{c-1}=1$, $k_2=(\sqrt5-1)/2$ (Remark~\ref{rem:kc}) & proved, sketch; constants exact \\
+Consumption bound $\Delta^{\rm cons}\le s$ & proved \\
+$\sqrt n$ scaling of the calibrated, score-averaged continuation value & numerical \\
+Theorem~\Mref{thm:flat}: identity, bound and envelope & proved \\
+Loss of the one-line rule on the calibrated pools and on the real stream (Section~\ref{sec:flat}) & numerical \\
+Theorem~\ref{thm:rules}; crossover points & proved; numerical \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%% ============================================================================================================
+\section{Symbolic verification}\label{sec:kernel}
+
+The exact algebra of the paper is checked in Mathematica (Section~\Mref{sec:repro}). All checks are deterministic: they use exact rationals, closed forms,
+\texttt{Reduce}/\texttt{Resolve} over the reals, or numerical integration at 30 digits, never sampling. The scripts:
+\begin{itemize}
+\item \nolinkurl{wolfram/check.wl} $\to$ \nolinkurl{results/check.json}: the retained-challenge cutoff and its monotonicity,
+and the Gaussian convolution used when tracking noise is added to perception noise.
+\item \nolinkurl{wolfram/identification_det.wl} $\to$
+\nolinkurl{results/identification-det-check.json}:
+Proposition~\Mref{prop:ident}, identification of the deterministic-truth model (checks D1--D4).
+\item \nolinkurl{wolfram/identification.wl} $\to$ \nolinkurl{results/identification-check.json}: the alternative smooth-truth
+model, in which only the combined scale of tracking and perception noise enters the challenge curve. It is kept because
+it shows why a known truth matters (Section~\Mref{sec:ident}).
+\item \nolinkurl{wolfram/proofs.wl} $\to$ \nolinkurl{results/proofs.json}: the theory of Section~\ref{sec:proofs} (T1--T4),
+including every numerical value quoted there.
+\item \nolinkurl{wolfram/supplement.wl} $\to$ \nolinkurl{results/supplement-check.json}: the algebraic steps added in this
+supplement (substitution and domination in the proof of Theorem~\Mref{thm:sqrt}, bound (ii), the mean-value step).
+\item \nolinkurl{wolfram/headline.wl} $\to$ \nolinkurl{results/headline-check.json}: the per-state regret, the causal
+decomposition of Section~\ref{sec:causal} and the cutoff form of the competitor rules.
+\item \nolinkurl{wolfram/drs_check.wl} and \nolinkurl{wolfram/drs_audit.wl} $\to$ \nolinkurl{results/drs/}: the closed forms
+of the DRS model (Section~\ref{sec:drs}).
+\end{itemize}
+Table~\ref{tab:checks} lists the \SNChecks{} checks and their outcomes; \SChecksFailed{} fail.
+
+\begin{table}[!htbp]
+\caption{Symbolic checks. ``True'': Mathematica returned \texttt{True} for an identity or a quantified inequality.
+``Max.\ error'': the largest absolute difference between a closed form and direct high-precision integration, or
+between the value computed in Python and the exact one.}\label{tab:checks}
+\centering\scriptsize
+\input{generated/tab_s_checks}
+\end{table}
+
+%% ============================================================================================================
+\section{Geometry and data audit}\label{sec:geometry}
+
+\subsection{Which plane each source reports}\label{sec:plane}
+Statcast publishes, for every pitch, a nine-parameter constant-acceleration trajectory and a location
+(\texttt{plate\_x}, \texttt{plate\_z}). Anchoring the trajectory on the reported release point, we find the distance
+$y^*$ from the tip of the plate at which the trajectory passes through the reported location. Table~\ref{tab:plane}
+shows that through 2025 the location is at the front of the plate ($y=17/12$\,ft) and from 2026 at its midpoint
+($y=17/24$\,ft), where it agrees with the trajectory to a few thousandths of an inch. The Stats API live feed
+(\texttt{pitchData.coordinates.pX/pZ}) stayed at the front of the plate. Its trajectory parameters and zone lines are
+Statcast's (identical on \SFeedTrajIdentical\% and \SFeedSzIdentical\% of challenged pitches), and on the \GeomN{}
+challenged pitches its height is \SFeedDz\,in (SD \SFeedDzSD) above Statcast's; projected to the midpoint the
+difference is \SFeedDzMid\,in. The Savant documentation says the same of \texttt{plate\_x} and \texttt{plate\_z}:
+``Through 2025, this was front-of-plate. From 2026 on, this is middle-of-plate to align with the ABS system''
+\citep{SavantCSV2026}.
+
+\begin{table}[!htbp]
+\caption{Plane of the reported pitch location. $\Delta z$: mean (SD) of trajectory height minus reported
+\texttt{plate\_z}, in inches, with the trajectory evaluated at the front of the plate or at its midpoint; $y^*$: where
+the trajectory meets the reported location.}\label{tab:plane}
+\centering\small
+\resizebox{\textwidth}{!}{\input{generated/tab_s_plane}}
+\end{table}
+
+\subsection{Reproduction of the ABS rulings}
+The ABS zone is a rectangle as wide as the plate (17\,in) whose bottom and top are $27\%$ and $53.5\%$ of the batter's
+certified height, evaluated at the plate's midpoint; a pitch is a strike if any part of the ball (radius 1.45\,in)
+touches it. The ball is round, so the strike region is the rectangle grown by the radius with rounded corners: the
+signed distance is the radius plus the signed distance of the ball's centre to the rectangle. Growing each edge by the
+radius with square corners instead, as our pipeline did before the final revision, counts a ball diagonally off a
+corner as touching it; it relabels \GeomRelabelCalled{} called pitches (\GeomRelabelChallenged{} of them
+challenged) and reproduces \GeomReproSquare\% of the rulings (\GeomMismatchSquare{} mismatches). Table~\ref{tab:repro} applies this rule to every challenged pitch. On Statcast's 2026 coordinates as
+published it reproduces \GeomRepro\% of the rulings, and the best constant shift of either zone line is
+\SRawShift\,in. Projecting the same coordinates from the front to the midpoint a second time lowers every pitch by about \GeomShiftOld\,in, reproduces only \GeomReproOld\% of the rulings, and
+makes the best-fitting zone lines sit \SOldShiftBottom\,in (bottom) and \SOldShiftTop\,in (top) away from the rule:
+a double projection of this kind produces an apparent offset between the ABS and Statcast zones. A sweep over the ball
+radius gives \GeomRadiusSweep{} mismatches, sharply minimised at the official 1.45\,in (\texttt{results/geometry\_audit.md}).
+
+\begin{table}[!htbp]
+\caption{Share of the \GeomN{} challenge rulings reproduced by the published zone rule.}\label{tab:repro}
+\centering\small
+\input{generated/tab_s_repro}
+\end{table}
+
+Table~\ref{tab:bygroup} breaks the reproduction down by edge, batter side, challenger and month. It is uniform: no
+edge, side, role or month stands out, and there is no drift over the season. The double projection, by contrast, hurt
+the bottom edge most, where a one-inch vertical shift matters most. The same rule reproduces the rulings in every
+other feed we use once its front-of-plate coordinates are projected to the midpoint (Table~\ref{tab:feeds}), and on
+the postseason's Statcast coordinates as published it reproduces \SPostStatcastRepro\%. The Triple-A and
+spring-training fits of Section~\ref{sec:oos} therefore use projected feed coordinates, which is correct for those
+feeds.
+
+\begin{table}[!htbp]
+\caption{Reproduction of the rulings by group, Statcast 2026 coordinates as published and projected a second
+time.}\label{tab:bygroup}
+\centering\scriptsize
+\input{generated/tab_s_bygroup}
+\end{table}
+
+\begin{table}[!htbp]
+\caption{Reproduction in the Stats API feeds, whose coordinates are at the front of the plate.}\label{tab:feeds}
+\centering\small
+\input{generated/tab_s_feeds}
+\end{table}
+
+\paragraph{Zone lines and height} Statcast's 2026 \texttt{sz\_top} and \texttt{sz\_bot} are exactly $53.5\%$ and $27\%$
+of a single height on every pitch. Against the whole-inch listed heights of the \SZoneBatters{} batters, the lines
+differ by \SZoneTopMean\,in (SD \SZoneTopSD) at the top and \SZoneBotMean\,in (SD \SZoneBotSD) at the bottom;
+\SZoneWithin\% of batters are within 0.25\,in on both, and the largest difference, \SZoneMax\,in, is
+$0.535\times0.5$\,in: the certified height is measured more finely than the listed one. None of the mismatches below
+involves a batter whose zone differs from his season median.
+
+\subsection{The \SMisN{} mismatches}\label{sec:mismatch}
+We re-read the live feed (pitch and play description, review flag, challenger, timing) for every mismatch.
+\begin{itemize}
+\item \emph{Boundary ties} (\SMisTie): Statcast and the feed agree and the pitch is within 0.01\,in of the
+boundary; \SMisTieBall{} lie just inside by the rule and were ruled balls, \SMisTieStrike{} just outside and were ruled
+strikes. Within 0.5\,in of the boundary \SMisNearRate\% of the \SMisNearN{} challenged pitches mismatch; beyond 1\,in,
+\SMisFarRate\%. With round corners the mismatch rate no longer rises towards the boundary, and the ties show no lean
+towards either call.
+\item \emph{Tracking disagreements} (\SMisTrack): Statcast's location differs from the live feed's by inches, and the
+feed's location agrees with the ruling in every case. Among the \SMisDisagree{} challenged pitches where the two
+sources disagree by more than 0.5\,in, the feed is right and Statcast wrong in \SMisFeedRight{} and the reverse in
+\SMisStatcastRight. Six of the eleven mismatches of earlier versions were not tracking disagreements but mis-joined
+pitches (Section~\ref{sec:counters}), whose Statcast location belongs to another pitch; they are now treated as
+unlocated.
+\item \emph{Other} (\SMisOther): a boundary tie in Statcast that the feed places outside the zone.
+\item \emph{Mislabels}: none. Every recorded call and review flag agrees with the play-by-play text.
+\end{itemize}
+The mismatches are spread over the season and over batter and catcher challenges. They are what the mislabel rate
+$\pi=\ContamPct\%$ of model~(\Mref{eq:truth}) absorbs.
+
+\subsection{Challenges left and the feed's counters}\label{sec:counters}
+We reconstruct the challenges each team holds before every pitch: two at the start, one fewer after each failed
+challenge, plus the extra-inning rule below. The live feed reports, per team and game, the numbers of successful and
+failed challenges and the challenges remaining (\texttt{src/feed\_counters.py}, \texttt{results/feed\_counters.json}).
+Over the \SFcTeamGames{} team-games of the \NGamesABS{} ABS games our counts of successes and failures equal the
+feed's in \SFcMatch. The exception is game \SFcBadGame, where one ABS challenge is nested inside a manager's review of
+the same play and its pitch is ambiguous; we leave it out. The feed's ``remaining'' equals $\max(0,2-\text{failed})$ in
+\SFcRemainingRule\% of team-games, so it ignores the extra-inning grants; yet teams fail up to \SFcMaxFailed{} times in
+a game, which is only possible with grants. Our end-of-game count differs from the feed's in \SFcDiffer{} team-games,
+and \SFcDifferNoGrant{} of these received no grant. No challenge in the data is made with none left
+(\SFcZeroLeft{} cases).
+
+\paragraph{Sample flow} Table~\ref{tab:sampleflow} follows the called pitches from the feeds to the likelihood and to
+the policies' opportunity set. A mis-joined pitch is one whose Statcast description contradicts the feed's call code
+(Statcast reports the final call, so overturned pitches agree); its location belongs to another pitch. A position
+player pitching is a pitcher with at least 30 plate appearances and fewer than 400 pitches in 2026; MLB's
+opportunity definition excludes such pitches. Technical unavailability of the system is not flagged in the public
+data and is not excluded.
+
+\begin{table}[!htbp]
+\caption{Sample flow, 2026 regular season (\NGamesABS{} ABS games).}\label{tab:sampleflow}
+\centering\small
+\input{generated/tab_s_sampleflow}
+\end{table}
+
+\paragraph{The extra-inning rule} MLB's announcement of the challenge system \citep{MLB2025abs} gives a team that has
+used up its challenges one challenge in each extra inning; unused extra-inning challenges do not accumulate. We apply
+it as: a team at zero receives one challenge at the start of each extra inning, with no stacking. Over the
+\SFcExtraInnings{} extra innings of the season this grants \SFcGrants{} challenges in \SFcGrantTeamGames{} team-games,
+and \SFcExtraCh{} challenges are made in extra innings. The grant enters the DP and the simulator at the first opportunity
+of every extra inning, in either half.
+
+\paragraph{Other data notes} \SNoLocation{} of the \NChallenges{} challenges have no Statcast location; they count
+against the challenge budget but not in the likelihood. The likelihood and the evaluation use called pitches within
+8\,in of the zone edge; \SBeyondEight{} challenges lie farther out (two of them tracking disagreements of Section~\ref{sec:mismatch}).
+
+%% ============================================================================================================
+\section{The perception model}\label{sec:perception}
+
+\subsection{Specification and estimates}
+The criterion is $\kappa(x)=x^\top\beta$ with an intercept, $\log g$, an indicator of one challenge left, the inning
+divided by nine (capped at ten), and indicators of two strikes and of three balls, separately for batters (on called
+strikes) and catchers and pitchers (on called balls). In the main specification $\kappa$ shifts by zone region (bottom,
+top, inside, outside) and $\sigma_r$ is multiplied by a region factor, with the bottom edge as reference. The truth is
+deterministic with mislabel rate $\pi$, shared by the two sides. The likelihood~(\Mref{eq:pch})--(\Mref{eq:pchw})
+is maximised by L-BFGS followed by a Newton trust region with the exact Hessian from automatic differentiation.
+Table~\ref{tab:params} gives the estimates of the main model and of the model with player random effects.
+
+\begin{table}[!htbp]
+\caption{Estimates of the main perception model and of the model with player random effects
+$(\kappa_i,\log\sigma_{r,i})$, bivariate normal per side and integrated by Gauss--Hermite quadrature ($5\times5$
+nodes; with $7\times7$ the log-likelihood changes by \REQuadDLL, $\sigma_r$ by at most \REQuadSrPct\% and the SD of
+the batters' criterion from \REQuadSdKFive{} to \REQuadSdKSeven\,in). Distances in
+inches.}\label{tab:params}
+\centering\small
+\input{generated/tab_s_params}
+\end{table}
+
+\subsection{All variants}
+Table~\ref{tab:allvariants} extends Table~\Mref{tab:variants} with the mislabel rate, BIC relative to the main model,
+and the wins lost under the pooled DP (no score in the state) next to the score-aware DP of the headline; every row is
+evaluated with all policies on the same $R=\VariantR$ simulated draws. The smooth-truth rows add, per edge or region,
+an offset and Gaussian measurement noise to the truth; on the corrected geometry they collapse to the deterministic
+model (Section~\Mref{sec:truth}). Without a mislabel rate (``by edge, no mislabel'') the measurement noise inflates to
+absorb the few tracking disagreements of Section~\ref{sec:mismatch}, and the fit is far worse. Heavy-tailed and
+logistic noise are rejected at equal parameter count. Among the homogeneous probit models that fit at least as well as
+the Gaussian baseline, wins lost range over \SpreadLo--\SpreadHi; the rejected ones give \SpreadRejLo--\SpreadRejHi.
+Across the models whose BIC is at least as good as the main model's (lapse and player-effects models included) they
+range over \SpreadAllLo--\SpreadAllHi.
+
+\begin{table}[!htbp]
+\caption{All perception and truth variants. $\Delta\ell$: log-likelihood relative to the Gaussian baseline; $\Delta$BIC:
+relative to the main model (negative is better); wins lost per team-season under the score-aware and the pooled
+DP.}\label{tab:allvariants}
+\centering\small
+\resizebox{\textwidth}{!}{\input{generated/tab_s_variants}}
+\end{table}
+
+\paragraph{Fit} The main model predicts \SChPredBatter{} batter challenges against \SChObsBatter{} observed and
+\SChPredCatcher{} fielding-side (catcher and pitcher) challenges against \SChObsCatcher, and the overturn rates of Section~\Mref{sec:model}. On
+\SChiBinsBatter{} groups of pitches the summed Pearson discrepancies of the challenge counts are \SChiChBatter{}
+(batters) and \SChiChCatcher{} (catchers), and of the overturn counts among the model's challenges \SChiOvBatter{} and
+\SChiOvCatcher. The groups come from five overlapping partitions (distance, challenges left, inning, stake tercile,
+zone region), so the same pitches enter several times and the sums have no simple $\chi^2$ reference; they are
+descriptive, and with \NCalled{} called pitches they detect small departures from the probit shape. The random-effects
+model below fits better.
+
+\paragraph{Nonparametric check of the probit shape} Identification rests on the shape of the challenge curve, and the
+comparison with logistic and $t$ noise only shows that the Gaussian is best within a parametric family.
+Figure~\ref{fig:isotonic} drops the family. For each side and zone region it plots the isotonic regression of the
+challenge indicator on $w$ (monotone under any location-family noise law) with a pointwise 95\% band from a game
+bootstrap ($B=\IsoB$), against the fitted probit curve averaged over the same pitches and smoothed in the same way.
+The largest gap between the two is \IsoMaxGap{} percentage points, and the probit curve lies inside the band at
+\IsoBandLo--\IsoBandHi\% of the grid points. The departures are local except in the upper tail: for batters at the
+top and inside edges and catchers at the bottom and inside edges the isotonic curve levels off at about 0.6--0.8 for
+$w$ beyond 4\,in, where the probit curve goes to one. A probit read through such a plateau inflates $\sigma_r$. The
+lapse-rate model of Table~\ref{tab:allvariants}, $\Prob(\text{challenge}\mid w)=(1-\lambda)\Phi\{(w-\kappa)/\sigma_r\}$
+with one $\lambda$ per side, fits better by \LapseDLL{} log-likelihood points (\LapseK{} parameters), gives
+$\lambda=\LapseBatter\%$ for batters and \LapseCatcher\% for catchers and $\sigma_r$ of \LapseSrBatter{} and
+\LapseSrCatcher\,in, and gives wins lost of \LapseLost{} with the lapses removed and \LapseLostKept{} with them kept
+($R=\LapseR$; Section~\Mref{sec:robust}). Before the feed--Statcast join was checked (Section~\Mref{sec:data}) the
+plateau, and the lapse model's BIC advantage of more than 200 points, came largely from mis-joined pitches, whose
+location belongs to another pitch and mostly reads as a badly missed call, and from pitches with essentially nothing at
+stake. These are pointwise bands, not a simultaneous test.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth]{figures/fig_isotonic}
+\caption{Challenge probability against the truth margin $w$ (inches, positive: the call was wrong), by side and zone
+region. Black: isotonic regression of the observed challenges with pointwise 95\% game-bootstrap band (grey). Blue:
+fitted main model (probit), averaged over the same pitches.}\label{fig:isotonic}
+\end{figure}
+
+\paragraph{Player heterogeneity} The random effects improve the likelihood by \DLLREvsMain{} points over the main
+model and have the best BIC (\BICRE). They sit mostly in the criterion: the SD of the player criteria is
+\REKappaSDBatter\,in for batters and \REKappaSDCatcher\,in for catchers, against an SD of $\log\sigma_r$ of
+\RELogSrSDBatter{} and \RELogSrSDCatcher. To evaluate policies we give each player the posterior implied by their own
+perception noise (empirical-Bayes means), solve the DP with these posteriors and compare with realised play. The wins
+lost are \PPLost{} \PPLostCI. The interval comes from a game bootstrap with $B=\PPB$ in which every replicate redraws the
+player effects from their empirical-Bayes posteriors without refitting the model; the same bootstrap gives
+\MainNorefCI{} for the main model, against \WinsLostCI{} with refits. The one-line rule gets \PPRuleShare\% of the
+per-player optimum.
+
+\subsection{Out of sample and other leagues}\label{sec:oos}
+We fit the model to March--June (\SOOSTrainGames{} games) and to July--September (\SOOSTestGames{} games) separately.
+Perception noise is \SOOSTrainSrBatter\,in for batters and \SOOSTrainSrCatcher\,in for catchers in the first half and
+\SOOSTestSrBatter{} and \SOOSTestSrCatcher\,in in the second. Table~\ref{tab:oosfull} predicts the challenge counts and
+overturn rates of the second half from the first-half fit. Overturn rates transfer for both sides and batter challenge
+counts nearly so, but catchers challenged \OOSCatcherExcess\% more than predicted: their criterion moved much more
+than their perception. Wins lost, computed with the baseline model and the pooled DP (no score in the state) and
+therefore below the headline, are \SOOSLostTrainTrain{} in the first half, \SOOSLostTestTrain{} in the second half with
+the first-half model and \SOOSLostTestTest{} with the second-half model.
+
+For Triple-A 2025 and spring training 2026 we use the Stats API feeds, projected to the plate's midpoint
+(Table~\ref{tab:feeds}). The refitted perception noise is \AAASrBatter\,in \SAAASrBatterCI{} for batters and
+\AAASrCatcher\,in \SAAASrCatcherCI{} for catchers in Triple-A, and \SpringSrBatter\,in \SSpringSrBatterCI{} and
+\SpringSrCatcher\,in \SSpringSrCatcherCI{} in spring training (95\% intervals). Transported MLB parameters predict the
+overturn rates there well but overpredict catcher challenges, again a criterion effect.
+
+\begin{table}[!htbp]
+\caption{Observed against predicted challenges and overturn rates (observed / predicted). ``Fit'': the sample the
+parameters are estimated on.}\label{tab:oosfull}
+\centering\small
+\resizebox{\textwidth}{!}{\input{generated/tab_s_oos}}
+\end{table}
+
+\paragraph{Feed coordinates} Rebuilding the 2026 MLB data on the live feed's own coordinates, projected to the
+midpoint, gives $\sigma_r$ of \FeedSrBatter{} and \FeedSrCatcher\,in in the baseline model and \SFeedMainSrBatter{}
+and \SFeedMainSrCatcher\,in in the main model, against \SrBaseBatter{} / \SrBaseCatcher{} and \SrBatter{} /
+\SrCatcher\,in on Statcast; wins lost are \SFeedLost{} and \SFeedLostMain.
+
+\subsection{Identification and known-truth recovery}
+Proposition~\Mref{prop:ident} is checked symbolically (Section~\ref{sec:kernel}, checks D1--D4). For the known-truth
+experiment we simulate challenges and rulings from the fitted baseline model ($\sigma_r=\SRecovTruthBatter$ and
+$\SRecovTruthCatcher$\,in, $\pi=\SRecovPiTruth\%$) on the real 2026 opportunities, refit from a start with $\sigma_r$
+multiplied by 1.5, and repeat. Table~\ref{tab:recovery} reports the results. Under correct specification the bias is a
+fraction of a percent. Tracking noise of 0.3\,in barely moves $\sigma_r$, in line with
+Proposition~\Mref{prop:ident}(c), but it raises the fitted mislabel rate, which absorbs the induced disagreements near
+the boundary. Heavy tails fitted as Gaussian bias $\sigma_r$ up by about a quarter, but the data reject heavy tails
+(Table~\ref{tab:allvariants}). Ignoring player heterogeneity (simulated with SDs of \SREUsedBatter\,in in $\kappa$ and
+\SREUsedLogBatter{} in $\log\sigma_r$ for batters) also biases $\sigma_r$ up, which lowers the estimated value of
+challenging. On the data the bias is smaller: the main model's batter $\sigma_r$ is \HetDataBiasBatter\% above the
+random-effects model's. The direct comparison is the wins lost: \PPLost{} under the per-player model against
+\WinsLost{} under the homogeneous one.
+
+\begin{table}[!htbp]
+\caption{Known-truth recovery of perception noise on the real 2026 opportunities.}\label{tab:recovery}
+\centering\small
+\resizebox{\textwidth}{!}{\input{generated/tab_s_recovery}}
+\end{table}
+
+\subsection{Wins lost against perception noise}\label{sec:breakeven}
+The value of every policy falls as perception gets worse, the optimum's fastest. Figure~\ref{fig:breakeven} and
+Table~\ref{tab:breakeven} re-solve and re-evaluate the model with $\sigma_r$ multiplied by a common factor on both
+sides, holding realised play fixed at \SObservedWins{} wins per team-season. Wins lost fall to $0.25$ when $\sigma_r$
+is \BreakEvenPct\% larger than estimated (the break-even of Section~\Mref{sec:robust}, by linear interpolation) and to
+zero near a factor of 1.3. The right panel is the profile log-likelihood of each side's $\sigma_r$ in the baseline model
+on the same axis: at the break-even it is \BreakEvenLLBatter{} points below its maximum for batters and
+\BreakEvenLLCatcher{} for catchers, and a $10\%$ error already costs \ProfileTenBatter{} and \ProfileTenCatcher.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=.95\textwidth]{figures/fig_sr_breakeven}
+\caption{Left: wins lost per team-season (score-aware optimum minus realised play) when perception noise is a multiple
+of its estimate; dashed line at $0.25$. Right: profile log-likelihood loss of $\sigma_r$ for each side, baseline
+model.}\label{fig:breakeven}
+\end{figure}
+
+\begin{table}[!htbp]
+\caption{Optimum and wins lost per team-season when $\sigma_r$ is a multiple of its estimate, and the profile
+log-likelihood loss at the multiples on the profile grid.}\label{tab:breakeven}
+\centering\small
+\input{generated/tab_s_breakeven}
+\end{table}
+
+\paragraph{Belief maps} Under the calibrated posterior the challenge threshold implied by the fitted criterion is on
+average $p=\SThrCalBatter$ for batters and $\SThrCalCatcher$ for catchers; under a flat-prior belief map it would be
+\SThrFlatBatter{} and \SThrFlatCatcher. Neither map makes the implied thresholds respond to leverage as the
+cutoff~(\Mref{eq:cutoff}) requires (Section~\Mref{sec:robust}).
+
+%% ============================================================================================================
+\section{Policy evaluation}\label{sec:policy}
+
+\subsection{Simulated worlds}
+Each simulated world keeps every real 2026 called pitch, its stake $g$, its known truth $W$ and the real call stream.
+It draws the ruling with mislabel rate $\pi$, the signal $s=w+\varepsilon$ from the fitted perception model, and the
+posterior $p=\Prob(Y=1\mid s)$ that the ruling overturns the call from a weighted isotonic regression of simulated truth on the signal
+\citep{BarlowEtAl1972}. The isotonic map is fitted on an auxiliary, independent draw, so that the truth that scores a
+policy never enters its decision. Fitting it on the scoring draw instead changed the optimum by \SCrossFitOpt{} and the
+one-line rule by \SCrossFitRule{} wins per team-season (average over $R=\SCrossFitR$ draws). Every policy runs on the
+same draws, holding the challenges it would hold, with the extra-inning grant of Section~\ref{sec:counters}.
+Table~\ref{tab:roles} splits the value of every policy by side.
+
+\begin{table}[!htbp]
+\caption{Wins per team-season by side and challenges per team-game (95\% game-bootstrap interval); point estimates of
+Table~\Mref{tab:policies}.}\label{tab:roles}
+\centering\small
+\input{generated/tab_s_roles}
+\end{table}
+
+\subsection{Competitor rules}
+\emph{Runs-objective rule} \citep{Namuduri2026runs}: challenge iff $p\,\mathrm{RV}>(1-p)C(t,c)$, where RV is the run
+value of the flip and $C$ the run value of a challenge at the start of the half-inning, from the same DP solved with
+runs as the objective. His code indexes $C$ by incorrect challenges spent, which maps to our $c$.
+\emph{48-cell card} \citep{Arora2026use}: a threshold on $p$ for each inning band (1--3, 4--6, 7--8, 9+), tercile of
+$g$ over all opportunities, count class (PA-ending iff three balls or two strikes) and challenges held. ``Published''
+uses his 2026 thresholds with our terciles of $g$; ``refit'' fills each cell with the median break-even $D/(g+D)$ of our
+DP over the opportunities in it, a reproduction of his fitting procedure on our model; a card whose cells were
+chosen to maximise value could do better. Our tercile medians of $g$ are close to his.
+\emph{Savant's form, tuned}: $p\ge c/(c+\mathrm{RV})$ with $c$ on a grid of run costs, the best chosen at the point
+estimate (\SavantTunedC{} runs).
+\emph{Fixed 0.2-run rule} \citep{Savant2026abs,Tango2026costbenefit}: challenge iff $p\ge0.2/(0.2+\mathrm{RV})$. The
+league computes RV from an RE288 run-expectancy table; we compute it from our own run-expectancy engine, whose run
+swings are slightly smaller on average, so our version of the rule is marginally more conservative. The ranking does
+not depend on this: an independent recomputation on Statcast's own run- and win-expectancy changes gives
+\SIndSavant{} wins per team-season for the rule against \SIndObs{} for observed play (ratio \SIndSavantRatio) and
+\SIndRule{} for the one-line rule. All competitors and the one-line rule are cutoff rules in $p$
+(Section~\ref{sec:kernel}).
+
+\subsection{Causal re-simulation}\label{sec:causal}
+The path-sum value of a policy is the sum of $g$ over its successful challenges, each $g$ read off the recorded game.
+After the first flip the recorded continuation is no longer the game that would have been played, which is Arora's
+objection. For each team-game and policy we find the first divergence between the policy's game and the recorded
+game: the first called pitch whose call exactly one of them flips (\SBranches{} branch points per team-game for the
+optimum, \CausalSkipShare\% of them recorded overturns the policy would have skipped). Before it the two games
+coincide, so the path sum is exact up to there. At that pitch three worlds are simulated with common random numbers:
+\begin{itemize}
+\item[A:] the call is flipped and the game continues, the team following the policy with the challenges it holds;
+\item[A$'$:] the original call stands and the team keeps following the policy;
+\item[B:] the original call stands and the team never challenges again.
+\end{itemize}
+In all three the opponent follows its fitted behavioural rule $s>\kappa(x)$ with its recorded remaining challenges.
+If the policy flips a call the team left standing, A is the policy's world and A$'$ the recorded one; if the team
+flipped a call the policy leaves standing, A (the flipped call) is the recorded world and A$'$ the policy's, and every
+correction below enters with the opposite sign. Up to the previous version the branch was the policy's first success,
+also when the team had flipped the same call, where the recorded continuation is already the flip world.
+The path-sum value of the team-game is $g_{\rm branch}+L_{\rm rec}$, with $L_{\rm rec}$ the team's later gains on the
+recorded continuation; the causal value is $g_{\rm branch}+\E[L\mid\text{flip}]$. Two estimators of the correction:
+\begin{align*}
+\text{RB:}\quad & \text{causal}=\text{path}+\E[(L_A-O_A)-(L_{A'}-O_{A'})], \\
+\text{win count:}\quad & \text{causal}=\text{path}+\E[\text{win}_A-\text{win}_{A'}]-g_{\rm branch},
+\end{align*}
+where $L$ ($O$) sums $g$ over the team's (the opponent's) later successful flips at the simulated state. If the WP
+engine is the simulator's value function, the team's win indicator is a martingale whose jump at each later flip is
+$+g$ for the team's flips and $-g$ for the opponent's, so
+$\E[\text{win}_A-\text{win}_{A'}]=g_{\rm branch}+\E[(L_A-O_A)-(L_{A'}-O_{A'})]$ and the two estimators agree. The
+opponent term matters because the flip changes the opponent's later opportunities too; dropping it (the team's own
+gains only) changes the optimum's RB value by \SCausalOppEffect{} wins per team-season; RB is the low-variance
+version (the decomposition is checked in Section~\ref{sec:kernel}). Differencing against A$'$ cancels any level bias of
+the simulator's opportunity stream.
+
+\paragraph{Simulator} Pitch events (called pitch, swinging strike or foul tip, foul, ball in play, hit by pitch,
+automatic ball) by count, outs and bases from 2026 Statcast; called pitches drawn from the 2026 called-pitch pool of
+the same count, each with its location, truth, signal, posterior and the fitted criterion of that draw; in-play
+outcomes (outs, bases and runs) by count, outs and bases; baserunning between pitches (steals, wild pitches, passed
+balls and pickoffs, on about \SGapMoveRate\% of pitches); the runner on second in extra innings; the extra-inning
+challenge grant; walk-off rules. We use $K=\CausalK$ play-outs per world and $R=\CausalR$ independent draws of the
+perception signals.
+
+\paragraph{Checks} In world B the simulator's win rate minus the WP engine's is between \SCalibWinBLo{} and
+\SCalibWinBHi{} across policies, with calibration slope \SCalibSlope. The offset is the team giving up its challenges
+while the opponent keeps its own, and it is the same at home and away. Its no-flip continuation produces slightly
+more later value than the recorded games (\SLaterNoflip{} against \SLaterRecorded{} wins per team-season for the
+optimum; difference \SFidelity{} \SFidelityCI), which the A$-$A$'$ difference cancels.
+
+\begin{table}[!htbp]
+\caption{Path-sum and causal values, wins per team-season, with 95\% intervals for the differences from
+\CausalBootN{} game resamples of the per-game outputs at fixed fitted parameters.}\label{tab:causal}
+\centering\scriptsize
+\resizebox{\textwidth}{!}{\input{generated/tab_s_causal}}
+\end{table}
+
+\paragraph{Results} Table~\ref{tab:causal}: the RB causal value is within a few thousandths of a win of the path sum
+for every policy. The win-count estimator differs by \BinaryMinusRB{} \BinaryMinusRBCI{} wins for the optimum, which
+puts the wins lost at \BinaryLost{} \BinaryLostCI{} on that measure; averaged over the \SGapNPolicies{} policies the
+difference is \SGapAvgNew. Section~\ref{sec:causalgap} explains the remaining difference.
+
+\subsection{Simulator against WP engine}\label{sec:causalgap}
+The two estimators agree exactly when the simulator's value function is the WP engine. They differ, to first order,
+by the sum over branch flips of the difference between the simulator's swing in win probability and the engine's $g$.
+To measure that difference without Monte Carlo error we write each simulator as an exact pitch-level Markov chain and
+compute its win probabilities and its $g$ at every branch flip of the optimum (\SGapBranches{} per team-season, mean
+engine $g$ \SGapMeanG). The simulator itself reproduces its chain: from 400 branch states and 2,000 play-outs each,
+the simulated flip swing minus the chain's is \SGapMCNew{} (SE \SGapMCNewSE), and the simulated home win rate minus
+the engine's is \SGapLevelNew.
+
+Table~\ref{tab:gap} adds the simulator's ingredients one at a time. A simulator whose in-play outcomes ignore the
+count and that has no baserunning between pitches moves win probability by only \SimGShare\% of $g$. That shortfall
+predicts a win-count minus RB difference of $\GapPredSim$ wins per team-season for the optimum, and the difference
+measured with that simulator is \SGapMeasOld{} \SGapMeasOldCI: the shortfall explains the whole gap, with no free
+parameter. (In the headline run, the simpler simulator's win-count estimate fell short of the $g$-based accounting by
+\BinaryMinusRBSimAbs{} wins.) Batters ahead in the count do more damage on contact, so a count-blind in-play distribution compresses the
+value of turning a strike into a ball, and the extra pitches a ball buys also give runners more chances to advance.
+With both ingredients the simulator reaches \SimGShareRun\% of $g$; the predicted difference is $\GapPredRun$ and the
+one measured in this decomposition run \SGapMeasNew{} \SGapMeasNewCI{} (\BinaryMinusRB{} in the headline run). Table~\ref{tab:gapcount} shows that the shortfall of the simpler
+simulator was largest for flips early in the count.
+
+The path sum is priced in engine $g$, and the engine is the object calibrated to real outcomes: its distribution of
+plate-appearance outcomes is the empirical one from every 2026 pitch, and it predicts game outcomes as well as
+Statcast's own win expectancy (Section~\ref{sec:bootstrap}). A residual mismatch between simulator and engine biases
+the win-count estimate but not the path sum or the RB estimate, which is why the headline uses the path sum.
+
+\emph{Home field.} Neither the engine nor the simulator has a home-field term, so it cannot separate them. Estimating
+the engine with separate plate-appearance distributions for home and away batters gives the home team a win
+probability of \SGapHomeWP{} at the first pitch, changes $g$ at the optimum's branch flips by about $-\HomeFieldRelG\%$
+and changes the wins lost by $\HomeFieldLostChange$.
+
+\begin{table}[!htbp]
+\caption{Simulator against WP engine at the optimum's branch flips: the simulator's swing in win probability as a share
+of the engine's $g$ (exact chain), and the win-count minus RB difference that the mismatch predicts, wins per
+team-season. Each row adds one ingredient to the row above.}\label{tab:gap}
+\centering\small
+\resizebox{\textwidth}{!}{\input{generated/tab_s_gap}}
+\end{table}
+
+\begin{table}[!htbp]
+\caption{Simulator swing relative to engine $g$, minus one, by the count of the branch pitch (optimum).}\label{tab:gapcount}
+\centering\scriptsize
+\input{generated/tab_s_gapcount}
+\end{table}
+
+\subsection{Behavioural rule against realised play}\label{sec:behaviourgap}
+The fitted behavioural rule $s>\kappa(x)$ of the main model, simulated holding the challenges it would hold, earns
+\WFitRule{} \WFitRuleCI{} wins per team-season against \WObs{} realised. Table~\ref{tab:behaviourgap} compares the two
+by stake quintile, with the model's expectation taken pitch by pitch at the challenges actually held: the expected
+value of the teams' challenges is \BGValueExpected{} wins per team-season against \BGValueObserved{} realised, and in
+the top fifth of stakes the teams made \BGTopChExcess{} more challenges than the model expects and gained
+\BGTopValueExcess{} more wins.
+
+With a criterion linear in $\log g$, the previous main model, the simulated rule earned \KGFitRuleMain{} wins and the
+excess in the top quintile was large: the real response to the stake is steeper at the top than a linear criterion
+allows. The main model's piecewise-linear criterion (hinges at $\log g=-5.0$, $-4.0$ and $-3.2$, about the 40th, 80th
+and 95th percentiles) improves the log-likelihood by \KGDLL{} points with \KGK{} more parameters (BIC better by
+\KGDBIC), raises the simulated rule to \KGFitRule{} and leaves the decision noise practically unchanged
+(\KGSrBatter\,in for batters and \KGSrCatcher\,in for catchers, against the linear model's values), so the optimum
+hardly moves (\KGOpt{} against \KGOptMain{} wins on the same $R=\KGR$ draws). The comparison of the optimum with realised
+play uses the behavioural model only through the decision noise it reveals.
+
+\begin{table}[!htbp]
+\caption{Observed against model-expected challenges, overturns and value by stake quintile (main model, expectation at
+the challenges actually held). Value: sum of $g$ over overturned challenges, wins per team-season.}\label{tab:behaviourgap}
+\centering\small
+\resizebox{\textwidth}{!}{\input{generated/tab_s_behaviourgap}}
+\end{table}
+
+\subsection{Thresholds by stake}\label{sec:mechanism}
+Table~\ref{tab:mechanism} gives, by stake quintile, the confidence threshold the teams' fitted criterion implies
+through the calibrated belief map and the DP benchmark's threshold $D/(g+D)$ at the recorded state, and the same in
+inches of signal: the teams' criterion $\kappa$ and the signal at which the belief reaches the one-line rule's
+threshold $\RuleDelta/(g+\RuleDelta)$. Teams' thresholds fall far less with the stake than the benchmark's.
+
+\begin{table}[!htbp]
+\caption{Revealed and benchmark thresholds by stake quintile (eligible pitches, main model, $R$ draws of the belief
+map). Signal thresholds are averages over the pitches of the quintile.}\label{tab:mechanism}
+\centering\small
+\input{generated/tab_s_mechanism}
+\end{table}
+
+\subsection{The flat-optimum bound on the calibrated pools}\label{sec:flat}
+To evaluate Theorem~\Mref{thm:flat} exactly we need a model in which its assumptions hold. We use the score-aware
+calibrated DP restricted to regulation: the exogenous state is the half-inning and the home score difference at its
+start; the number of opportunities in a half-inning follows its empirical law in that state (as in the DP) and
+their $(g,p)$ are drawn i.i.d.\ from the 2026 pool of that state; runs between half-innings come from their empirical law; and the game ends after the top of the ninth if the
+home team leads and after the ninth otherwise. In this model the MDP is exact, so identity (i) must hold to rounding.
+Bound (ii) needs the density bound $M$; we estimate it as the largest histogram density of $p$ (bin width $0.025$)
+within quintiles of $g$, and the ``local'' approximation replaces it by the density at the midpoint of each interval.
+Table~\ref{tab:flat} gives the results ($R=\SFlatR$ draws). Identity (i) holds to the printed precision; the best
+constant $\delta=\FlatBestDelta$ loses \FlatLoss\%; the local approximation is close (\FlatLocal\%); and (ii) with
+the histogram heights gives \FlatBound. Because the calibrated posterior is a step function of the signal (it is
+fitted on bins of 0.1\,in), its law has atoms and no density, so that number is a smoothed approximation, not a
+certified bound; identity (i) needs no density. On the real game stream the same rule loses \RuleLossStream\%. The two
+problems differ: in the exact model the DP is optimal by construction, while on the real stream it is optimal for the
+pooled law it was solved on, not for the realised sequence of calls and stakes, and the real stream includes extra
+innings, where the top-up rule makes the DP and the rule act alike. The rule's share is relative to the benchmark,
+and the clairvoyant ceiling of Section~\Mref{sec:theory} bounds what the benchmark leaves.
+
+\begin{table}[!htbp]
+\caption{Theorem~\Mref{thm:flat} on the calibrated pools, home and away sides pooled. Loss: $1-V^\delta/V^\star$.
+Identity gap: largest difference between $V^\star-V^\delta$ and the sum in (i).}\label{tab:flat}
+\centering\small
+\input{generated/tab_s_flat}
+\end{table}
+
+\subsection{Bootstrap}\label{sec:bootstrap}
+The resampling unit is the game. Each of the $B=\SBootN$ replicates draws the \NGamesABS{} games with replacement under
+new identifiers, refits the truth and perception model, refits the isotonic posterior maps, re-solves every DP,
+re-selects the one-line rule's $\delta$ and re-simulates every policy on $R=\SBootR$ draws. The WP engine, the stakes
+and the run distributions between half-innings stay fixed; they are estimated from all 2026 pitches, and the joint
+bootstrap below adds their uncertainty. The intervals are percentiles of the replicates. For the wins lost the basic
+interval is \SBootBasic{} against the percentile interval \WinsLostCI, and the bootstrap SD is \SBootSD.
+
+\paragraph{Monte Carlo error} Each replicate averages over $R=\SBootR$ simulated draws. At the point estimate the SD
+of the wins lost across single draws is \SMCSD{} (the \SMCN{} draws of the point estimate), so Monte Carlo noise contributes about
+$\SMCSD/\sqrt{\SBootR}=\SMCShare$ to the bootstrap SD of \SBootSD{}, which adds little to
+the interval width. An earlier run with $R=\BootRTwo$ draws per replicate and $B=\SBootBRTwo$ replicates gave
+\WinsLostCIRTwo{} (SD \BootSDRTwo). The point
+estimate averages over $R=\PointR$ draws, with Monte Carlo standard error \LostMCSE.
+
+\paragraph{Coverage} The study uses the final pipeline and main model. We simulate \CovS{} seasons from the fitted model on the real 2026 call stream. Every called pitch
+keeps its tracked location, the ruling is drawn with the fitted mislabel rate, and each team challenges by the fitted
+rule $s>\kappa(x)$ with the challenges it holds in that simulated season. The true gap is the optimum's value minus the
+expected value of that rule, \CovGap{} wins per team-season (\CovNTrue{} simulated seasons), close to the headline gap
+because the fitted rule earns about what teams realised. Each season is then
+analysed as the data are: the model is refitted, the point estimate averages $R=\CovRPoint$ draws, and the refit
+bootstrap uses $B=\CovB$ replicates of $R=\CovR$ draws, fewer than the $B=\BootB$ and $R=\BootR$ of the analysis,
+for computing time; \CovFailed{} of the \CovRefits{} refits did not converge and are dropped. The estimand of this
+study is therefore the gap to the fitted rule in a world where that rule is the truth, not the gap to realised play;
+what it checks is the interval procedure. The percentile interval covers the true gap in \CovRate\%
+\CovRateCI{} of the seasons (Clopper--Pearson interval); it misses below in \CovMissLow{} and above in \CovMissHigh.
+The basic interval covers in \CovRateBasic\% and the normal-approximation interval in \CovRateNormal\%. Across seasons
+the point estimate has bias \CovBias{} and SD \CovPointSD, against a mean bootstrap SD of \CovBootSD.
+
+\paragraph{Sampling error of the WP engine} Each of $B=\WPBootB$ replicates resamples the 2026 Statcast games,
+re-estimates the plate-appearance transition probabilities, the WP and run-expectancy engine and the run distribution between
+half-innings, recomputes $g$ and RV for every called pitch, and re-evaluates every policy at the point parameters on
+the same $R=\WPBootR$ draws. The wins lost move by \WPBootDevCI{} (SD \WPBootSD, \WPBootRatio{} of the refit-bootstrap SD
+\WPBootRefitSD). Adding these deviations to the refit replicates, all pairs, gives \WinsLostCIWP{} against \WinsLostCI.
+The one-line rule's share of the optimum stays within \WPBootShareRuleCI\%.
+
+\paragraph{Joint bootstrap} Each of $B=\JointBootB$ replicates resamples the games once and rebuilds everything on that
+resample: the plate-appearance transitions, the WP and run-expectancy engine, the stakes $g$ and RV of every called
+pitch, the run laws of the DP (regulation and extra innings), the perception fit, the belief maps and the policies
+($R=\JointBootR$ draws). The wins lost have the 95\% interval \JointBootCI{} with SD \JointBootSD, \JointBootRatio{}
+times the SD of the game bootstrap that holds the engine fixed; the one-line rule's share stays within
+\JointBootShareRuleCI\%. This replaces the independent-component combination of earlier versions.
+
+\paragraph{Block bootstrap} To allow for dependence between games of the same team and period (catchers and pitchers
+who recur, umpire crews, the criterion's drift through the season), $B=\BlockBootB$ replicates resample blocks of a home
+team's games in a calendar month, refit the model and re-evaluate ($R=\BlockBootR$). The wins lost have the interval
+\BlockBootCI, with SD \BlockBootRatio{} times the game bootstrap's.
+
+\paragraph{Calibration on the selected pitches} The DP prices a challenge with the belief $p$, so $p$ must be calibrated
+on the pitches a policy selects, not only on average. Across $R$ draws, the realised stake-weighted success
+$\sum Wg$ over the pitches the optimum challenges exceeds $\sum pg$ by \SelCalOpt\% (\SelCalRule\% for the one-line
+rule). With calibration cells by side and region only, as in earlier versions, the excess was larger; the remaining
+excess means the beliefs are slightly under-confident on the selected pitches, which makes the benchmark slightly
+cautious.
+
+\paragraph{Selection of the one-line rule} Across replicates the re-selected constant was \SBootSelect, so the share
+\ShareRuleResel\% \ShareRuleReselCI{} quoted in the main text includes this selection.
+
+\paragraph{The WP engine} The engine is estimated by backward induction from 2026 transitions. Its Brier score for the
+game outcome over all plate appearances is \SWPBrier, against \SWPBrierSC{} for Statcast's own win expectancy
+(correlation \SWPCorr). It has no home-field term: home teams won \SWPHomeRate\% of games, and in tied states the
+engine is \SWPHomeGap{} percentage points below the realised home win rate. Because $g$ is a difference of win
+probabilities, a level shift of this kind is second order for the stakes; adding a home-field term changes the wins
+lost by $\HomeFieldLostChange$ (Section~\ref{sec:causalgap}). With game-clustered standard errors,
+\SWPCellsBig{} of \SWPCells{} inning-by-score cells deviate by more than three standard errors.
+
+%% ============================================================================================================
+\section{The 2026 postseason}\label{sec:postseason}
+
+\subsection{Sample and design}
+We use the \PostGames{} postseason games completed by 17 October 2026 (Table~\ref{tab:postsample}); the
+World Series is not included. The data are built exactly as for the regular season, on Statcast's 2026 coordinates as
+published, and the zone rule reproduces every postseason ruling; no challenge is made with none left. Every model
+parameter, the isotonic belief map and the score-aware DP come from the regular season. Postseason data enter only
+the explicitly labelled postseason refits.
+
+\begin{table}[!htbp]
+\caption{The 2026 postseason by round, and the regular season for comparison. Challenges are those on pitches with a
+Statcast location (\GeomN{} of the \NChallenges{} regular-season challenges); the catcher column includes pitchers.}\label{tab:postsample}
+\centering\small
+\resizebox{\textwidth}{!}{\input{generated/tab_s_postsample}}
+\end{table}
+
+\subsection{Perception transfer}
+Table~\Mref{tab:post} of the main text compares observed with predicted challenges. The challenge log-score skill is
+$1-\ell/\ell_0$, where $\ell$ is the mean log score of the challenge decision on eligible pitches and $\ell_0$ that of
+a constant probability equal to the model's mean. With a deterministic truth the overturn rate given a challenge
+checks only the geometry, and it is reproduced exactly. Refitting both $\sigma_r$ and the criterion's intercept on
+the postseason shifts the catchers' criterion by \PostShiftCatcher{} \PostShiftCatcherCI\,in, which absorbs their extra
+challenges (batters: \PostShiftBatter{} \PostShiftBatterCI\,in), and gives $\sigma_r$ of \PostSrShiftBatter{}
+\PostSrShiftBatterCI{} and \PostSrShiftCatcher{} \PostSrShiftCatcherCI\,in, whose intervals overlap the
+regular-season ones.
+
+\subsection{Learning}
+Table~\ref{tab:postlearn} applies the full-season regular-season model to each period's opportunities, so observed
+against predicted isolates behaviour from the opportunity mix. Batters challenge at a steady rate per eligible pitch.
+Catchers challenged less than the model predicts before the All-Star break (14 July) and more after it, and the postseason
+continues the second-half rate.
+
+\begin{table}[!htbp]
+\caption{Challenges per 100 eligible pitches and observed against predicted challenges, full-season model.}\label{tab:postlearn}
+\centering\small
+\resizebox{\textwidth}{!}{\input{generated/tab_s_postlearn}}
+\end{table}
+
+\subsection{Series stakes}
+Challenges do not carry over between games. With a coin-flip series model, the probability of winning the series is
+$P(\text{series}\mid\text{lose})+L\,P(\text{win game})$, where $L=P(\text{series}\mid\text{win})-P(\text{series}\mid
+\text{lose})$ is fixed within a game. Maximising series win probability within a game is therefore exactly
+maximising game win probability: series stakes are game stakes scaled by the factor $L\le1$, which
+scales $g$ and the continuation value $\Delta$ together and leaves the cutoff~(\Mref{eq:cutoff}) unchanged. A
+stake-rational threshold should not move with $L$. Refitting the criterion on $\log(gL)$ instead of $\log g$ fits no
+better ($-\log$-likelihood \PostNLLSeries{} against \PostNLLGame{} at the same parameter count), and the excess
+challenges in the \PostHighLGames{} games with $L\ge0.5$ are not significant ($z=\PostHighLZBatter$ for batters and
+$\PostHighLZCatcher$ for catchers).
+
+\subsection{Value}
+Table~\ref{tab:postvalue} evaluates the policies by path sum with the regular-season belief map and DP ($R=\PostR$
+draws), in game win probability per team-game. The postseason interval is a game bootstrap ($B=\PostB$) at fixed
+regular-season parameters; it omits parameter uncertainty, which is small next to the sampling noise of \PostGames{}
+games. Weighted by series leverage, the loss is \PostSeriesLostWP{} \PostSeriesLostWPCI{} series win probability per
+team-game.
+
+\begin{table}[!htbp]
+\caption{Value of challenges in game win probability per team-game (challenges per team-game in parentheses), 95\%
+game-bootstrap interval for the postseason.}\label{tab:postvalue}
+\centering\small
+\input{generated/tab_s_postvalue}
+\end{table}
+
+%% ============================================================================================================
+\section{Cricket's Decision Review System: an exploratory application}\label{sec:drs}
+
+This application lacks the device that identifies the MLB model: the ball-tracking truth is not public, so the truth
+enters as a latent margin, the perception noise is identified only through the shape of the review curve and the
+share of umpire's calls, and the results below are exploratory. For an economic analysis of DRS decisions see
+\citet{Shivakumar2018}.
+
+\subsection{Data and review allowances}
+We use Cricsheet ball-by-ball data \citep{Cricsheet}: men's Tests, ODIs and T20 internationals from October 2017 and
+the IPL from 2018, with T20 internationals and IPL pooled as ``T20''. A match is in the sample if it has a recorded
+review, or none but another match of the same competition, event and season between the same teams or at the same
+city has one (DRS is set per series and host); matches that Cricsheet flags as missing their review records are
+excluded (Table~\ref{tab:drsdata}). Keeping only matches with a review would select on the behaviour being modelled.
+ODIs have more zero-review matches than a Poisson count of reviews implies, so some of the added ODIs may have been
+played without DRS; Cricsheet does not record it. Reviews follow the ICC playing conditions: from October 2017 a review that ends in umpire's
+call is kept; Tests allow two unsuccessful reviews per innings, ODIs and T20 internationals one; from July 2020 the
+interim regulations add one in every format; the IPL allows one until 2021 and two from 2022. We reconstruct the
+reviews each side holds from these rules. The data agree with them half-year by half-year: the maximum number of
+unsuccessful reviews per side and innings equals the allowance in every half-year and competition, and only
+\SDRSNoneLeft{} of \SDRSReviews{} reviews are taken with none left. An independent recount from the raw files
+reproduces every count in Table~\ref{tab:drsdata}.
+
+\begin{table}[!htbp]
+\caption{DRS data. DRS matches include the zero-review matches of DRS series (Section~\ref{sec:drs}). Batting-side out decisions are every LBW, caught or caught-and-bowled out decision, including those
+overturned on review.}\label{tab:drsdata}
+\centering\small
+\input{generated/tab_s_drsdata}
+\end{table}
+
+\subsection{Model and likelihood}
+On the batting side the opportunity set is observed: every out decision could be reviewed. A decision of kind $k$
+(LBW or caught) has a latent margin $X\sim N(\mu_k,1)$ and is overturned on review iff $X>0$. A failed LBW review is
+kept (umpire's call) iff the margin is marginal, $-\kappa<X<0$, and lost iff $X\le-\kappa$; a failed caught review is
+always lost. The batter sees $S=X+\varepsilon$, $\varepsilon\sim N(0,s^2)$, so $s$ is perception noise in units of the
+spread of decision margins, and holds the Bayes posterior
+\[ X\mid S\sim N(m,v),\quad m=\frac{\mu_ks^2+S}{1+s^2},\quad v=\frac{s^2}{1+s^2},\qquad p=\Prob(X>0\mid S)=\Phi(m/\sqrt v). \]
+Since $p$ is increasing in $S$, reviewing iff $p\ge\tau$ is reviewing iff $S\ge S^*(\tau)=(1+s^2)\sqrt v\,
+\Phi^{-1}(\tau)-\mu_ks^2$. The revealed threshold $\tau$ is estimated per cell of reviews left and wickets down (0--2,
+3--5, 6--9). With $q=\Prob(S\ge S^*)$ and the orthant probability
+$J(t)=\Prob(X>t,\,S\ge S^*)=\Phi_2\{\mu_k-t,\,(\mu_k-S^*)/(1+s^2)^{1/2};\,(1+s^2)^{-1/2}\}$, the likelihood of an out
+decision is
+\begin{align*}
+\text{not reviewed:}&\quad 1-q, & \text{overturned:}&\quad J(0),\\
+\text{umpire's call:}&\quad J(-\kappa)-J(0), & \text{lost:}&\quad q-J(-\kappa)\ \ (\text{caught: } q-J(0)),
+\end{align*}
+mixed over kinds with the LBW share for overturned decisions, whose kind is not recorded. The ``constant-rate''
+alternative keeps a failed LBW review with probability $\rho$, independent of $X$. Every closed form is checked in
+Section~\ref{sec:kernel}.
+
+\paragraph{Identification} Outcome rates identify the review share, success rate and umpire's-call share in every
+cell, the share of wrong LBW decisions and the band $\kappa$ (Table~\ref{tab:drsmodel}). Perception noise is harder.
+As $\tau$ moves across cells, the review, success and umpire's-call shares trace one curve whose shape bounds $s$ from
+below; the umpire's-call channel adds information because it tells how close the reviewed decisions were. Without it
+(constant-rate model) the likelihood is flat above $s\approx0.5$. With it, the fitted $s$ is consistent with the data
+in Tests and T20 and weakly identified in ODIs. The upper bound is soft even in Tests and T20: in known-truth recovery
+from the fitted model ($R=\SDRSRecovR$ replicates per format) the estimate exceeds 1 in \SDRSOverOneLo--\SDRSOverOneHi\%
+of replicates, although the profile-likelihood interval keeps close to its nominal coverage. The intervals are
+continuous profile-likelihood intervals from multi-start fits.
+
+\begin{table}[!htbp]
+\caption{DRS selection model, batting side, and known-truth recovery of $s$.}\label{tab:drsmodel}
+\centering\small
+\input{generated/tab_s_drsmodel}
+\end{table}
+
+\subsection{Dynamic program and policies}
+The win-probability engine for each format is gradient boosting with monotone constraints, without recalibration: an isotonic map fitted on held-out matches and scored on other ones does not improve the Brier score
+(it slightly worsens it in Tests), so the stakes use the engine's own predictions; Tests use expected match points (win $+\tfrac12$ draw). The stake $g$ of a decision
+is the change in match value from one more wicket at that state. The DP state is wickets down $w$ and reviews left $c$
+within a batting innings. From $w$ the next event is a reviewable out decision (probability $a_w$), another wicket
+($b_w$) or the end of the innings, with rates estimated from the real innings. With $U(w,c)$ the expected stake
+recovered by reviews from $(w,c)$,
+\begin{multline*}
+U(w,c)=a_w\E\max\bigl\{U(w+1,c),\ p\,(g+U(w,c))+(1-p)U(w+1,c)-\ell\,\Delta U\bigr\}\\+b_wU(w+1,c),
+\end{multline*}
+with $\Delta U=U(w+1,c)-U(w+1,c-1)$ and $\ell$ the posterior probability that the review is lost. It is optimal to
+review iff $p(g+A)\ge\ell\,\Delta U$, $A=U(w,c)-U(w+1,c)$. Policies are simulated on the real decision streams: the
+optimum, the best one-line rule $p\ge\delta/(g+\delta)$, teams' fitted revealed rule, and $p\ge0.5$; the realised value
+of the real reviews is reported alongside. Uncertainty comes from a match bootstrap with $B=\DRSB$ that refits the
+selection model, re-solves the DP and re-simulates.
+
+\subsection{Results}
+Table~\ref{tab:drsresults} gives the values in match points per 100 team-matches. The one-line rule is within about
+one percent of the optimum in every format. As in MLB, the primary comparison is the optimum against realised play:
+in Tests teams lose \DRSTestLostObs{} \DRSTestLostObsCI{} match points per 100 team-matches, an interval that contains
+zero. Against teams' fitted rule simulated on the same draws as the optimum the loss is \DRSTestLost. The two differ by
+the luck of which decisions were actually overturned and by how well the fitted rule reproduces realised play; unlike
+in MLB (Section~\Mref{sec:eval}), the fitted rule's value lies inside the interval of the realised value, so here the
+two comparisons tell the same story. The optimum reviews more often than teams do, but with $\hat s\approx0.5$ the
+posteriors are nearly bimodal and the extra reviews are of decisions with $p\approx0$, worth almost nothing either way:
+there is no counterpart to MLB's loss.
+
+\begin{table}[!htbp]
+\caption{DRS, batting side: match points per 100 team-matches, 95\% match-bootstrap intervals ($B=\DRSB$).}\label{tab:drsresults}
+\centering\small
+\resizebox{\textwidth}{!}{\input{generated/tab_s_drsresults}}
+\end{table}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=.85\textwidth]{figures/fig_drs}
+\caption{DRS replication, batting side, by format.}\label{fig:drs}
+\end{figure}
+
+Table~\ref{tab:drsthr} gives the optimal LBW threshold (posterior probability that the decision is wrong, in percent)
+at each number of wickets down. With one review left it falls steadily from the top order to the tail; with two it is
+near zero throughout. Table~\ref{tab:drssqrt} fits the value of the last review against the expected out decisions
+left, $N$. A linear fit beats $\sqrt N$ in every format and the power exponent is well above $1/2$: with five to seven
+out decisions per innings on average and about \DRSTestLBW\% of LBW out decisions wrong, the last review is worth
+roughly the expected errors ahead times the stake. Exponents above one cannot come from the stationary model of
+Theorem~\Mref{thm:sqrt}, where the increments $\Delta_t(1)-\Delta_{t-1}(1)=\varphi(\Delta_{t-1}(1))$ are
+non-increasing (Lemma~\ref{lem:phi} with Theorem~\Mref{thm:mono}(b)) and growth is at most linear; they reflect stakes and decision rates that change with the wickets down. What carries over is only that
+the square-root law needs many low-probability opportunities per retained challenge, which a batting innings does not
+have.
+
+\begin{table}[!htbp]
+\caption{Optimal LBW review threshold (\%) by wickets down and reviews left.}\label{tab:drsthr}
+\centering\scriptsize
+\resizebox{\textwidth}{!}{\input{generated/tab_s_drsthr}}
+\end{table}
+
+\begin{table}[!htbp]
+\caption{Value of the last review against the out decisions left.}\label{tab:drssqrt}
+\centering\small
+\resizebox{\textwidth}{!}{\input{generated/tab_s_drssqrt}}
+\end{table}
+
+\subsection{Sensitivity and limitations}
+Table~\ref{tab:drssens} varies perception noise, the umpire's-call model, the WP engine and the stakes. Losses become
+material only if perception is poor ($s=2$), which the likelihood rejects in Tests and T20 but not in ODIs, where the
+no-loss conclusion rests on the point estimate of $s$. The one-line rule stays within a few percent of the optimum in
+every variant. On the fielding side only reviews are observed; not-out appeals that were not reviewed leave no trace,
+so the opportunity set, the optimum and the loss cannot be estimated. Descriptively, fielding reviews succeed in
+\SDRSBowlTestSuccess, \SDRSBowlODISuccess{} and \SDRSBowlTtSuccess\% of cases (Test, ODI, T20) and end in umpire's call
+in \SDRSBowlTestUC, \SDRSBowlODIUC{} and \SDRSBowlTtUC\%.
+
+\begin{table}[!htbp]
+\caption{DRS sensitivity, batting side: optimum / lost vs fitted rule / one-line rule's share of the optimum (\%), match
+points per 100 team-matches. $-\Delta\ell$: profile log-likelihood loss of $s$.}\label{tab:drssens}
+\centering\scriptsize
+\resizebox{\textwidth}{!}{\input{generated/tab_s_drssens}}
+\end{table}
+
+\paragraph{Limitations} The WP engines are league-average, with no team strength or conditions. The Gaussian margin
+model is parametric, and its shape beyond the observed thresholds is assumed. The DP pools stakes by wickets down, so
+overs left and declarations enter only through the empirical rates. The counterfactual keeps the real decision stream
+fixed: a batter reprieved in simulation creates no new decisions, the same approximation as the MLB path sum, and there
+is no causal re-simulation for DRS; solving the DP without the extra opportunity after a successful review, so that
+DP and evaluation share one process, moves the optimum by at most a few thousandths of a match point. The best
+$\delta$ chosen on one half of the matches by date and scored on the other keeps \SDRSCrossShareLo--\SDRSCrossShareHi\%
+of the optimum.
+
+\bibliographystyle{spr-ims-nameyear}
+\bibliography{refs}
+
+\end{document}

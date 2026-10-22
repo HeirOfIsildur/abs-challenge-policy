@@ -1,0 +1,10 @@
+pandas
+pyarrow
+numpy
+scipy
+requests
+scikit-learn
+matplotlib
+statsmodels
+numba
+jax

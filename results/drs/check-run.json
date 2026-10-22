@@ -1,0 +1,13 @@
+{
+  "command": [
+    "wolframscript",
+    "-file",
+    "wolfram/drs_check.wl"
+  ],
+  "cwd": ".",
+  "elapsed_seconds": 11.15586545799988,
+  "return_code": 0,
+  "stderr": "",
+  "stdout": "{\n\t\"wolframVersion\":\"15.0.0 for Mac OS X ARM (64-bit) (May 26, 2026)\",\n\t\"A_posterior\":\"True\",\n\t\"A_marginal\":\"True\",\n\t\"B_sstar\":\"True\",\n\t\"B_p_increasing_in_S\":\"True\",\n\t\"C_corr\":\"True\",\n\t\"C_bvn_maxabs\":1.1102230246251565e-16,\n\t\"C_sstar\":-0.34173057239406609,\n\t\"C_q_J_diff_vs_python\":[\n\t\t-4.549554283613968e-17,\n\t\t2.3255541663282434e-17\n\t],\n\t\"D_general\":\"True\",\n\t\"D_const_counterexample\":\"False\",\n\t\"D_drho\":\"-((dU*(aa + g))\\/(aa + dU + g - dU*rho)^2)\",\n\t\"E_Test\":{\n\t\t\"R2_sqrt\":0.9391337540891418,\n\t\t\"R2_linear\":0.9886898420652424,\n\t\t\"power_exponent\":1.5849331068929786,\n\t\t\"power_exponent_CI\":[\n\t\t\t1.4577783732893401,\n\t\t\t1.712087840496617\n\t\t]\n\t},\n\t\"E_ODI\":{\n\t\t\"R2_sqrt\":0.9171875511379239,\n\t\t\"R2_linear\":0.9820521867627962,\n\t\t\"power_exponent\":1.8213967897299017,\n\t\t\"power_exponent_CI\":[\n\t\t\t1.5606849252853703,\n\t\t\t2.082108654174433\n\t\t]\n\t},\n\t\"E_T20\":{\n\t\t\"R2_sqrt\":0.9259536968866795,\n\t\t\"R2_linear\":0.9860884638540349,\n\t\t\"power_exponent\":1.8985423842674656,\n\t\t\"power_exponent_CI\":[\n\t\t\t1.609887530935774,\n\t\t\t2.187197237599157\n\t\t]\n\t}\n}\n",
+  "timed_out": false
+}

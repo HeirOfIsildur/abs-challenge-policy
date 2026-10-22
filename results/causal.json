@@ -1,0 +1,750 @@
+{
+ "R": 10,
+ "K": 1000,
+ "variant": "kappa_sr_region_g",
+ "simulator": "run",
+ "boot_resamples": 2000,
+ "point": {
+  "opt_score": {
+   "path": 4.038942448591407,
+   "causal_rb": 4.039320533119109,
+   "causal_rb_own": 4.038153662730547,
+   "causal_binary": 4.008788784907116,
+   "opp_later_flip": 0.1646751880988256,
+   "opp_later_noflip": 0.16584205848738773,
+   "later_recorded": 1.2133242240418454,
+   "later_sim_flip": 1.185491018599386,
+   "later_sim_noflip": 1.1866116039952752,
+   "branches_per_team_game": 0.7627835051546392,
+   "skip_branches_per_team_game": 0.36280412371134024,
+   "calib_winB_minus_engine": -0.01204514288028197,
+   "calib_slope": 0.9998864580830552,
+   "calib_winB_minus_engine_home": -0.011893577927145026,
+   "calib_winB_minus_engine_away": -0.012192609735651306,
+   "binary_minus_rb_home": -0.015465291066840919,
+   "binary_minus_rb_away": -0.015066457145151663
+  },
+  "opt": {
+   "path": 3.9290699168445737,
+   "causal_rb": 3.9328469172385585,
+   "causal_rb_own": 3.9306189340961186,
+   "causal_binary": 3.9081823543633893,
+   "opp_later_flip": 0.15325031925986343,
+   "opp_later_noflip": 0.15547830240230334,
+   "later_recorded": 1.160768977212768,
+   "later_sim_flip": 1.1594678412938995,
+   "later_sim_noflip": 1.1589149442527815,
+   "branches_per_team_game": 0.7583092783505155,
+   "skip_branches_per_team_game": 0.3744948453608247,
+   "calib_winB_minus_engine": -0.012097061117956562,
+   "calib_slope": 1.0003040908470138,
+   "calib_winB_minus_engine_home": -0.011825341054022488,
+   "calib_winB_minus_engine_away": -0.01236328154556404,
+   "binary_minus_rb_home": -0.004805986632180616,
+   "binary_minus_rb_away": -0.019858576242988566
+  },
+  "stake_0.008": {
+   "path": 3.8570909303242047,
+   "causal_rb": 3.85770323145925,
+   "causal_rb_own": 3.856907421844365,
+   "causal_binary": 3.8333222017005886,
+   "opp_later_flip": 0.2032995117666337,
+   "opp_later_noflip": 0.20409532138151876,
+   "later_recorded": 1.166195476703502,
+   "later_sim_flip": 1.157398342086132,
+   "later_sim_noflip": 1.1579082069117241,
+   "branches_per_team_game": 0.7516907216494845,
+   "skip_branches_per_team_game": 0.37418556701030925,
+   "calib_winB_minus_engine": -0.012469996325785822,
+   "calib_slope": 1.0009525348603674,
+   "calib_winB_minus_engine_home": -0.01215197624823295,
+   "calib_winB_minus_engine_away": -0.01278212234135459,
+   "binary_minus_rb_home": -0.015271348132305572,
+   "binary_minus_rb_away": -0.00910968162635575
+  },
+  "stake_0.01": {
+   "path": 3.7589638396209932,
+   "causal_rb": 3.760094339808966,
+   "causal_rb_own": 3.7588883599087706,
+   "causal_binary": 3.736505031146516,
+   "opp_later_flip": 0.03368065477604496,
+   "opp_later_noflip": 0.034886634676239786,
+   "later_recorded": 1.010001768403888,
+   "later_sim_flip": 1.0047312048177814,
+   "later_sim_noflip": 1.0048475282879026,
+   "branches_per_team_game": 0.7390515463917526,
+   "skip_branches_per_team_game": 0.40367010309278356,
+   "calib_winB_minus_engine": -0.012033921072631553,
+   "calib_slope": 1.0004606974469223,
+   "calib_winB_minus_engine_home": -0.011830055690785114,
+   "calib_winB_minus_engine_away": -0.012233932922139989,
+   "binary_minus_rb_home": -0.00853434841803177,
+   "binary_minus_rb_away": -0.015054960244417596
+  },
+  "savant": {
+   "path": 2.468146249437682,
+   "causal_rb": 2.4693472796085882,
+   "causal_rb_own": 2.4682381622533067,
+   "causal_binary": 2.462299209850334,
+   "opp_later_flip": -0.4950139547672447,
+   "opp_later_noflip": -0.49390483741196356,
+   "later_recorded": 0.35028122911503523,
+   "later_sim_flip": 0.3496613626406766,
+   "later_sim_noflip": 0.3513419622454812,
+   "branches_per_team_game": 0.7001855670103093,
+   "skip_branches_per_team_game": 0.48971134020618556,
+   "calib_winB_minus_engine": -0.01148536800103599,
+   "calib_slope": 1.0007251832092947,
+   "calib_winB_minus_engine_home": -0.011199921273860963,
+   "calib_winB_minus_engine_away": -0.011764086412269578,
+   "binary_minus_rb_home": -0.0021544609496470424,
+   "binary_minus_rb_away": -0.004893608808607635
+  },
+  "obs_rule": {
+   "path": 3.309933185301093,
+   "causal_rb": 3.311009115498008,
+   "causal_rb_own": 3.3100230471588095,
+   "causal_binary": 3.3039289459736048,
+   "opp_later_flip": -0.010711235161839505,
+   "opp_later_noflip": -0.009725166822640902,
+   "later_recorded": 0.8901382897843445,
+   "later_sim_flip": 0.7446456537871305,
+   "later_sim_noflip": 0.7456585683589508,
+   "branches_per_team_game": 0.7713814432989692,
+   "skip_branches_per_team_game": 0.38369072164948453,
+   "calib_winB_minus_engine": -0.011703057881629014,
+   "calib_slope": 1.0006350714103396,
+   "calib_winB_minus_engine_home": -0.011358648160664075,
+   "calib_winB_minus_engine_away": -0.012041589618274732,
+   "binary_minus_rb_home": -0.00041692357580075406,
+   "binary_minus_rb_away": -0.006663245948602851
+  },
+  "card_refit": {
+   "path": 3.7782065707436057,
+   "causal_rb": 3.7790607757399655,
+   "causal_rb_own": 3.777405776182866,
+   "causal_binary": 3.7596801686681744,
+   "opp_later_flip": 0.1752990854217435,
+   "opp_later_noflip": 0.1769540849788439,
+   "later_recorded": 1.1640656059622194,
+   "later_sim_flip": 1.163541335577053,
+   "later_sim_noflip": 1.1643428605861768,
+   "branches_per_team_game": 0.7647422680412372,
+   "skip_branches_per_team_game": 0.3627216494845361,
+   "calib_winB_minus_engine": -0.012115210294139147,
+   "calib_slope": 1.0007061816979295,
+   "calib_winB_minus_engine_home": -0.01185937557509859,
+   "calib_winB_minus_engine_away": -0.012365207961111398,
+   "binary_minus_rb_home": -0.0006369557253907502,
+   "binary_minus_rb_away": -0.018743651346400558
+  },
+  "card_pub": {
+   "path": 3.8204914764628852,
+   "causal_rb": 3.8223703661960373,
+   "causal_rb_own": 3.821001070913817,
+   "causal_binary": 3.8192789415523802,
+   "opp_later_flip": 0.2568314093376028,
+   "opp_later_noflip": 0.25820070461982286,
+   "later_recorded": 1.2276367227029936,
+   "later_sim_flip": 1.2248675026580367,
+   "later_sim_noflip": 1.225030146262898,
+   "branches_per_team_game": 0.7688659793814432,
+   "skip_branches_per_team_game": 0.3511340206185567,
+   "calib_winB_minus_engine": -0.012200319435857749,
+   "calib_slope": 1.0000906827415414,
+   "calib_winB_minus_engine_home": -0.011902347957109947,
+   "calib_winB_minus_engine_away": -0.012491809837348966,
+   "binary_minus_rb_home": -0.005486041687297818,
+   "binary_minus_rb_away": 0.0023946170436408244
+  },
+  "runs_dp": {
+   "path": 3.9511048960257664,
+   "causal_rb": 3.9527712608113035,
+   "causal_rb_own": 3.9507109991326446,
+   "causal_binary": 3.933702187667154,
+   "opp_later_flip": 0.15489112987951953,
+   "opp_later_noflip": 0.15695139155817836,
+   "later_recorded": 1.1691023596336736,
+   "later_sim_flip": 1.1697222381154717,
+   "later_sim_noflip": 1.1704196189900353,
+   "branches_per_team_game": 0.7748865979381445,
+   "skip_branches_per_team_game": 0.35488659793814437,
+   "calib_winB_minus_engine": -0.011844334438901327,
+   "calib_slope": 1.000210541909359,
+   "calib_winB_minus_engine_home": -0.011523159874777238,
+   "calib_winB_minus_engine_away": -0.012158008792302694,
+   "binary_minus_rb_home": -0.009984003434958507,
+   "binary_minus_rb_away": -0.009085069709190909
+  },
+  "observed": {
+   "path": 3.3387916532773927
+  }
+ },
+ "game_bootstrap": {
+  "opt_score": {
+   "path": [
+    4.0389,
+    3.891,
+    4.1873
+   ],
+   "causal_rb": [
+    4.0393,
+    3.8915,
+    4.1886
+   ],
+   "causal_rb_own": [
+    4.0382,
+    3.8898,
+    4.1869
+   ],
+   "causal_binary": [
+    4.0088,
+    3.8634,
+    4.1579
+   ],
+   "opp_effect": [
+    0.0012,
+    -0.0002,
+    0.0026
+   ],
+   "rb_own_minus_path": [
+    -0.0008,
+    -0.0026,
+    0.001
+   ],
+   "causal_minus_path": [
+    0.0004,
+    -0.0013,
+    0.002
+   ],
+   "binary_minus_rb": [
+    -0.0305,
+    -0.0483,
+    -0.0135
+   ],
+   "path_minus_observed": [
+    0.7002,
+    0.5921,
+    0.8128
+   ],
+   "causal_minus_observed": [
+    0.7005,
+    0.5921,
+    0.8129
+   ],
+   "binary_minus_observed": [
+    0.67,
+    0.5626,
+    0.7795
+   ],
+   "fidelity_noflip_minus_recorded": [
+    -0.0267,
+    -0.0948,
+    0.0395
+   ]
+  },
+  "opt": {
+   "path": [
+    3.9291,
+    3.7887,
+    4.0766
+   ],
+   "causal_rb": [
+    3.9328,
+    3.792,
+    4.0793
+   ],
+   "causal_rb_own": [
+    3.9306,
+    3.79,
+    4.0774
+   ],
+   "causal_binary": [
+    3.9082,
+    3.7649,
+    4.0553
+   ],
+   "opp_effect": [
+    0.0022,
+    0.0008,
+    0.0037
+   ],
+   "rb_own_minus_path": [
+    0.0015,
+    -0.0003,
+    0.0033
+   ],
+   "causal_minus_path": [
+    0.0038,
+    0.002,
+    0.0054
+   ],
+   "binary_minus_rb": [
+    -0.0247,
+    -0.0427,
+    -0.0064
+   ],
+   "path_minus_observed": [
+    0.5903,
+    0.4769,
+    0.7051
+   ],
+   "causal_minus_observed": [
+    0.5941,
+    0.4807,
+    0.708
+   ],
+   "binary_minus_observed": [
+    0.5694,
+    0.4542,
+    0.6824
+   ],
+   "fidelity_noflip_minus_recorded": [
+    -0.0019,
+    -0.0675,
+    0.0621
+   ]
+  },
+  "stake_0.008": {
+   "path": [
+    3.8571,
+    3.7127,
+    4.0024
+   ],
+   "causal_rb": [
+    3.8577,
+    3.7137,
+    4.0028
+   ],
+   "causal_rb_own": [
+    3.8569,
+    3.7126,
+    4.0021
+   ],
+   "causal_binary": [
+    3.8333,
+    3.6867,
+    3.9815
+   ],
+   "opp_effect": [
+    0.0008,
+    -0.0006,
+    0.0022
+   ],
+   "rb_own_minus_path": [
+    -0.0002,
+    -0.0021,
+    0.0017
+   ],
+   "causal_minus_path": [
+    0.0006,
+    -0.0012,
+    0.0023
+   ],
+   "binary_minus_rb": [
+    -0.0244,
+    -0.0417,
+    -0.0066
+   ],
+   "path_minus_observed": [
+    0.5183,
+    0.4115,
+    0.6292
+   ],
+   "causal_minus_observed": [
+    0.5189,
+    0.4118,
+    0.6298
+   ],
+   "binary_minus_observed": [
+    0.4945,
+    0.3861,
+    0.6062
+   ],
+   "fidelity_noflip_minus_recorded": [
+    -0.0083,
+    -0.0765,
+    0.0582
+   ]
+  },
+  "stake_0.01": {
+   "path": [
+    3.759,
+    3.6075,
+    3.9075
+   ],
+   "causal_rb": [
+    3.7601,
+    3.6077,
+    3.9085
+   ],
+   "causal_rb_own": [
+    3.7589,
+    3.6074,
+    3.907
+   ],
+   "causal_binary": [
+    3.7365,
+    3.5864,
+    3.8884
+   ],
+   "opp_effect": [
+    0.0012,
+    -0.0003,
+    0.0026
+   ],
+   "rb_own_minus_path": [
+    -0.0001,
+    -0.002,
+    0.0019
+   ],
+   "causal_minus_path": [
+    0.0011,
+    -0.0006,
+    0.0029
+   ],
+   "binary_minus_rb": [
+    -0.0236,
+    -0.0412,
+    -0.006
+   ],
+   "path_minus_observed": [
+    0.4202,
+    0.3151,
+    0.5274
+   ],
+   "causal_minus_observed": [
+    0.4213,
+    0.3165,
+    0.5292
+   ],
+   "binary_minus_observed": [
+    0.3977,
+    0.2917,
+    0.5046
+   ],
+   "fidelity_noflip_minus_recorded": [
+    -0.0052,
+    -0.0709,
+    0.0564
+   ]
+  },
+  "savant": {
+   "path": [
+    2.4681,
+    2.347,
+    2.5904
+   ],
+   "causal_rb": [
+    2.4693,
+    2.3489,
+    2.5909
+   ],
+   "causal_rb_own": [
+    2.4682,
+    2.3481,
+    2.5904
+   ],
+   "causal_binary": [
+    2.4623,
+    2.3404,
+    2.586
+   ],
+   "opp_effect": [
+    0.0011,
+    -0.0003,
+    0.0025
+   ],
+   "rb_own_minus_path": [
+    0.0001,
+    -0.0015,
+    0.0017
+   ],
+   "causal_minus_path": [
+    0.0012,
+    -0.0003,
+    0.0027
+   ],
+   "binary_minus_rb": [
+    -0.007,
+    -0.0251,
+    0.0098
+   ],
+   "path_minus_observed": [
+    -0.8706,
+    -0.975,
+    -0.7592
+   ],
+   "causal_minus_observed": [
+    -0.8694,
+    -0.9738,
+    -0.7582
+   ],
+   "binary_minus_observed": [
+    -0.8765,
+    -0.9827,
+    -0.7656
+   ],
+   "fidelity_noflip_minus_recorded": [
+    0.0011,
+    -0.0324,
+    0.0308
+   ]
+  },
+  "obs_rule": {
+   "path": [
+    3.3099,
+    3.179,
+    3.4417
+   ],
+   "causal_rb": [
+    3.311,
+    3.1802,
+    3.4428
+   ],
+   "causal_rb_own": [
+    3.31,
+    3.1794,
+    3.4415
+   ],
+   "causal_binary": [
+    3.3039,
+    3.1692,
+    3.4384
+   ],
+   "opp_effect": [
+    0.001,
+    -0.0004,
+    0.0024
+   ],
+   "rb_own_minus_path": [
+    0.0001,
+    -0.0012,
+    0.0014
+   ],
+   "causal_minus_path": [
+    0.0011,
+    -0.0004,
+    0.0025
+   ],
+   "binary_minus_rb": [
+    -0.0071,
+    -0.0246,
+    0.0095
+   ],
+   "path_minus_observed": [
+    -0.0289,
+    -0.1311,
+    0.0734
+   ],
+   "causal_minus_observed": [
+    -0.0278,
+    -0.1301,
+    0.0742
+   ],
+   "binary_minus_observed": [
+    -0.0349,
+    -0.1372,
+    0.0651
+   ],
+   "fidelity_noflip_minus_recorded": [
+    -0.1445,
+    -0.1967,
+    -0.0885
+   ]
+  },
+  "card_refit": {
+   "path": [
+    3.7782,
+    3.641,
+    3.9101
+   ],
+   "causal_rb": [
+    3.7791,
+    3.6424,
+    3.9104
+   ],
+   "causal_rb_own": [
+    3.7774,
+    3.6399,
+    3.9091
+   ],
+   "causal_binary": [
+    3.7597,
+    3.6214,
+    3.8924
+   ],
+   "opp_effect": [
+    0.0017,
+    0.0003,
+    0.0031
+   ],
+   "rb_own_minus_path": [
+    -0.0008,
+    -0.0025,
+    0.0009
+   ],
+   "causal_minus_path": [
+    0.0009,
+    -0.0008,
+    0.0025
+   ],
+   "binary_minus_rb": [
+    -0.0194,
+    -0.0363,
+    -0.0017
+   ],
+   "path_minus_observed": [
+    0.4394,
+    0.3369,
+    0.5465
+   ],
+   "causal_minus_observed": [
+    0.4403,
+    0.3381,
+    0.5482
+   ],
+   "binary_minus_observed": [
+    0.4209,
+    0.3167,
+    0.531
+   ],
+   "fidelity_noflip_minus_recorded": [
+    0.0003,
+    -0.0624,
+    0.0632
+   ]
+  },
+  "card_pub": {
+   "path": [
+    3.8205,
+    3.6853,
+    3.9543
+   ],
+   "causal_rb": [
+    3.8224,
+    3.6876,
+    3.9566
+   ],
+   "causal_rb_own": [
+    3.821,
+    3.6859,
+    3.9548
+   ],
+   "causal_binary": [
+    3.8193,
+    3.6843,
+    3.9538
+   ],
+   "opp_effect": [
+    0.0014,
+    0.0001,
+    0.0027
+   ],
+   "rb_own_minus_path": [
+    0.0005,
+    -0.0011,
+    0.0021
+   ],
+   "causal_minus_path": [
+    0.0019,
+    0.0003,
+    0.0036
+   ],
+   "binary_minus_rb": [
+    -0.0031,
+    -0.0214,
+    0.014
+   ],
+   "path_minus_observed": [
+    0.4817,
+    0.3756,
+    0.5908
+   ],
+   "causal_minus_observed": [
+    0.4836,
+    0.3779,
+    0.5924
+   ],
+   "binary_minus_observed": [
+    0.4805,
+    0.3734,
+    0.5885
+   ],
+   "fidelity_noflip_minus_recorded": [
+    -0.0026,
+    -0.0675,
+    0.0634
+   ]
+  },
+  "runs_dp": {
+   "path": [
+    3.9511,
+    3.804,
+    4.0953
+   ],
+   "causal_rb": [
+    3.9528,
+    3.8058,
+    4.0977
+   ],
+   "causal_rb_own": [
+    3.9507,
+    3.8041,
+    4.0953
+   ],
+   "causal_binary": [
+    3.9337,
+    3.7893,
+    4.08
+   ],
+   "opp_effect": [
+    0.0021,
+    0.0007,
+    0.0034
+   ],
+   "rb_own_minus_path": [
+    -0.0004,
+    -0.0021,
+    0.0014
+   ],
+   "causal_minus_path": [
+    0.0017,
+    0.0001,
+    0.0033
+   ],
+   "binary_minus_rb": [
+    -0.0191,
+    -0.0371,
+    -0.0012
+   ],
+   "path_minus_observed": [
+    0.6123,
+    0.503,
+    0.7241
+   ],
+   "causal_minus_observed": [
+    0.614,
+    0.5052,
+    0.7254
+   ],
+   "binary_minus_observed": [
+    0.5949,
+    0.4849,
+    0.7081
+   ],
+   "fidelity_noflip_minus_recorded": [
+    0.0013,
+    -0.0649,
+    0.0664
+   ]
+  },
+  "observed": {
+   "path": [
+    3.3388,
+    3.181,
+    3.5005
+   ]
+  }
+ }
+}

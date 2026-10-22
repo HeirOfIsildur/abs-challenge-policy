@@ -1,0 +1,10 @@
+{
+	"version":"15.0.0 for Mac OS X ARM (64-bit) (May 26, 2026)",
+	"unit_density_integral_equals_closed_form_D_gt_delta":true,
+	"unit_density_integral_equals_closed_form_D_lt_delta":true,
+	"example_actual_regret":"11\/324",
+	"example_closed_form":"1\/36",
+	"example_differs":true,
+	"example_bound_M_times_closed":"1\/27",
+	"example_bound_holds":true
+}
