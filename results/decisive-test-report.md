@@ -1,6 +1,6 @@
-## ABS retained challenges — decisive go/no-go test on 2026 MLB data (HONZA-71)
+## ABS retained challenges — decisive go/no-go test on 2026 MLB data 
 
-Run 17–18 Oct 2026. Bars were fixed on HONZA-35 before any data were looked at.
+Run 17–18 Oct 2026. Bars were fixed on before any data were looked at.
 
 ### Verdict
 

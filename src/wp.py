@@ -11,10 +11,9 @@ SC_COLS = ["game_pk", "at_bat_number", "pitch_number", "inning", "inning_topbot"
 
 def build_T(by_half=False, sc=None, verbose=True, shrink_w=20, shrink_to="pooled"):
     """empirical PA kernel T[count, outs, bases, outs_end, bases_end, runs] from 2026 Statcast; by_half: one kernel
-    per batting team [2, ...] (away, home), each shrunk the same way (HONZA-100 home-field check); sc: a Statcast
-    frame with SC_COLS (e.g. a game-bootstrap resample, HONZA-107), default all 2026 pitches. shrink_w / shrink_to: the
-    pooling weight (pitches) and target ("pooled": the all-count table, "00": the 0-0 table) of _kernel (HONZA-130
-    sensitivity; the defaults are the main engine)."""
+    per batting team [2,...] (away, home), each shrunk the same way (home-field check); sc: a Statcast
+    frame with SC_COLS (e.g. a game-bootstrap resample, ), default all 2026 pitches. shrink_w / shrink_to: the
+    pooling weight (pitches) and target ("pooled": the all-count table, "00": the 0-0 table) of _kernel (sensitivity; the defaults are the main engine)."""
     if sc is None:
         sc = pd.read_parquet("data/statcast_2026.parquet", columns=SC_COLS)
     sc = sc.sort_values(["game_pk", "at_bat_number", "pitch_number"]).reset_index(drop=True)
@@ -39,7 +38,7 @@ def _kernel(sc, verbose=True, shrink_w=20, shrink_to="pooled"):
     T = np.zeros((12, 3, 8, 4, 8, 5))
     np.add.at(T, (sc.cnt, sc.outs_when_up, sc.bases, sc.outs_end, sc.bases_end, sc.runs), 1)
     # every count cell is pooled with the all-count table of its (outs, bases) (T.sum(axis=0)), weight 20 pitches
-    # (HONZA-130: an earlier comment and the paper said "the 0-0 table"; shrink_to="00" is that alternative)
+    # (an earlier comment and the paper said "the 0-0 table"; shrink_to="00" is that alternative)
     n = T.sum(axis=(3, 4, 5), keepdims=True)
     T0 = T.sum(axis=0, keepdims=True) if shrink_to == "pooled" else T[0:1].copy()
     T0 = T0 / T0.sum(axis=(3, 4, 5), keepdims=True)
@@ -52,8 +51,8 @@ def _kernel(sc, verbose=True, shrink_w=20, shrink_to="pooled"):
 
 def solve(T, verbose=True, runner=True):
     """WP_home [inn-1, half, outs(4), bases, diff] and RE[outs(4), bases] for a PA kernel T (wp.py layout); T may carry
-    a leading half axis [2, ...] (away batting, home batting: a home-field term, HONZA-100). runner: extra half-innings
-    start with a runner on second (regular season); runner=False for the postseason (HONZA-122)."""
+    a leading half axis [2,...] (away batting, home batting: a home-field term, ). runner: extra half-innings
+    start with a runner on second (regular season); runner=False for the postseason."""
     b0 = 2 if runner else 0
     Th = (lambda h: T[h]) if T.ndim == 7 else (lambda h: T)
     DMAX = 20; ND = 2 * DMAX + 1
@@ -141,5 +140,5 @@ if __name__ == "__main__":
     T = build_T()
     Wall, RE, DMAX = solve(T)
     np.savez("data/wp_engine.npz", T=T, W=Wall, RE=RE, DMAX=DMAX)
-    Wp, REp, _ = solve(T, runner=False)                  # HONZA-122: postseason engine, no runner in extra innings
+    Wp, REp, _ = solve(T, runner=False)                  # postseason engine, no runner in extra innings
     np.savez("data/wp_engine_post.npz", T=T, W=Wp, RE=REp, DMAX=DMAX)

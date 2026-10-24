@@ -1,4 +1,4 @@
-"""Audit sensitivities of the DRS "no material loss" finding (HONZA-89, item 13).
+"""Audit sensitivities of the DRS "no material loss" finding (item 13).
   recal   stakes from a recalibrated engine: logit V' = a + b logit V fitted on realised points in the analysis era
           (one ball per over), g' = V'(V0) - V'(V0 - g); b < 1 means the engine is over-confident.
   g_x1.5  / g_x0.67: every stake scaled (a level error in the engine's wicket value).

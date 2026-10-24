@@ -7,7 +7,7 @@
 # per shard, and the summaries read them all. src/geometry_audit.py also needs data/called_2026_oldgeom.parquet, an earlier
 # build kept for its historical plane and projection comparisons; the ruling agreement reported in the paper is
 # src/geometry_current.py on the current frame.
-# usage: ./rerun.sh fits|points|pcf|chainA..chainH|report|all   (long stages print to data/rerun/<stage>.log)
+# usage:./rerun.sh fits|points|pcf|chainA..chainH|report|all   (long stages print to data/rerun/<stage>.log)
 set -e; cd "$(dirname "$0")"; PY=.venv/bin/python; L=data/rerun; mkdir -p $L
 step(){ echo "=== $(date +%T) $*"; "$@"; }
 fits(){                                   # ~30 min (the 11 x 11 player-effects fits dominate)
@@ -35,7 +35,7 @@ pcf(){                                    # the headline: full policy cross-fit 
   for v in main_state main_lapse main_time main_time_lapse re_gh11 re_lapse_state_gh11; do
     step $PY src/policy_crossfit.py point $v $([ $v = main_state ] && echo 8 || echo 4) 16 4
   done
-  # round-1 referee checks: competitor and re-tuned rules, belief cells by exact count, training-only noise quintiles, K
+  # review checks: competitor and re-tuned rules, belief cells by exact count, training-only noise quintiles, K
   step $PY src/policy_crossfit.py point re_lapse_gh11 8 16 8 ext; step $PY src/policy_crossfit.py point kappa_sr_region_g 8 16 8 ext
   step $PY src/policy_crossfit.py point re_lapse_gh11 4 16 4 calfine; step $PY src/policy_crossfit.py point kappa_sr_region_g 4 16 4 calfine
   step $PY src/policy_crossfit.py point re_lapse_gh11 4 16 4 trainq5
@@ -87,8 +87,8 @@ chainF(){
   step $PY src/headline.py variants 20; step $PY src/headline.py lapse 20
   step $PY src/behaviour_gap.py 10; step $PY src/opt_slope.py 4; step $PY src/flat_bound.py 3; step $PY src/dp_checks.py 40
   step $PY src/sr_breakeven.py 10; step $PY src/refresh_thresholds.py 10 10 4
-  step $PY src/referee130.py months; step $PY src/referee130.py moot; step $PY src/referee130.py pclip 10
-  step $PY src/referee130.py wp_shrink 10; step $PY src/referee130.py lapse_state
+  step $PY src/robustness_checks.py months; step $PY src/robustness_checks.py moot; step $PY src/robustness_checks.py pclip 10
+  step $PY src/robustness_checks.py wp_shrink 10; step $PY src/robustness_checks.py lapse_state
   step $PY src/crossfit_calibration.py 6; step $PY src/mechanism.py 6
   step $PY src/wp_calibration.py; step $PY src/independent.py
 }

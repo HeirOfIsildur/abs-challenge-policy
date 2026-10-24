@@ -1,4 +1,4 @@
-"""Causal wins (HONZA-86, Arora's objection): re-simulate the game after a flipped call instead of summing WP swings
+"""Causal wins (Arora's objection): re-simulate the game after a flipped call instead of summing WP swings
 along the recorded continuation.
 
 Path-sum accounting (sim.py, headline.py): a team's value = sum of g over its successful challenges, every g read off
@@ -21,13 +21,13 @@ Causal correction (WP points, summed over team-games like the path-sum):
   binary  causal = path + E[win_A - win_A'] - g_branch  (win indicators; E[win_A - win_A'] = g_branch + E[(L_A - O_A) -
           (L_A' - O_A')] when the WP engine is the simulator's value function -- the win indicator is a martingale whose
           jumps at either team's flips are +-g -- so RB is the low-variance version and binary the check).
-  HONZA-120 (GPT-6-Astra review): up to HONZA-114 RB summed the team's own later flips only (kept as causal_rb_own);
+  up to RB summed the team's own later flips only (kept as causal_rb_own);
   a branch also changes the opponent's later opportunities and gains, which the signed version includes.
-Scope (HONZA-122, Fable / Sol / Astra reviews): the branch point is the FIRST DIVERGENCE between the policy's game and
+Scope: the branch point is the FIRST DIVERGENCE between the policy's game and
 the recorded game, the first pitch where exactly one of them flips the call (policies.first_divergence). Before it
 the two paths coincide. If the policy flips a call the team left standing, A (flip) is the policy's world and A' the
 recorded one, as above; if the team flipped a call the policy leaves standing, A is the recorded world and A' the
-policy's, and the correction changes sign. Up to HONZA-120 the branch was the policy's first success, also when the
+policy's, and the correction changes sign. Up to the branch was the policy's first success, also when the
 team had flipped the same call (then the recorded continuation is already the flip world), and recorded overturns the
 policy would have skipped were never branched on.
 Differencing against A' cancels any level bias of the simulator's opportunity stream; E[L_A'] vs L_rec is reported as
@@ -39,16 +39,16 @@ Simulator: count-level pitch outcomes from 2026 Statcast (called / swinging-or-f
 / automatic ball), in-play PA outcome kernel (outs, bases, runs) by (outs, bases), called pitches drawn from the 2026
 called-pitch pool of the same count (location -> truth W, signal s, posterior pt, fitted kappa of that draw), runner on
 second in extra innings, one challenge restored to a team at 0 at each extra inning, walk-off rules.
-HONZA-130 (Sol review): a drawn pool pitch keeps its location, truth and signal, but the fitted criterion and the
+a drawn pool pitch keeps its location, truth and signal, but the fitted criterion and the
 player's posterior are evaluated at the SIMULATED state: kappa = the row's criterion with its inning, log g and stake
 hinge terms replaced by those at the simulated inning and stake g (kappa_at; the count, region and player terms are
 row constants), and the posterior is read from the draw's calibration map of the cell of the simulated stake tercile
 (pt_at, posterior_by_tercile, sim.draw return_maps). They were the historical row's (its inning and stake), so the
 opponent's rule and obs_rule used the wrong criterion and every p-based policy a posterior from the wrong cell. Also
-after a half-inning change the score-aware DP's dbin now follows dp_score.add_dstart (extra top halves: topx() =
+after a half-inning change the score-aware DP's dbin now follows dp_score.add_dstart (extra top halves: topx =
 DM + 1; half_start_dbin), and the opportunity index restarts in every half-inning (it ran on across extra halves,
 which all share slot 18).
-Full contrast (HONZA-130, GPT-6-Astra review): RB / binary above follow the policy in both A and A', so only the FIRST
+Full contrast: RB / binary above follow the policy in both A and A', so only the FIRST
 divergence is re-simulated; later divergences are still credited on the recorded path. full_branches plays, from the
 first divergence, world P (policy's call, then the policy) against world B (team's call, then its fitted behavioural
 rule s > kappa at the simulated state), opponent on its rule in both; summed over team-games this is the policy's gain
@@ -56,7 +56,7 @@ over the fitted behavioural rule re-simulated end to end (full_vs_behaviour in r
 E[win_P - win_B] and RB E[g_b (1{policy flips} - 1{team flipped}) + L_P - O_P - L_B + O_B]), to compare with the
 path-sum loss against the simulated behavioural rule (path - path of obs_rule) and against the observed challenges.  Mid-PA
 baserunning (steals, wild pitches) is not modelled; the sim-vs-engine calibration is reported.
-HONZA-100: the HONZA-86 simulator (level "sim") drew events by count only and in-play outcomes independently of the
+the simulator (level "sim") drew events by count only and in-play outcomes independently of the
 count, with no baserunning between pitches; its flip swing was ~3 % below the engine's g, which is what separated
 the binary from the RB estimate (audit R1, results/causal_gap.md).  The default level "run" draws events and in-play
 outcomes by (count, outs, bases) and adds between-pitch baserunning.
@@ -69,7 +69,7 @@ from policies import decide
 from causal_gap import CAT
 
 DCLIP = 10
-CAUSAL_BOOT = 2000            # game resamples of the per-game outputs at fixed fitted parameters (HONZA-120: not \BootB)
+CAUSAL_BOOT = 2000            # game resamples of the per-game outputs at fixed fitted parameters (not \BootB)
 POLICIES = ["opt_score", "opt", "stake_0.008", "stake_0.01", "savant", "obs_rule", "card_refit", "card_pub", "runs_dp"]
 
 
@@ -77,8 +77,8 @@ def event_model(level="run"):
     """cumulative event probabilities ev[count, outs, bases, 6] (called, other strike, foul, in play, HBP, automatic
     ball), in-play kernel kip[count, outs, bases, 160] over (outs_end, bases_end, runs) = 40 oe + 5 be + r, and the
     between-pitch baserunning kernel br[outs, bases, 160] (causal_gap.kernels).
-    level "sim": the HONZA-86 simulator (events by count, in-play by the PA's starting outs/bases, no baserunning);
-    "run" (HONZA-100): events and in-play outcomes by (count, outs, bases) plus baserunning, whose WP is the engine's
+    level "sim": the simulator (events by count, in-play by the PA's starting outs/bases, no baserunning);
+    "run": events and in-play outcomes by (count, outs, bases) plus baserunning, whose WP is the engine's
     up to 2-3 % in g (results/causal_gap.json)."""
     import causal_gap
     k = causal_gap.kernels()
@@ -112,7 +112,7 @@ def stake_tables():
                                 for st in range(3):
                                     wb, rb = stakes.Vcount(i + 1, h, o, b, d, bl + 1, st)
                                     ws, rs = stakes.Vcount(i + 1, h, o, b, d, bl, st + 1)
-                                    # HONZA-122: signed stake oriented to the batting team, as stakes.add_stakes
+                                    # signed stake oriented to the batting team, as stakes.add_stakes
                                     G[i, h, o, b, d + DCLIP, bl, st] = max((1 if h else -1) * (wb - ws), 0.0); RV[i, h, o, b, d + DCLIP, bl, st] = max(rb - rs, 0.0)
         np.savez("data/gtable.npz", G=G, RV=RV)
         return G, RV
@@ -133,9 +133,9 @@ def _slot(inn, half):
 
 @njit(cache=True)
 def half_start_dbin(inn, half, diff, DM):
-    """HONZA-130 (Sol review): the score-aware DP's dbin at the start of a half-inning, as dp_score.add_dstart encodes
+    """the score-aware DP's dbin at the start of a half-inning, as dp_score.add_dstart encodes
     it: d + DM (d = home score difference clipped to +-DM) in regulation and in extra bottom halves (d <= 0 there), and
-    dp_score.topx() = DM + 1 for an extra-inning top half. play() used d + DM for extra top halves too."""
+    dp_score.topx = DM + 1 for an extra-inning top half. play used d + DM for extra top halves too."""
     if inn >= 10 and half == 0:
         return DM + 1
     return min(max(diff, -DM), DM) + DM
@@ -143,7 +143,7 @@ def half_start_dbin(inn, half, diff, DM):
 
 @njit(cache=True)
 def kfeat(g, inn, knots):
-    """HONZA-130 (Sol review): the state-dependent features of the fitted criterion (lik.design / gfeat / glow): log g
+    """the state-dependent features of the fitted criterion (lik.design / gfeat / glow): log g
     (g clipped at 1e-4), clip(inning, 1, 10) / 9, the hinges (log g - k)+ at lik.G_KNOTS and the low-stake hinge
     min(log g - lik.G_LOW, 0); knots = [G_KNOTS..., G_LOW]."""
     lg = np.log(max(g, 1e-4)); f = np.zeros(6)
@@ -156,7 +156,7 @@ def kfeat(g, inn, knots):
 
 @njit(cache=True)
 def kappa_at(j, c, inn, g, kb, isoffp, kcoef, knots):
-    """HONZA-130 (Sol review): the fitted criterion of pool row j with c challenges held, at the simulated inning and
+    """the fitted criterion of pool row j with c challenges held, at the simulated inning and
     stake g. kb[j, c] = kp[j, c] minus the row's own state terms (kappa_base); kcoef[side] (0 def, 1 off) holds the
     coefficients of kfeat. The count, region and player terms are row constants (the pool is drawn by count)."""
     f = kfeat(g, inn, knots); sd = 1 if isoffp[j] else 0; k = kb[j, c]
@@ -167,7 +167,7 @@ def kappa_at(j, c, inn, g, kb, isoffp, kcoef, knots):
 
 @njit(cache=True)
 def pt_at(j, g, pt3, isoffp, cuts):
-    """HONZA-130 (Sol review): the player's posterior of pool row j in the calibration cell of the simulated stake
+    """the player's posterior of pool row j in the calibration cell of the simulated stake
     tercile (sim.cal_groups: tercile = number of the side's cut points <= g); pt3[j, q] = row j's posterior under
     tercile q of its side."""
     sd = 1 if isoffp[j] else 0
@@ -181,8 +181,8 @@ def play(inn, half, outs, bases, diff, balls, strikes, pend, c_home, c_away, t, 
          isoffp, kcoef, knots, cuts):
     """Play one continuation to the end of the game, starting with the branch pitch's call pend (1 strike, 0 ball).
     pol < 0: team t never challenges. Returns (win of team t, 0.5 if unresolved; sum of g over t's later flips; sum of
-    g over the opponent's later flips, HONZA-120).
-    HONZA-130 (Sol review): a drawn pool pitch j keeps its location, truth and signal, but its criterion and the
+    g over the opponent's later flips, ).
+    a drawn pool pitch j keeps its location, truth and signal, but its criterion and the
     player's posterior are re-evaluated at the simulated state (kappa_at, pt_at); they were row j's, i.e. at its
     recorded inning and stake."""
     c = np.array([c_away, c_home]); rb = 0.0; ob = 0.0
@@ -191,7 +191,7 @@ def play(inn, half, outs, bases, diff, balls, strikes, pend, c_home, c_away, t, 
     while True:
         runs = 0; pa_end = False; cnt = balls * 3 + strikes
         moved = False
-        if not first and not ran:                                   # baserunning before the pitch (HONZA-100)
+        if not first and not ran:                                   # baserunning before the pitch
             u = np.random.random(); k = 0
             while k < 159 and u > br[outs, bases, k]:
                 k += 1
@@ -275,7 +275,7 @@ def play(inn, half, outs, bases, diff, balls, strikes, pend, c_home, c_away, t, 
                         if c[q] == 0:
                             c[q] = 1
             outs = 0; balls = 0; strikes = 0; bases = 2 if inn >= 10 else 0; ran = False
-            # HONZA-130 (Sol review): the DP's extra-inning encoding (half_start_dbin), and the opportunity index restarts
+            # the DP's extra-inning encoding (half_start_dbin), and the opportunity index restarts
             # in every half-inning (sim.kin_index); it was reset only when the slot changed, and all extra halves share
             # slot 18, so it ran on across extra innings
             dbin_t = half_start_dbin(inn, half, diff, DM)
@@ -292,7 +292,7 @@ def branches(rows, teams, cts, copp, flip, inn, half, outs, bases, diff, balls, 
              G, RVt, K, seed, DM, isoffp, kcoef, knots, cuts):
     """K continuations in worlds A (flip, policy), A' (no flip, policy) and B (no flip, never challenge) for every
     branch, common random numbers across worlds. Returns means over K: winA, LA, winA', LA', winB, OA, OA' (O = sum of g
-    over the opponent's later flips, HONZA-120)."""
+    over the opponent's later flips, )."""
     n = len(rows); out = np.zeros((n, 7))
     for b in prange(n):
         i = rows[b]; t = teams[b]
@@ -319,11 +319,11 @@ def branches(rows, teams, cts, copp, flip, inn, half, outs, bases, diff, balls, 
 def full_branches(rows, teams, cP, cB, copp, pendP, inn, half, outs, bases, diff, balls, strikes, kin, dbin, pol,
                   Dh, Da, Cnh, Cna, card, q1, q2, dconst, D4h, D4a, ev, kip, br, poff, pcnt, pidx, orig, isopp, Wp, pt3, sp,
                   kb, G, RVt, K, seed, DM, isoffp, kcoef, knots, cuts):
-    """HONZA-130 (GPT-6-Astra review): the FULL contrast from the first divergence, K continuations with common random
+    """the FULL contrast from the first divergence, K continuations with common random
     numbers in world P (the call as the policy leaves it, the team then follows the policy, holding cP) and world B
     (the call as the team left it, the team then follows its fitted behavioural rule, pol 4, holding cB); the opponent
     follows its behavioural rule in both. Returns means over K: winP, LP, OP, winB, LB, OB.
-    Why (Astra's counterexample): one retained challenge that always succeeds; the recorded team never challenges;
+    Why: one retained challenge that always succeeds; the recorded team never challenges;
     opportunities 1 (+0.1, later ones follow), 2 (+0.2, a challenge here ends the team's opportunities) and 3 (+0.1).
     A policy that always challenges gains 0.1 + 0.2 = 0.3. Path sum: 0.1 + 0.2 + 0.1 = 0.4. RB from the first
     divergence (opportunity 1), with the policy followed in both A and A': 0.4 + (0.5 - 0.4) - 0.1 = 0.4, because the
@@ -350,8 +350,7 @@ def full_branches(rows, teams, cP, cB, copp, pendP, inn, half, outs, bases, diff
 
 @njit(cache=True, parallel=True)
 def mc_win(K, seed, inn, half, outs, bases, diff, balls, strikes, pend, ev, kip, br, poff, pcnt, pidx, orig):
-    """home win rate of K continuations from one pitch state with call pend and no challenges at all (HONZA-100:
-    checks the simulator against the exact chain of causal_gap.py and the WP engine)."""
+    """home win rate of K continuations from one pitch state with call pend and no challenges at all (    checks the simulator against the exact chain of causal_gap.py and the WP engine)."""
     w = np.zeros(K)
     z2 = np.zeros((1, 1)); zc = np.zeros((4, 3, 2, 2)); z3 = np.zeros((1, 1, 1)); z4 = np.zeros((1, 1, 1, 1))
     nob = np.zeros(len(orig), np.bool_); zf = np.zeros(len(orig)); zk = np.zeros((len(orig), 3)); G = np.zeros((10, 2, 3, 8, 21, 4, 3))
@@ -364,7 +363,7 @@ def mc_win(K, seed, inn, half, outs, bases, diff, balls, strikes, pend, ev, kip,
 
 
 def kappa_coefs(variant):
-    """HONZA-130 (Sol review): [2 (0 def, 1 off), 6] coefficients of kfeat in the fitted criterion (lik.unpack): beta of
+    """[2 (0 def, 1 off), 6] coefficients of kfeat in the fitted criterion (lik.unpack): beta of
     log g and of inning/9, the stake hinges kg (kappa_g) and the low-stake hinge kgl (kappa_glow); 0 where absent.
     Also returns knots = [lik.G_KNOTS..., lik.G_LOW]."""
     import lik
@@ -379,7 +378,7 @@ def kappa_coefs(variant):
 
 
 def kappa_base(kp, g, inn, isoffp, kcoef, knots):
-    """kp [n, 3] minus each row's own state terms, so that kappa_at(j, c, inn_j, g_j) = kp[j, c] (HONZA-130)."""
+    """kp [n, 3] minus each row's own state terms, so that kappa_at(j, c, inn_j, g_j) = kp[j, c]."""
     kb = kp.copy()
     for j in range(len(kb)):
         f = kfeat(g[j], inn[j], knots)
@@ -388,7 +387,7 @@ def kappa_base(kp, g, inn, isoffp, kcoef, knots):
 
 
 def posterior_by_tercile(m, s, pt, maps):
-    """HONZA-130 (Sol review): [n, 3] the posterior of every opportunity row under each stake tercile of its side, from
+    """[n, 3] the posterior of every opportunity row under each stake tercile of its side, from
     the draw's calibration maps (sim.draw return_maps; cells sim.cal_groups = <pgrp>_<count class>_<tercile>). A cell
     absent from the data (no map) keeps the row's own posterior. Column q = the row's own tercile reproduces pt."""
     n = len(m); pt3 = np.repeat(pt[:, None], 3, 1)
@@ -415,7 +414,7 @@ def run(R=3, K=40, level="run"):
     t0 = time.time()
     m, kin, out, draws = evaluate_all(v, R=R, seed=1, keep_draws=True, keep_maps=True)
     full, _ = sim.load(v); full = dp_score.add_dstart(full)
-    mask = sim.opportunity_mask(full)                # HONZA-122: the policies' opportunity set (headline.evaluate_all)
+    mask = sim.opportunity_mask(full)                # the policies' opportunity set (headline.evaluate_all)
     assert mask.sum() == len(m)
     import policies as PP
     recsucc = (m.ch.values & m.ch_over.values).astype(np.bool_)   # the team flipped this call in 2026
@@ -426,8 +425,8 @@ def run(R=3, K=40, level="run"):
     cntf = (full.balls * 3 + full.strikes).values
     pidx = np.argsort(cntf, kind="stable").astype(np.int64)
     pcnt = np.bincount(cntf, minlength=12).astype(np.int64); poff = np.concatenate([[0], np.cumsum(pcnt)[:-1]]).astype(np.int64)
-    orig = full.orig_strike.values.astype(np.bool_); kp = sim.kappa_by_count(full)      # [n, 3]: criterion by challenges held (HONZA-114)
-    # HONZA-130 (Sol review): the criterion and the posterior of a drawn pool pitch at the simulated state
+    orig = full.orig_strike.values.astype(np.bool_); kp = sim.kappa_by_count(full)      # [n, 3]: criterion by challenges held
+    # the criterion and the posterior of a drawn pool pitch at the simulated state
     isoffp = np.ascontiguousarray((full.side == "off").values)
     assert (isoffp == orig).all()                             # the batter challenges called strikes, the catcher balls
     kcoef, knots = kappa_coefs(v)
@@ -456,7 +455,7 @@ def run(R=3, K=40, level="run"):
         acc["n_branch"] = 0.0; cal_s, cal_e = [], []; brs = []
         for r, dr in enumerate(draws):
             pc, dc, card = dr["pols"][pol]
-            # HONZA-122 (Fable, Sol, Astra reviews): branch at the FIRST DIVERGENCE between the policy's game and the
+            # branch at the FIRST DIVERGENCE between the policy's game and the
             # recorded one (policies.first_divergence): +1 the policy flips a call the team left standing (A = flip is
             # the policy's world, A' the recorded one), -1 the team flipped a call the policy leaves standing (A = the
             # recorded world, A' the policy's). It was the policy's first success, also when the team had flipped the
@@ -482,7 +481,7 @@ def run(R=3, K=40, level="run"):
                          dc, dr["D4h"], dr["D4a"], ev, kip, br, poff, pcnt, pidx, orig, mask, Wp, pt3, sp, kb, G, RVt,
                          K, 7 + 7919 * r, dp_score.DM, isoffp, kcoef, knots, cuts)
             gb = m.g.values[rows]
-            # HONZA-130 (GPT-6-Astra review): the full contrast policy vs fitted behavioural rule from the first divergence.
+            # the full contrast policy vs fitted behavioural rule from the first divergence.
             # Held counts after the branch pitch: the policy loses a token if it challenged and failed there (only
             # possible when the team flipped the call, typ = -1); the team (recorded count left_*) if it challenged and
             # lost (only possible when typ = +1).
@@ -503,7 +502,7 @@ def run(R=3, K=40, level="run"):
                                dp_score.DM, isoffp, kcoef, knots, cuts)
             np.add.at(acc["full_win"], gg, (fo[:, 0] - fo[:, 3]) / R)
             np.add.at(acc["full_rb"], gg, (sgn * gb + fo[:, 1] - fo[:, 2] - fo[:, 4] + fo[:, 5]) / R)
-            # HONZA-132 (Sol #3, Astra #2): the PAIRED contrast. full_branches above starts from the RECORDED path (first
+            # the PAIRED contrast. full_branches above starts from the RECORDED path (first
             # divergence against the recorded challenges, recorded inventory) and continues with the fitted rule, so it
             # compares with path - observed. Here both worlds are simulated policies: the fitted behavioural rule is
             # played along the stream in the same draw (path_trace), the policy is branched against IT at their first
@@ -546,8 +545,8 @@ def run(R=3, K=40, level="run"):
             np.add.at(acc["later_A0"], gg[pf], o[pf, 3] / R); np.add.at(acc["later_A"], gg[pf], o[pf, 1] / R)
             np.add.at(acc["opp_A"], gg, sgn * o[:, 5] / R); np.add.at(acc["opp_A0"], gg, sgn * o[:, 6] / R)
             # correction = (policy world) - (recorded world); sgn = -1 swaps A and A'
-            np.add.at(acc["rb_own"], gg, sgn * (o[:, 1] - o[:, 3]) / R)                 # HONZA-100: team's own later flips only
-            np.add.at(acc["rb"], gg, sgn * (o[:, 1] - o[:, 3] - o[:, 5] + o[:, 6]) / R) # HONZA-120: signed, both teams
+            np.add.at(acc["rb_own"], gg, sgn * (o[:, 1] - o[:, 3]) / R)                 # team's own later flips only
+            np.add.at(acc["rb"], gg, sgn * (o[:, 1] - o[:, 3] - o[:, 5] + o[:, 6]) / R) # signed, both teams
             np.add.at(acc["binary"], gg, sgn * (o[:, 0] - o[:, 2] - gb) / R)
             acc["n_skip"] = acc.get("n_skip", 0.0) + float((~pol_flip).sum()) / R
             acc["n_branch"] += len(rows) / R
@@ -589,7 +588,7 @@ def run(R=3, K=40, level="run"):
                          path_minus_observed=ci(p["path"] - obs), causal_minus_observed=ci(p["rb"] - obs),
                          binary_minus_observed=ci(p["binary"] - obs), fidelity_noflip_minus_recorded=ci(p["later_A0"] - p["later_rec"]))
     boot["observed"] = dict(path=ci(obs))
-    # HONZA-130 (GPT-6-Astra review): wins lost against the fitted behavioural rule, re-simulated end to end from the first
+    # wins lost against the fitted behavioural rule, re-simulated end to end from the first
     # divergence (win count and RB), next to the path-sum loss against the simulated behavioural rule and against the
     # observed challenges
     fvb = {}
@@ -597,7 +596,7 @@ def run(R=3, K=40, level="run"):
         p = per[pol]
         fvb[pol] = dict(win=ci(p["full_win"]), rb=ci(p["full_rb"]), path_minus_obs_rule=ci(p["path"] - per["obs_rule"]["path"]),
                         path_minus_observed=ci(p["path"] - obs),
-                        # HONZA-132: like with like -- the recorded-start contrast against path - observed, and the
+                        # like with like -- the recorded-start contrast against path - observed, and the
                         # paired simulated contrast against path(policy) - path(obs_rule) on the same draws
                         rb_minus_path_minus_observed=ci(p["full_rb"] - (p["path"] - obs)),
                         win_minus_rb=ci(p["full_win"] - p["full_rb"]),
@@ -606,7 +605,7 @@ def run(R=3, K=40, level="run"):
                         paired_win_minus_rb=ci(p["pair_win"] - p["pair_rb"]))
     tag = "" if level == "run" else f"_{level}"
     json.dump(dict(R=R, K=K, variant=MAIN, simulator=level, boot_resamples=CAUSAL_BOOT, point=res, game_bootstrap=boot,
-                   state_criterion="HONZA-130", posterior_rows_without_cell_map=int(sum(nmiss)), full_vs_behaviour=fvb),
+                   state_criterion="state-dependent criterion and belief", posterior_rows_without_cell_map=int(sum(nmiss)), full_vs_behaviour=fvb),
               open(f"results/causal{tag}.json", "w"), indent=1)
     pickle.dump(dict(per=per, games=m.game_pk.unique()), open(f"data/causal_pergame{tag}.pkl", "wb"))
     return res, boot

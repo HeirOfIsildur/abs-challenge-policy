@@ -1,4 +1,4 @@
-"""HONZA-134 (round-1 referees on Lemma 3: is the in-fold scoring contrast unbiased?): on S random 5-fold splits,
+"""on S random 5-fold splits,
 the signed contrast of the engine fitted to a fold alone (gv, the scorer of the full policy cross-fit) against the
 full-season engine's signed contrast on the same pitches -- over all called pitches, the challenged pitches, and
 pitches by decile of the full-season stake. A ratio of means near one says the fold engine neither shrinks nor

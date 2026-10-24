@@ -1,4 +1,4 @@
-(* HONZA-134: exact checks behind the full policy cross-fit (main Lemma "Honest scoring", supplement S5).
+(* exact checks behind the full policy cross-fit (main Lemma "Honest scoring", supplement S5).
    (1) Selection optimism without the split: with an estimated stake gh = g + e, e ~ N(0, s^2), a policy that
        challenges iff gh > c and is scored at gh has E[1{gh > c} gh] - g P(gh > c) = s phi((c - g)/s) > 0.
    (2) With the split: the decision uses an independent estimate gd = g + e1 and the score gh = g + e2 (e1, e2

@@ -1,4 +1,4 @@
-"""HONZA-114 (referee): the benchmark for the revealed-threshold slope. Teams' implied confidence thresholds p* are
+"""the benchmark for the revealed-threshold slope. Teams' implied confidence thresholds p* are
 regressed as logit(1 - p*) on log g with the state controls of kappa (postseason.implied_slope); a stake-rational
 rule with the continuation value D held fixed has slope 1. D itself moves with g (late, close games), so the right
 benchmark is the same regression run on the optimum's own thresholds p* = D/(g + D), D from the score-aware DP at the
@@ -25,7 +25,7 @@ def main(R=4):
         D += np.where(m.is_home_team.values, D4h[m.slot.values, m.dbin.values, k, c], D4a[m.slot.values, m.dbin.values, k, c]) / R
     out = {}
     for side in ("off", "def"):
-        # HONZA-120 (GPT-6-Astra review): the same eligibility mask as the teams' regression (postseason.eligible:
+        # the same eligibility mask as the teams' regression (postseason.eligible:
         # side and challenges left); states with D = 0 stay in, their p* = 0 clipped to 1e-3 as in implied_slope
         e = (m.side == side).values & (m.left.values > 0)
         x = m[e]; g = np.clip(x.g.values, 1e-4, None)

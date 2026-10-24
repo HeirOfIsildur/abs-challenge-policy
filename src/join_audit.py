@@ -1,5 +1,5 @@
-"""HONZA-132 (Sol #6): the count-based feed x Statcast join (src/join.py) against the old pitch-number join, and the
-half-innings the DP's count law used to miss (Sol #5, Astra #7). -> results/join_audit.json"""
+"""the count-based feed x Statcast join (src/join.py) against the old pitch-number join, and the
+half-innings the DP's count law used to miss. -> results/join_audit.json"""
 import json, sys
 import numpy as np, pandas as pd
 sys.path.insert(0, "src")

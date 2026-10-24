@@ -1,4 +1,4 @@
-"""Policy zoo for HONZA-86: one decision function shared by the path-sum evaluator (this file) and the causal
+"""Policy zoo for one decision function shared by the path-sum evaluator (this file) and the causal
 re-simulation (causal.py), plus the two public competitors rebuilt on our calibrated DP.
 
 Policies (code: rule; p = calibrated posterior pt, g = WP stake of a flip, RV = run stake, c = challenges held):
@@ -77,10 +77,10 @@ def run_path(gidx, is_home_team, new_extra, slot, kin, inning, balls, strikes, d
 @njit(cache=True)
 def run_path2(gidx, is_home_team, new_extra, slot, kin, inning, balls, strikes, dbin, W, pt, s, g, gv, RV, kappa, isoff,
               pol, Dh, Da, Cnh, Cna, card, q1, q2, dconst, D4h, D4a, ngames):
-    """HONZA-132: g is the stake the policy DECIDES on, gv the stake a successful flip is SCORED at (cross-fitted
+    """g is the stake the policy DECIDES on, gv the stake a successful flip is SCORED at (cross-fitted
     stakes: g from the engine fitted without the pitch's game fold, gv from the engine of its own fold).
     Path-sum evaluation on the recorded stream (same accounting as sim.run_policy). kappa: [n, 3], the fitted
-    criterion by challenges held (sim.kappa_by_count), so obs_rule uses the count the simulated team holds (HONZA-114).
+    criterion by challenges held (sim.kappa_by_count), so obs_rule uses the count the simulated team holds.
     Returns value/challenges/successes [game, team(0 away, 1 home), side(0 def, 1 off)] and, per (game, team),
     the row of the team's first successful challenge (-1 if none) and the challenges it then held -- the branch point
     for causal.py."""
@@ -161,10 +161,10 @@ def clairvoyant(gidx, is_home_team, topup, W, pt, g, ngames):
 
 @njit(cache=True)
 def clairvoyant2(gidx, is_home_team, topup, W, pt, g, gv, ngames):
-    """HONZA-122 (Opus, Fable reviews): a clairvoyant comparator for the DP benchmark. For every team-game the policy
+    """a clairvoyant comparator for the DP benchmark. For every team-game the policy
     knows the whole future sequence of (p, g) of its own opportunities (not the truths) and solves the exact
     finite-horizon DP over it, with the retention rule and the extra-inning top-up; it is then played on the realised
-    truths. It is NOT a certified upper bound for the benchmark (HONZA-130): the benchmark's pooled DP and the
+    truths. It is NOT a certified upper bound for the benchmark: the benchmark's pooled DP and the
     recorded stream are different processes, and the posteriors p are only calibrated within cells. topup[i]: an
     extra inning started since the team's previous opportunity (a team at 0 gets 1). Rows must be in game order.
     Returns value/challenges [game, team]."""
@@ -219,7 +219,7 @@ def topup_flags(m):
 @njit(cache=True)
 def first_divergence(gidx, is_home_team, new_extra, slot, kin, inning, balls, strikes, dbin, W, pt, s, g, RV, kappa,
                      pol, Dh, Da, Cnh, Cna, card, q1, q2, dconst, D4h, D4a, recsucc, ngames):
-    """HONZA-122 (Fable, Sol, Astra reviews): the first pitch at which the policy's game and the recorded game part:
+    """the first pitch at which the policy's game and the recorded game part:
     the first row where exactly one of {the policy flips the call, the team flipped it in 2026} holds. Before it the
     two paths coincide, so the policy is evaluated on the recorded path exactly. Returns per (game, team): the row
     (-1: never), its type (+1 the policy flips a call the team left standing, -1 the team flipped a call the policy
@@ -255,7 +255,7 @@ def first_divergence(gidx, is_home_team, new_extra, slot, kin, inning, balls, st
 @njit(cache=True)
 def path_trace(gidx, is_home_team, new_extra, slot, kin, inning, balls, strikes, dbin, W, pt, s, g, RV, kappa,
                pol, Dh, Da, Cnh, Cna, card, q1, q2, dconst, D4h, D4a):
-    """HONZA-132 (Sol #3, Astra #2): one policy played along the stream, row by row: succ[i] (the row's team flips the
+    """one policy played along the stream, row by row: succ[i] (the row's team flips the
     call), fail[i] (it challenges and loses) and held[i, t] (challenges team t holds before row i, top-up applied).
     The paired causal contrast (causal.py) branches the policy against the SIMULATED behavioural rule at the first row
     where their successes differ, with both inventories carried from these traces."""

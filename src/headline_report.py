@@ -1,4 +1,4 @@
-"""HONZA-132: consolidated headline -> results/headline.json, results/headline.md (the manuscript reads here).
+"""consolidated headline -> results/headline.json, results/headline.md (the manuscript reads here).
 
 Primary estimate: the cross-fitted accounting gap (results/crossfit.json: stakes for decisions and for scoring from WP
 engines fitted on disjoint folds of games, S random splits) between the pooled-model benchmark under the primary

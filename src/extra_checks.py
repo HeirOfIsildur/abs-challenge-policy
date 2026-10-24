@@ -1,4 +1,4 @@
-"""HONZA-134: further model and design checks.
+"""further model and design checks.
   dp_mono   the monotonicities of Theorem 2 in the score-aware DP actually used (random horizons, score transitions,
             extra-inning top-up): share of computed entries, and of opportunities by visit weight, where the marginal
             value of a challenge rises with the opportunity index or where the first marginal exceeds the second's

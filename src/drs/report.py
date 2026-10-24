@@ -1,7 +1,7 @@
 """Headline table for the DRS replication: values per 100 team-matches (match points: wins, Tests win + draw/2),
 95 % match-bootstrap intervals (selection model refitted, DP re-solved), perception-noise sensitivity, threshold
 movement, sqrt-law fit, fielding-side descriptives.
-HONZA-122: s_95 is the continuous profile-likelihood set (model.py); new keys (added, nothing renamed): sample (DRS match
+s_95 is the continuous profile-likelihood set (model.py); new keys (added, nothing renamed): sample (DRS match
 sample incl. zero-review matches, build.py), model.s_95_open, per100_no_extra (DP without the extra opportunity after an
 overturn, opt_nx), per100.stake_share_crossfit / crossfit_delta (delta chosen on the other half of the matches by date),
 sqrt_law_no_extra.

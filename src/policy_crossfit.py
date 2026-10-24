@@ -1,4 +1,4 @@
-"""HONZA-134: the full policy cross-fit (outer split), the headline estimator.
+"""the full policy cross-fit (outer split), the headline estimator.
 
 crossfit.py cross-fits only the stakes: the perception fit, the players' beliefs and the DP still see every game. Here
 EVERY component of the benchmark and of the rules is learned on the other folds and applied, unchanged, to held-out
@@ -30,7 +30,7 @@ import multiprocessing as mp
 import numpy as np, pandas as pd
 sys.path.insert(0, "src")
 
-K = int(os.environ.get("PCF_K", 5))       # HONZA-134 (round-1 referees): K = 2 and 10 as a sensitivity (environment)
+K = int(os.environ.get("PCF_K", 5))       # K = 2 and 10 as a sensitivity (environment)
 RHOS = [1.0, 0.75, 0.5, 0.25]
 LAMS = [0.0, 0.5, 1.0]
 RES = "results/policy_crossfit.json"
@@ -38,7 +38,7 @@ SC_EXTRA = {"home_score", "away_score", "post_bat_score"}
 
 
 def _naux():
-    """HONZA-134: auxiliary draws for the belief maps (sim.N_AUX, default 2); environment PCF_NAUX overrides it."""
+    """auxiliary draws for the belief maps (sim.N_AUX, default 2); environment PCF_NAUX overrides it."""
     import sim
     if os.environ.get("PCF_NAUX"):
         sim.N_AUX = int(os.environ["PCF_NAUX"])
@@ -142,7 +142,7 @@ def load_fold(ff, j):
     M["kin"] = sim.kin_index(M)
     tr = (M.fold != ff["k"]).values
     if ff.get("train_q5") and ff["is_re"]:
-        # HONZA-134 (Astra round-1 #6): the players' noise quintiles of the belief cells with cut points from the
+        # the players' noise quintiles of the belief cells with cut points from the
         # training rows only (sim.apply_lik cuts them over the whole frame: transductive use of a covariate)
         import lik
         reg = pd.Series(lik.region(M)).astype(str).values; q5 = np.zeros(len(M), int); lsr = np.log(M.sr.values)
@@ -153,7 +153,7 @@ def load_fold(ff, j):
         M["pgrp"] = np.char.add(np.char.add(reg.astype(str), "_"), q5.astype(str))
     M["cal"] = sim.cal_groups(M, sim.stake_cuts(M[tr]))
     if ff.get("cal_fine"):
-        # HONZA-134 (Sol round-1 #3): belief cells by the exact count (12 cells) instead of three count classes
+        # belief cells by the exact count (12 cells) instead of three count classes
         parts = pd.Series(M["cal"].values).str.rsplit("_", n=2, expand=True)
         cnt = M.balls.astype(int).astype(str).values + M.strikes.astype(int).astype(str).values
         M["cal"] = (parts[0] + "_c" + cnt + "_" + parts[2]).values
@@ -242,7 +242,7 @@ def evaluate_fold(ff, R, seed, cells, J):
                         v, n = run_rule(Mte, W, ptb, sp, gsc, 1, 0.0, D4h, D4a, kap_te)
                         row[(rho, lam, "savant")] = (v.sum(), n.sum())
                         if ff.get("ext"):
-                            # HONZA-134 (round-1 referees): the public competitors in the same cross-fit, every
+                            # the public competitors in the same cross-fit, every
                             # tuned object learned on the training folds
                             import policies as P
                             from headline import SAVANT_C
@@ -402,7 +402,7 @@ def boot_summary(name):
         st_ = json.load(open(p)); cfgs.append(st_["config"])
         for r in st_["rows"]:
             seen.setdefault(r["b"], r)
-    if any(c != cfgs[0] for c in cfgs):                 # HONZA-134 (Astra round-1 minor 10): one configuration only
+    if any(c != cfgs[0] for c in cfgs):                 # one configuration only
         raise SystemExit(f"bootstrap shards of {name} have different configurations")
     rows = [seen[b] for b in sorted(seen)]
     ok = [r for r in rows if r["ok"]]
@@ -421,7 +421,7 @@ def boot_summary(name):
                obs_rule_gap=dict(ci=pct([gc(r, "1.0|obs_rule") for r in rows])),
                bench=pct([r["policies"]["1.0|0.0|bench"]["wins"] for r in rows]), observed=pct([r["observed"] for r in rows]),
                secs_median=float(np.median([r["secs"] for r in rows])))
-    # HONZA-134: the one-line rule at the teams' challenge rate (joint_boot.freq_matched on the training-free constant
+    # the one-line rule at the teams' challenge rate (joint_boot.freq_matched on the training-free constant
     # grid of each replicate) and the gap to the simulated behavioural rule
     from joint_boot import freq_matched
     def fm(r):
@@ -446,7 +446,7 @@ if __name__ == "__main__":
         S = int(sys.argv[3]); R = int(sys.argv[4]) if len(sys.argv) > 4 else 8
         workers = int(sys.argv[5]) if len(sys.argv) > 5 else 1; opts = set(sys.argv[6:])
         grid = "grid" in opts
-        flags = dict(ext="ext" in opts, cal_fine="calfine" in opts, train_q5="trainq5" in opts)   # HONZA-134 sensitivities
+        flags = dict(ext="ext" in opts, cal_fine="calfine" in opts, train_q5="trainq5" in opts)   # sensitivities
         key = name + ("_grid" if grid else "") + ("_ext" if flags["ext"] else "") + ("_calfine" if flags["cal_fine"] else "") \
             + ("_trainq5" if flags["train_q5"] else "") \
             + (f"_K{K}" if K != 5 else "") + (f"_naux{os.environ['PCF_NAUX']}" if os.environ.get("PCF_NAUX") else "")

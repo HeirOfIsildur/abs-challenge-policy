@@ -1,4 +1,4 @@
-"""External validation feeds (HONZA-73): Triple-A 2025 and MLB spring training 2026, straight from the Stats API live
+"""External validation feeds: Triple-A 2025 and MLB spring training 2026, straight from the Stats API live
 feed (no Statcast there). One row per pitch with the tracking at the front of the plate (pX, pZ, strike-zone
 top/bottom, initial velocity/acceleration), the pre-pitch game state and the ABS challenge fields.
 

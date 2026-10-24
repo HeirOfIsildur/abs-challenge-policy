@@ -1,4 +1,4 @@
-"""HONZA-114: re-evaluate the simulated behavioural rule (obs_rule) in every refit-bootstrap replicate after the
+"""re-evaluate the simulated behavioural rule (obs_rule) in every refit-bootstrap replicate after the
 per-count kappa fix (sim.kappa_by_count), without redoing the refits and the DPs, which the fix does not touch.
 
 Each replicate b repeats headline.one exactly: the same game resample (final_ci.resample, seed 1000 + b), the stored
@@ -11,7 +11,7 @@ import multiprocessing as mp
 import numpy as np, pandas as pd
 sys.path.insert(0, "src")
 
-MAIN = "kappa_sr_region_g"        # HONZA-122: BIC-best homogeneous model (criterion piecewise-linear in log g)
+MAIN = "kappa_sr_region_g"        # BIC-best homogeneous model (criterion piecewise-linear in log g)
 
 
 def one(args):
@@ -66,5 +66,5 @@ if __name__ == "__main__":
         print("checked", len(diffs), "replicates against full recomputation; max abs diff", max(diffs), flush=True)
         assert max(diffs) < 1e-9
     json.dump(dict(variant=MAIN, R=R, B_done=len(rows), rows=rows,
-                   note="HONZA-114: obs_rule re-evaluated after the per-count kappa fix (src/boot_obsrule.py)"),
+                   note="obs_rule re-evaluated after the per-count kappa fix (src/boot_obsrule.py)"),
               open("results/headline_boot.json", "w"))

@@ -1,4 +1,4 @@
-"""HONZA-132 (Sol #4 / #8, Astra #3): cross-fitted stakes for the headline value contrast.
+"""cross-fitted stakes for the headline value contrast.
 
 A policy that selects pitches on estimated stakes and is then scored on the same estimates is scored optimistically:
 it picks the pitches whose stake happens to be over-estimated. Here every pitch gets two stakes from WP engines fitted
@@ -25,7 +25,7 @@ sys.path.insert(0, "src")
 
 STAKE_COLS = ["wp_ball", "wp_strike", "re_ball", "re_strike", "g", "g_signed", "RV", "wp_home_now", "half", "diff", "gv"]
 K = 5
-FOLDS = "orig_game"              # HONZA-133: resampled copies of a game share a fold (crossfit_frame)
+FOLDS = "orig_game"              # resampled copies of a game share a fold (crossfit_frame)
 SHRINK_W = 20                     # wp._kernel's pooling weight (pitches) for the full-season engine
 
 
@@ -52,7 +52,7 @@ def stakes_under(eng, m):
 def crossfit_frame(m, sc, rng, k=K):
     """m: called-pitch frame, sc: the Statcast frame of the same games (same game_pk labels, wp.SC_COLS). Returns m
     with g / g_signed / RV from the out-of-fold engines, gv from the in-fold engines, and fold."""
-    # HONZA-133 (round-5 referees): in a resample every drawn copy of a game has its own game_pk; the folds are drawn
+    # in a resample every drawn copy of a game has its own game_pk; the folds are drawn
     # over the ORIGINAL games (orig_game) so that all copies of a game share a fold and no game is in both the
     # decision and the scoring engine of a pitch. Without resampled copies (orig_game absent) this is the old split.
     if "orig_game" in m:
@@ -96,7 +96,7 @@ def point(names, S, R, k=K):
             mb = crossfit_frame(m0, sc, np.random.default_rng(5000 + s), k)
             v = spec_variant(name); spec = v["spec"]
             if spec.get("re"):
-                # HONZA-132: the player-effects model keeps its full-sample hyperparameters (an 11 x 11-node refit takes
+                # the player-effects model keeps its full-sample hyperparameters (an 11 x 11-node refit takes
                 # ~30 min per split); the players' posteriors are recomputed on the cross-fitted frame below
                 from scipy.optimize import OptimizeResult
                 r = OptimizeResult(x=np.load(v["theta"]), success=True)
@@ -136,7 +136,7 @@ def point(names, S, R, k=K):
 
 
 def decomp(R=10, seeds=(5000, 5001)):
-    """HONZA-132: where the cross-fitting effect comes from. On a split, with common random numbers, the main model is
+    """where the cross-fitting effect comes from. On a split, with common random numbers, the main model is
     evaluated four ways: decide on the full-season stakes or on the out-of-fold engine's, and score every flip at the
     full-season stakes or at the in-fold engine's signed contrast (decision stakes: perception refitted on them).
     full/full is the uncorrected estimate, out/in the cross-fitted one; full/in isolates the selection optimism

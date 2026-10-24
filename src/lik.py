@@ -1,21 +1,20 @@
-"""Generalised joint likelihood of the missed-call (truth) model and the perception/challenge model (HONZA-73).
+"""Generalised joint likelihood of the missed-call (truth) model and the perception/challenge model.
 
 Same structure as joint.py, written in JAX for exact gradients/Hessians:
   w_true = w_meas + eta, eta ~ N(0, sm_edge^2); W = 1{w_true > 0} (call wrong under ABS);
   s = w_true + eps, eps = sr * e, e ~ F (unit-variance law); challenge iff s > kappa = X beta_side.
 Extensions (all switchable via a `spec` dict):
-  law      : "normal" | "logistic" | "t<nu>"  (F with unit variance, so sr is always the noise SD)
-  sr_edge  : log sr shift for the horizontal edge
+  law: "normal" | "logistic" | "t<nu>"  (F with unit variance, so sr is always the noise SD)
+  sr_edge: log sr shift for the horizontal edge
   sr_region: log sr shifts by zone region (bottom = base, top, inside = horizontal edge on the batter's side of the
-             plate, outside = the far horizontal edge; split by batter handedness, see region())
-  sr_slope : log sr = ... + gamma * (|w_meas| - 1)  (noise grows/shrinks away from the edge)
-  kappa_g  : kappa gets a piecewise-linear term in log g, hinges (log g - k)+ at G_KNOTS (HONZA-106: does a
+             plate, outside = the far horizontal edge; split by batter handedness, see region)
+  sr_slope: log sr =... + gamma * (|w_meas| - 1)  (noise grows/shrinks away from the edge)
+  kappa_g: kappa gets a piecewise-linear term in log g, hinges (log g - k)+ at G_KNOTS (does a
              non-linear stake response of the criterion explain the realised-vs-simulated gap, and does it move sigma_r?)
-  re       : player random effects (a_i on kappa, b_i on log sr), bivariate normal, Gauss-Hermite marginal
+  re: player random effects (a_i on kappa, b_i on log sr), bivariate normal, Gauss-Hermite marginal
 Challenged rows: P(ch, W=y | w) = int_{W=y} phi_m(eta) F((w+eta-kappa)/sr) d eta, Gauss-Legendre in u = Phi(eta/sm).
 Not challenged: closed form for the normal law, Gauss-Hermite in eta otherwise.
-HONZA-88: on the corrected geometry (raw Statcast 2026 coordinates, src/geometry.py; round-ball corners since HONZA-120
-and the count-based join since HONZA-132) the ABS ruling is a deterministic function of the tracked location for all
+on the corrected geometry (raw Statcast 2026 coordinates, src/geometry.py; round-ball corners since and the count-based join since ) the ABS ruling is a deterministic function of the tracked location for all
 but a handful of challenges (results/geometry_audit.json), so the main specs use det=True: W = 1{w_meas > 0}
 (sm = 0, mu = 0) and the ruling disagrees with W with probability pi (contam). Then
   challenged: P(ch, y | w) = F((w - kappa)/sr) [(1 - pi) 1{y = W} + pi 1{y != W}],  not challenged: 1 - F((w - kappa)/sr).
@@ -28,14 +27,14 @@ jax.config.update("jax_enable_x64", True)
 
 GL_X, GL_W = np.polynomial.legendre.leggauss(48)
 GH_X, GH_W = np.polynomial.hermite_e.hermegauss(40); GH_W = GH_W / GH_W.sum()
-# HONZA-130 (Fable review): the horizontal edges are split by BATTER side (region(): inside / outside), not by the
+# the horizontal edges are split by BATTER side (region: inside / outside), not by the
 # pitcher's arm / glove side. REGIONS keeps the legacy "arm" / "glove" keys of the stored JSON outputs (mu_arm,
-# sr_region_mult["arm"], ... are read by paper/make_numbers.py and paper/supplement_numbers.py): "arm" = inside,
+# sr_region_mult["arm"],... are read by paper/make_numbers.py and paper/supplement_numbers.py): "arm" = inside,
 # "glove" = outside. REGION_NAMES are the labels for new human-readable outputs.
 REGIONS = ["bottom", "top", "arm", "glove"]
 REGION_NAMES = ["bottom", "top", "inside", "outside"]
 G_KNOTS = (-5.0, -4.0, -3.2)       # log g at about the 40th, 80th and 95th percentiles of the eligible pitches
-G_LOW = np.log(0.001)              # HONZA-122 (Fable review): low-stake hinge, a criterion that can say "nothing at stake"
+G_LOW = np.log(0.001)              # low-stake hinge, a criterion that can say "nothing at stake"
 LG_MID = -5.0                      # centre of log g for the stake-dependent noise term (sr_g)
 PLAYER = dict(off="batter", **{"def": "fielder_2"})   # batter decides on called strikes, catcher on called balls
 
@@ -52,11 +51,11 @@ def glow(e):
     return np.minimum(lg - G_LOW, 0.0)
 
 
-SECOND_HALF = "2026-07-01"          # HONZA-132: the time-varying criterion / noise model splits the season here
+SECOND_HALF = "2026-07-01"          # the time-varying criterion / noise model splits the season here
 
 
 def tfeat(e):
-    """HONZA-132 (Sol, Astra reviews): time-varying criterion -- [h2, h2 * (log g - LG_MID)] with h2 = 1 from 1 July
+    """time-varying criterion -- [h2, h2 * (log g - LG_MID)] with h2 = 1 from 1 July
     (the same split as the temporal out-of-sample check). Frames without a date get zeros."""
     h2 = (pd.to_datetime(e.date).values >= np.datetime64(SECOND_HALF)).astype(float) if "date" in e else np.zeros(len(e))
     lg = np.log(np.clip(e.g.values, 1e-4, None)) - LG_MID
@@ -67,7 +66,7 @@ STATE_TERMS = ["abs_score_6", "late_close", "two_outs", "risp", "on_1b"]
 
 
 def sfeat(e):
-    """HONZA-134 (Opus round-5 review): game-state terms of the criterion -- |score difference| (capped at 6) / 6,
+    """game-state terms of the criterion -- |score difference| (capped at 6) / 6,
     late and close (inning >= 7, |score difference| <= 1), two outs, runner in scoring position, runner on first."""
     ad = np.minimum(np.abs(e.score_diff_home.values), 6)
     return np.column_stack([ad / 6, ((e.inning.values >= 7) & (ad <= 1)).astype(float), (e.outs.values == 2).astype(float),
@@ -90,7 +89,7 @@ def region(e):
 
 def eligible_mask(m, side):
     """the likelihood sample of one side: challenge opportunities (side, a challenge held, not a position player
-    pitching, HONZA-122) inside the fitting window |w| < 8 in. The window trims the fit only; the simulated policies
+    pitching, ) inside the fitting window |w| < 8 in. The window trims the fit only; the simulated policies
     see every located called pitch (sim.opportunity_mask)."""
     ok = ~m.pos_pitcher.values if "pos_pitcher" in m else np.ones(len(m), bool)
     return (m.side == side).values & (m.left > 0).values & (m.w.abs() < 8).values & ok
@@ -139,7 +138,7 @@ def t_cdf_int(z, nu):
 def spec_of(variant):
     """lik spec of a named variant (robust_fit.VARIANTS): deterministic truth + ruling mislabel pi for every
     perception variant; the smooth truth model only for sm_edge (offset/scale by edge, no pi) and sm_region (by
-    region, with pi; the pre-HONZA-88 baseline)."""
+    region, with pi; the pre-baseline)."""
     from robust_fit import VARIANTS
     truth = ({} if variant == "sm_edge" else {"truth_region": True, "contam": True} if variant == "sm_region"
              else {"det": True, "contam": True})
@@ -189,10 +188,10 @@ def unpack(th, spec):
         if spec.get("lapse"): q["llapse"] = th[j]; j += 1
         if spec.get("kappa_glow"): q["kgl"] = th[j]; j += 1
         if spec.get("sr_g"): q["srg"] = th[j]; j += 1
-        if spec.get("lapse_low"): q["llapse_low"] = th[j]; j += 1      # HONZA-130: lapse logit shift at log g <= LG_MID
-        if spec.get("kappa_time"): q["kt"] = th[j:j + 2]; j += 2           # HONZA-132: second-half criterion shift
-        if spec.get("sr_time"): q["srt"] = th[j]; j += 1                 # HONZA-132: second-half log noise shift
-        if spec.get("kappa_state"): q["ks"] = th[j:j + 5]; j += 5          # HONZA-134: game-state criterion terms
+        if spec.get("lapse_low"): q["llapse_low"] = th[j]; j += 1      # lapse logit shift at log g <= LG_MID
+        if spec.get("kappa_time"): q["kt"] = th[j:j + 2]; j += 2           # second-half criterion shift
+        if spec.get("sr_time"): q["srt"] = th[j]; j += 1                 # second-half log noise shift
+        if spec.get("kappa_state"): q["ks"] = th[j:j + 5]; j += 5          # game-state criterion terms
         P[side] = q; i = j
     return P
 
@@ -264,7 +263,7 @@ def row_terms(D, P, q, spec, a=None, b=None):
     # challenged: split the eta integral at the ABS boundary eta = -w. Region W=y is mapped to v in (0, ub) with
     # ub = Phi(+-w/sm) and eta = -+ sm * Phi^-1(v), so both ends stay away from 1 and log ub is exact.
     wc, smc, kc, src, yc = w[:nc], sm[:nc], kap[:nc], sr[:nc], y[:nc]
-    sg = jnp.where(yc, -1.0, 1.0)                      # W=1: eta = -sm*ndtri(v) > -w ; W=0: eta = sm*ndtri(v) < -w
+    sg = jnp.where(yc, -1.0, 1.0)                      # W=1: eta = -sm*ndtri(v) > -w; W=0: eta = sm*ndtri(v) < -w
     lub = log_ndtr(-sg * wc / smc)
     v = jnp.exp(jnp.maximum(lub, -250.0))[..., None] * (GL_X + 1) / 2   # keeps ndtri and its 2nd derivative finite
     eta = sg[..., None] * smc[..., None] * ndtri(v)
@@ -299,7 +298,7 @@ def side_terms(D, q, spec, w):
 
 
 def row_terms_det(D, P, q, spec, a=None, b=None):
-    """deterministic truth W = 1{w > 0}; the ruling y disagrees with W with probability pi (HONZA-88)."""
+    """deterministic truth W = 1{w > 0}; the ruling y disagrees with W with probability pi."""
     law = spec.get("law", "normal")
     w = jnp.where(D["os"] > 0, -D["d"], D["d"])
     lsr, kap = side_terms(D, q, spec, w)
@@ -309,9 +308,9 @@ def row_terms_det(D, P, q, spec, a=None, b=None):
     z = (w - kap) / jnp.exp(lsr)
     nc = D["nch"]
     if law == "normal" and spec.get("lapse"):
-        # HONZA-114: lapse rate lambda, P(challenge | w) = (1 - lambda) Phi(z): the challenge curve tops out below 1
+        # lapse rate lambda, P(challenge | w) = (1 - lambda) Phi(z): the challenge curve tops out below 1
         lam = q["llapse"]
-        if spec.get("lapse_low"):        # HONZA-130 (opt-in): the lapse rate may differ at low stakes (log g <= LG_MID)
+        if spec.get("lapse_low"):        # (opt-in): the lapse rate may differ at low stakes (log g <= LG_MID)
             lam = lam + q["llapse_low"] * (D["LG"] <= 0)
             if a is not None: lam = lam[:, None]
         ll1, ll0 = jax.nn.log_sigmoid(-lam), jax.nn.log_sigmoid(lam)
@@ -362,7 +361,7 @@ def re_posterior(data, th, side, spec):
     S = np.zeros((npl, len(a))); np.add.at(S, data[side]["pidx"], L)
     S = S + lw[None, :]; S -= S.max(1, keepdims=True); W = np.exp(S); W /= W.sum(1, keepdims=True)
     ea, eb = W @ a, W @ b
-    # HONZA-132 (Sol #7, Astra #6): the posterior covariance of (a_i, b_i), for joint draws (sim.apply_lik re="draw")
+    # the posterior covariance of (a_i, b_i), for joint draws (sim.apply_lik re="draw")
     return pd.DataFrame(dict(player=data[side]["players"], a=ea, b=eb, sd_a=np.sqrt(np.clip(W @ a ** 2 - ea ** 2, 0, None)),
                              sd_b=np.sqrt(np.clip(W @ b ** 2 - eb ** 2, 0, None)), cov_ab=W @ (a * b) - ea * eb,
                              n=np.bincount(data[side]["pidx"], minlength=npl),
@@ -386,8 +385,8 @@ def fit(data, spec, th0=None, base=None, maxiter=200, verbose=False):
     f = lambda th: tuple(np.asarray(v, float) for v in vg(jnp.asarray(th)))
     r = minimize(f, th0, jac=True, method="L-BFGS-B", options=dict(maxiter=60 if not spec.get("re") else 1000, maxcor=30))
     if spec.get("re"):
-        # the exact Hessian over player nodes does not fit in memory. HONZA-132 (Sol #7, Astra #6: max gradients 0.13
-        # and 1.28 at the L-BFGS stop): Newton refinement with a central-difference Hessian of the exact JAX gradient
+        # the exact Hessian over player nodes does not fit in memory (L-BFGS alone stopped at max gradients of 0.13
+        # and 1.28): Newton refinement with a central-difference Hessian of the exact JAX gradient
         r = newton_fd(vg, r, maxiter=maxiter if maxiter < 200 else 12, verbose=verbose)
         if verbose:
             print(spec, "nll", round(float(r.fun), 2), r.message, r.nit, "max|grad|", float(np.abs(r.jac).max()), flush=True)

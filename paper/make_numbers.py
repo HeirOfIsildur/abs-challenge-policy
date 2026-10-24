@@ -1,6 +1,6 @@
-"""HONZA-77: every number quoted in the manuscript, read from results/ -> paper/generated/{numbers,tab_*}.tex.
+"""every number quoted in the manuscript, read from results/ -> paper/generated/{numbers,tab_*}.tex.
 
-The manuscript never types a result by hand: it uses the macros defined here (\\WinsLost, \\SrBatter, ...) and
+The manuscript never types a result by hand: it uses the macros defined here (\\WinsLost, \\SrBatter,...) and
 \\input{}s the generated tables. Re-run after any change in results/ (``make -C paper``).
 usage (from the repo root): python paper/make_numbers.py"""
 import csv, json, math, os, re
@@ -19,11 +19,11 @@ LATEX_CAPS = {"Prob", "E", "Phi", "Sref", "Mref", "Delta", "RequirePackage", "Th
 def m(name, value):
     assert re.fullmatch(r"[A-Za-z]+", name), name
     if name in macros:
-        DUPS.append(name)              # HONZA-132: reported (and fatal) at the end, so all duplicates show at once
+        DUPS.append(name)              # reported (and fatal) at the end, so all duplicates show at once
     macros[name] = value
 
 
-# HONZA-106: a real minus sign (text-mode hyphens read as "[-0.004, 0.000]"), and no "-0.00"
+# a real minus sign (text-mode hyphens read as "[-0.004, 0.000]"), and no "-0.00"
 neg = lambda t: re.sub(r"(?<![\w])-(?=\d)", r"\\ensuremath{-}", re.sub(r"(?<![\w.])-(0(?:\.0+)?)(?![\d.])", r"\1", t))
 f1, f2, f3 = (lambda x: neg(f"{x:.1f}")), (lambda x: neg(f"{x:.2f}")), (lambda x: neg(f"{x:.3f}"))
 pct = lambda x, d=1: f"{100 * x:.{d}f}"
@@ -35,27 +35,27 @@ short_version = lambda v: ".".join(v.split()[0].split(".")[:2])
 
 
 def geometry():
-    """HONZA-88 geometry audit (results/geometry_audit.json)."""
+    """geometry audit (results/geometry_audit.json)."""
     g = J("geometry_audit.json"); r = g["reproduction"]
-    # HONZA-133: the ruling agreement is read from the current count-joined frame (src/geometry_current.py);
+    # the ruling agreement is read from the current count-joined frame (src/geometry_current.py);
     # geometry_audit.json keeps the historical plane / projection / square-corner comparisons on the older frame
     cur = J("geometry_current.json")
     m("GeomRepro", f2(100 * cur["share"])); m("GeomMismatch", str(cur["mismatches"]))
     m("GeomReproOld", f1(100 * r["statcast_projected_old"]["share"])); m("GeomN", thou(cur["n"]))
     m("GeomNOld", thou(r["statcast_raw"]["n"]))
     m("GeomReproFeed", f2(100 * r["feed_projected_mid"]["share"]))
-    # HONZA-120: the square-corner rule used up to HONZA-114, and the ball-radius sweep of the round-ball rule
+    # the square-corner rule used up to and the ball-radius sweep of the round-ball rule
     sq = r["statcast_raw_square_corners"]
     m("GeomReproSquare", f2(100 * sq["share"])); m("GeomMismatchSquare", str(sq["mismatches"]))
     m("GeomRelabelCalled", str(sq["relabelled_called"])); m("GeomRelabelChallenged", str(sq["relabelled_challenged"]))
     sw = r["statcast_raw_radius_sweep"]
-    m("GeomRadiusSweep", ", ".join(f"{sw[k]} at {k}\\,in" for k in ("1.40", "1.43", "1.45", "1.47", "1.50")))
+    m("GeomRadiusSweep", ", ".join(str(sw[k]) for k in ("1.40", "1.43", "1.45", "1.47", "1.50")) + " mismatches at 1.40, 1.43, 1.45, 1.47 and 1.50\\,in")
     m("GeomShiftOld", f2(g["feed_vs_statcast"]["dz_raw_in"]))
     m("GeomPlaneSD", f3(g["plane"]["statcast_2026"]["mid"]["dz_sd"]))
 
 
 def headline():
-    """HONZA-132: the cross-fitted primary estimate (results/headline.json from src/headline_report.py) and its joint
+    """the cross-fitted primary estimate (results/headline.json from src/headline_report.py) and its joint
     bootstrap; old macro names kept where the concept is unchanged (\\WinsLost, \\JointBootCI, \\WOpt = the benchmark)."""
     h = J("headline.json")
     pt, iv = h["point"], h["interval"]
@@ -113,11 +113,11 @@ def headline():
 
 
 def policy_table(P):
-    """HONZA-132 (Astra minor 12): the wide policy table split in two -- benchmark and observed play (tab_policies),
+    """the wide policy table split in two -- benchmark and observed play (tab_policies),
     and the rules a team could implement, with the share of the gap each recovers (tab_rules)."""
     h = J("headline.json")
-    lab = {"bench": "Pooled-model benchmark (primary intervention)", "opt": "Earlier DP (no score, fixed opportunity counts)",
-           "clairvoyant": "Clairvoyant comparator (knows its game's future $(p,g)$; not a bound)",
+    lab = {"bench": "Pooled-model benchmark (primary intervention)", "opt": "Score-free DP (fixed opportunity counts)",
+           "clairvoyant": "Clairvoyant policy (knows its game's future $(p,g)$; not a bound)",
            "observed": "\\textbf{Observed 2026 (realised)}", "obs_rule": "Teams' fitted rule $s>\\kappa(x)$ (simulated)"}
     L = ["\\begin{tabular}{p{5.0cm}ccc}", "\\toprule", "Policy & Wins & Share of benchmark (\\%) & Challenges \\\\", "\\midrule"]
     for p in ("bench", "opt", "clairvoyant", "obs_rule", "observed"):
@@ -125,7 +125,7 @@ def policy_table(P):
         share = "100" if p == "bench" else f"{pct(q['share'])} {ci(q['share_ci'], lambda x: pct(x))}"
         L.append(f"{lab[p]} & {f2(q['wins'])} {ci(q['wins_ci'])} & {share} & {f2(q['n'])} \\\\")
     L += ["\\bottomrule", "\\end{tabular}"]
-    open(f"{OUT}/tab_s_oldpolicies.tex", "w").write("\n".join(L) + "\n")   # HONZA-134: the stakes-only estimator
+    open(f"{OUT}/tab_s_oldpolicies.tex", "w").write("\n".join(L) + "\n")   # the stakes-only estimator
     rows = h["policies"]; Pw = {p["policy"]: p for p in rows}
     obs, ben = Pw["observed"]["wins"], Pw["bench"]["wins"]
     sv = h["savant_tuned"]
@@ -148,7 +148,7 @@ def policy_table(P):
 
 
 def carried():
-    """HONZA-132: macros the HONZA-130 headline() derived from other result files, read from those files directly."""
+    """macros the headline derived from other result files, read from those files directly."""
     def get(f):
         try:
             return J(f)
@@ -193,7 +193,7 @@ def carried():
             m("SpreadRejLo", f2(min(lr))); m("SpreadRejHi", f2(max(lr)))
         b0 = pv["kappa_sr_region_g"]["bic"]
         good = [k for k in ms if k in pv and pv[k]["bic"] <= b0 + 1e-6 and k not in ("re", "re_lapse")]
-        allv = [ms[k]["lost"] for k in good] + [ms[k]["lost_kept"] for k in good if ms[k].get("lost_kept") is not None]
+        allv = [ms[k]["lost_kept"] if ms[k].get("lost_kept") is not None else ms[k]["lost"] for k in good]   # lapses kept (ell = 0)
         if allv:
             m("SpreadAllLo", f2(min(allv))); m("SpreadAllHi", f2(max(allv)))
         m("VariantR", str(h["variants_R"]))
@@ -203,7 +203,7 @@ def carried():
 
 
 def honza132():
-    """HONZA-132 (round-3 reviews, GPT-6.1-Sol and GPT-6-Astra): join audit, half-innings, stakes validation, the
+    """join audit, half-innings, stakes validation, the
     intervention grid, coverage under misspecification, the mechanism with uncertainty, the paired causal contrast."""
     def get(f):
         try:
@@ -244,8 +244,8 @@ def honza132():
         mh = [c for c in M["kappa_sr_region_g"]["cells"] if c["rho"] == 0.5]
         if mh: m("PIDMainHalf", f2(mh[0]["lost"]))
         if "main_time" in M: m("TimeLost", f2(M["main_time"]["primary"]))
-        lab = {"kappa_sr_region_g": "Main", "main_lapse": "Main + lapse", "main_time": "Main, time-varying",
-               "main_time_lapse": "Main, time-varying + lapse", "re_gh11": "Player effects",
+        lab = {"kappa_sr_region_g": "Comparator", "main_lapse": "Comparator + lapse", "main_time": "Comparator, time-varying",
+               "main_time_lapse": "Comparator, time-varying + lapse", "re_gh11": "Player effects",
                "re_lapse_gh11": "Player effects + lapse (primary)"}
         rhos = iv["rhos"]; lams = iv["lams"]
         L = ["\\begin{tabular}{l" + "c" * len(rhos) + "}", "\\toprule",
@@ -256,7 +256,7 @@ def honza132():
                 nm = lab.get(k, k) + (f" ($\\ell={lam:g}$)" if v["lapse"] else "")
                 L.append(nm + " & " + " & ".join(f2(cells[r]) for r in rhos) + " \\\\")
         L += ["\\bottomrule", "\\end{tabular}"]
-        open(f"{OUT}/tab_s_pidall.tex", "w").write("\n".join(L) + "\n")     # HONZA-134: supplement; main text in honza134
+        open(f"{OUT}/tab_s_pidall.tex", "w").write("\n".join(L) + "\n")     # supplement; main text in honza134
     pv = J("perception_variants.json"); b0 = pv["kappa_sr_region_g"]["bic"]
     if "re_lapse_gh11" in pv:
         m("BICRELapse", thou(pv["re_lapse_gh11"]["bic"]))
@@ -344,12 +344,12 @@ def honza132():
         m("CausalR", str(c["R"])); m("CausalK", str(c["K"]))
 
 
-PRIMARY = "re_lapse_gh11"                      # HONZA-134: the BIC-best model of the decision set is the primary model
+PRIMARY = "re_lapse_gh11"                      # the BIC-best model of the decision set is the primary model
 COMPARATOR = "kappa_sr_region_g"               # the homogeneous main model, now the comparator
 
 
 def honza134():
-    """HONZA-134: the full policy cross-fit (results/policy_crossfit.json, src/policy_crossfit.py) is the headline
+    """the full policy cross-fit (results/policy_crossfit.json, src/policy_crossfit.py) is the headline
     estimator, for the primary model (player effects + lapse) and the comparator (homogeneous main model); refit
     bootstraps of the whole procedure (results/pcf_boot_<model>.json); the coverage study on the 2026 stream
     (results/coverage_pcf.json); the state-dependent criterion rows."""
@@ -385,10 +385,11 @@ def honza134():
         b = get(f"pcf_boot_{key}.json")
         if b:
             L_ = b["lost"]
-            # HONZA-134 (coverage study, round 1): the index's interval is the normal one (point +- 1.96 bootstrap SD)
+            # (coverage study, round 1): the index's interval is the normal one (point +- 1.96 bootstrap SD)
             m(f"{nm}CI", ci(L_["normal"])); m(f"{nm}Pct", ci(L_["percentile"])); m(f"{nm}Basic", ci(L_["basic"])); m(f"{nm}Normal", ci(L_["normal"]))
             m(f"{nm}BootMean", f2(L_["mean"])); m(f"{nm}BootSD", f3(L_["sd"])); m(f"{nm}B", str(b["B"]))
             m(f"{nm}BFail", str(b["B"] - b["B_ok"])); m(f"{nm}BootBias", f3(L_["bias"]))
+            m(f"{nm}BFailText", "all fold fits reached the gradient tolerance" if b["B"] == b["B_ok"] else f"{b['B'] - b['B_ok']} replicates with a fold that did not are kept")
             m(f"{nm}RuleGapCI", ci(b["gap_closed"]["stake_0.008"]["ci"], lambda x: f"{100 * x:.0f}"))
             m(f"{nm}FrozenGapCI", ci(b["gap_closed"]["stake_frozen"]["ci"], lambda x: f"{100 * x:.0f}"))
             m(f"{nm}RuleShareCI", ci(b["share"]["stake_0.008"]["ci"], lambda x: pct(x)))
@@ -399,7 +400,7 @@ def honza134():
             if b.get("lost_ok_only"):
                 d_ = max(abs(a - c) for a, c in zip(b["lost_ok_only"]["percentile"], L_["percentile"]))
                 m(f"{nm}BFailDiff", f3(d_))
-    # HONZA-134 (round-1 referees): competitor and re-tuned rules in the same cross-fit (<model>_ext runs), the estimator's
+    # competitor and re-tuned rules in the same cross-fit (<model>_ext runs), the estimator's
     # own choices (exact-count cells, K, training-only noise quintiles)
     for key, nm in ((PRIMARY, "Gap"), (COMPARATOR, "GapMain")):
         v = pt(key)
@@ -576,7 +577,7 @@ def honza134():
             alg = v["lost_sd_over_splits"] ** 2 + v["lost_mc_se_within"] ** 2
             m(f"{nm}BootSDAlg", f3(np.sqrt(max(b["lost"]["sd"] ** 2 - alg, 0)))); m(f"{nm}AlgPct", f"{100 * alg / b['lost']['sd'] ** 2:.0f}")
             m(f"{nm}SimRuleGap", f2(v["bench"] - v["rules"]["obs_rule"]["wins"]))
-            m(f"{nm}FitRuleCI", ci(b["obs_rule_gap"]["ci"], lambda x: f"{100 * x:.0f}"))
+            m(f"{nm}FitRuleCI", ci(b["obs_rule_gap"]["ci"], lambda x: f"{100 * x:.1f}"))
             if b.get("freq_matched") and b["freq_matched"].get("point") is not None:
                 m(f"{nm}FMGapPct", f"{100 * b['freq_matched']['point']:.0f}"); m(f"{nm}FMGapCI", ci(b["freq_matched"]["ci"], lambda x: f"{100 * x:.0f}"))
             if b.get("sim_rule_gap"):
@@ -588,7 +589,7 @@ def honza134():
     hs = get("honest-scoring-check.json")
     if hs:
         m("SDistinctShare", f"{100 * hs['distinct_share_n2425']:.1f}\\%")
-    # HONZA-134 (Fable / Opus round 1): one table of every estimator and reading of the index, both models
+    # one table of every estimator and reading of the index, both models
     h_ = get("headline.json") or {}; fs = h_.get("full_sample", {}); co = h_.get("co_primary", {}); cvj = get("coverage_pcf.json") or {}
     cr = cvj.get("results", {})
     def cell(x):
@@ -633,21 +634,21 @@ def honza134():
 
 
 def perception(pv, h):
-    MAIN = "kappa_sr_region_g"                 # HONZA-122: BIC-best homogeneous model (src/headline.py MAIN)
+    MAIN = "kappa_sr_region_g"                 # BIC-best homogeneous model (src/headline.py MAIN)
     base, main = pv["normal"], pv[MAIN]
     m("SrBatter", f2(main["params"]["off_sr"])); m("SrCatcher", f2(main["params"]["def_sr"]))
     m("SrBaseBatter", f2(base["params"]["off_sr"])); m("SrBaseCatcher", f2(base["params"]["def_sr"]))
-    # HONZA-114: sigma_r intervals from the B = 400 refits of headline_boot.json (the paper's bootstrap), not the older
+    # sigma_r intervals from the B = 400 refits of headline_boot.json (the paper's bootstrap), not the older
     # B = 120 run of final_ci.py. Main spec theta: [logit pi | off: beta 6, log sr, kreg 3, sr region 3 | def: same], so
     # the bottom-edge log sigma_r of the batter is theta[7] and of the catcher theta[7 + 13]
     import numpy as np
-    # HONZA-132: sigma_r intervals (bottom edge) from the joint bootstrap's refits
+    # sigma_r intervals (bottom edge) from the joint bootstrap's refits
     srs = np.array([r["sr"] for r in J("joint_boot.json")["rows"] if r.get("ok")])
     for side, nm, j in (("off", "Batter", 0), ("def", "Catcher", 1)):
         lo, hi = np.percentile(srs[:, j], [2.5, 97.5]); pt_ = main["params"][f"{side}_sr"]
         m(f"Sr{nm}BootCI", ci([lo, hi])); m(f"Sr{nm}HalfPct", f1(100 * (hi - lo) / 2 / pt_))
     p = main["params"]
-    # HONZA-88: the main spec has a deterministic truth; the boundary offsets are those of the smooth truth model
+    # the main spec has a deterministic truth; the boundary offsets are those of the smooth truth model
     # (sm_region) refitted on the corrected geometry, where they collapse to ~0
     sr_ = pv["sm_region"]["params"]
     m("MuBottom", f2(-sr_["mu_bottom"])); m("MuTop", f2(sr_["mu_top"]))
@@ -660,7 +661,7 @@ def perception(pv, h):
     m("BICMain", thou(main["bic"])); m("BICRE", thou(pv["re"]["bic"]))
     rej = [pv[k]["nll"] - base["nll"] for k in ("logistic", "t10", "t5", "t3")]
     m("DLLRejLo", thou(min(rej))); m("DLLRejHi", thou(max(rej)))
-    # HONZA-114: the same noise-law comparison on the main specification, and a lapse rate (the challenge curve tops out
+    # the same noise-law comparison on the main specification, and a lapse rate (the challenge curve tops out
     # below 1: P(challenge | w) = (1 - lambda) Phi(z)), with its wins lost (results/lapse_wins.json, R = 20)
     rejm = [pv[f"main_{k}"]["nll"] - main["nll"] for k in ("logistic", "t10", "t5", "t3")]
     m("DLLRejMainLo", thou(min(rejm))); m("DLLRejMainHi", thou(max(rejm)))
@@ -675,14 +676,14 @@ def perception(pv, h):
         c = main["calibration"][side]
         m(f"Over{nm}Pred", f1(100 * c["over_pred"])); m(f"Over{nm}Obs", f1(100 * c["over_obs"]))
     re_ = pv["re"]["params"]
-    # HONZA-114: on the data, how far the homogeneous main fit's batter sigma_r sits above the random-effects fit's
-    m("HetDataBiasBatter", f1(100 * (p["off_sr"] / re_["off_sr"] - 1)))
+    # on the data, how far the homogeneous main fit's batter sigma_r sits above the random-effects fit's
+    m("HetDataBiasBatter", f1(100 * (p["off_sr"] / pv["re_gh11"]["params"]["off_sr"] - 1)))
     m("KappaTopBatter", f1(p["off_kappa_region_shift"]["top"]))
     m("SrTopCatcherPct", f"{100 * (p['def_sr_region_mult']['top'] - 1):.0f}")
-    # HONZA-132: the main-text model table (tab_variants) is written by honza132()
+    # the main-text model table (tab_variants) is written by honza132
     vw = J("variant_wins.json")["calibration_test"]
     m("SlopeCalBatter", f2(vw["off"]["calibrated"]["slope_log_g"])); m("SlopeCalCatcher", f2(vw["def"]["calibrated"]["slope_log_g"]))
-    os_ = J("opt_slope.json")["opt"]          # HONZA-114: the optimum's own thresholds through the same regression
+    os_ = J("opt_slope.json")["opt"]          # the optimum's own thresholds through the same regression
     m("OptSlopeBatter", f2(os_["off"]["slope_log_g"])); m("OptSlopeCatcher", f2(os_["def"]["slope_log_g"]))
     m("OptSlopeScoreBatter", f2(os_["off"]["slope_log_g_score_controls"])); m("OptSlopeScoreCatcher", f2(os_["def"]["slope_log_g_score_controls"]))
     m("SlopeFlatBatter", f2(vw["off"]["flat_prior"]["slope_log_g"])); m("SlopeFlatCatcher", f2(vw["def"]["flat_prior"]["slope_log_g"]))
@@ -702,17 +703,17 @@ def identification():
     m("RecovHetBias", f"{idn['player_heterogeneity']['bias_pct']['off_sr']:.0f}")
     if "coord_noise_0.3in" in idn:
         m("RecovCoordBias", f"{idn['coord_noise_0.3in']['bias_pct']['off_sr']:+.1f}")
-    # HONZA-88 kernel check of the deterministic-truth identification (wolfram/identification_det.wl)
+    # kernel check of the deterministic-truth identification (wolfram/identification_det.wl)
     dk = J("identification-det-check.json")
     m("DetRank", str(dk["D2_rank_batter"])); m("DetVersion", short_version(dk["wolframVersion"]))
     bias = [float(x) for x in dk["D4_rel_bias_pct_c03"].replace("{", "").replace("}", "").split(",")]
     m("DetCoordBiasCatcher", f1(bias[1])); m("DetCoordBiasBatter", f1(bias[3]))
     # sigma_r multiplier at which wins lost reaches 0.25 (linear interpolation of sr_breakeven.json).
-    # HONZA-88: sr_breakeven.json is evaluated on the score-aware optimum (opt_score), like the headline.
+    # sr_breakeven.json is evaluated on the score-aware optimum (opt_score), like the headline.
     br = sorted((float(k), v["lost"]) for k, v in J("sr_breakeven.json").items())
     be = next(x0 + (x1 - x0) * (l0 - 0.25) / (l0 - l1) for (x0, l0), (x1, l1) in zip(br, br[1:]) if l0 >= 0.25 > l1)
     m("BreakEvenPct", f"{100 * (be - 1):.0f}")
-    # HONZA-91: what the break-even sigma_r costs in the profile log-likelihood (identification.json, baseline model),
+    # what the break-even sigma_r costs in the profile log-likelihood (identification.json, baseline model),
     # quadratic interpolation through the three grid points nearest to it.
     def prof(side, mult):
         P = idn[f"profile_{side}"]; s0 = idn["truth"][f"{side}_sr"]
@@ -728,7 +729,7 @@ def identification():
     m("OOSTestSrBatter", f2(o["fit_test_julsep"]["off_sr"])); m("OOSTestSrCatcher", f2(o["fit_test_julsep"]["def_sr"]))
     m("AAASrBatter", f2(o["aaa2025_refit"]["off_sr"])); m("AAASrCatcher", f2(o["aaa2025_refit"]["def_sr"]))
     m("SpringSrBatter", f2(o["spring2026_refit"]["off_sr"])); m("SpringSrCatcher", f2(o["spring2026_refit"]["def_sr"]))
-    # HONZA-114: how much noisier than MLB 2026 in the same model, range over the two sides (HONZA-122: the main
+    # how much noisier than MLB 2026 in the same model, range over the two sides (the main
     # model, which oos.py now fits to every sample)
     b0 = J("perception_variants.json")["kappa_sr_region_g"]["params"]
     for key, nm in (("aaa2025_refit", "AAA"), ("spring2026_refit", "Spring")):
@@ -736,6 +737,7 @@ def identification():
         m(f"{nm}SrPctLo", f"{min(d_):.0f}"); m(f"{nm}SrPctHi", f"{max(d_):.0f}")
     fc = J("feed_check.json")["kappa_sr_region_g"]
     m("FeedSrBatter", f2(fc["params"]["off_sr"])); m("FeedSrCatcher", f2(fc["params"]["def_sr"]))
+    fb_ = J("feed_check.json")["normal"]["params"]; m("FeedBaseSrBatter", f2(fb_["off_sr"])); m("FeedBaseSrCatcher", f2(fb_["def_sr"]))
     L = ["\\begin{tabular}{lrrcc}", "\\toprule",
          "Fit sample $\\to$ evaluation & \\multicolumn{2}{c}{$\\sigma_r$ (in)} & \\multicolumn{2}{c}{Overturn rate, model / obs. (\\%)} \\\\",
          " & batter & catcher & batter & catcher \\\\", "\\midrule"]
@@ -803,7 +805,7 @@ def data_counts():
 
 
 def thresholds():
-    """Bar-2 threshold gaps and the sqrt-n fit on the score-aware DP (HONZA-77 refresh), if present."""
+    """Bar-2 threshold gaps and the sqrt-n fit on the score-aware DP (refresh), if present."""
     keys = ("GapEarlyLateOne", "GapEarlyLateTwo", "GapOneTwo", "SqrtRTwo", "LinRTwo", "DeltaSqRTwoHome",
             "DeltaSqRTwoAway", "DeltaRatio", "GapMethod")
     f = os.path.join(R, "thresholds_score.json")
@@ -818,7 +820,7 @@ def thresholds():
 
 
 def postseason():
-    """HONZA-87 postseason out-of-sample check (results/postseason_preview.json) -> Post* macros, tab_post.tex and
+    """postseason out-of-sample check (results/postseason_preview.json) -> Post* macros, tab_post.tex and
     the supplement's tab_s_post*.tex."""
     d = J("postseason_preview.json")
     s = d["sample"]; po, rs = s["Postseason"], s["Regular season"]
@@ -908,7 +910,7 @@ def postseason():
 
 
 def causal_gap():
-    """HONZA-100 simulator-versus-engine decomposition (results/causal_gap.json) -> SGap* macros, tab_s_gap*.tex."""
+    """simulator-versus-engine decomposition (results/causal_gap.json) -> SGap* macros, tab_s_gap*.tex."""
     g = J("causal_gap.json"); o = g["by_policy"]["opt_score"]; mc = g["mc_check"]
     m("SGapBranches", f"{o['branches_per_season']:.0f}"); m("SGapMeanG", f"{o['mean_g_branch_engine']:.4f}")
     m("SGapMoveRate", f1(100 * g["p_move_between_pitches"]))
@@ -944,10 +946,10 @@ def causal_gap():
 
 
 def review_fixes():
-    """HONZA-106 (AoAS referee report of HONZA-103): bootstrap interval diagnostics, the nonparametric check of the
+    """bootstrap interval diagnostics, the nonparametric check of the
     challenge curve (results/isotonic_check.json) and the behavioural-rule gap (results/behaviour_gap.json)."""
     import random
-    # HONZA-132: interval diagnostics of the joint bootstrap (the engine-fixed bootstrap is no longer run)
+    # interval diagnostics of the joint bootstrap (the engine-fixed bootstrap is no longer run)
     lost = [r["lost"] for r in J("joint_boot.json")["rows"] if r.get("ok")]
     n = len(lost)
     q = lambda xs, a: sorted(xs)[min(len(xs) - 1, max(0, int(round(a * (len(xs) - 1)))))]
@@ -990,7 +992,7 @@ def review_fixes():
 
 
 def honza122():
-    """HONZA-122 (five-referee review): sample flow, label agreement on all pitches, the clairvoyant ceiling, the tuned
+    """sample flow, label agreement on all pitches, the clairvoyant ceiling, the tuned
     Savant constant, the cross-fitted constant, the joint and block bootstraps, the lapse re-test, the mechanism
     diagnostics and the first-divergence causal check. A missing result prints as pending."""
     def get(f):
@@ -1028,13 +1030,13 @@ def honza122():
         m("LabelDifferUnchPct", f2(100 * la["unchallenged"]["share_differ"])); m("LabelDifferLikPct", f2(100 * la["likelihood_sample"]["share_differ"]))
         m("LabelDifferChPct", f2(100 * la["challenged"]["share_differ"])); m("LabelPitches", thou(la["pitches"]))
     h = J("headline.json"); P = {p["policy"]: p for p in h["policies"]}
-    if "clairvoyant" in P:                     # HONZA-132: WClair, SavantTuned* now from headline()
+    if "clairvoyant" in P:                     # WClair, SavantTuned* now from headline
         m("ClairGap", f2(P["clairvoyant"]["wins"] - P["bench"]["wins"]))
     o = get("oos.json")
     if o and "frozen_share" in o.get("wins_lost_test_train_params", {}):
         t = o["wins_lost_test_train_params"]
         m("FrozenDelta", f"{t['frozen_delta']:g}"); m("FrozenShare", pct(t["frozen_share"])); m("FrozenGapClosed", f"{100 * t['frozen_gap_closed']:.0f}")
-    fz = o.get("frozen_crossfit", {}).get("with_train_engine")      # HONZA-130 (Opus, Sol, Astra): everything frozen
+    fz = o.get("frozen_crossfit", {}).get("with_train_engine")      # everything frozen
     if fz:
         m("FrozenAllDelta", f"{fz['frozen_delta']:g}"); m("FrozenDPShare", pct(fz["frozen_dp_share_of_retro"]))
         m("FrozenRuleShareRetro", pct(fz["frozen_rule_share_of_retro"])); m("FrozenRuleShareDP", pct(fz["frozen_rule_share_of_frozen_dp"]))
@@ -1047,8 +1049,8 @@ def honza122():
                 m(f"FrozenLost{nm}", f2(z["wins_lost_vs_frozen_dp"])); m(f"FrozenDPShare{nm}", pct(z["frozen_dp_share_of_retro"]))
                 m(f"FrozenRuleShareRetro{nm}", pct(z["frozen_rule_share_of_retro"]))
         m("OOSTestLost", f2(t["opt_minus_observed"])); m("OOSTestLostOwn", f2(o["wins_lost_test_test_params"]["opt_minus_observed"]))
-        m("OOSTrainLost", f2(o["wins_lost_train_train_params"]["opt_minus_observed"]))   # HONZA-130 (Opus, Sonnet)
-    # HONZA-132: the joint and block bootstrap macros come from headline()
+        m("OOSTrainLost", f2(o["wins_lost_train_train_params"]["opt_minus_observed"]))
+    # the joint and block bootstrap macros come from headline
     pv = J("perception_variants.json")
     if "linear_lapse" in pv:
         a, l = pv["kappa_sr_region"], pv["linear_lapse"]
@@ -1098,20 +1100,20 @@ def honza122():
         m("CausalSkipShare", f"{100 * c['point']['opt_score']['skip_branches_per_team_game'] / c['point']['opt_score']['branches_per_team_game']:.0f}")
 
 
-def referee130():
-    """HONZA-130 (five-referee review): rule-class decomposition, piecewise slopes, cross-fitted stakes, engine
+def robustness_checks():
+    """rule-class decomposition, piecewise slopes, cross-fitted stakes, engine
     shrinkage, months, moot calls, random-effects quadrature and calibration, state-dependent lapse."""
-    if not os.path.exists(os.path.join(R, "referee130.json")):
+    if not os.path.exists(os.path.join(R, "robustness_checks.json")):
         return
-    d = J("referee130.json")
-    # HONZA-132: the decomposition is the cross-fitted point of results/mechanism_boot.json when present
+    d = J("robustness_checks.json")
+    # the decomposition is the cross-fitted point of results/mechanism_boot.json when present
     mbp = J("mechanism_boot.json").get("point") if os.path.exists(os.path.join(R, "mechanism_boot.json")) else None
     dec = mbp["full"]["decomp"] if mbp and mbp.get("full") else d["decomp"]
     D = dec["rows"]; o = lambda k: D[k]["out_of_sample"]
     for k, nm in (("fitted_rule", "Fit"), ("intercept_only", "Int"), ("stake_linear_only", "Stake"), ("both_linear", "Both"),
                   ("stake_scale_only", "StakeScale"), ("both_scale", "BothScale")):
         m(f"Dec{nm}Share", pct(o(k)["share_opt"]))
-        if not (mbp and nm in ("Int", "Stake", "Both", "StakeScale")):        # those come from honza132()
+        if not (mbp and nm in ("Int", "Stake", "Both", "StakeScale")):        # those come from honza132
             m(f"Dec{nm}Gap", f"{100 * o(k)['gap_closed']:.0f}"); m(f"Dec{nm}N", f2(o(k)["n"]))
     m("DecR", str(dec["R"])); m("DecRTune", str(dec["R_tune"]))
     for side, nm in (("off", "Batter"), ("def", "Catcher")):
@@ -1146,7 +1148,7 @@ def referee130():
            "stake_linear_only": "Slope on $\\log g$ re-tuned (targeting)", "both_linear": "Intercept and slope re-tuned",
            "stake_scale_only": "Stake terms scaled", "both_scale": "Intercept and stake terms scaled"}
     T = ["\\begin{tabular}{lcccc}", "\\toprule",
-         "Rule & Wins & Share of optimum (\\%) & Gap closed (\\%) & Challenges per team-game \\\\", "\\midrule"]
+         "Rule & Wins & Share of benchmark (\\%) & Gap closed (\\%) & Challenges per team-game \\\\", "\\midrule"]
     for k in ("fitted_rule", "intercept_only", "stake_linear_only", "both_linear", "stake_scale_only", "both_scale"):
         q = o(k)
         T.append(f"{lab[k]} & {f2(q['wins'])} & {pct(q['share_opt'])} & {100 * q['gap_closed']:.0f} & {f2(q['n'])} \\\\")
@@ -1175,7 +1177,7 @@ def main():
     geometry()
     h, P = headline()
     pv = J("perception_variants.json")
-    referee130()
+    robustness_checks()
     policy_table(P)
     perception(pv, h)
     identification()
@@ -1186,11 +1188,11 @@ def main():
     review_fixes()
     honza122()
     honza132()
-    honza134()                                     # HONZA-134: writes tab_variants / tab_pid / tab_rules over honza132's
+    honza134()                                     # writes tab_variants / tab_pid / tab_rules over honza132's
     carried()
-    import supplement_numbers                      # HONZA-92: S-macros and tab_s_*.tex for supplement.tex
+    import supplement_numbers                      # S-macros and tab_s_*.tex for supplement.tex
     supplement_numbers.run(m, R, OUT)
-    # HONZA-132: every macro the manuscripts use that no result has defined yet prints as pending (make check fails on it)
+    # every macro the manuscripts use that no result has defined yet prints as pending (make check fails on it)
     import re as _re
     defined = set(macros)
     for tex in ("paper/main.tex", "paper/supplement.tex"):

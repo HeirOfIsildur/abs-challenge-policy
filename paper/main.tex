@@ -51,8 +51,7 @@ reviewed rulings, so the call the system would make can be reconstructed for unc
 challenge decision becomes a binary-response model fitted on challenged and unchallenged opportunities alike. The model
 identifies the total decision noise, not how much of it, or of the players' lapses, a new decision rule could remove.
 We define an accounting index, the wins per team-season by which a dynamic-programming benchmark learned from the data
-exceeds the teams' challenges when only the decision rule changes, estimate it out of fold (every learned component of
-the benchmark is fitted on other games and scored on held-out games), and treat the unidentified shares as
+exceeds the teams' challenges when only the decision rule changes, estimate it out of fold (the benchmark is learned on other games and scored on held-out games), and treat the unidentified shares as
 sensitivity parameters. Under a model with player effects and lapses the index is \Gap{} wins per team-season, with a
 bootstrap interval of \GapCI{} that refits the whole procedure and is conditional on the model; it is \GapLamOne{} if the
 lapses could be removed, \GapRhoHalf{} if half the noise variance could, and \PCFLo--\PCFHi{} across the models that fit
@@ -186,12 +185,12 @@ with the sign chosen so that $w>0$ means the umpire's call was wrong under the r
 \begin{equation}\label{eq:truth}
 W = \mathbf 1\{w>0\}, \qquad Y = \begin{cases} W & \text{with probability } 1-\pi,\\ 1-W & \text{with probability } \pi, \end{cases}
 \end{equation}
-where $Y$ is the ABS ruling on a challenged pitch and $\pi$ a small reconstruction-disagreement rate (of the
-disagreements below, four lie within 0.005\,in of an edge and one is a coordinate disagreement between sources), not a
+where $Y$ is the ABS ruling on a challenged pitch and $\pi$ a small reconstruction-disagreement rate (the five mismatches of Section~\Sref{sec:mismatch} are boundary ties within 0.01\,in of an edge and one coordinate
+disagreement between sources), not a
 measured error rate of the ABS system. From 2026 Statcast reports the
 location at the plate's midpoint \citep{SavantCSV2026}; taken as published, these coordinates reproduce \GeomRepro\%
 of the \GeomN{} rulings under the rule (\GeomMismatch{} mismatches, all within 0.01\,in of an edge or where Statcast and
-the live feed disagree on the location), square corners reproduce \GeomReproSquare\% (on an earlier join of \GeomNOld{} rulings), and shifting either zone line
+the live feed disagree on the location), square corners reproduce \GeomReproSquare\% (on the \GeomNOld{} rulings of a description-based join; Section~\Sref{sec:geometry}), and shifting either zone line
 does not improve the fit. A smooth truth model with region offsets and Gaussian measurement noise is not preferred to the deterministic one, and BIC prefers~\eqref{eq:truth} by \BICSmoothMinusDet; the fitted mislabel rate is
 $\pi=\ContamPct\%$. The agreement is measured on reviewed pitches, which cluster near the edges; on all called pitches
 the label from the live feed's own coordinates differs from the Statcast label for \LabelDifferPct\%, mostly within a
@@ -203,7 +202,7 @@ the challenger's perception of it.
 \subsection{The decision model and its likelihood}
 The player who may challenge (the batter on a called strike, the catcher on a called ball) observes a signal
 $s=w+\varepsilon$, $\varepsilon\sim N(0,\sigma_{r}^2)$, and challenges iff $s>\kappa(x)$, where $x$ collects the
-challenges left, the inning, the count and $\log g$. In the main specification $\kappa$ is piecewise linear in
+challenges left, the inning, the count and $\log g$. In the homogeneous specification used as comparator below, $\kappa$ is piecewise linear in
 $\log g$ with hinges at fixed values ($-5$, $-4$, $-3.2$, about the 40th, 80th and 95th percentiles), and both $\kappa$
 and $\sigma_r$ shift by zone region (Table~\Sref{tab:params} gives every term). For a called pitch at distance $w$,
 \begin{equation}\label{eq:pch}
@@ -231,17 +230,18 @@ curve depends on $(\sigma_p,\sigma_\nu)$ only through $\sigma_r^2=\sigma_p^2+\si
 \noindent Part (a) is the identification of a probit with an observed regressor (Jacobian determinant of absolute value
 $\phi_1\phi_2|w_1-w_2|/\sigma_r^3$); with covariates it is a full-design condition, and at the fitted values the
 Jacobian of the challenge curve on a grid of distances has full column rank for both sides. Parts (a)--(d) are verified in Mathematica
-(Section~\Sref{sec:kernel}). By (c), $0.3$\,in of tracking noise would bias the comparator's $\sigma_r$ up by \DetCoordBiasBatter\% for
+(Section~\Sref{sec:kernel}). By (c), $0.3$\,in of tracking noise would bias the homogeneous model's $\sigma_r$ (the comparator of
+Section~\ref{sec:estimates}) up by \DetCoordBiasBatter\% for
 batters and \DetCoordBiasCatcher\% for catchers. Part (d) is the crux of this paper: the data identify the decision
 noise $\sigma_r$, not its perceptual part $\sigma_p$, and the same holds for the lapse rate, whose removable share is
 not identified. A lapse rate $\lambda$ is identified only through the parametric shape: the response is still rising
 where the data end (\TailFourBatter{} batter and \TailFourCatcher{} catcher opportunities wrong by more than 4\,in in the
 season), so $\lambda$ is read from the curvature of the probit over $w\in(0,4]$, not from an observed plateau
-\citep{Prins2012}. Simulating from the fitted model and refitting from a deliberately wrong start, the bias in $\sigma_r$ over the \RecovConv{} of \RecovN{} replicates whose refit converged is \RecovBiasBatter\% for batters and \RecovBiasCatcher\% for catchers
+\citep{Prins2012}. Simulating from a fitted homogeneous baseline model (Section~\Sref{sec:perception}) and refitting from a deliberately wrong start, the bias in $\sigma_r$ over the \RecovConv{} of \RecovN{} replicates whose refit converged is \RecovBiasBatter\% for batters and \RecovBiasCatcher\% for catchers
 (Section~\Sref{sec:perception}).
 
 \subsection{Estimates and the set of models}\label{sec:estimates}
-Table~\ref{tab:variants} lists the decision models. The \emph{primary model}, chosen before the game-state terms below were added, is player random effects on $(\kappa,\log\sigma_r)$, integrated with $11\times11$ Gauss--Hermite
+Table~\ref{tab:variants} lists the decision models. The \emph{primary model} is player random effects on $(\kappa,\log\sigma_r)$, integrated with $11\times11$ Gauss--Hermite
 nodes, and a lapse rate. It is better than the homogeneous model by \PDBIC{} BIC points. Its decision noise at the
 bottom edge is $\sigma_r=\PSrBatter$\,in for batters and $\PSrCatcher$\,in for catchers, its lapse rates are
 \PLapseBatter\% and \PLapseCatcher\%, and its player effects sit mostly in the criterion (SD \REKappaSDBatter\,in for
@@ -496,7 +496,8 @@ there, stays on target: it covers in \CPMisKNormal\% of \CPMisS{} seasons and is
 plate-appearance outcomes, so the study checks the behavioural component of the interval, not the game-resampling
 component.
 
-\paragraph{Policies} Besides the benchmark we run, in the same cross-fit, the one-line rule with the constant $\delta=\RuleDelta$ of our earlier analysis, with $\delta=0.01$ and with the constant that does best on the training folds, the fixed
+\paragraph{Policies} Besides the benchmark we run, in the same cross-fit, the one-line rule with $\delta=\RuleDelta$ (the best constant when everything is fitted and scored on the full
+season), with $\delta=0.01$ and with the constant that does best on the training folds, the fixed
 0.2-run rule of Baseball Savant \citep{Savant2026abs}, ``challenge iff $p\ge0.2/(0.2+\mathrm{RV})$'' with RV the run
 value of the flip, and the teams' fitted behavioural rule $s>\kappa(x)$. Under a lapse model every rule is played by the
 benchmark's player, who lapses on the same pitches. All rules use the same calibrated beliefs, which nobody using them
@@ -526,8 +527,8 @@ challenges at \GapNBench{} challenges per team-game; teams realised \GapObs{} \G
 \GapMain{} \GapMainCI, and across the \PCFNModels{} models at least as good as the comparator by BIC it ranges over
 \PCFLo--\PCFHi{} (Table~\ref{tab:variants}; a sensitivity range, not a confidence interval). The models with a lapse
 rate give the smaller values: a benchmark played by a player who still lapses has fewer opportunities to exploit. The teams' fitted rule, simulated in the same worlds, earns \GapFitRuleWins{} against the \GapObs{} teams realised;
-as a share of the gap, \GapFitRuleGapPct\% \GapFitRuleCI, so under the primary model the simulated behaviour falls
-detectably short of the real one in value, while under the comparator it does not (\GapMainFitRuleGapPct\%
+as a share of the gap, \GapFitRuleGapPct\% \GapFitRuleCI, so under the primary model the simulated behaviour falls short of the real one in value, at the edge of
+detectability, while under the comparator it does not (\GapMainFitRuleGapPct\%
 \GapMainFitRuleCI). Against the simulated rule instead of realised play the gap is \GapSimRuleGap{} \GapSimRuleGapCI{}
 (comparator \GapMainSimRuleGap): the second reading of Section~\ref{sec:interv}, with the benchmark and the behaviour in
 the same model worlds. Under the comparator with the stakes cross-fitted only, batters account for \WinsLostBatter{}
@@ -535,7 +536,7 @@ the same model worlds. Under the comparator with the stakes cross-fitted only, b
 rather than a causal attribution, since the two sides share one inventory.
 
 The value curve is flat near its optimum in share of the benchmark, and steeper in share of the gap. The one-line rule
-with $\delta=\RuleDelta$, the best constant on the full 2026 season in our earlier, in-sample analysis, gets
+with $\delta=\RuleDelta$ gets
 \GapRuleShare\% of the benchmark and recovers
 \GapRuleGapPct\% \GapRuleGapCI{} of the gap under the primary model (\GapMainRuleGapPct\% under the comparator); with the
 constant chosen on the training folds (averaging $\GapDTrainLo$--$\GapDTrainHi$ across folds) it recovers
@@ -548,8 +549,7 @@ solved for every state, while the one-line rule needs only a table of WP stakes;
 recovers \GapCardPubGapPct\% with its published thresholds and \GapCardRefitGapPct\% with each cell's median
 break-even from the training DP. The fixed 0.2-run rule, which Baseball Savant publishes as the break-even for a challenge, gets
 \GapSavantShare\% of the benchmark, less than the teams' \GapObsShare\%, and challenges far too rarely (\GapSavantN{} per team-game); with its run cost tuned on the training folds the same
-form recovers \GapSavantTunedGapPct\% of the gap. This is a verdict on the constant, which Savant publishes as the
-break-even of a single challenge, with beliefs that nobody using it had, not on its users.
+form recovers \GapSavantTunedGapPct\% of the gap. This is a verdict on the constant, given beliefs that nobody using it had, not on its users.
 
 \paragraph{Causal accounting} Summing stakes along the recorded game is accounting: after a flipped call the rest of
 the game would have differed. We re-simulate in a pitch-level simulator (events, in-play outcomes and baserunning by
@@ -561,7 +561,7 @@ with its own inventory; the benchmark's gain is \PairRB{} \PairRBCI{} wins per t
 \PairWin{} counting simulated wins, against \PairPath{} by the path sum on the same worlds. \emph{From the recorded
 game}: branching from the first pitch at which the benchmark and the recorded challenges differ, and continuing the
 team with its fitted rule, gives \FullRB{} against \FullPathObs{} for the path sum against the observed challenges.
-The win count sits about \WinMinusRBAbs{} below the stake-valued estimate; part of that is the simulator's flip swing,
+The win count sits up to about \WinMinusRBAbs{} below the stake-valued estimate; part of that is the simulator's flip swing,
 \SimGShareRunGap\% short of $g$, and the rest we cannot attribute (Section~\Sref{sec:causalgap}). The check is internal
 to the model: the engine and the simulator share their structure.
 
@@ -578,11 +578,10 @@ Removing all lapses raises it from \Gap{} to \GapLamOne{} under the primary mode
 which stops at $\rho=0.25$, is \GapGridHi. The value of better information is large because the benchmark exploits
 sharper beliefs on every pitch. Within each model the primary intervention gives the smallest value on the grid, as Blackwell's ordering predicts
 for a Bayes-optimal decision maker \citep{Blackwell1953}; for the estimated benchmark this is a regularity of the table,
-not a theorem. The lapse corner matters as much as the noise: the far misses that are not challenged are partly a
+not a theorem. The lapse corner also matters: the far misses that are not challenged are partly a
 choice, since their challenge rate rises with the stake and falls with one challenge left (Section~\Sref{sec:perception}),
 so some of the lapses may be removable. This orders benchmark values within the pooled
-model; it is not a lower bound on what a team loses in real games. How much more a team could gain by changing how its
-players see or attend the data cannot settle; only an intervention or an independent measurement of perception could.
+model; it is not a lower bound on what a team loses in real games. How much more a team could gain by changing how its players see or attend, the data cannot settle; only an intervention or an independent measurement of perception could.
 
 \begin{table}[t]
 \caption{The accounting index, wins per team-season, full policy cross-fit ($S=\GapS$ splits), by intervention: $\rho$
@@ -658,8 +657,8 @@ replicates \RecPLapseSDBatter{} and \RecPLapseSDCatcher) and $\sigma_r$ with \Re
 come back smaller (\RecPSdKBatter\% for the batters' criterion), because the simulated players sit at their shrunken
 posterior means.
 
-\emph{Other leagues and coordinates.} Fits of the comparator to Triple-A 2025 and spring training 2026, whose feeds
-carry the ABS system's own measurements, give decision noise \AAASrPctLo--\AAASrPctHi\% and
+\emph{Other leagues and coordinates.} Fits of the comparator to Triple-A 2025 and spring training 2026, whose Stats API feeds, projected to the plate's
+midpoint, reproduce their rulings (Table~\Sref{tab:feeds}), give decision noise \AAASrPctLo--\AAASrPctHi\% and
 \SpringSrPctLo--\SpringSrPctHi\% above MLB's. On the MLB feed's own coordinates the rule reproduces \GeomReproFeed\% of
 the rulings and $\sigma_r$ is \FeedSrBatter{} and \FeedSrCatcher\,in.
 
@@ -729,19 +728,22 @@ explicit dimension of the policy value; the known ABS truth pins down the respon
 signal model, not the full set of information structures compatible with the decisions.
 
 %% ============================================================================================================
-\section{Reproducibility}\label{sec:repro}
+\section{Data and code availability}\label{sec:repro}
 
-The code and the outputs are supplied as a supplement to this paper and are available at
-\url{https://github.com/HeirOfIsildur/abs-challenge-policy}. The raw MLB Stats API and Statcast data and the Cricsheet
-data are public and are not redistributed; the scripts \texttt{src/fetch\_*.py} re-fetch them,
-\texttt{rerun.sh} rebuilds the MLB results in dependency order from the fetched data (the full policy cross-fit is
-\texttt{src/policy\_crossfit.py} and its coverage study \texttt{src/coverage\_pcf.py}; the bootstraps of the primary
-model need a cluster, about \GapBootHours{} worker-hours; the cricket pipeline is in \texttt{src/drs/}), and
-\texttt{results/manifest.json}
-records the commit, the package versions and checksums of the raw inputs, since public feeds can be revised. Every
-number in this paper is written by \texttt{paper/make\_numbers.py} from \texttt{results/}. The exact algebra
+\emph{Data.} All data are public: pitch tracking from MLB's Statcast (Baseball Savant), challenge events from the MLB
+Stats API live game feeds, and ball-by-ball cricket data from Cricsheet. They are not redistributed, under the
+providers' terms; the scripts \nolinkurl{src/fetch_*.py} and \nolinkurl{src/drs/fetch.py} re-download them, and
+\nolinkurl{results/manifest.json} records SHA-256 checksums of the raw inputs used here, since public feeds can be revised.
+
+\emph{Code.} The code and every output from which the paper is built are in the public repository
+\url{https://github.com/HeirOfIsildur/abs-challenge-policy}, release \nolinkurl{v1.0-aoas-submission}, and in the code
+supplement. \nolinkurl{rerun.sh} rebuilds the MLB results in dependency order from the fetched data (the full policy
+cross-fit is \nolinkurl{src/policy_crossfit.py} and its coverage study \nolinkurl{src/coverage_pcf.py}; the bootstraps of
+the primary model need a cluster, about \GapBootHours{} worker-hours; the cricket pipeline is in \nolinkurl{src/drs/}).
+Every number, table and figure in the paper and its supplement is written by \nolinkurl{paper/make_numbers.py},
+\nolinkurl{paper/supplement_numbers.py} and \nolinkurl{paper/make_figures.py} from \nolinkurl{results/}. The exact algebra
 (Proposition~\ref{prop:ident}, Theorem~\ref{thm:mono}, the intervention identities) is checked in
-Mathematica~\ProofsVersion{} by the scripts in \texttt{wolfram/}; these verify the algebra, not the assumptions under
+Mathematica~\ProofsVersion{} by the scripts in \nolinkurl{wolfram/}; these verify the algebra, not the assumptions under
 which a result applies to the data (Section~\Sref{sec:kernel}).
 
 \begin{acks}[Acknowledgments]

@@ -1,6 +1,6 @@
-"""HONZA-77: Bar-2 threshold gaps and the sqrt(n) / Delta^2 growth of the option value, recomputed on the score-aware
-calibrated DP (dp_score.py) under the main spec (kappa_sr_region) with the isotonic posterior calibration (HONZA-86).
-These numbers came from the pooled DP of HONZA-71 (analyze.py, boot_thresholds.py, results/delta_by_remaining.json).
+"""Bar-2 threshold gaps and the sqrt(n) / Delta^2 growth of the option value, recomputed on the score-aware
+calibrated DP (dp_score.py) under the main spec (kappa_sr_region) with the isotonic posterior calibration.
+These numbers came from the pooled DP of (analyze.py, boot_thresholds.py, results/delta_by_remaining.json).
 
 Definitions (kept from analyze.py / boot_thresholds.py):
   reference pitch  g_ref = median stake g of the challenged pitches of 2026 (full sample, fixed in every replicate);
@@ -14,7 +14,7 @@ both).  Score dependence: p* at the same pitch for a team leading by -3, 0, +3 (
 sqrt(n): per side, Delta_1(slot, k = 0) for slots 0..17 against n = expected opportunities left in regulation from the
 start of the slot (this one included): "model" n follows the DP's own score chain from d (rounded n(slot, d) per
 half-inning, P(runs | slot), game-over rules; no extras); "pooled" n = sum over remaining slots of opportunities per
-game (the HONZA-71 definition).  Fits a + b sqrt(n), a + b n, Delta_1^2 = a + b n (R^2); Delta_2/Delta_1 at the first
+game (the definition).  Fits a + b sqrt(n), a + b n, Delta_1^2 = a + b n (R^2); Delta_2/Delta_1 at the first
 pitch (top of the 1st, tied).
 CI: game bootstrap with model refits, reusing the B = 120 refitted parameter vectors of results/headline_boot.json
 (same resample and seed as headline.py boot / final_ci.py), DP re-solved on each resample with R draws.
@@ -26,11 +26,11 @@ import multiprocessing as mp
 import numpy as np, pandas as pd
 sys.path.insert(0, "src")
 
-MAIN = "kappa_sr_region_g"        # HONZA-122: BIC-best homogeneous model (criterion piecewise-linear in log g)
+MAIN = "kappa_sr_region_g"        # BIC-best homogeneous model (criterion piecewise-linear in log g)
 SL = dict(early=0, mid5=8, late8=14)
-B_OWN = 200                       # HONZA-132: replicates when no stored refit bootstrap exists          # top of the 1st, 5th, 8th
+B_OWN = 200                       # replicates when no stored refit bootstrap exists          # top of the 1st, 5th, 8th
 LEADS = (-3, 0, 3)
-SQRT_VERSION = 130                # HONZA-130: rows tagged v = 130 carry sqrt fits on the unrounded n (remaining())
+SQRT_VERSION = 130                # rows tagged v = 130 carry sqrt fits on the unrounded n (remaining)
 
 
 def frame(variant):
@@ -42,7 +42,7 @@ def frame(variant):
 
 def solve(m, variant, R, seed):
     """mean over R draws of Delta[side(0 away, 1 home), slot, d, k, c]; the player's calibration maps of the first draw.
-    HONZA-130 (GPT-6-Astra review): the maps are sim.draw's own per-cell belief maps (sim.cal_groups: region x count
+    the maps are sim.draw's own per-cell belief maps (sim.cal_groups: region x count
     class x stake tercile, fitted on the auxiliary draws), not a side x region refit on the scored draw; return_maps
     uses the same random numbers, so D is unchanged."""
     import sim, dp_score
@@ -68,8 +68,8 @@ def occupancy(m):
 
 def remaining(m, home):
     """expected regulation opportunities left from the start of slot s at start differential d: 'model' [18, ND]
-    (DP score chain) and 'pooled' [18] (HONZA-71 definition).
-    HONZA-130 (GPT-6-Astra review): the opportunities per half-inning are the unrounded expectation E min(N, KMAX) =
+    (DP score chain) and 'pooled' [18] (definition).
+    the opportunities per half-inning are the unrounded expectation E min(N, KMAX) =
     sum_k prod_{j<=k} h_j of the count law the DP uses (dp_score.hazard on the team's count in every observed
     half-inning at (slot, d), zeros included, as solve_dp_score), not the rounded mean count."""
     import dp_score
@@ -165,7 +165,7 @@ def summarise(D, m, gref, cal=None, P=None):
 def revealed(m, cal, P, gref):
     """thresholds teams reveal: calibrated confidence at the signal cut-off kappa(state) of the fitted rule, at g_ref,
     1 ball / 1 strike, averaged over zone regions (weights: that side's opportunities), as plots.py.
-    HONZA-130 (GPT-6-Astra review): kappa(state) is the full fitted criterion, built with the analysis's own features
+    kappa(state) is the full fitted criterion, built with the analysis's own features
     (lik.design, the log g hinges lik.gfeat and the low-stake hinge lik.glow, as sim.apply_lik), not beta and kreg
     only; the belief is read from sim.draw's map of the cell (sim.cal_groups: region x count class x stake tercile)
     that a 1-1 pitch at g_ref falls in."""
@@ -200,7 +200,7 @@ def one(args):
     spec = spec_of(MAIN)
     m0 = pd.read_parquet("data/called_2026_w.parquet"); by = {g: d for g, d in m0.groupby("game_pk")}; games = np.array(sorted(by))
     mb = resample(by, games, np.random.default_rng(1000 + b))     # = headline.one / final_ci.one replicate b
-    if theta is None:                                              # HONZA-132: refit on the resample here
+    if theta is None:                                              # refit on the resample here
         import lik
         theta = lik.fit(lik.prepare(mb), spec, th0=np.load(f"data/th_{MAIN}.npy"), maxiter=60)[0].x
     variant = dict(theta="override", theta_override=np.asarray(theta), spec=spec, frame=mb, re=False)
@@ -222,7 +222,7 @@ def figures(res, boot):
     import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
     g = res["g_ref"]; cv = res["curves"]; rv = res.get("revealed", {})
     inn = np.arange(1, 10)
-    # HONZA-106: manuscript style (serif 9 pt like fig_policies, no title inside the plot; the caption carries it), PDF
+    # manuscript style (serif 9 pt like fig_policies, no title inside the plot; the caption carries it), PDF
     plt.rcParams.update({"font.size": 9, "font.family": "serif"})
     fig, ax = plt.subplots(1, 2, figsize=(6.6, 3.4), sharey=True)
     for j, (side, lab) in enumerate((("def", "fielding (catcher)"), ("off", "batting (batter)"))):
@@ -275,8 +275,8 @@ if __name__ == "__main__":
     Pm = lik.unpack(np.load(f"data/th_{MAIN}.npy"), spec_of(MAIN))
     res = summarise(D, m, gref, cal, Pm)
     print("point", round(time.time() - t, 1), {k: round(v, 1) for k, v in res["gaps_pp"].items()}, flush=True)
-    # refit bootstrap on the stored HONZA-86 refits
-    # HONZA-132: the engine-fixed refit bootstrap (results/headline_boot.json) is no longer run; without it every
+    # refit bootstrap on the stored refits
+    # the engine-fixed refit bootstrap (results/headline_boot.json) is no longer run; without it every
     # replicate refits the main model on its resample itself (same resample rng 1000 + b), B = B_OWN
     hb = json.load(open("results/headline_boot.json")) if os.path.exists("results/headline_boot.json") else None
     assert hb is None or hb["variant"] == MAIN
@@ -294,15 +294,15 @@ if __name__ == "__main__":
                 if len(rows) % 10 == 0:
                     print(len(rows), round(time.time() - t), flush=True)
     rows = sorted(rows, key=lambda r: r["b"])
-    boot = dict(B=len(rows), R=Rb, method="game bootstrap with model refits (HONZA-132: refitted inside each replicate, "
+    boot = dict(B=len(rows), R=Rb, method="game bootstrap with model refits (refitted inside each replicate, "
                 "resample rng 1000+b), DP re-solved on each resample with R draws; "
                 "g_ref fixed at the full-sample value; entries are [bootstrap mean, 2.5 %, 97.5 % percentile]")
     boot["gaps_pp"] = {k: ci([r["gaps"][k] for r in rows]) for k in rows[0]["gaps"]}
     boot["thresholds"] = {k: ci([r["thresholds"][k] for r in rows]) for k in rows[0]["thresholds"]}
     boot["late8_c1_lead-3_minus_lead+3_pp"] = ci([r["lead_diff"] for r in rows])
     boot["sqrt_n"] = {}
-    # HONZA-130: the gaps, thresholds and curves of a cached row do not depend on remaining(); its sqrt fits do, so the
-    # sqrt intervals use only rows computed with the unrounded n (cached pre-HONZA-130 rows have no "v" tag)
+    # the gaps, thresholds and curves of a cached row do not depend on remaining; its sqrt fits do, so the
+    # sqrt intervals use only rows computed with the unrounded n (cached pre-rows have no "v" tag)
     rows_all, rows = rows, [r for r in rows if r.get("v") == SQRT_VERSION]
     boot["sqrt_n_B"] = len(rows)
     for s in ("home", "away") if rows else ():
@@ -315,12 +315,12 @@ if __name__ == "__main__":
             o[k] = ci([r["sqrt"][s][k] for r in rows])
         boot["sqrt_n"][s] = o
     if not rows:
-        boot["sqrt_n_note"] = ("no bootstrap row computed with the unrounded n yet (cached rows predate HONZA-130); "
+        boot["sqrt_n_note"] = ("no bootstrap row computed with the unrounded n yet (cached rows predate the unrounded count); "
                                "delete data/thresholds_score_boot.json to recompute them")
     rows = rows_all
     res["bootstrap"] = boot
-    res["spec"] = dict(variant=MAIN, dp="dp_score.solve_dp_score (score-aware, DM = 6 clip, random opportunity counts, exact extra-inning block (HONZA-122))",
-                       calibration="sim.draw isotonic (HONZA-86)", R_point=R, seed_point=1,
+    res["spec"] = dict(variant=MAIN, dp="dp_score.solve_dp_score (score-aware, DM = 6 clip, random opportunity counts, exact extra-inning block)",
+                       calibration="sim.draw isotonic", R_point=R, seed_point=1,
                        g_ref="median g of challenged pitches, data/called_2026_w.parquet")
     res["old_pooled_dp"] = dict(source="results/res_main.json, data/bar2_boot.json, results/check.json F, theory.md T2i",
                                 early_vs_late_c1_pp=[22.2, 20.7, 23.5], early_vs_late_c2_pp=27.9, c1_vs_c2_mid_pp=18.5,
@@ -331,7 +331,7 @@ if __name__ == "__main__":
                     "the top of the 1st always starts tied",
                     "lead L is from the team's perspective (home d = L, away d = -L); the 8th inning is the top half "
                     "(home team fielding, away batting)",
-                    "score differential clipped to +-6 (dp_score.DM); extra innings are an exact stationary block (HONZA-122) with "
+                    "score differential clipped to +-6 (dp_score.DM); extra innings are an exact stationary block with "
                     "the top-up rule; n excludes extra-inning opportunities",
                     "Delta_1 at the last regulation opportunity can be ~0: with the extra-inning top-up c = 0 and c = 1 "
                     "are worth the same in extras"]

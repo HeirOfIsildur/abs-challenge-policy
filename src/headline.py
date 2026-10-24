@@ -1,4 +1,4 @@
-"""HONZA-86: every policy of the headline table on the same draws, the point estimate and the refit bootstrap.
+"""every policy of the headline table on the same draws, the point estimate and the refit bootstrap.
 
 evaluate_all(variant dict, R, seed) -> per-policy arrays value/challenges [game, team, side] (path-sum accounting,
 as sim.evaluate), averaged over R draws of (truth, signal).  Policies: opt, stake_<d> grid (best d and the published
@@ -7,33 +7,33 @@ usage:
   python src/headline.py point [R]                 -> data/headline_point.pkl (point estimate, main spec + per-player,
                                                       with the Monte Carlo SE of wins lost over the R draws)
   python src/headline.py boot <B> [R] [workers]    -> results/headline_boot.json (game bootstrap with model refits; R = 10 per
-                                                      replicate since HONZA-100, R = 2 before: results/headline_boot_R2.json;
+                                                      replicate since R = 2 before: results/headline_boot_R2.json;
                                                       same resamples and seeds as final_ci.py)
   python src/headline.py noref <B> [R] [workers]   -> results/headline_noref.json: game bootstrap without refits for the
                                                       per-player model (player effects redrawn from their EB posteriors
                                                       in every replicate) and, for comparison, the main spec
-  python src/headline.py lapse [R]                -> results/lapse_wins.json: wins lost under the lapse-rate model (HONZA-114)
-  python src/headline.py variants [R]              -> results/headline_variants.json: every HONZA-73 perception/truth
+  python src/headline.py lapse [R]                -> results/lapse_wins.json: wins lost under the lapse-rate model
+  python src/headline.py variants [R]              -> results/headline_variants.json: every perception/truth
                                                       variant re-evaluated with all policies (wins lost model spread)"""
 import json, os, pickle, sys, time
 import multiprocessing as mp
 import numpy as np, pandas as pd
 sys.path.insert(0, "src")
 
-MAIN = "kappa_sr_region_g"        # HONZA-122: BIC-best homogeneous model (criterion piecewise-linear in log g)
-CO_PRIMARY = "re_lapse_gh11"      # HONZA-132: the BIC-best model, player effects + lapse (11 x 11 nodes), co-primary
+MAIN = "kappa_sr_region_g"        # BIC-best homogeneous model (criterion piecewise-linear in log g)
+CO_PRIMARY = "re_lapse_gh11"      # the BIC-best model, player effects + lapse (11 x 11 nodes), co-primary
 STAKES = [0.004, 0.006, 0.007, 0.008, 0.009, 0.01, 0.011, 0.0125, 0.015, 0.02]
 SAVANT_C = [0.02, 0.04, 0.06, 0.08, 0.1, 0.15, 0.2]   # run costs for Savant's p >= c/(c + RV)
 
 
 def evaluate_all(variant, R=10, seed=1, keep_draws=False, keep_maps=False):
-    """keep_maps (HONZA-130, with keep_draws): each kept draw also carries the player's per-cell calibration maps
+    """keep_maps (with keep_draws): each kept draw also carries the player's per-cell calibration maps
     (sim.draw return_maps) under "maps"; the random numbers and every output are unchanged."""
     import sim, policies as P, dp_score
     lite = bool(variant.get("lite"))
     m, _ = sim.load(variant)
     m = dp_score.add_dstart(m)
-    m = sim.opportunities(m)                         # HONZA-122: no truth-based |w| < 8 filter on the policies
+    m = sim.opportunities(m)                         # no truth-based |w| < 8 filter on the policies
     if variant.get("w8"):                            # attribution only (audit/honza122/attribution.py): the old filter
         m = m[m.w.abs() < 8].reset_index(drop=True)
     m["new_extra"] = sim.extra_starts(m)
@@ -43,7 +43,7 @@ def evaluate_all(variant, R=10, seed=1, keep_draws=False, keep_maps=False):
     ng = int(m.gidx.max() + 1)
     rng = np.random.default_rng(seed)
     isoff = (m.side == "off").values
-    # HONZA-132: cross-fitted stakes -- a frame with column gv scores every flip (policies and observed challenges) at
+    # cross-fitted stakes -- a frame with column gv scores every flip (policies and observed challenges) at
     # gv, while every decision, pool and fit uses g (crossfit.py); without gv the two coincide
     gv = m.gv.values if "gv" in m else m.g.values
     base = (m.gidx.values, m.is_home_team.values, m.new_extra.values, m.slot.values.astype(np.int64), kin,
@@ -58,7 +58,7 @@ def evaluate_all(variant, R=10, seed=1, keep_draws=False, keep_maps=False):
             W, s, pt = sim.draw(m, rng, variant); maps = None
         D4h, _ = dp_score.solve_dp_score(m, pt, True); D4a, _ = dp_score.solve_dp_score(m, pt, False)
         if lite:
-            # HONZA-132 (coverage study): only the benchmark, the fitted rule and the one-line rule
+            # (coverage study): only the benchmark, the fitted rule and the one-line rule
             Dh = Da = np.zeros((19, 80, 3)); Cnh = Cna = np.zeros((19, 3)); q1 = q2 = 0.0
             pols = dict(opt_score=(7, 0.0, zcard), obs_rule=(4, 0.0, zcard), **{"stake_0.008": (2, 0.008, zcard)})
         else:
@@ -70,20 +70,20 @@ def evaluate_all(variant, R=10, seed=1, keep_draws=False, keep_maps=False):
                         card_refit=(5, 0.0, cr), card_pub=(5, 0.0, cp), runs_dp=(6, 0.0, zcard))
             for d in STAKES:
                 pols[f"stake_{d}"] = (2, d, zcard)
-            for c in SAVANT_C:                           # HONZA-122 (Sonnet, Astra): Savant's form with a tuned run cost
+            for c in SAVANT_C:                           # Savant's form with a tuned run cost
                 pols[f"savant_c_{c}"] = (1, c, zcard)
-        # HONZA-122 (Sol): the lapse-rate model's behavioural rule challenges only if it does not lapse
+        # the lapse-rate model's behavioural rule challenges only if it does not lapse
         lap = m.lapse.values if "lapse" in m else np.zeros(len(m))
         u_lap = np.random.default_rng([seed, r, 7]).random(len(m))
         lapsed = u_lap < lap
         s_obs = np.where(lapsed, -1e9, s) if lap.max() > 0 else s
-        if lap.max() > 0:              # (Sol) the benchmark played by a player who still lapses: a lapsed pitch is skipped
+        if lap.max() > 0:              # the benchmark played by a player who still lapses: a lapsed pitch is skipped
             pols["opt_score_lapsed"] = (7, 0.0, zcard)
-            # HONZA-130 (GPT-6-Astra review): re-solve the DP for a player who knows they lapse -- the pools carry the
+            # re-solve the DP for a player who knows they lapse -- the pools carry the
             # lapsed opportunities as worthless (p = 0), so the continuation values price the lost opportunities
             ptl = np.where(lapsed, 0.0, pt)
             D4hl, _ = dp_score.solve_dp_score(m, ptl, True); D4al, _ = dp_score.solve_dp_score(m, ptl, False)
-        # HONZA-132: "bench" = the benchmark of the stated intervention. A change of decision rule keeps the share 1 - lam
+        # "bench" = the benchmark of the stated intervention. A change of decision rule keeps the share 1 - lam
         # of the lapses (lam = variant["lam"], default 0: the primary intervention keeps every lapse), coupled to the
         # behavioural rule's lapses through the same uniforms; the DP is re-solved for that lapse rate. rho enters
         # through sim.draw. Without lapses bench = opt_score.
@@ -99,7 +99,7 @@ def evaluate_all(variant, R=10, seed=1, keep_draws=False, keep_maps=False):
         pols["bench"] = (7, 0.0, zcard)
         firsts, vals = {}, {}
         for name, (pc, dc, card) in pols.items():
-            # HONZA-132: under a lapse model every implementable rule is played by the same player as the benchmark of
+            # under a lapse model every implementable rule is played by the same player as the benchmark of
             # the stated intervention, so it skips the same lapsed pitches (ptb); opt_score stays the lapses-removed
             # reading and obs_rule lapses through s_obs. Without lapses ptb = pt.
             if name == "opt_score_lapsed":
@@ -197,7 +197,7 @@ if __name__ == "__main__":
         for name in (MAIN, CO_PRIMARY):
             t = time.time()
             if spec_variant(name)["spec"].get("re"):
-                # HONZA-132 (Sol #7, Astra #6): the co-primary player-effects model integrates over the players' JOINT
+                # the co-primary player-effects model integrates over the players' JOINT
                 # posterior: 8 joint draws of the effects (sim.apply_lik re="draw"), R / 8 draws of truths and signals each
                 parts = [evaluate_all(dict(spec_variant(name), re="draw", re_seed=k), R=max(R // 8, 1), seed=1 + k)
                          for k in range(8)]
@@ -208,7 +208,7 @@ if __name__ == "__main__":
                 m, kin, out, dr = evaluate_all(spec_variant(name), R=R, seed=1)
             ng = int(m.gidx.max() + 1)
             obs = out["observed"][0].sum() / 30
-            lost = np.array([d["totals"]["bench"] - obs for d in dr])              # HONZA-100: Monte Carlo SE of the point
+            lost = np.array([d["totals"]["bench"] - obs for d in dr])              # Monte Carlo SE of the point
             res[name] = dict(out={k: (x[0], x[1]) for k, x in out.items()}, games=m.game_pk.unique(), summary=summarise(out, ng),
                              mc=dict(R=R, lost_per_draw=lost.tolist(), lost_sd_per_draw=float(lost.std(ddof=1)),
                                      lost_mc_se=float(lost.std(ddof=1) / np.sqrt(R))))
@@ -237,7 +237,7 @@ if __name__ == "__main__":
                 json.dump(dict(R=R, rows=rows), open(path, "w"))
                 if len(rows) % 20 == 0:
                     print(len(rows), flush=True)
-    elif mode == "lapse":                       # HONZA-114: wins lost under the lapse-rate model (robust_fit.py main_lapse)
+    elif mode == "lapse":                       # wins lost under the lapse-rate model (robust_fit.py main_lapse)
         R = int(sys.argv[2]) if len(sys.argv) > 2 else 20
         m, _, out, _ = evaluate_all(spec_variant("main_lapse"), R=R, seed=1)
         s = summarise(out, int(m.gidx.max() + 1))
@@ -253,7 +253,7 @@ if __name__ == "__main__":
                              "main_glow", "main_sr_g", "linear_lapse", "re_lapse")
                  if os.path.exists(f"data/th_{v}.npy")]
         res = {}
-        if len(sys.argv) > 3:          # HONZA-130: re-evaluate only the named variants, merged into the stored file
+        if len(sys.argv) > 3:          # re-evaluate only the named variants, merged into the stored file
             names = [v for v in sys.argv[3].split(",") if v in names]
             res = json.load(open("results/headline_variants.json"))["variants"]
         for nm in names:

@@ -1,4 +1,4 @@
-"""HONZA-107 (referee comment 4): uncertainty from the WP / RE engine, which the refit bootstrap holds fixed.
+"""uncertainty from the WP / RE engine, which the refit bootstrap holds fixed.
 
 Replicate b resamples the 2026 Statcast games with replacement, re-estimates the PA kernel and solves the WP / RE engine
 (wp.build_T, wp.solve) and the half-inning run distribution of the score-aware DP (dp_score.half_runs_from), recomputes
@@ -13,7 +13,7 @@ import multiprocessing as mp
 import numpy as np, pandas as pd
 sys.path.insert(0, "src")
 
-MAIN = "kappa_sr_region_g"        # HONZA-122: BIC-best homogeneous model (criterion piecewise-linear in log g)
+MAIN = "kappa_sr_region_g"        # BIC-best homogeneous model (criterion piecewise-linear in log g)
 ROWS = "data/wp_boot_rows.json"
 OUT = "results/wp_boot.json"
 STAKE_COLS = ["wp_ball", "wp_strike", "re_ball", "re_strike", "g", "RV", "wp_home_now", "half", "diff"]

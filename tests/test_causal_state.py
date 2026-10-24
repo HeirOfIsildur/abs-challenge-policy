@@ -1,4 +1,4 @@
-"""HONZA-130 (Sol review): the causal simulator's state at a simulated pitch -- the score-aware DP's dbin and the
+"""the causal simulator's state at a simulated pitch -- the score-aware DP's dbin and the
 opportunity index after a half-inning change (extra innings included), and the fitted criterion and posterior of a
 drawn pool pitch at the simulated inning and stake (no data needed).
 run: python -m pytest tests"""
@@ -16,7 +16,7 @@ DM = 6
 def test_half_start_dbin_matches_add_dstart():
     assert C.half_start_dbin(3, 0, 2, DM) == 2 + DM
     assert C.half_start_dbin(9, 1, -9, DM) == 0                       # clipped
-    assert C.half_start_dbin(10, 0, 0, DM) == DM + 1                  # extra top half: dp_score.topx()
+    assert C.half_start_dbin(10, 0, 0, DM) == DM + 1                  # extra top half: dp_score.topx
     assert C.half_start_dbin(12, 0, 0, DM) == DM + 1
     assert C.half_start_dbin(10, 1, -2, DM) == DM - 2                 # extra bottom half: d + DM, d <= 0
     assert C.half_start_dbin(11, 1, 0, DM) == DM
@@ -55,7 +55,7 @@ def test_opportunity_index_restarts_in_every_extra_half():
 
 
 def test_extra_top_half_uses_the_dp_encoding():
-    assert _toy(allow_dbin=DM + 1)[1] == 3.0                         # topx(), not d + DM = DM
+    assert _toy(allow_dbin=DM + 1)[1] == 3.0                         # topx, not d + DM = DM
     assert _toy(allow_dbin=DM)[1] == 0.0
 
 

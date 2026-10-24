@@ -1,4 +1,4 @@
-"""HONZA-89 audit item 6: is the player's calibrated posterior an in-sample fit?  sim.draw fits the isotonic map
+"""is the player's calibrated posterior an in-sample fit?  sim.draw fits the isotonic map
 P(W | s bin, side, region) on the same simulated truth W that then scores the policies.  Here the map is fitted on an
 independent draw (A) and applied to the signals of draw B; DPs are re-solved on the cross-fitted posterior.
 usage: python src/crossfit_calibration.py [R] -> results/crossfit_calibration.json"""

@@ -15,13 +15,13 @@ g = pd.read_parquet(D / "feed_games_2026.parquet")
 sc = pd.read_parquet(D / "statcast_2026.parquet")
 f["ch"] = f.ch.fillna(False).astype(bool)
 f["ch_over"] = f.ch_over.fillna(False).astype(bool)
-# HONZA-89: gameData.absChallenges is absent (has = None) in 4 games at venues without ABS (Mexico City series
+# gameData.absChallenges is absent (has = None) in 4 games at venues without ABS (Mexico City series
 # 25-26 Apr, Field of Dreams 13 Aug, Little League Classic 23 Aug); has = False marks ABS games without a challenge.
 # Keeping the 4 no-ABS games counted 8 team-games of "never challenge" against the observed policy.
 no_abs = set(g.game_pk[g.has.isna()])
 print("games without ABS (dropped):", sorted(no_abs))
 g = g[~g.game_pk.isin(no_abs)]
-f = f.merge(g[["game_pk", "home_id", "away_id", "date"]], on="game_pk")      # HONZA-132: + date (time-varying model)
+f = f.merge(g[["game_pk", "home_id", "away_id", "date"]], on="game_pk")      # + date (time-varying model)
 f["bat_id"] = np.where(f.top, f.away_id, f.home_id)
 f["fld_id"] = np.where(f.top, f.home_id, f.away_id)
 
@@ -51,7 +51,7 @@ keep = ["game_pk", "at_bat_number", "pitch_number", "plate_x", "plate_z", "sz_to
         "ax", "ay", "az", "stand", "balls", "strikes", "outs_when_up", "on_1b", "on_2b", "on_3b", "home_score",
         "away_score", "fielder_2", "umpire", "description", "delta_run_exp", "home_win_exp", "bat_win_exp",
         "delta_home_win_exp"]
-# HONZA-132 (Sol review): called pitches are joined on the pre-pitch count and call type (src/join.py), not on the
+# called pitches are joined on the pre-pitch count and call type (src/join.py), not on the
 # pitch number screened by description agreement
 m = f[f.code.isin(["C", "B", "*B"])].copy()
 m["pre_b"], m["pre_s"] = J.pre_count_from_after(m)
@@ -70,26 +70,26 @@ print("batters challenge strikes only:", m[m.ch & (m.role == "batter")].orig_str
       "| fielders challenge balls only:", 1 - m[m.ch & m.role.isin(["catcher", "pitcher"])].orig_strike.mean().round(4))
 
 # --- ABS zone geometry (src/geometry.py). Statcast 2026 plate_x/plate_z are already in the ABS plane (plate midpoint):
-# no projection. HONZA-88 removed a front->midpoint projection that lowered every pitch by 0.98 in (results/geometry_audit.md).
+# no projection. removed a front->midpoint projection that lowered every pitch by 0.98 in (results/geometry_audit.md).
 assert G.SOURCE_PLANE_Y_FT["statcast2026"] == G.Y_MID_FT
 m["px_mid"], m["pz_mid"] = G.abs_location(m, "statcast2026")      # = plate_x, plate_z (names kept for lik.region)
 m["dist_in"], m["edge"] = G.signed_distance(m.px_mid, m.pz_mid, m.sz_top, m.sz_bot)
 m.loc[m.plate_x.isna() | m.sz_top.isna(), "dist_in"] = np.nan
-m.loc[m.misjoin, "dist_in"] = np.nan        # HONZA-122: a mis-joined row carries another pitch's location
+m.loc[m.misjoin, "dist_in"] = np.nan        # a mis-joined row carries another pitch's location
 m["mid_shift_z_in"] = 12 * (m.pz_mid - m.plate_z)                  # 0 by construction (guarded in tests/test_geometry.py)
 
 # count BEFORE the pitch: Statcast balls/strikes are pre-pitch
 m["bases"] = m.on_1b.notna().astype(int) + 2 * m.on_2b.notna().astype(int) + 4 * m.on_3b.notna().astype(int)
 m["score_diff_home"] = m.home_score - m.away_score
 
-# HONZA-122 (Astra, Sol reviews): MLB's challenge-opportunity definition excludes pitches thrown by position players.
+# MLB's challenge-opportunity definition excludes pitches thrown by position players.
 # A position player pitching = a pitcher with >= 30 plate appearances as a batter and < 400 pitches in 2026 (54
 # players, at most 159 pitches each; the only two-way regular, with 1,335 pitches, stays a pitcher).
 npit = sc.groupby("pitcher").size()
 npa = sc.drop_duplicates(["game_pk", "at_bat_number"]).groupby("batter").size()
 pos_p = set(npit.index[(npa.reindex(npit.index).fillna(0).values >= 30) & (npit.values < 400)])
 m["pos_pitcher"] = m.pitcher.isin(pos_p)
-# HONZA-122 (Astra, Sol reviews): home score differential at the START of the half-inning (first pitch of the half in
+# home score differential at the START of the half-inning (first pitch of the half in
 # Statcast, called or not); the score at the first called pitch can already include runs scored earlier in the half
 sh = sc.sort_values(["game_pk", "at_bat_number", "pitch_number"]).groupby(["game_pk", "inning", "inning_topbot"]).first()
 sh = (sh.home_score - sh.away_score).rename("d_half_start").reset_index()

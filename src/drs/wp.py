@@ -5,7 +5,7 @@ Gradient boosting, monotone in wickets (-), runs (+) and lead (+); trained on me
 results), with one end-of-innings row per innings so that the all-out state is in the support.
 An isotonic map fitted on the held-out fold (20 % of matches) recalibrates V.
 Held-out Brier score and calibration go to results/drs/wp_check.json.  The recalibrated diagnostics (brier_recal,
-calibration_recal) are cross-fitted (HONZA-122): the held-out matches are split in two halves, the isotonic map is fitted
+calibration_recal) are cross-fitted: the held-out matches are split in two halves, the isotonic map is fitted
 on one half and scored on the other, and both directions are pooled, so no match scores a map fitted on itself.  The
 map used for the stakes is still the one fitted on the whole held-out fold.
 usage: python src/drs/wp.py  ->  data/drs_balls_g.parquet"""
@@ -68,7 +68,7 @@ for fmt in ("ODI", "T20", "Test"):
     a = d.copy()                                               # state just after the ball, w vs w+1
     a["runs"] += a.r_ball; a["lead"] += a.r_ball; a["balls"] += 1; a["match_balls"] += 1
     w0 = a.wkts.clip(0, 9)
-    # HONZA-122: no recalibration. Scored on held-out matches the isotonic map does not improve the Brier score (it
+    # no recalibration. Scored on held-out matches the isotonic map does not improve the Brier score (it
     # worsens it in Tests), so the stakes use the engine's own predictions, clipped to [0, 1]; the map is kept only as
     # a diagnostic in wp_check.json
     raw = lambda X: np.clip(m.predict(X), 0, 1)

@@ -1,9 +1,9 @@
-(* HONZA-88: identification on the corrected geometry, where the ABS truth is deterministic in the tracked location.
+(* identification on the corrected geometry, where the ABS truth is deterministic in the tracked location.
    Model (one side): W = 1{w > 0}; eps ~ N(0, sr^2); challenge iff w + eps > k; ruling y = W with prob 1 - pi.
      Pch(w)        = Phi((w - k)/sr)
      P(ch, y | w)  = Phi((w - k)/sr) ((1 - pi) 1{y = W} + pi 1{y != W})
    Claims checked:
-     D1  the deterministic model is the sm -> 0 limit of the HONZA-73 smooth truth model (orthant form of I2).
+     D1  the deterministic model is the sm -> 0 limit of the smooth truth model (orthant form of I2).
      D2  (sr, k) are identified by the challenge curve alone: the 2-point Jacobian determinant of (Pch(w1), Pch(w2))
          w.r.t. (sr, k) is phi1 phi2 (w1 - w2)/sr^3 (non-zero iff w1 != w2); rank 2 on the data grid.
      D3  pi separates: the log-likelihood is additive in pi and (sr, k), so the cross information is exactly 0.
@@ -12,7 +12,7 @@
      D5  the old split problem (I1/I3) is gone: there is no sm to trade against sr. *)
 dir = DirectoryName[$InputFileName] <> "../results/";
 res = <|"wolframVersion" -> $Version|>;
-(* HONZA-130 (Fable, Opus reviews): sigma_r is read from the current main-model fit (results/perception_variants.json,
+(* sigma_r is read from the current main-model fit (results/perception_variants.json,
    kappa_sr_region_g = src/headline.py MAIN, bottom-edge sigma_r = paper \SrBatter / \SrCatcher) instead of the
    pre-revision 3.12 / 1.95 in; exact rationals of the stored doubles *)
 (* the file carries Python NaN / Infinity tokens (not JSON): map them to null before parsing *)
@@ -52,8 +52,8 @@ d4 = Table[NIntegrate[PDF[NormalDistribution[0, c], e] Phi[(w + e - k)/sr], {e, 
 res["D4_integral_minus_closed_form_maxabs"] = ToString[InputForm[N[Max[Abs[Flatten[d4]]], 5]]];
 res["D4_rel_bias_pct_c03"] = ToString[N[Table[{s, 100 (Sqrt[s^2 + (3/10)^2] - s)/s}, {s, {srC, srB}}], 6]];
 
-(* D5: with sm absent, the Pch block has full rank in (sr, k) -- contrast HONZA-73 I3 (rank 2 in (sm, sr, k)) *)
-res["D5_note"] = "no sm parameter: the (sm, sr) null direction of HONZA-73 I3 does not exist";
+(* D5: with sm absent, the Pch block has full rank in (sr, k) -- contrast I3 (rank 2 in (sm, sr, k)) *)
+res["D5_note"] = "no sm parameter: the (sm, sr) null direction of the earlier smooth-truth model does not exist";
 
 Export[dir <> "identification-det-check.json", res, "JSON"];
 Print[res];

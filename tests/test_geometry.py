@@ -1,4 +1,4 @@
-"""Guardrails for the ABS geometry (HONZA-88): the convention that broke once must not break silently again.
+"""Guardrails for the ABS geometry: the convention that broke once must not break silently again.
 
 Data tests read data/ (not committed) and are skipped when it is absent; unit tests always run.
 run: python -m pytest tests  (or make check)"""
@@ -50,7 +50,7 @@ def test_signed_distance():
 
 
 def test_corner_contact_is_round():
-    """HONZA-120: the ball is round, so at a corner it touches the zone only within R of the corner point."""
+    """the ball is round, so at a corner it touches the zone only within R of the corner point."""
     top, bot = 3.4, 1.7
     hw, R = G.PLATE_HALF_WIDTH_FT, G.BALL_RADIUS_FT
     u = 1 / np.sqrt(2)
@@ -81,7 +81,7 @@ def test_rule_reproduces_2026_rulings():
     ruling = np.where(c.ch_over, ~c.orig_strike, c.orig_strike)
     share = (G.abs_strike(c.plate_x, c.plate_z, c.sz_top, c.sz_bot) == ruling).mean()
     assert len(c) > 10000 and share >= 0.998, share
-    # the pipeline's own distance must be the raw-coordinate distance (no projection anywhere); HONZA-122: mis-joined
+    # the pipeline's own distance must be the raw-coordinate distance (no projection anywhere); mis-joined
     # rows (Statcast description contradicts the feed code) carry no distance
     c = c[c.dist_in.notna()]
     assert ((c.dist_in > 0).values == G.abs_strike(c.plate_x, c.plate_z, c.sz_top, c.sz_bot)).all()

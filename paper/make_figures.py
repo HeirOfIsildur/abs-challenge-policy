@@ -1,4 +1,4 @@
-"""HONZA-77: manuscript figures from results/ (and figures/ for plots that need data/) -> paper/figures/.
+"""manuscript figures from results/ (and figures/ for plots that need data/) -> paper/figures/.
 
 fig_policies.pdf is drawn here from results/headline.json; the threshold, sqrt-n and DRS figures are produced by the
 pipeline (src/refresh_thresholds.py, src/drs/plots.py) and copied.
@@ -41,7 +41,7 @@ def policies():
 
 
 def sr_breakeven():
-    """HONZA-91: wins lost against a misestimated sigma_r (results/sr_breakeven.json), with the profile log-likelihood
+    """wins lost against a misestimated sigma_r (results/sr_breakeven.json), with the profile log-likelihood
     of each side's sigma_r on the real data (results/identification.json) on the same multiplier axis."""
     br = sorted((float(k), v["lost"]) for k, v in json.load(open("results/sr_breakeven.json")).items())
     idn = json.load(open("results/identification.json"))
@@ -66,7 +66,7 @@ def sr_breakeven():
 
 
 def isotonic():
-    """HONZA-106: nonparametric (isotonic) challenge curve against the fitted probit, by side and zone region
+    """nonparametric (isotonic) challenge curve against the fitted probit, by side and zone region
     (results/isotonic_check.json, src/isotonic_check.py)."""
     d = json.load(open("results/isotonic_check.json")); x = d["grid"]
     fig, axs = plt.subplots(2, 4, figsize=(6.6, 3.6), sharex=True)

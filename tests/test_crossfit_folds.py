@@ -1,4 +1,4 @@
-"""HONZA-133: in a resample, cross-fitting folds are drawn over the original games (all copies share a fold)."""
+"""in a resample, cross-fitting folds are drawn over the original games (all copies share a fold)."""
 import sys
 import numpy as np, pandas as pd
 sys.path.insert(0, "src")

@@ -1,11 +1,11 @@
-"""HONZA-132 (Astra minor 6, Astra #9, Sol #10): the mechanism with uncertainty.
+"""the mechanism with uncertainty.
 
 Point (cross-fitted split 5000, main model refitted on its decision stakes) and B joint-bootstrap replicates (games
 and their Statcast resampled, stakes cross-fitted inside the resample, main model refitted -- as joint_boot.job) of
-  slopes  threshold slope on log g, teams' implied p* vs the benchmark's p* = D/(g + D) (referee130.slopes), with the
+  slopes  threshold slope on log g, teams' implied p* vs the benchmark's p* = D/(g + D) (robustness_checks.slopes), with the
           criterion's controls ("full"), with the twelve exact count cells ("count_fe"), and without controls;
   decomp  the gap closed by re-tuning only the intercept, only the stake terms (linear or scaled), or both, of the
-          teams' own rule s > kappa(x), tuned on half the draws and scored on the other half (referee130.decomp).
+          teams' own rule s > kappa(x), tuned on half the draws and scored on the other half (robustness_checks.decomp).
 The frequency-matched one-line rule comes from the joint bootstrap (joint_boot.freq_matched).
 usage: python src/mechanism_boot.py point [R_decomp] [R_slopes]
        python src/mechanism_boot.py boot <B> [R_decomp] [R_slopes] [workers]  -> results/mechanism_boot.json"""
@@ -57,7 +57,7 @@ def frame(b):
 
 def job(args):
     b, Rd, Rs = args
-    import referee130 as RF
+    import robustness_checks as RF
     t = time.time()
     mb, r, var = frame(b)
     ctx = RF.context(frame=mb, variant=var)
