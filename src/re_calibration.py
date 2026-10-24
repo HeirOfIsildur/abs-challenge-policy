@@ -1,4 +1,4 @@
-"""HONZA-132: challenge counts of the co-primary model (player effects + lapse, 11 x 11 nodes) integrated over the
+"""challenge counts of the co-primary model (player effects + lapse, 11 x 11 nodes) integrated over the
 fitted population law and with each player's posterior mean plugged in, against the observed. -> results/re_calibration.json"""
 import json, sys
 import numpy as np, pandas as pd

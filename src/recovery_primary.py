@@ -1,4 +1,4 @@
-"""HONZA-134 (round-1 referees: is the lapse rate identified?): known-truth recovery for the primary model (player
+"""known-truth recovery for the primary model (player
 effects + lapse, 11 x 11 nodes). Replicate i simulates the challenges of the 2026 season from the fitted primary model
 (coverage_stream.behave: truth from the zone rule and the mislabel rate, signal and criterion from the fitted
 parameters with every player at his posterior mean, lapses, the challenges the simulated team holds), refits the

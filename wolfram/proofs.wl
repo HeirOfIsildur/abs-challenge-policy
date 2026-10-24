@@ -1,4 +1,4 @@
-(* HONZA-74: kernel checks for the theory section (theory.md).
+(* kernel checks for the theory section (theory.md).
    Model: t = opportunities left, c = challenges held; at each opportunity (g, p) ~ F_t, g > 0 stake, p calibrated
    success probability.  Retention: success gains g and keeps the challenge, failure loses it.
    V_t(c) = V_{t-1}(c) + phi_t(Delta_{t-1}(c)),  phi_t(d) = E_t[(p g - (1-p) d)^+],  V_t(0) = V_0(.) = 0.
@@ -66,7 +66,7 @@ res["T2a_lim_d^a_phi"] = str[Limit[d^aa phiA, d -> Infinity, Assumptions -> g > 
 phiG = Integrate[(g - q (g + d)) (h + h1 q + h2 q^2), {q, 0, g/(g + d)}, Assumptions -> g > 0 && d > 0];
 res["T2a_lim_d_phi_generic_density"] = str[Limit[d phiG, d -> Infinity, Assumptions -> g > 0]];
 res["T2a_phi_uniform_p"] = str[FullSimplify[Integrate[p (g + d) - d, {p, d/(g + d), 1}, Assumptions -> g > 0 && d > 0]]];
-(* T2b square increments: Delta_t(1)^2 - Delta_{t-1}(1)^2 = kappa(Delta_{t-1}) := 2 Delta phi + phi^2 *)
+(* T2b square increments: Delta_t(1)^2 - Delta_{t-1}(1)^2 = kappa(Delta_{t-1}):= 2 Delta phi + phi^2 *)
 res["T2b_square_increment"] = str[FullSimplify[(dd + ph)^2 - dd^2 - (2 dd ph + ph^2)]];
 (* T2c fluid limit Delta' = K_a Delta^-a  =>  Delta = ((1+a) K_a t)^(1/(1+a)) *)
 res["T2c_fluid_solution"] = str[DSolve[{y'[s] == kk y[s]^-aa, y[0] == 0}, y[s], s]];

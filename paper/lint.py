@@ -3,7 +3,7 @@
 usage (from paper/): python lint.py [--submission]
 Checks the text of main.pdf and supplement.pdf (pdftotext) and their metadata (pdfinfo):
   * meta words: referee, reviewer, first pass, kernel, HONZA-, draft, working paper, pending, TODO, ??;
-  * software version strings (Mathematica 15.0, $Version, Mac OS X, ...) outside the main text's Reproducibility
+  * software version strings (Mathematica 15.0, $Version, Mac OS X,...) outside the main text's Reproducibility
     section, which names the Mathematica version once;
   * PDF title and author set and free of draft markers.
 --submission also fails on any \\todo left in main.tex or supplement.tex.
@@ -25,7 +25,7 @@ def info(pdf):
 
 def repro_span(t):
     """Character span of the main text's Reproducibility section: from its heading to the references."""
-    a = re.search(r"^\s*\d+\.\s+Reproducibility", t, re.M | re.I)
+    a = re.search(r"^\s*\d+\.\s+(?:Reproducibility|Data and code availability)", t, re.M | re.I)
     b = re.search(r"^\s*References", t[a.end():], re.M | re.I) if a else None
     return (a.start(), a.end() + b.start()) if a and b else (0, 0)
 

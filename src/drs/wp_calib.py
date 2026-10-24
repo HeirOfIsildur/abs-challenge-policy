@@ -1,9 +1,9 @@
-"""Calibration of the DRS WP engine against realised results (HONZA-89 audit, item 12; does not import src/).
+"""Calibration of the DRS WP engine against realised results (audit, item 12; does not import src/).
 V0 = engine value just after each ball (batting side; P(win), ties 1/2; Tests: expected points), from
 data/drs_balls_g.parquet; y = realised points.  Binned by deciles of V0, by innings and by era, for the analysis
 era (Sep 2017 on, no DLS).  Also the realised stake check: P(win | wicket on this ball) vs P(win | no wicket) at matched
 V0 bins, against the mean engine g.
-usage: .venv/bin/python src/drs/wp_calib.py  ->  results/drs/wp_calib.json"""
+usage:.venv/bin/python src/drs/wp_calib.py  ->  results/drs/wp_calib.json"""
 import json
 import numpy as np, pandas as pd
 

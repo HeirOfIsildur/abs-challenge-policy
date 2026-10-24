@@ -1,13 +1,13 @@
-"""HONZA-73 step 2: out-of-sample checks of the baseline perception model (HONZA-88: deterministic truth + ruling mislabel pi).
+"""step 2: out-of-sample checks of the baseline perception model (deterministic truth + ruling mislabel pi).
  (a) temporal: fit on 2026 games through 30 June, predict 1 July - end of season: challenges, overturn rate given a
      challenge and expected realised wins (sum of g over successful challenges) by side; compare with a refit on the
      test half; wins lost on the test half with train-half vs test-half parameters (DP + simulation, R draws).
  (b) external: Triple-A 2025 and MLB spring 2026 (data/called_<tag>_w.parquet from build_ext.py): the MLB 2026
      parameters transported as they are, and a refit on each feed (sigma_r stability).
-HONZA-130 (Opus / Sol reviews): (a) re-estimated the calibration cells, the belief maps and the DP on the test half
+(a) re-estimated the calibration cells, the belief maps and the DP on the test half
      itself (only theta and the constant delta came from Mar-Jun). It is kept as the "retrospective test-half
-     benchmark"; frozen() is the genuinely frozen cross-fit: every component of the policy is estimated on Mar-Jun
-     (optionally also the WP engine, stakes and run laws; HONZA-132: the perception fit then uses the training-engine
+     benchmark"; frozen is the genuinely frozen cross-fit: every component of the policy is estimated on Mar-Jun
+     (optionally also the WP engine, stakes and run laws; the perception fit then uses the training-engine
      stakes) and applied unchanged to the Jul-Sep call stream.
 usage: python src/oos.py [R]  -> results/oos.json
        python src/oos.py frozen [R] [engine] [world_test]  -> results/oos.json key "frozen_crossfit" (other keys untouched)"""
@@ -16,8 +16,8 @@ import numpy as np, pandas as pd
 sys.path.insert(0, "src")
 import lik, sim
 
-MAIN = "kappa_sr_region_g"        # HONZA-122: BIC-best homogeneous model (criterion piecewise-linear in log g)
-SPEC = lik.spec_of(MAIN)          # HONZA-122 (Sol review): the main specification (was the baseline "normal")
+MAIN = "kappa_sr_region_g"        # BIC-best homogeneous model (criterion piecewise-linear in log g)
+SPEC = lik.spec_of(MAIN)          # the main specification (was the baseline "normal")
 
 
 def frames(m):
@@ -37,7 +37,7 @@ def score(m, th):
         q = np.clip(p1[c] / pch[c], 1e-6, 1 - 1e-6); y = e.ch_over.values[c]
         out[side] = dict(games=ngames, ch_obs=int(c.sum()), ch_pred=round(float(pch.sum()), 1),
                          over_obs=round(float(y.mean()), 4),
-                         # HONZA-122: the overturn rate among the MODEL's challenges; the mean of p1/pch over the
+                         # the overturn rate among the MODEL's challenges; the mean of p1/pch over the
                          # observed challenges is pi or 1 - pi pitch by pitch under the deterministic truth (a geometry
                          # check), kept as over_pred_given_observed_challenges
                          over_pred=round(float(p1.sum() / pch.sum()), 4),
@@ -70,17 +70,16 @@ def wins_lost(games, th, R, delta=None):
 
 
 # ---------------------------------------------------------------------------------------------------------------------
-# HONZA-130 (Opus / Sol reviews): genuinely frozen temporal cross-fit.
+# genuinely frozen temporal cross-fit.
 TRAIN_END, TEST_START = "2026-06-30", "2026-07-01"
 
 
 def train_theta(half="train_marjun", frame=None):
     """Mar-Jun (or Jul-Sep: half="test_julsep") refit of the main model, exactly as in __main__. frame: the called-pitch
-    frame whose stakes the fit uses (HONZA-132, Sol review: with the training WP engine the perception model is refitted
-    on the TRAINING-engine stakes, so that nothing in the frozen pipeline sees the full-season engine); default the
-    full-season frame. Not cached (HONZA-132: the old cache was reused on existence alone)."""
+    frame whose stakes the fit uses; default the
+    full-season frame. Not cached (the old cache was reused on existence alone)."""
     m = (frame if frame is not None else pd.read_parquet("data/called_2026_w.parquet"))
-    m = m.drop(columns=[c for c in ("date",) if c in m]).merge(       # HONZA-132: build.py now carries the date
+    m = m.drop(columns=[c for c in ("date",) if c in m]).merge(       # build.py now carries the date
         pd.read_parquet("data/feed_games_2026.parquet")[["game_pk", "date"]], on="game_pk")
     d = m[m.date <= TRAIN_END] if half == "train_marjun" else m[m.date >= TEST_START]
     r, _ = lik.fit(lik.prepare(d), SPEC, th0=np.load(f"data/th_{MAIN}.npy"))
@@ -204,7 +203,7 @@ def train_engine():
 
 
 def frozen(R=8, seed=130, engine=False, world="train"):
-    """HONZA-130 (Opus / Sol reviews): the frozen temporal cross-fit. On Mar-Jun: perception theta, stake-tercile cut
+    """the frozen temporal cross-fit. On Mar-Jun: perception theta, stake-tercile cut
     points, per-cell isotonic belief maps (sim.draw on the TRAINING pitches: auxiliary draws there), the score-aware
     DP continuation values D4h/D4a (dp_score.solve_dp_score on training pools and hazards) and the one-line constant
     (best of headline.STAKES on the training draws). engine=True also rebuilds the WP engine, the stakes the player
@@ -225,7 +224,7 @@ def frozen(R=8, seed=130, engine=False, world="train"):
     fr_eng = None
     if engine:
         fr_eng, Ptr, Pxtr = train_engine()
-    th = train_theta(frame=fr_eng)                         # HONZA-132: on the training-engine stakes if engine
+    th = train_theta(frame=fr_eng)                         # on the training-engine stakes if engine
     variant = dict(spec=SPEC)
     try:
         mtr = prep(gtr, th, frame=fr_eng)                      # training half (training-engine stakes if engine)
@@ -329,7 +328,7 @@ def frozen_main(R, engine=False, world="train"):
     print(json.dumps(out, indent=1))
 
 
-if __name__ == "__main__" and len(sys.argv) > 1 and sys.argv[1] == "frozen":       # HONZA-130
+if __name__ == "__main__" and len(sys.argv) > 1 and sys.argv[1] == "frozen":
     frozen_main(int(sys.argv[2]) if len(sys.argv) > 2 else 8, engine="engine" in sys.argv[3:],
                 world="test" if "world_test" in sys.argv[3:] else "train")
 elif __name__ == "__main__":
@@ -350,7 +349,7 @@ elif __name__ == "__main__":
     res["temporal_insample_train"] = score(tr, fits["train_marjun"])
     print(json.dumps(res["temporal_predict_test_with_train"]), flush=True)
     gte = te.game_pk.unique()
-    # HONZA-122 (Opus, Sol, Astra reviews): cross-fitted constant -- chosen on Mar-Jun with Mar-Jun parameters, then
+    # cross-fitted constant -- chosen on Mar-Jun with Mar-Jun parameters, then
     # frozen and scored on Jul-Sep (with Mar-Jun parameters, as a team would have to)
     res["wins_lost_train_train_params"] = wins_lost(tr.game_pk.unique(), fits["train_marjun"], R)
     d_train = float(res["wins_lost_train_train_params"]["best_stake"].split("_")[1])

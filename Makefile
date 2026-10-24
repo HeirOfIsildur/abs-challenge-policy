@@ -1,4 +1,4 @@
-# make check: geometry guardrails (tests/, HONZA-88) and the manuscript check (paper/Makefile).
+# make check: geometry guardrails (tests/, ) and the manuscript check (paper/Makefile).
 PY ?= .venv/bin/python
 
 check: test

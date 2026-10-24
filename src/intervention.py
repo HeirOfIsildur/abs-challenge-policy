@@ -1,4 +1,4 @@
-"""HONZA-132 (Sol #2, Astra #4; "make the hidden-information intervention the methodological centre"): wins lost as a
+"""wins lost as a
 function of the two things the data cannot decide.
 
 The challenge data identify the decision noise sigma_r of the fitted rule s > kappa(x) (and, in the lapse models, the

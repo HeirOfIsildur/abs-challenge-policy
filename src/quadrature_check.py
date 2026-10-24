@@ -1,4 +1,4 @@
-"""HONZA-134 (round-2 referee check): accuracy of the primary model's 11 x 11 Gauss-Hermite integration. The negative
+"""accuracy of the primary model's 11 x 11 Gauss-Hermite integration. The negative
 log-likelihood at the fitted parameters (data/th_re_lapse_gh11.npy) with k x k nodes for k in 7, 11, 21, 31; no refit.
 usage: python src/quadrature_check.py  -> results/quadrature_primary.json"""
 import json, sys

@@ -1,10 +1,10 @@
-> **Historical (HONZA-122).** This file records the derivations as they were developed (HONZA-74). The statements
+> **Historical.** This file records the derivations as they were developed. The statements
 > and conditions that the paper uses are those of the manuscript and its supplement (Section S1), which supersede this
 > file where they differ (e.g. the moment and density conditions of the square-root theorem).
 
 # Theory: monotone thresholds, the √t law, and why a one-line rule is enough
 
-Draft theory section for the AoAS paper (HONZA-74). Each claim is tagged with the kernel check that backs it. The
+Draft theory section for the AoAS paper. Each claim is tagged with the kernel check that backs it. The
 checks are in `wolfram/proofs.wl`, and their outputs are in `results/proofs.json` (keys `T1…T4`) with the run log in
 `results/proofs-run.json`. Kernel: **Wolfram 15.0.0 for Mac OS X ARM (64-bit) (May 26, 2026)**. Run it with
 `wolframscript -file wolfram/proofs.wl` (about 25 s). All checks are deterministic: they use exact rationals, closed
@@ -24,7 +24,7 @@ Status legend:
 - Retention: a success gains g and keeps the challenge; a failure loses it.
 - With V_0(·) = V_t(0) = 0 and Δ_t(c) = V_t(c) − V_t(c−1):
 
-  V_t(c) = V_{t−1}(c) + φ_t(Δ_{t−1}(c)),  φ_t(d) := E_t[(p g − (1−p) d)^+],
+  V_t(c) = V_{t−1}(c) + φ_t(Δ_{t−1}(c)),  φ_t(d):= E_t[(p g − (1−p) d)^+],
 
   and the optimal action is to challenge iff p ≥ Δ_{t−1}(c)/(g + Δ_{t−1}(c)). This cutoff was already checked in
   `check.wl` A.
@@ -32,13 +32,13 @@ Status legend:
 Two consequences used throughout:
 
 - **Δ_t(1) = V_t(1).** The option value of the last challenge is its whole value.
-- **The square-increment identity.** Δ_t(1)² − Δ_{t−1}(1)² = κ_t(Δ_{t−1}(1)), where κ_t(d) := 2dφ_t(d) + φ_t(d)².
+- **The square-increment identity.** Δ_t(1)² − Δ_{t−1}(1)² = κ_t(Δ_{t−1}(1)), where κ_t(d):= 2dφ_t(d) + φ_t(d)².
   Check: `T2b_square_increment` = 0.
 
 ## 1. Monotone thresholds
 
 **Lemma 1 [proved].** Fix any law F. Then φ(d) is nonnegative and nonincreasing, with slopes in [−1, 0], and
-ψ(d) := d + φ(d) is nondecreasing.
+ψ(d):= d + φ(d) is nondecreasing.
 
 *Proof.* Pointwise in (p, g), the integrand j(x) = (pg − (1−p)x)^+ has slopes in {0, −(1−p)} ⊂ [−1, 0], and the
 expectation preserves this. Checks: `T1a_phi_nonincreasing`, `T1a_psi_nondecreasing` and `T1a_phi_slope_in_[-1,0]`
@@ -88,7 +88,7 @@ also checked in T1c.
 
 - Given g, q has a density f(·|g) near 0 with f(0+|g) = h(g).
 - There is a local bound f(x|g) ≤ M(g) for x ≤ x₀, with E[g² M(g)] < ∞ and E[g] < ∞.
-- K := E[h(g) g²]/2 ∈ (0, ∞).
+- K:= E[h(g) g²]/2 ∈ (0, ∞).
 
 Then Δ_t(1)/√(2Kt) → 1, i.e. **Δ_t(1) ~ √(E[h(g) g²]·t)**.
 
@@ -141,7 +141,7 @@ and V_t(c)/√(2Kt) → Σk = 1, 1.618, 2.095, …
 Numerical check (uniform p, g = 1): Δ_t(c)/√t at t = 10⁶ is 0.9990, 0.6170, 0.4763, 0.3997 (`T2e_uniform`), against
 the limits 1, 0.618, 0.477, 0.401.
 
-**Consumption contrast [proved].** Under consumption, Δ^cons_t(c) ≤ s := ess sup(pg) for every t. The inductive step
+**Consumption contrast [proved].** Under consumption, Δ^cons_t(c) ≤ s:= ess sup(pg) for every t. The inductive step
 x ≤ s, Y ≤ s ⇒ x + E(Y − x)^+ ≤ s is `T2f_consumption_bound_step` = True; with uniform p and g = 1,
 Δ^cons at t = 10⁶ is 0.999998 ≤ 1. A consumed challenge is worth at most one stake; a retained one grows without
 bound.
@@ -193,7 +193,7 @@ D/(g+D) and δ/(g+δ).
 **Why the optimum is flat (envelope).** The unit-density integral underlying bound (ii), r(δ) = g²(D−δ)²/(2(g+D)(g+δ)²)
 (the integral of the Q-gap over I against dp, not against dF), has r(D) = 0, r'(D) = 0 and r''(D) = g²/(g+D)³
 (`T3a_envelope`). It is not the per-state regret of a general law of p (g = D = 1, δ = 2, density 2p: regret 11/324,
-r = 1/36; `wolfram/regret.wl` -> `results/regret-check.json`, HONZA-120), but M·r bounds that regret. Under a bounded
+r = 1/36; `wolfram/regret.wl` -> `results/regret-check.json`, ), but M·r bounds that regret. Under a bounded
 density, mis-setting the threshold costs nothing to first order, so the loss of the best constant rule is at most
 quadratic in the spread of Δ around δ along the path. The minimising δ sits near the
 occupation-weighted mean of Δ.
@@ -232,7 +232,7 @@ Let s = ess sup(pg).
 
 - (a) V^cons_t(1) ≤ V^NBA_t ≤ min(V^ret_t(1), V^cons_t(2)) and V^cons_t(c) ≤ V^ret_t(c).
 - (b) V^cons_t(c) ≤ c·s and V^NBA_t ≤ 2s for all t.
-- (c) V^ret_t(1) → ∞ whenever, for some g₀ > 0, P(p > 1−ε, g > g₀) > 0 for every ε (HONZA-114: with g₀ = 0 the claim fails — q = g = U(0,1) keeps Δ_t(1) < 1; `wolfram/supplement.wl` S6). Under the conditions of Theorem 2,
+- (c) V^ret_t(1) → ∞ whenever, for some g₀ > 0, P(p > 1−ε, g > g₀) > 0 for every ε (with g₀ = 0 the claim fails — q = g = U(0,1) keeps Δ_t(1) < 1; `wolfram/supplement.wl` S6). Under the conditions of Theorem 2,
   V^ret_t(1) ~ √(E[h g²] t). Hence one retained challenge eventually beats any fixed allotment of consumable ones.
 
 *Proof.*

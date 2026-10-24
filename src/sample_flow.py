@@ -1,4 +1,4 @@
-"""HONZA-122 (Astra review, minor 2): one sample-flow table from the feed to the likelihood and evaluation samples.
+"""one sample-flow table from the feed to the likelihood and evaluation samples.
 usage: python src/sample_flow.py  -> results/sample_flow.json"""
 import json, sys
 import numpy as np, pandas as pd
@@ -12,7 +12,7 @@ if __name__ == "__main__":
     out = dict(
         called_feed=int(len(c)), challenges_feed=int(c.ch.sum()), overturned_feed=int((c.ch & c.ch_over).sum()),
         no_location=int((c.plate_x.isna() | c.sz_top.isna()).sum()),
-        # HONZA-130 (Fable review, minor 4): challenges without a Statcast location (10,557 - 7 mis-joined - 6 = 10,544)
+        # challenges without a Statcast location (10,557 - 7 mis-joined - 6 = 10,544)
         no_location_challenges=int((c.ch & (c.plate_x.isna() | c.sz_top.isna())).sum()),
         misjoined_located=int((c.misjoin & c.plate_x.notna() & c.sz_top.notna()).sum()),
         misjoined_challenges=int((c.misjoin & c.ch & c.plate_x.notna()).sum()),
@@ -23,7 +23,7 @@ if __name__ == "__main__":
         nonmonotone_min=float(w.g_signed.min()),
         evaluation_opportunities=int((~pos).sum()),
         outside_fit_window=int(((w.w.abs() >= 8) & ~pos).sum()),
-        # HONZA-130 (Fable review): located challenges at least 8 in from the zone edge (outside the |w| < 8 fit window)
+        # located challenges at least 8 in from the zone edge (outside the |w| < 8 fit window)
         outside_fit_window_challenges=int(((w.w.abs() >= 8) & w.ch & ~pos).sum()),
         likelihood={s: dict(n=int(lik.eligible_mask(w, s).sum()), challenges=int((lik.eligible_mask(w, s) & w.ch.values).sum()))
                     for s in ("off", "def")},

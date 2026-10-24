@@ -1,4 +1,4 @@
-(* HONZA-132: exact checks of the intervention model (src/intervention.py, sim.draw rho).
+(* exact checks of the intervention model (src/intervention.py, sim.draw rho).
    Player signal s_p = w + Sqrt[rho] sr e1; behavioural signal s_b = s_p + Sqrt[1 - rho] sr e2; challenge iff s_b > kappa.
    (1) s_b - w ~ N(0, sr^2) for every rho in (0, 1]; (2) so P(challenge | w) does not depend on rho (the likelihood
    cannot identify rho); (3) one-opportunity value of the calibrated cutoff decision (challenge iff p g >= (1 - p) D,

@@ -1,8 +1,8 @@
-"""HONZA-134: coverage of the headline procedure (full policy cross-fit, policy_crossfit.py, with its refit bootstrap).
+"""coverage of the headline procedure (full policy cross-fit, policy_crossfit.py, with its refit bootstrap).
 
 coverage_stream.py simulated each season by resampling the 2026 games with replacement, so a simulated season repeated
 about a third of its games; with the folds kept over the original games its decision engines saw fewer distinct games
-than the real season's, which biased the season point down (HONZA-133, "the coverage artefact"). Here every simulated
+than the real season's, which biased the season point down ("the coverage artefact"). Here every simulated
 season is the REAL 2026 game stream -- no game appears twice -- and only the behaviour is simulated along it from a
 generating model (coverage_stream.behave: truth from the zone rule and the mislabel rate, signal and criterion from
 the generating model's parameters, the challenges the simulated team holds, lapses). The target is the generating

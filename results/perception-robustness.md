@@ -1,11 +1,11 @@
-## Perception robustness: σ_r and the wins-lost CI (HONZA-73)
+## Perception robustness: σ_r and the wins-lost CI 
 
-> **Superseded numbers (HONZA-86, 18 Oct 2026).** The policy evaluation behind every wins figure below used a posterior
+> **Superseded numbers (Oct 2026).** The policy evaluation behind every wins figure below used a posterior
 > calibration with a bug (running maximum over sparse signal bins) and a DP optimum that ignored the score. With both
 > fixed, the main spec gives **0.77 [0.62, 0.91]** wins lost and the per-player model 0.90; see `results/headline.md`.
 > The σ_r estimates, identification results and model comparisons in this report do not depend on either and stand.
 
-Run 17–18 Oct 2026. Pre-registered decision rule (HONZA-73): flag "switch to TAS" if the final 95 % CI of wins
+Run 17–18 Oct 2026. Pre-registered decision rule: flag "switch to TAS" if the final 95 % CI of wins
 lost includes 0.25 wins/team-season or less, or is wider than 1.5 wins; otherwise confirm AoAS.
 
 ### Verdict
@@ -15,10 +15,10 @@ about 20 wins league-wide. The CI comes from a full game bootstrap (B = 120) tha
 perception model, re-solves the DP and re-simulates in every replicate. The lower end is well above 0.25 and the
 width is 0.30 wins, so neither TAS trigger fires.
 
-**The headline is smaller than HONZA-71's 1.09.** Most of the drop comes from the missed-call (truth) model, not
+**The headline is smaller than 's 1.09.** Most of the drop comes from the missed-call (truth) model, not
 from σ_r:
 
-- HONZA-71's truth model had one offset per edge, so the top and bottom of the ABS zone shared a single vertical offset.
+- 's truth model had one offset per edge, so the top and bottom of the ABS zone shared a single vertical offset.
 - The data reject this by 2,092 log-likelihood points. The ABS zone's bottom edge sits 1.0 in below the Statcast
   `sz_bot` line, and its top edge 0.75 in below the `sz_top` line.
 - With one shared offset, the model predicted 434 more successful challenges than happened (6,114 vs 5,680). That
@@ -83,7 +83,7 @@ gives the overturn rate given a challenge, predicted vs observed. Wins lost = op
 
 | Model | k | −ΔlogL | BIC | σ_r batter / catcher | Calibration (batter / catcher, %) | Wins lost |
 |---|---|---|---|---|---|---|
-| HONZA-71 truth (edge offsets), exact likelihood | 18 | +2,092 | 63,734 | 3.25 / 2.17 | 54.7 vs 48.9 / 61.9 vs 58.0 | 1.06 |
+| truth (edge offsets), exact likelihood | 18 | +2,092 | 63,734 | 3.25 / 2.17 | 54.7 vs 48.9 / 61.9 vs 58.0 | 1.06 |
 | Region truth, no contamination | 22 | +351 | 60,301 | 3.26 / 2.01 | 51.2 / 59.7 | 0.67 |
 | **Baseline** | 23 | 0 | 59,612 | 3.27 / 2.02 | 50.0 / 58.8 | 0.60 |
 | Logistic ε | 23 | +175 | 59,962 | 2.98 / 1.86 | 50.1 / 58.9 | 0.86 |
@@ -102,7 +102,7 @@ gives the overturn rate given a challenge, predicted vs observed. Wins lost = op
 `perception_variants.json`.)
 
 - **Rejected:** heavier tails. Logistic and t₁₀/t₅/t₃ are all worse than the Gaussian by 123–869 log-likelihood
-  points with the same parameter count. So is the HONZA-71 edge-only truth model.
+  points with the same parameter count. So is the edge-only truth model.
 - **Supported:** σ_r and the threshold varying by zone region. Batters are least willing to challenge high pitches
   (κ +1.6 in at the top edge) and catchers see top-edge pitches 18 % noisier. A σ_r that grows or shrinks with
   distance adds almost nothing (−11 for 2 parameters).
@@ -168,7 +168,7 @@ the split is trivial there. σ_r then comes from the challenge curve alone and a
 | Feed geometry (no truth model) | 0.51 | — | R = 10 |
 | Model spread (models not rejected) | 0.55–0.66 | — | Table in Sec. 3 |
 
-**The rest of the HONZA-71 story survives on the BIC-best model:**
+**The rest of the story survives on the BIC-best model:**
 
 - Optimal 4.00 wins, best stake-only WP rule 3.90 (97.5 % of the optimum), observed 3.34, Savant 0.2 rule 2.84.
   Savant's rule is still worse than what teams did.
@@ -188,7 +188,7 @@ the split is trivial there. σ_r then comes from the challenge curve alone and a
 - Bootstrap CIs use R = 2 Monte Carlo draws per replicate. Monte Carlo SD of opt − observed per replicate is about
   0.02, which is negligible against the CI.
 - The DP's slot pooling makes the optimum a lower bound, so wins lost is conservative.
-- HONZA-71's `joint.py` likelihood used a 241-point grid. It clips challenged pitches far from the edge to
+- 's `joint.py` likelihood used a 241-point grid. It clips challenged pitches far from the edge to
   log 1e-300, so it is inaccurate in the tails. `lik.py` replaces it with an exact split quadrature, validated
   against the bivariate-normal CDF.
 

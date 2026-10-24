@@ -1,7 +1,7 @@
-"""HONZA-92: plain-text cross-references between main.tex and supplement.tex.
+"""plain-text cross-references between main.tex and supplement.tex.
 
 imsart refuses xr/xr-hyper ("external references are not supported in our workflow"), so each document's labels are
-read from its .aux and written as macros: generated/xref_main.tex (\\Mref{label}, used in supplement.tex) and
+read from its.aux and written as macros: generated/xref_main.tex (\\Mref{label}, used in supplement.tex) and
 generated/xref_supp.tex (\\Sref{label}, used in main.tex). Both expand to plain numbers, survive `make submission`,
 and an unknown label prints ?? and the warning "Reference `label' undefined", which `make check` catches.
 usage (from paper/): python xrefs.py"""

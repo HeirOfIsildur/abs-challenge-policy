@@ -1,4 +1,4 @@
-(* ABS decisive test (HONZA-71): kernel checks of the closed forms used by the Python pipeline. *)
+(* ABS decisive test: kernel checks of the closed forms used by the Python pipeline. *)
 dir = DirectoryName[$InputFileName] <> "../results/";
 res = <|"wolframVersion" -> $Version|>;
 phi[x_] := PDF[NormalDistribution[], x]; Phi[x_] := CDF[NormalDistribution[], x];

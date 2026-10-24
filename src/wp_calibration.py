@@ -1,4 +1,4 @@
-"""HONZA-89 audit item 4 / 8: WP engine calibration against realised results, home/away sign, and our run stake RV
+"""/ 8: WP engine calibration against realised results, home/away sign, and our run stake RV
 against an RE288 table estimated directly from Statcast delta_run_exp.  Imports the engine only through stakes.Wpa /
 stakes.Vcount (the objects under audit).  usage: python src/wp_calibration.py -> results/wp_calibration.json"""
 import json, sys

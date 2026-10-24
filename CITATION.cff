@@ -2,6 +2,8 @@ cff-version: 1.2.0
 message: "If you use this code or these results, please cite the paper."
 title: "ABS challenges: an accounting index of wins left on the table — code and results"
 type: software
+version: "v1.0-aoas-submission"
+date-released: "2026-10-25"
 license: MIT
 repository-code: "https://github.com/HeirOfIsildur/abs-challenge-policy"
 authors:

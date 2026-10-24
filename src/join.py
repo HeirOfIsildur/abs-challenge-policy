@@ -1,4 +1,4 @@
-"""HONZA-132 (Sol review): feed x Statcast join of CALLED pitches on the pre-pitch count.
+"""feed x Statcast join of CALLED pitches on the pre-pitch count.
 
 The old join on (game, at-bat, pitch number), screened by description agreement, attached the wrong Statcast pitch when
 one source counted an automatic ball/strike as a pitch and the other did not: two successive balls (or strikes) passed

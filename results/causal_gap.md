@@ -1,8 +1,8 @@
-## Audit R1: why the binary causal estimate sat below the RB one (HONZA-100)
+## Audit R1: why the binary causal estimate sat below the RB one 
 
 ### Verdict
 
-**A simulator bug, now fixed, not a property of the game or of the headline accounting.** The HONZA-86 pitch simulator in `src/causal.py` moved a team's win probability by only **95.4 %** of the engine's g when a call was flipped. The binary estimator values the branch flip in simulated wins, so it inherited that shortfall: +0.000 [-0.048, +0.048] wins per team-season for the optimum (HONZA-89 run, R = 4, K = 300). Pricing every branch with the old simulator's own exact g predicts **-0.079**, which accounts for the whole measured gap with no free parameter. The corrected simulator reaches 98.8 % of g. On it binary − RB is -0.008 [-0.025, +0.009] for the optimum (R = 10, K = 1000), against -0.010 predicted, and it averages -0.011 over the nine policies (was -0.010).
+**A simulator bug, now fixed, not a property of the game or of the headline accounting.** The pitch simulator in `src/causal.py` moved a team's win probability by only **95.4 %** of the engine's g when a call was flipped. The binary estimator values the branch flip in simulated wins, so it inherited that shortfall: +0.000 [-0.048, +0.048] wins per team-season for the optimum (run, R = 4, K = 300). Pricing every branch with the old simulator's own exact g predicts **-0.079**, which accounts for the whole measured gap with no free parameter. The corrected simulator reaches 98.8 % of g. On it binary − RB is -0.008 [-0.025, +0.009] for the optimum (R = 10, K = 1000), against -0.010 predicted, and it averages -0.011 over the nine policies (was -0.010).
 
 **The headline keeps the path-sum accounting priced in engine g.** The RB causal estimate agrees with it (+0.000 [-0.002, +0.002]). Measured in simulated wins (binary), teams lose 0.68 [0.57, 0.80], against 0.69 [0.58, 0.81] for RB; before the fix the binary figure was 0.68 [0.56, 0.81]. The reasons to keep the engine are:
 
@@ -18,13 +18,13 @@ Predicted binary − RB for the optimum, wins per team-season, adding one ingred
 
 | Simulator | Events | In-play outcome | Between-pitch baserunning | g / engine g | Predicted binary − RB | Step |
 |---|---|---|---|---|---|---|
-| sim (HONZA-86) | by count | by the PA's starting outs/bases | none | 95.4 % | -0.079 | — |
+| sim  | by count | by the PA's starting outs/bases | none | 95.4 % | -0.079 | — |
 | kc | by count | by count, outs, bases | none | — | -0.044 | +0.035 |
 | kcob | by count, outs, bases | by count, outs, bases | none | — | -0.064 | -0.020 |
-| run (HONZA-100) | by count, outs, bases | by count, outs, bases | yes (1.0 % of pitches) | 98.8 % | -0.010 | +0.054 |
+| run  | by count, outs, bases | by count, outs, bases | yes (1.0 % of pitches) | 98.8 % | -0.010 | +0.054 |
 | engine (`wp.py`) | empirical end-of-PA kernel by count, outs, bases | | (included) | 100 % | 0 | +0.010 |
 
-Measured binary − RB: +0.000 [-0.048, +0.048] with the HONZA-86 simulator, -0.008 [-0.025, +0.009] with the corrected one.
+Measured binary − RB: +0.000 [-0.048, +0.048] with the simulator, -0.008 [-0.025, +0.009] with the corrected one.
 
 Reading the steps:
 - **Count-dependent contact** (sim → kc) closes 44 % of the gap. Batters ahead in the count hit for more damage (runs scored on the ball in play, averaged over the 24 base-out states: 0-0 0.476, 0-2 0.446, 1-2 0.462, 2-0 0.510, 3-1 0.520). A count-blind in-play kernel compresses the value of moving from a strike count to a ball count. The old kernel was also indexed by the state at the PA's first pitch, and its runs included runners who moved during the PA.
@@ -77,7 +77,7 @@ By inning and margin, the shortfall is spread over the whole game (share of the 
 - **Common random numbers.** Worlds A, A′ and B share seeds per (branch, k), which lowers the variance of A − A′. Both estimators are means of i.i.d. continuations, so CRN cannot bias them.
 - **K / R Monte Carlo bias.** Both estimators are linear in sample means, hence unbiased in K and R. The old gap's CI excluded 0, and the exact chain reproduces it (-0.079 predicted vs +0.000 measured), so it was not noise.
 
-### Recommended manuscript wording (for HONZA-93)
+### Recommended manuscript wording (for )
 
 *§5 (causal check), one paragraph:* "Summing g along the recorded game ignores that, after a flipped call, the rest of the game would have been different. We therefore replay every team-game from its first successful challenge in a pitch-level simulator: events and in-play outcomes by count, outs and bases, plus baserunning between pitches, all estimated from 2026 Statcast. The flipped call is compared with the original one, holding everything else fixed (common random numbers). The simulator reproduces the engine's win probabilities in every decile, and a flip moves its win probability by \SimGShareRun\,\% of g. Valued this way, the optimum's value changes by \CausalMinusPath{} \CausalMinusPathCI{} wins per team-season relative to the path-sum, and teams lose \CausalLost{} \CausalLostCI. Using simulated win indicators instead of g gives \BinaryLost{} \BinaryLostCI; the difference, \BinaryMinusRB{} \BinaryMinusRBCI, is about the size the remaining \SimGShareRunGap\,\% mismatch between simulator and engine predicts (\GapPredRun). A simpler simulator that ignores the count when drawing contact and has no baserunning moves win probability by only \SimGShare\,\% of g, and for exactly that reason its win-indicator estimate differs from g-based accounting by \BinaryMinusRBSim{} (Supplement~S\ref{sec:causal-gap})."
 

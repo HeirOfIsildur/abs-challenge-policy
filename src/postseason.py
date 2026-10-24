@@ -1,18 +1,17 @@
-"""HONZA-87: postseason out-of-sample preview (2026 playoffs so far).
+"""postseason out-of-sample preview (2026 playoffs so far).
 
-Everything is fitted on the 2026 regular season only (HONZA-73 BIC-best model kappa_sr_region refitted on the HONZA-88
-raw-coordinate geometry with deterministic truth, data/th_kappa_sr_region.npy; HONZA-86/89 isotonic belief map learned on
-an auxiliary draw; HONZA-86 score-aware DP).  No playoff row enters any fit except the explicitly labelled
+Everything is fitted on the 2026 regular season only (BIC-best model kappa_sr_region refitted on the raw-coordinate geometry with deterministic truth, data/th_kappa_sr_region.npy; isotonic belief map learned on
+an auxiliary draw; score-aware DP).  No playoff row enters any fit except the explicitly labelled
 playoff-only refits in checks 2b and 3.
-  fetch   : Stats API live feeds of the final postseason games (F wild card, D division series, L LCS, W World Series)
+  fetch: Stats API live feeds of the final postseason games (F wild card, D division series, L LCS, W World Series)
             with the series context, plus Savant Statcast for the same games -> data/ext_post2026.parquet,
             data/ext_games_post2026.parquet, data/statcast_post2026.parquet
-  build   : called-pitch table in the layout of data/called_2026_w.parquet (Statcast location/state/catcher joined to
+  build: called-pitch table in the layout of data/called_2026_w.parquet (Statcast location/state/catcher joined to
             the feed's challenge fields, original call, challenger role, challenges left with the extra-inning grant,
             ABS-zone geometry, WP stakes g from the regular-season engine) -> data/called_post2026_w.parquet
-  analyze : (1) sample, (2) perception transfer, (3) stakes response, (4) learning, (5) wins/WP lost
+  analyze: (1) sample, (2) perception transfer, (3) stakes response, (4) learning, (5) wins/WP lost
             -> results/postseason_preview.{json,md}
-  report  : results/postseason_preview.md from the json
+  report: results/postseason_preview.md from the json
 usage: python src/postseason.py fetch | build | analyze [R] [B] | report"""
 import io, json, sys, time, urllib.request
 from concurrent.futures import ThreadPoolExecutor
@@ -24,7 +23,7 @@ ROUND = dict(F="Wild Card", D="Division Series", L="LCS", W="World Series")
 BEST_OF = dict(F=3, D=5, L=7, W=7)
 SC_URL = ("https://baseballsavant.mlb.com/statcast_search/csv?all=true&hfGT=F%7CD%7CL%7CW%7C&hfSea=2026%7C"
           "&player_type=pitcher&type=details&game_date_gt={a}&game_date_lt={b}")
-MAIN = "kappa_sr_region_g"        # HONZA-122: BIC-best homogeneous model (criterion piecewise-linear in log g)
+MAIN = "kappa_sr_region_g"        # BIC-best homogeneous model (criterion piecewise-linear in log g)
 ALLSTAR = "2026-07-14"            # All-Star Game: first half = regular-season games before it
 
 
@@ -101,7 +100,7 @@ def build():
     sc = pd.read_parquet(f"data/statcast_{TAG}.parquet")
     print("games with ABS challenges enabled:", int(g.has.fillna(False).sum()), "of", len(g))
     f = f.merge(g[["game_pk", "date", "home_id", "away_id", "has", "game_type"]], on="game_pk")
-    f = f[f.has.notna()]                                            # HONZA-89: None = no ABS, False = ABS game without a challenge
+    f = f[f.has.notna()]                                            # None = no ABS, False = ABS game without a challenge
     f["ch"] = f.ch.fillna(False).astype(bool); f["ch_over"] = f.ch_over.fillna(False).astype(bool)
     f = challenges_left(f)                                           # start 2, -1 per failure, extra-inning grant
     f["left_ch"] = np.where(f.ch_team == f.home_id, f.left_home, f.left_away)
@@ -112,7 +111,7 @@ def build():
     keep = ["plate_x", "plate_z", "sz_top", "sz_bot", "vx0", "vy0", "vz0", "ax", "ay", "az", "balls", "strikes",
             "outs_when_up", "on_1b", "on_2b", "on_3b", "home_score", "away_score", "fielder_2", "umpire", "description"]
     f = f.drop(columns=[c for c in keep + ["bases"] if c in f.columns and c not in ("balls", "strikes")])
-    # HONZA-132 (Sol review): join called pitches on the pre-pitch count and call type (src/join.py). The feed's pre-count
+    # join called pitches on the pre-pitch count and call type (src/join.py). The feed's pre-count
     # is the next pitch's stored count minus the call where the PA goes on, else the stored count of this pitch.
     import join as J
     f = f.sort_values(["game_pk", "at_bat_number", "pitch_number"]).reset_index(drop=True)
@@ -129,7 +128,7 @@ def build():
     m["orig_strike"] = np.where(m.ch_over, ~m.final_strike, m.final_strike)
     m["role"] = np.select([~m.ch, m.ch_player == m.batter, m.ch_player == m.pitcher, m.ch_player == m.fielder_2],
                           [None, "batter", "pitcher", "catcher"], "other")
-    # raw Statcast 2026 coordinates are already in the ABS plane (HONZA-88; the postseason Statcast plane test in
+    # raw Statcast 2026 coordinates are already in the ABS plane (the postseason Statcast plane test in
     # results/geometry_audit.json gives a mid-plane residual of 0.003 +- 0.035 in): no projection
     m["px_mid"], m["pz_mid"] = G.abs_location(m, "statcast2026")
     m["dist_in"], m["edge"] = G.signed_distance(m.px_mid, m.pz_mid, m.sz_top, m.sz_bot)
@@ -137,7 +136,7 @@ def build():
           "of postseason challenge rulings")
     m["bases"] = m.on_1b.notna().astype(int) + 2 * m.on_2b.notna().astype(int) + 4 * m.on_3b.notna().astype(int)
     m["score_diff_home"] = (m.home_score - m.away_score).astype(int)
-    # HONZA-130 (Sol review): home score differential at the START of the half-inning, as build.py d_half_start (first
+    # home score differential at the START of the half-inning, as build.py d_half_start (first
     # Statcast pitch of the half, called or not); without it dp_score.add_dstart fell back to the score at the first
     # called pitch, which can already include runs scored earlier in the half
     sh = sc.sort_values(["game_pk", "at_bat_number", "pitch_number"]).groupby(["game_pk", "inning", "inning_topbot"]).first()
@@ -151,7 +150,7 @@ def build():
     for c in ("inning", "outs_when_up"):
         m[c] = m[c].astype(int)
     m["balls"] = m.balls.clip(0, 3).astype(int); m["strikes"] = m.strikes.clip(0, 2).astype(int)
-    # HONZA-122 (Astra, Sol reviews): the postseason has no runner on second in extra innings; stakes come from the
+    # the postseason has no runner on second in extra innings; stakes come from the
     # engine solved without it (wp.py -> data/wp_engine_post.npz), same 2026 PA kernel
     import stakes
     stakes.use_engine("data/wp_engine_post.npz")
@@ -171,7 +170,7 @@ def load_frames():
     """regular season (with official date) and postseason called-pitch tables; w for the |w| < 8 eligibility filter
     of lik.prepare as in the regular-season fit (deterministic truth: w = signed distance on the wrong side)."""
     rs = pd.read_parquet("data/called_2026_w.parquet")
-    rs = rs.drop(columns=[c for c in ("date",) if c in rs])      # HONZA-132: build.py now carries the date
+    rs = rs.drop(columns=[c for c in ("date",) if c in rs])      # build.py now carries the date
     rs = rs.merge(pd.read_parquet("data/feed_games_2026.parquet")[["game_pk", "date"]], on="game_pk")
     po = pd.read_parquet(f"data/called_{TAG}_w.parquet")
     po = po.merge(pd.read_parquet(f"data/ext_games_{TAG}.parquet")[["game_pk", "home_series_w", "away_series_w"]], on="game_pk")
@@ -207,7 +206,7 @@ def ctx():
 
 def score(m, th, spec):
     """observed vs predicted challenges and overturn rates by side (oos.score with the main spec) and z statistics.
-    With the deterministic truth (HONZA-88) the overturn probability of a pitch that WAS challenged is ~1{w > 0}, so
+    With the deterministic truth  the overturn probability of a pitch that WAS challenged is ~1{w > 0}, so
     over_pred / logscore_overturn / brier_overturn check geometry and the mislabel rate, not perception.  The
     perception tests are the challenge counts, the challenge log score per eligible pitch (skill against a constant
     rate equal to the model's own mean, i.e. discrimination) and over_rate_model = sum p(ch, wrong) / sum p(ch), the
@@ -257,13 +256,13 @@ def ci_lin(x, v):
 
 def cal_maps(m, rng, n=5):
     """the regular-season calibration P(W | signal bin) by (side, posterior group), averaged over n auxiliary draws
-    (sim.draw, HONZA-89: the belief is learned from a draw independent of the one that scores the policies)."""
+    (sim.draw, the belief is learned from a draw independent of the one that scores the policies)."""
     import sim
     maps = {}
     for _ in range(n):
         W, s = sim.truth_signal(m, rng)
         for side in ("off", "def"):
-            grp = m.cal.values if "cal" in m else m.pgrp.values    # HONZA-122: sim.cal_groups cells
+            grp = m.cal.values if "cal" in m else m.pgrp.values    # sim.cal_groups cells
             for e in np.unique(grp):
                 k = (m.side == side).values & (grp == e)
                 if not k.any():
@@ -298,7 +297,7 @@ def kappa_rows(e, th, spec, side):
     import lik
     q = lik.unpack(th, spec)[side]
     k = lik.design(e) @ np.asarray(q["beta"]) + np.asarray(q["kreg"])[lik.region(e)]
-    if "kg" in q: k = k + lik.gfeat(e) @ np.asarray(q["kg"])          # HONZA-122: main criterion is piecewise in log g
+    if "kg" in q: k = k + lik.gfeat(e) @ np.asarray(q["kg"])          # main criterion is piecewise in log g
     if "kgl" in q: k = k + lik.glow(e) * float(q["kgl"])
     return k
 
@@ -412,7 +411,7 @@ def wins_check(rs, po, spec, R, B, seed=1):
         m["gidx"] = m.game_pk.astype("category").cat.codes
         prep.append(m)
     mrs, mpo = prep
-    cuts = sim.stake_cuts(mrs)                       # HONZA-122: calibration cells with regular-season stake terciles
+    cuts = sim.stake_cuts(mrs)                       # calibration cells with regular-season stake terciles
     mrs["cal"] = sim.cal_groups(mrs, cuts); mpo["cal"] = sim.cal_groups(mpo, cuts)
     rng = np.random.default_rng(seed)
     z3, zc, zcard = np.zeros((19, 80, 3)), np.zeros((19, 3)), np.zeros((4, 3, 2, 2))
@@ -503,10 +502,10 @@ def report(res):
     SIDE = dict(off="Batter (called strikes)", **{"def": "Catcher/pitcher (called balls)"})
     f5 = lambda x: f"{x:.4f}"
     ci = lambda v, f=f5: f"[{f(v[0])}, {f(v[1])}]"
-    L = ["# Postseason out-of-sample preview (HONZA-87)", "",
+    L = ["# Postseason out-of-sample preview", "",
          "**Preview, small n.** 2026 postseason games final through 17 Oct 2026 (Wild Card, Division Series, LCS so far; "
          "the World Series has not started). Every model parameter, the belief calibration and the score-aware DP are "
-         "from the 2026 regular season only (main spec `kappa_sr_region` on the HONZA-88/89 corrected geometry); "
+         "from the 2026 regular season only (main spec `kappa_sr_region` on the corrected geometry); "
          "playoff data enter only the explicitly labelled playoff-only refits. Generated by `python src/postseason.py analyze`.", "",
          "## 1. Sample", "",
          "| | games | called pitches | challenges | per team-game | batter | catcher | pitcher | overturn | batter ovt. | catcher ovt. |",

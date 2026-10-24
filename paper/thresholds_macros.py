@@ -1,4 +1,4 @@
-"""Macros from results/thresholds_score.json (src/refresh_thresholds.py, HONZA-77); imported by make_numbers.py."""
+"""Macros from results/thresholds_score.json (src/refresh_thresholds.py, ); imported by make_numbers.py."""
 
 
 def macros(d):

@@ -1,4 +1,4 @@
-"""HONZA-132 (Sol #4, Astra #3): independent validation of the stakes -- the ball-vs-strike win-probability contrasts g
+"""independent validation of the stakes -- the ball-vs-strike win-probability contrasts g
 that drive every value in the paper. Level checks (Brier, correlation with Statcast WP) do not validate a contrast.
 
 (1) Statcast's own contrast. Statcast's home_win_exp is an exact function of the pre-pitch state (inning, half, outs,

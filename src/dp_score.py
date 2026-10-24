@@ -1,4 +1,4 @@
-"""Score-aware calibrated DP (HONZA-86; opportunity law and extra innings rebuilt in HONZA-122).
+"""Score-aware calibrated DP (opportunity law and extra innings rebuilt in ).
 
 sim.solve_dp pools every opportunity of a half-inning slot regardless of the score, so its continuation value
 Delta(slot, k, c) is the same in a blowout and in a tie game.  The immediate stake g does depend on the score, so the
@@ -10,20 +10,20 @@ State: half-inning slot (18 regulation halves, then the extra-inning halves), ho
 of the half-inning (clipped to +-DM), opportunity index k within the half, challenges held c.
   V_end(slot, d, c)    = sum_r P(r | slot) V_start(slot + 1, d -+ r, c)   (runs r by the batting team; game over after
                          the top of the 9th if the home team leads, and after the 9th if d != 0; tie -> extra innings)
-  within the half      : the number N of the team's opportunities is random, with the empirical law of N in the
+  within the half: the number N of the team's opportunities is random, with the empirical law of N in the
                          half-innings observed at (slot, d); after k opportunities another one comes with the hazard
                          h_k = P(N > k | N >= k), and (g, p) are i.i.d. draws from the pool of (slot, d).
                          C_k(c) = h_k U_k(c) + (1 - h_k) V_end(c),
                          U_k(c) = E max{C_{k+1}(c), p g + p C_{k+1}(c) + (1 - p) C_{k+1}(c - 1)}
   Delta(slot, d, k, c) = C_{k+1}(c) - C_{k+1}(c-1): the threshold at opportunity k is p >= Delta/(g + Delta).
-HONZA-122 (Fable, Astra, Sol reviews): N was its rounded mean (64,192 of 257,668 opportunities fell beyond it), the
+N was its rounded mean (64,192 of 257,668 opportunities fell beyond it), the
 extra-inning block was a score-free heuristic with a hard-coded continuation factor 0.5, and d was the score at the
 first called pitch, not at the start of the half (different in 477 half-innings).
 Extra innings (exact stationary DP): every extra inning starts tied, with a runner on second and the top-up (a team
 at 0 challenges gets 1). X(c) = Y(topup(c)); Y = top half (pool and N law of extra top halves), ending in
 sum_r Px(r) B_{-r}(c); B_d = bottom half (pool and N law of extra bottom halves), ending in Px(-d) X(c) (the game goes
 on only if the home team ties exactly; otherwise it is over). Px = runs in an extra top half (runner on 2nd), from
-2026 Statcast. Frame encoding: extra rows have slot 18; top halves carry dbin = topx() = DM + 1 (a lead the home team
+2026 Statcast. Frame encoding: extra rows have slot 18; top halves carry dbin = topx = DM + 1 (a lead the home team
 cannot hold at the start of an extra top half), bottom halves dbin = d + DM with d <= 0."""
 import numpy as np, pandas as pd
 from numba import njit
@@ -92,7 +92,7 @@ def hazard(counts):
 
 def half_value(step, h, Vend):
     """backward recursion within one half-inning: returns C_0 (value at the start of the half) and
-    Delta[k, c] = C_{k+1}(c) - C_{k+1}(c-1) (k = 0..KMAX-1). step: a stepper(gg, pp) (HONZA-132: compiled with numba
+    Delta[k, c] = C_{k+1}(c) - C_{k+1}(c-1) (k = 0..KMAX-1). step: a stepper(gg, pp) (compiled with numba
     via _half_value; identical arithmetic)."""
     return _half_value(step.gg, step.pp, np.asarray(h, float), np.asarray(Vend, float), KMAX)
 
@@ -129,10 +129,10 @@ def stepper(gg, pp):
     return step
 
 
-# HONZA-130 (GPT-6-Astra review) / HONZA-132 (Sol, Astra): the half-inning universe of the count law used to be the
+# / the half-inning universe of the count law used to be the
 # opportunity frame, so a half-inning with no located, eligible called pitch for either side (189 of 43,132 Statcast
 # halves, 8 in extra innings) was missing from the hazards instead of counting as N = 0. FULL_HALVES (default since
-# HONZA-132) adds every Statcast 2026 half-inning of the frame's games with n = 0. On a bootstrap resample, which
+# ) adds every Statcast 2026 half-inning of the frame's games with n = 0. On a bootstrap resample, which
 # renumbers games, the frame's orig_game column (final_ci.resample, joint_boot.resample_frame) maps each resampled
 # game to its 2026 game, so a game drawn twice contributes its empty halves twice.
 FULL_HALVES = True

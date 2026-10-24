@@ -1,5 +1,5 @@
-"""HONZA-92: numbers and tables of the Supplementary Material, read from results/ (including the
-HONZA-89). Called by make_numbers.py, which owns the macro table: every macro here starts with S and every table is
+"""numbers and tables of the Supplementary Material, read from results/ (including the
+). Called by make_numbers.py, which owns the macro table: every macro here starts with S and every table is
 written to paper/generated/tab_s_*.tex. Nothing is typed by hand."""
 import json, math, os, re
 from fractions import Fraction
@@ -8,7 +8,7 @@ from fractions import Fraction
 def run(m, R, OUT):
     J = lambda f: json.load(open(os.path.join(R, f)))
     A = lambda f: json.load(open(os.path.join("results", f)))
-    from make_numbers import neg                    # HONZA-106: real minus signs, no "-0.00"
+    from make_numbers import neg                    # real minus signs, no "-0.00"
     f1, f2, f3 = (lambda x: neg(f"{x:.1f}")), (lambda x: neg(f"{x:.2f}")), (lambda x: neg(f"{x:.3f}"))
     f4 = lambda x: neg(f"{x:.4f}")
     pct = lambda x, d=1: f"{100 * x:.{d}f}"
@@ -87,7 +87,7 @@ def run(m, R, OUT):
          small(D["D4_integral_minus_closed_form_maxabs"])),
         ("check.wl", "Gaussian convolution of tracking and perception noise (symbolic and 30-digit)",
          allt(C, ["C_conv_symbolic_density"]) + "; " + small(C["C_conv_maxabs"])),
-        ("identification.wl", "I1, I3: in the superseded smooth-truth model only $(\\sigma_m^2+\\sigma_r^2)^{1/2}$ enters the challenge curve",
+        ("identification.wl", "I1, I3: in the smooth-truth model only $(\\sigma_m^2+\\sigma_r^2)^{1/2}$ enters the challenge curve",
          zero(I["I1_sr_dPdsm_minus_sm_dPdsr"]) + f"; rank {I['I3_batter_rank_challenge_only']} of 3"),
         ("proofs.wl", "T1a: Lemma~\\ref{lem:phi} for any law (ForAll over the reals)",
          allt(p, ["T1a_phi_nonincreasing", "T1a_psi_nondecreasing", "T1a_phi_slope_in_[-1,0]"])),
@@ -105,7 +105,7 @@ def run(m, R, OUT):
         ("proofs.wl", "T2f: consumption step $x\\le s,\\ Y\\le s\\Rightarrow x+\\E(Y-x)^+\\le s$", allt(p, ["T2f_consumption_bound_step"])),
         ("proofs.wl", "T3a: per-state regret on both sides of $D$; crude bound",
          "True" if p["T3a_regret_closed_form_both_sides"] == "{True, True}" and p["T3a_g^2/((g+D)(g+de)^2) <= 1/(4 de)"] == "True" else FAIL),
-        ("proofs.wl", "T3b: regret identity in the stylized game", f"gap {sci(ri[0] - ri[1])}"),
+        ("proofs.wl", "T3b: regret identity in the stylised game", f"gap {sci(ri[0] - ri[1])}"),
         ("supplement.wl", "Substitution and domination bounds in the proof of Theorem~\\ref{thm:sqrtS}", allt(chk["sup"], [k for k in chk["sup"] if k.startswith(("S1", "S2"))])),
         ("supplement.wl", "Bound (ii) of Theorem~\\ref{thm:flatS}; crude bound (iii)", allt(chk["sup"], [k for k in chk["sup"] if k.startswith(("S3", "S5"))])),
         ("supplement.wl", "Mean-value step for the rate $t^{1/(1+\\alpha)}$", allt(chk["sup"], [k for k in chk["sup"] if k.startswith("S4")])),
@@ -120,7 +120,7 @@ def run(m, R, OUT):
         ("drs\\_audit.wl", "DRS three-way likelihood and posterior loss probability at the Test fit",
          f"max.\\ error {sci(max(abs(float(chk['drsaudit'][k])) for k in ('success_diff', 'uc_diff', 'lost_diff', 'l_diff')))}"),
     ]
-    iv = J("intervention-check.json")                      # HONZA-132: the intervention model (wolfram/intervention.wl)
+    iv = J("intervention-check.json")                      # the intervention model (wolfram/intervention.wl)
     S += [("intervention.wl", "Behavioural noise $\\sqrt\\rho\\,\\sigma_r\\varepsilon_1+\\sqrt{1-\\rho}\\,\\sigma_r\\varepsilon_2\\sim N(0,\\sigma_r^2)$; "
                                   "$\\partial\\Prob(\\text{challenge}\\mid w)/\\partial\\rho=0$",
            "True" if iv["convolution_is_N0sr"] == "True" and iv["dPchallenge_drho"] == "0" else "False"),
@@ -194,7 +194,7 @@ def run(m, R, OUT):
     m("SNoLocation", str(dc["challenges"] - dc["called_challenged"]))
 
     # ------------------------------------------------------------------ S4 perception model
-    pv = J("perception_variants.json"); h = J("headline.json"); base = pv["normal"]; main = pv["kappa_sr_region_g"]   # HONZA-122 main
+    pv = J("perception_variants.json"); h = J("headline.json"); base = pv["normal"]; main = pv["kappa_sr_region_g"]   # main
     names = [("sm_edge", "Smooth truth by edge, no mislabel"), ("sm_region", "Smooth truth by region + mislabel"),
              ("normal", "Baseline: deterministic truth + mislabel"), ("logistic", "Logistic $\\varepsilon$"),
              ("t10", "$t_{10}$ $\\varepsilon$"), ("t5", "$t_{5}$ $\\varepsilon$"), ("t3", "$t_{3}$ $\\varepsilon$"),
@@ -203,17 +203,17 @@ def run(m, R, OUT):
              ("kappa_sr_region", "$\\kappa$ and $\\sigma_r$ by region, $\\kappa$ linear in $\\log g$"), ("kappa_sr_region_slope", "Same + $\\sigma_r$ slope"),
              ("linear_lapse", "Same + lapse rate"),
              ("kappa_sr_region_g", "\\textbf{Same, $\\kappa$ piecewise linear in $\\log g$ (comparator)}"),
-             ("main_glow", "Main + low-stake hinge in $\\kappa$"), ("main_sr_g", "Main + $\\sigma_r$ varying with $\\log g$"),
-             ("main_logistic", "Main, logistic $\\varepsilon$"), ("main_t10", "Main, $t_{10}$ $\\varepsilon$"),
-             ("main_t5", "Main, $t_{5}$ $\\varepsilon$"), ("main_t3", "Main, $t_{3}$ $\\varepsilon$"),
-             ("main_lapse", "Main + lapse rate"), ("main_time", "Main, second-half shifts in $\\kappa$, $\\sigma_r$"),
-             ("main_time_lapse", "Same + lapse rate"), ("re", "Main + player effects ($5\\times5$ nodes)"),
-             ("re_gh11", "Main + player effects ($11\\times11$)"), ("re_lapse", "Main + player effects + lapse ($5\\times5$)"),
-             ("re_lapse_gh11", "Main + player effects + lapse ($11\\times11$, primary)"),
-             ("main_state", "Main + game-state terms in $\\kappa$"),
+             ("main_glow", "Comparator + low-stake hinge in $\\kappa$"), ("main_sr_g", "Comparator + $\\sigma_r$ varying with $\\log g$"),
+             ("main_logistic", "Comparator, logistic $\\varepsilon$"), ("main_t10", "Comparator, $t_{10}$ $\\varepsilon$"),
+             ("main_t5", "Comparator, $t_{5}$ $\\varepsilon$"), ("main_t3", "Comparator, $t_{3}$ $\\varepsilon$"),
+             ("main_lapse", "Comparator + lapse rate"), ("main_time", "Comparator, second-half shifts in $\\kappa$, $\\sigma_r$"),
+             ("main_time_lapse", "Same + lapse rate"), ("re", "Comparator + player effects ($5\\times5$ nodes)"),
+             ("re_gh11", "Comparator + player effects ($11\\times11$)"), ("re_lapse", "Comparator + player effects + lapse ($5\\times5$)"),
+             ("re_lapse_gh11", "Comparator + player effects + lapse ($11\\times11$, primary)"),
+             ("main_state", "Comparator + game-state terms in $\\kappa$"),
              ("re_lapse_state_gh11", "Primary + game-state terms in $\\kappa$")]
     lw = J("lapse_wins.json")
-    # HONZA-134 (Opus round-1 minor 3): lapse models at the primary intervention (lapses kept, ell = 0) in both columns
+    # lapse models at the primary intervention (lapses kept, ell = 0) in both columns
     lapse_lost = lw["opt_score_lapsed"]["wins"] - lw["observed"]["wins"] if "opt_score_lapsed" in lw else lw["lost"]
     rows = []
     for k, nm in names:
@@ -225,11 +225,11 @@ def run(m, R, OUT):
                     f"{'---' if pi is None else pct(pi, 2)} & {f2(q['params']['off_sr'])} & {f2(q['params']['def_sr'])} & "
                     f"{f2(ms.get('lost_kept', ms.get('lost'))) if 'lost' in ms else '---'} & {f2(ms['lost_pooled_dp']) if 'lost_pooled_dp' in ms else '---'} \\\\")
     table("variants", "lrrrrrrrr", ["Model & $k$ & $\\Delta\\ell$ & $\\Delta$BIC & $\\pi$ (\\%) & \\multicolumn{2}{c}{$\\sigma_r$ (in)} & \\multicolumn{2}{c}{Wins lost} \\\\",
-                                    "& & & & & batter & catcher & score DP & pooled DP \\\\"], rows)
-    P = main["params"]; RE = pv["re_lapse_gh11"]["params"]          # HONZA-132: the co-primary model
+                                    "& & & & & batter & catcher & score DP & score-free DP \\\\"], rows)
+    P = main["params"]; RE = pv["re_lapse_gh11"]["params"]          # the co-primary model
     cov = ["intercept", "$\\log g$", "one challenge left", "inning$/9$", "two strikes", "three balls"]
     rows = [f"$\\kappa$: {c} & {f2(P['off_beta'][i])} & {f2(P['def_beta'][i])} & {f2(RE['off_beta'][i])} & {f2(RE['def_beta'][i])} \\\\" for i, c in enumerate(cov)]
-    for kn in ("-5.0", "-4.0", "-3.2"):               # HONZA-122: hinges of the piecewise-linear criterion in log g
+    for kn in ("-5.0", "-4.0", "-3.2"):               # hinges of the piecewise-linear criterion in log g
         rows.append(f"$\\kappa$: $(\\log g {'+' if True else ''}{-float(kn):g})_+$ & {f2(P['off_kappa_logg_hinges'][kn])} & {f2(P['def_kappa_logg_hinges'][kn])} & "
                     f"{f2(RE['off_kappa_logg_hinges'][kn])} & {f2(RE['def_kappa_logg_hinges'][kn])} \\\\")
     for r, nm in (("top", "top"), ("arm", "inside"), ("glove", "outside")):
@@ -291,7 +291,7 @@ def run(m, R, OUT):
         rows.append(f"{x:.1f} & {f2(q['opt'])} & ${q['lost']:+.2f}$ & ${q['lost_pooled_dp']:+.2f}$ & "
                     f"{'---' if pb is None else f'{pb:.1f}'} & {'---' if pc is None else f'{pc:.1f}'} \\\\")
     table("breakeven", "rrrrrr", ["$\\sigma_r$ / estimate & Benchmark & \\multicolumn{2}{c}{Wins lost} & \\multicolumn{2}{c}{Profile $-\\Delta\\ell$ (baseline model)} \\\\",
-                                  "& & score DP & pooled DP & batter & catcher \\\\"], rows)
+                                  "& & score DP & score-free DP & batter & catcher \\\\"], rows)
     m("SObservedWins", f2(next(iter(br.values()))["observed"]))
     fcj = J("feed_check.json")
     m("SFeedMainSrBatter", f2(fcj["kappa_sr_region_g"]["params"]["off_sr"])); m("SFeedMainSrCatcher", f2(fcj["kappa_sr_region_g"]["params"]["def_sr"]))
@@ -302,7 +302,7 @@ def run(m, R, OUT):
 
     # ------------------------------------------------------------------ S5 policy evaluation
     c = J("causal.json"); gb = h["causal"]["game_bootstrap"]
-    lab = {"opt_score": "Benchmark (score-aware DP)", "runs_dp": "Runs-objective rule", "opt": "Pooled DP", "stake_0.008": "One-line rule, $\\delta=0.008$",
+    lab = {"opt_score": "Benchmark (score-aware DP)", "runs_dp": "Runs-objective rule", "opt": "Score-free DP", "stake_0.008": "One-line rule, $\\delta=0.008$",
            "stake_0.01": "One-line rule, $\\delta=0.01$", "card_pub": "48-cell card, published", "card_refit": "48-cell card, refit",
            "obs_rule": "Fitted behavioural rule", "savant": "Fixed 0.2-run rule"}
     rows = []
@@ -329,7 +329,7 @@ def run(m, R, OUT):
             for r in fb["table"] if round(r["delta"], 3) in (0.004, 0.005, 0.006, 0.007, 0.008, 0.009, 0.01, 0.012, 0.015, 0.02)]
     table("flat", "rrrrrr", ["$\\delta$ & $V^\\delta/V^\\star$ (\\%) & Loss (\\%) & Local approx.\\ (\\%) & Bound (ii) (\\%) & Identity gap \\\\"], rows)
     m("SFlatR", str(fb["R"]))
-    # HONZA-132: the engine-fixed bootstrap S-macros (SBoot*, SMC*) are gone; the joint bootstrap is in make_numbers
+    # the engine-fixed bootstrap S-macros (SBoot*, SMC*) are gone; the joint bootstrap is in make_numbers
     cf = A("crossfit_calibration.json")
     d_opt = [r["cross_fit"]["opt_score"] - r["in_sample"]["opt_score"] for r in cf["rows"]]
     d_rule = [r["cross_fit"]["stake_0008"] - r["in_sample"]["stake_0008"] for r in cf["rows"]]
@@ -345,7 +345,7 @@ def run(m, R, OUT):
 
     # ------------------------------------------------------------------ S6 cricket DRS
     d = J("drs/summary.json"); rc = A("drs/recount.json"); cnt = rc["counts"]
-    xs = [100 * d[k]["crossfit_delta"]["share"] for k in ("Test", "ODI", "T20") if "crossfit_delta" in d[k]]   # HONZA-122
+    xs = [100 * d[k]["crossfit_delta"]["share"] for k in ("Test", "ODI", "T20") if "crossfit_delta" in d[k]]
     m("SDRSCrossShareLo", f"{min(xs):.0f}"); m("SDRSCrossShareHi", f"{max(xs):.0f}")
     F = ("Test", "ODI", "T20")
     rowf = lambda lab_, fn: f"{lab_} & " + " & ".join(fn(k) for k in F) + " \\\\"

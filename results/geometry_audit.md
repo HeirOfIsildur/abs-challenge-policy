@@ -1,8 +1,8 @@
-## Geometry audit (HONZA-88; round-ball corners HONZA-120)
+## Geometry audit (round-ball corners )
 
-### HONZA-120 update: the ball is round at the zone corners
+### update: the ball is round at the zone corners
 
-The GPT-6-Astra pre-submission review found that `geometry.signed_distance` grew each zone edge by the ball radius
+A pre-submission review found that `geometry.signed_distance` grew each zone edge by the ball radius
 with **square corners**, so a ball diagonally off a corner counted as touching the zone. The correct distance is the
 radius plus the signed distance of the ball's centre to the unexpanded rectangle (rounded corners); guarded by
 `tests/test_geometry.py::test_corner_contact_is_round`. Effects (all from `results/geometry_audit.json`):
@@ -17,15 +17,15 @@ radius plus the signed distance of the ball's centre to the unexpanded rectangle
   near-edge mismatch rate (0.15 % within 0.5 in) is now the same as beyond 1 in (0.13 %).
 - Ball-radius sweep (mismatches): 127 at 1.40 in, 57 at 1.43, 28 at 1.44, **11 at 1.45**, 39 at 1.46, 67 at 1.47,
   136 at 1.50: still sharply minimised at the official radius.
-- The mislabel rate π of the main model falls accordingly; every downstream number was rebuilt (HONZA-120).
+- The mislabel rate π of the main model falls accordingly; every downstream number was rebuilt.
 
-The rest of this file is the HONZA-88 audit on the square-corner rule; its plane and projection findings are unchanged.
+The rest of this file is the audit on the square-corner rule; its plane and projection findings are unchanged.
 
 `src/geometry_audit.py` → `results/geometry_audit.json`, `results/geometry_mismatches.csv`. The guardrails are in `tests/test_geometry.py`, and the convention is the `SOURCE_PLANE_Y_FT` constant in `src/geometry.py`.
 
 ### Verdict
 
-In 2026, Statcast's `plate_x`/`plate_z` already give the ball's position in the ABS evaluation plane, the plate midpoint at y = 17/24 ft. Before HONZA-88, `build.py` treated them as front-of-plate values and projected each pitch a second time. That lowered every pitch by 0.98 in on average (SD 0.31). The "ABS bottom 1.02 in / top 0.82 in below Statcast" offsets in the old truth model came from this double projection, not from the ABS system.
+In 2026, Statcast's `plate_x`/`plate_z` already give the ball's position in the ABS evaluation plane, the plate midpoint at y = 17/24 ft. Before `build.py` treated them as front-of-plate values and projected each pitch a second time. That lowered every pitch by 0.98 in on average (SD 0.31). The "ABS bottom 1.02 in / top 0.82 in below Statcast" offsets in the old truth model came from this double projection, not from the ABS system.
 
 With raw coordinates, the published rule reproduces **99.65 %** of the 10,551 challenge rulings (37 mismatches). The rule uses a 17 in plate, Statcast `sz_top`/`sz_bot` and a 1.45 in ball radius. The best constant shift of either zone line is **0.00 in**. With the old projected coordinates the rule reproduced 85.0 %, and the best-fitting shifts were −1.00 in at the bottom and −0.75 in at the top.
 
@@ -55,7 +55,7 @@ For `sz_top`/`sz_bot`:
 
 > "From 2026 on, this is the top [bottom] of the batter's ABS-defined strike zone."
 
-The Savant changelog of 19 Feb 2026 (https://baseballsavant.mlb.com/changelog/2026-02-19-new-strike-zone-images) contrasts "Strike zone measured at front of plate and dependent on batter's stance" (through 2025) with "Strike zone measured at midpoint of plate and based on batter's height" (2026). The HONZA-79 note that no document states the `plate_z` convention was wrong; the CSV documentation states it.
+The Savant changelog of 19 Feb 2026 (https://baseballsavant.mlb.com/changelog/2026-02-19-new-strike-zone-images) contrasts "Strike zone measured at front of plate and dependent on batter's stance" (through 2025) with "Strike zone measured at midpoint of plate and based on batter's height" (2026). The note that no document states the `plate_z` convention was wrong; the CSV documentation states it.
 
 ### 3. Rule reproduction (challenged pitches; the ruling is observed)
 
@@ -63,7 +63,7 @@ The Savant changelog of 19 Feb 2026 (https://baseballsavant.mlb.com/changelog/20
 |---|---|---|
 | **Statcast raw `plate_x/plate_z`, ball radius 1.45 in** | **99.65 %** | 37 |
 | Statcast raw, no ball radius | 65.6 % | 3,627 |
-| Statcast projected to the midpoint again (pre-HONZA-88) | 85.0 % | 1,580 |
+| Statcast projected to the midpoint again (pre-) | 85.0 % | 1,580 |
 | Feed raw (front of plate) | 85.1 % | 1,577 |
 | Feed projected to the midpoint | 99.73 % | 29 |
 
@@ -132,4 +132,4 @@ The 27-vs-2 lean of the boundary ties suggests ABS is very slightly stricter tha
 - The truth model becomes deterministic: W = 1{w > 0} with a ruling mislabel rate π. The fitted π is 0.33 % (`lik.spec_of`, `det=True`). The 7 tracking disagreements and 29 ties are what π absorbs.
 - The old smooth truth model, refitted on the corrected geometry (`sm_region`), collapses. σ_m is 0.000–0.025 in, |μ| ≤ 0.010 in, and π = 0.26 %. It gains 22.9 log-likelihood points over the deterministic model with 8 more parameters, all on the boundary σ_m → 0, where χ² does not apply. That gain comes from the near-boundary ties, and BIC favours the deterministic model by 53.
   - Without π (`sm_edge`), σ_m inflates to 0.32–0.42 in to accommodate the 7 far-off cases, and its fit is 1,277 log-likelihood points worse.
-- The HONZA-73 "2,092 log-likelihood points for region offsets" was the model undoing the double projection.
+- The "2,092 log-likelihood points for region offsets" was the model undoing the double projection.

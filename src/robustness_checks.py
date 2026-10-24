@@ -1,4 +1,4 @@
-"""HONZA-130: analyses requested by the five referees. Each subcommand writes its own key of results/referee130.json
+"""robustness analyses. Each subcommand writes its own key of results/robustness_checks.json
 (read-modify-write under a file lock; other keys are kept).
 
 All policy evaluations reuse the headline machinery: sim.load / dp_score.add_dstart / sim.opportunities /
@@ -6,7 +6,7 @@ sim.cal_groups for the frame, sim.draw for (truth, signal, calibrated belief), d
 and policies.run_path for the path-sum accounting (wins per team-season = sum / 30, as headline.summarise). With
 seed 1 the draws are the first R draws of headline.evaluate_all(seed=1).
 
-usage: python src/referee130.py <cmd> [args]
+usage: python src/robustness_checks.py <cmd> [args]
   decomp [R]          A  gap decomposition inside the teams' own rule class s > kappa(x) (intercept / stake terms / both),
                          tuned on draws 0..R/2-1, evaluated on draws R/2..R-1 (and in-sample)
   slopes [R]          B  threshold-slope regressions by stake range (log g > -5 vs <= -5), teams and optimum; kappa scale
@@ -21,12 +21,12 @@ import fcntl, json, os, sys, time
 import numpy as np, pandas as pd
 sys.path.insert(0, "src")
 
-OUT = "results/referee130.json"
+OUT = "results/robustness_checks.json"
 SEASON_TEAM_GAMES = 161.7          # 2 x 2,425 games / 30 teams
 
 
 def save(key, val):
-    """merge val under key into results/referee130.json (file-locked)."""
+    """merge val under key into results/robustness_checks.json (file-locked)."""
     with open(OUT + ".lock", "w") as lk:
         fcntl.flock(lk, fcntl.LOCK_EX)
         d = json.load(open(OUT)) if os.path.exists(OUT) else {}
@@ -68,7 +68,7 @@ def run(ctx, W, s, pt, pol, dconst=0.0, K=None, D4h=None, D4a=None, g=None):
     m = ctx["m"]
     D4h = Z19[:, None] if D4h is None else D4h; D4a = Z19[:, None] if D4a is None else D4a
     gd = m.g.values if g is None else g
-    gv = m.gv.values if (g is None and "gv" in m) else gd        # HONZA-132: cross-fitted frames score at gv
+    gv = m.gv.values if (g is None and "gv" in m) else gd        # cross-fitted frames score at gv
     v, n, _, _, _ = P.run_path2(*ctx["base"], W, pt, s, gd, gv, m.RV.values,
                                 ctx["K"] if K is None else K, ctx["isoff"], pol, Z19, Z19, ZC, ZC, ZCARD, 0.0, 0.0,
                                 dconst, D4h, D4a, ctx["ng"])
@@ -114,7 +114,7 @@ def per_team_game(n, ng):
 # ----------------------------------------------------------------------------------------------- A: decomposition
 def stake_part(m, th=None):
     """the stake terms of the fitted criterion kappa(x): beta_logg log g + hinges kg (lik.design / lik.gfeat), by row.
-    th: the main model's parameters (default the point fit; HONZA-132: a bootstrap refit)."""
+    th: the main model's parameters (default the point fit; a bootstrap refit)."""
     import lik
     from final_ci import spec_of
     from headline import MAIN
@@ -131,7 +131,7 @@ def stake_part(m, th=None):
 
 
 def decomp(R=20, only=None, ctx=None, th=None, store=True, seed=1):
-    """HONZA-132: ctx / th / store / seed let mechanism_boot.py run it on a bootstrap resample (returns the result)."""
+    """ctx / th / store / seed let mechanism_boot.py run it on a bootstrap resample (returns the result)."""
     ctx = ctx or context(); m = ctx["m"]; ng = ctx["ng"]
     t = time.time(); dr = worlds(ctx, R, seed=seed); print("draws", round(time.time() - t), flush=True)
     obs = observed(ctx, "gv" if "gv" in ctx["m"] else "g")
@@ -248,7 +248,7 @@ def decomp(R=20, only=None, ctx=None, th=None, store=True, seed=1):
 
 # ----------------------------------------------------------------------------------------------- B: slopes
 def slopes(R=4, ctx=None, th=None, store=True, seed=1):
-    """HONZA-132: ctx / th / store / seed for mechanism_boot.py; controls "count_fe" (Astra #9) replace the two count
+    """ctx / th / store / seed for mechanism_boot.py; controls "count_fe" replace the two count
     indicators by the twelve count cells."""
     import dp_score
     from postseason import cal_maps, apply_maps
@@ -279,7 +279,7 @@ def slopes(R=4, ctx=None, th=None, store=True, seed=1):
             cols += [(x.left == 1).astype(float), np.clip(x.inning.values, 1, 10) / 9]
         if controls == "full":
             cols += [(x.strikes == 2).astype(float), (x.balls == 3).astype(float)]
-        if controls == "count_fe":                                # HONZA-132 (Astra #9): exact count cells
+        if controls == "count_fe":                                # exact count cells
             cols += [(x.left == 1).astype(float), np.clip(x.inning.values, 1, 10) / 9]
             cnt = (x.balls.values * 3 + x.strikes.values).astype(int)
             cols += [(cnt == c).astype(float) for c in range(1, 12)]

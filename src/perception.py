@@ -20,7 +20,7 @@ def fit_truth(c):
 
 def prep(m, tp):
     m = m.copy()
-    mu = 0.0     # HONZA-88: raw Statcast 2026 geometry, the ABS boundary sits on the published lines (no offset)
+    mu = 0.0     # raw Statcast 2026 geometry, the ABS boundary sits on the published lines (no offset)
     m["sm"] = np.where(m.edge == "vert", tp["vert"][1], tp["horiz"][1])
     dc = m.dist_in - mu
     m["w"] = np.where(m.orig_strike, -dc, dc)               # >0 means measured on the wrong side
@@ -38,7 +38,7 @@ def design(e):
     return X
 
 def fit_side(e):
-    """kappa = X beta ; sigma_tot_edge = sqrt(sm_e^2 + sr^2)"""
+    """kappa = X beta; sigma_tot_edge = sqrt(sm_e^2 + sr^2)"""
     X = design(e); w = e.w.values; sm = e.sm.values; y = e.ch.values.astype(float)
     def nll(th):
         b, sr = th[:-1], np.exp(th[-1]); st = np.sqrt(sm ** 2 + sr ** 2)

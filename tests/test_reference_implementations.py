@@ -1,4 +1,4 @@
-"""HONZA-132 guardrails: the vectorised stake table, the compiled DP recursion, the count-based join and the
+"""guardrails: the vectorised stake table, the compiled DP recursion, the count-based join and the
 rho split of the decision noise must reproduce the reference implementations.
 Data tests read data/ (not committed) and are skipped when it is absent.
 run: python -m pytest tests"""

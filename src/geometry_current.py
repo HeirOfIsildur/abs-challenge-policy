@@ -1,5 +1,5 @@
-"""HONZA-133 (round-5 referees Sol #13, Astra minor 1): the ruling-agreement audit on the CURRENT count-joined analysis
-frame (data/called_2026_w.parquet, every challenge located), not on the pre-HONZA-88 frame that src/geometry_audit.py
+"""the ruling-agreement audit on the CURRENT count-joined analysis
+frame (data/called_2026_w.parquet, every challenge located), not on the pre-frame that src/geometry_audit.py
 keeps for its historical plane and projection comparisons. Same rule (geometry.abs_strike: round ball, midpoint plane,
 raw Statcast coordinates) and same ABS ruling (the call after the challenge).
 usage: python src/geometry_current.py  -> results/geometry_current.json"""

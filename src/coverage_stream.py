@@ -1,4 +1,4 @@
-"""HONZA-132 (Sol #9, Astra #8): coverage of the headline interval for a POPULATION target, with resampled game
+"""coverage of the headline interval for a POPULATION target, with resampled game
 streams and under misspecification.
 
 Target. The paper's estimand is the league-average gap per team-season between the pooled-model benchmark under the
@@ -195,7 +195,7 @@ if __name__ == "__main__":
     mode = sys.argv[1]
     st = json.load(open(ROWS)) if os.path.exists(ROWS) else dict(rows=[])
     if mode == "run":
-        # scenarios as name[:S:B] (HONZA-132: the misspecification scenarios can run with fewer seasons and replicates
+        # scenarios as name[:S:B] (the misspecification scenarios can run with fewer seasons and replicates
         # than the main one); S, B: defaults
         S0, B0 = int(sys.argv[3]), int(sys.argv[4])
         R = int(sys.argv[5]) if len(sys.argv) > 5 else 2; workers = int(sys.argv[6]) if len(sys.argv) > 6 else 6
