@@ -4,7 +4,7 @@
     "-file",
     "wolfram/proofs.wl"
   ],
-  "cwd": ".",
+  "cwd": "/Users/honza/multica_workspaces/honza-perso-06080f3a5151/honza-74-a38c778deea6/workdir/abs-challenge-policy",
   "elapsed_seconds": 25.126061708957423,
   "return_code": 0,
   "stderr": "",

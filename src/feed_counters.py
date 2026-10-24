@@ -1,4 +1,4 @@
-"""Our challenges-left reconstruction (build.py) against the live feed's own counters.
+"""HONZA-92 (supplement S3): our challenges-left reconstruction (build.py) against the live feed's own counters.
 
 The feed's gameData.absChallenges gives usedSuccessful / usedFailed / remaining per team and game. We recount
 successes and failures from the pitch-level reviews, rebuild challenges left with build.py's rule (start 2, -1 on a

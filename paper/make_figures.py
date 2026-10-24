@@ -1,4 +1,4 @@
-"""Manuscript figures from results/ (and figures/ for plots that need data/) -> paper/figures/.
+"""HONZA-77: manuscript figures from results/ (and figures/ for plots that need data/) -> paper/figures/.
 
 fig_policies.pdf is drawn here from results/headline.json; the threshold, sqrt-n and DRS figures are produced by the
 pipeline (src/refresh_thresholds.py, src/drs/plots.py) and copied.
@@ -10,11 +10,11 @@ import matplotlib.pyplot as plt
 
 OUT = "paper/figures"
 BLUE, ORANGE, INK, MUTED, GRID = "#2a78d6", "#eb6834", "#0b0b0b", "#52514e", "#e4e3df"
-LABEL = {"opt_score": "Optimum (score-aware DP)", "runs_dp": "Runs-objective rule", "opt": "Pooled DP (no score)",
+LABEL = {"bench": "Pooled-model benchmark", "opt_score": "Benchmark, lapses removed", "runs_dp": "Runs-objective rule", "opt": "Pooled DP (no score)",
          "stake_0.008": "One-line rule, δ = 0.008", "stake_0.01": "One-line rule, δ = 0.01",
          "card_pub": "48-cell card (published)", "card_refit": "48-cell card (refit)", "observed": "Observed 2026",
          "obs_rule": "Fitted behavioural rule", "savant": "Fixed 0.2-run rule",
-         "savant_tuned": "Savant form, tuned run cost", "clairvoyant": "Clairvoyant ceiling"}
+         "savant_tuned": "Savant form, tuned run cost", "clairvoyant": "Clairvoyant comparator"}
 
 
 def policies():
@@ -41,7 +41,7 @@ def policies():
 
 
 def sr_breakeven():
-    """Wins lost against a misestimated sigma_r (results/sr_breakeven.json), with the profile log-likelihood
+    """HONZA-91: wins lost against a misestimated sigma_r (results/sr_breakeven.json), with the profile log-likelihood
     of each side's sigma_r on the real data (results/identification.json) on the same multiplier axis."""
     br = sorted((float(k), v["lost"]) for k, v in json.load(open("results/sr_breakeven.json")).items())
     idn = json.load(open("results/identification.json"))
@@ -66,7 +66,7 @@ def sr_breakeven():
 
 
 def isotonic():
-    """Nonparametric (isotonic) challenge curve against the fitted probit, by side and zone region
+    """HONZA-106: nonparametric (isotonic) challenge curve against the fitted probit, by side and zone region
     (results/isotonic_check.json, src/isotonic_check.py)."""
     d = json.load(open("results/isotonic_check.json")); x = d["grid"]
     fig, axs = plt.subplots(2, 4, figsize=(6.6, 3.6), sharex=True)

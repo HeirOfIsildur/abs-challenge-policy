@@ -1,5 +1,5 @@
-"""Geometry audit: which y-plane each source reports plate_x / plate_z in, and which geometry reproduces the
-2026 ABS challenge rulings.  Needs data/called_2026_oldgeom.parquet (pre-geometry-fix build: raw and projected
+"""HONZA-88 geometry audit: which y-plane each source reports plate_x / plate_z in, and which geometry reproduces the
+2026 ABS challenge rulings.  Needs data/called_2026_oldgeom.parquet (pre-HONZA-88 build: raw and projected
 coordinates side by side), data/statcast_2026.parquet, data/statcast_sample_{2024,2025}.parquet (one Savant day
 each), the Stats API feed tables data/ext_{mlb2026feed,aaa2025,spring2026,post2026}.parquet and
 data/statcast_post2026.parquet.  Fetches batter heights (Stats API people) and re-reads the live feed of every game
@@ -115,7 +115,7 @@ if __name__ == "__main__":
 
     # 2. challenged pitches: the ABS ruling is observed
     m = pd.read_parquet("data/called_2026_oldgeom.parquet")
-    # Drop feed-Statcast mis-joins (the Statcast description contradicts the feed's call
+    # HONZA-122 (Fable review): drop feed-Statcast mis-joins (the Statcast description contradicts the feed's call
     # code, so the location is another pitch's; build.py); 6 of the 11 earlier mismatches were mis-joins
     mj = ~((m.code.eq("C") & m.description.eq("called_strike")) | (m.code.isin(["B", "*B"]) & m.description.isin(["ball", "blocked_ball"])))
     res["misjoined_challenged_dropped"] = int((mj & m.ch & m.plate_x.notna()).sum()); m = m[~mj | m.plate_x.isna()]
@@ -156,7 +156,7 @@ if __name__ == "__main__":
                                  statcast_projected_old=(c.px_mid, c.pz_mid, c.sz_top, c.sz_bot)).items():
         rr[nm] = dict(zip(("share", "mismatches"), rep(c.abs_s, x, z, t, b)), n=len(c))
         rr[nm + "_no_ball_radius"] = dict(zip(("share", "mismatches"), rep(c.abs_s, x, z, t, b, R=0.0)), n=len(c))
-    # Ball-radius sweep on raw Statcast (round-ball rule) and the square-corner rule used in earlier versions
+    # HONZA-120: ball-radius sweep on raw Statcast (round-ball rule) and the square-corner rule used up to HONZA-114
     rr["statcast_raw_radius_sweep"] = {f"{r_in:.2f}": rep(c.abs_s, c.plate_x, c.plate_z, c.sz_top, c.sz_bot, R=r_in / 12)[1]
                                        for r_in in (1.35, 1.40, 1.43, 1.44, 1.45, 1.46, 1.47, 1.50, 1.55)}
     def square_corner(x, z, t, b, R=G.BALL_RADIUS_FT, hw=G.PLATE_HALF_WIDTH_FT):

@@ -1,0 +1,13 @@
+{
+  "command": [
+    "wolframscript",
+    "-file",
+    "wolfram/intervention.wl"
+  ],
+  "cwd": "/Users/honza/multica_workspaces/honza-perso-06080f3a5151/honza-132-96bbd7221711/workdir/abs-challenge-policy-private",
+  "elapsed_seconds": 94.52272995800013,
+  "return_code": 0,
+  "stderr": "",
+  "stdout": "15.0.0 for Mac OS X ARM (64-bit) (May 26, 2026)\nconv: True  dP/drho: 0  monotone: True\n",
+  "timed_out": false
+}

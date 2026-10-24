@@ -1,4 +1,4 @@
-"""Known-truth recovery of the DRS selection model (independent audit, item 12).
+"""Known-truth recovery of the DRS selection model (HONZA-89 audit, item 12).
 Simulate outcome counts from the fitted model on the real opportunity set (same cells, same kinds of non-overturned
 decisions drawn from the fitted pi_lbw), refit with fit_full (profile in s + free fit), and report the recovered s,
 kappa, mu and how often the 95 % LR set (continuous profile endpoints) covers the truth.  Run for the band model (main) and, as a contrast, the
@@ -33,7 +33,7 @@ if __name__ == "__main__":
         reps = []
         for r in range(R):
             ds = simulate(d, P, rng); F = fit_full(ds, "band")
-            lo, hi = F["s_95"]                       # continuous profile-LR endpoints (was a grid with a 15 % slack)
+            lo, hi = F["s_95"]                       # continuous profile-LR endpoints (HONZA-122; was a grid with a 15 % slack)
             reps.append(dict(s=F["s"], kappa=F["kappa"], mu=F["mu"], conv=F["conv"], lr_set=[lo, hi], lr_open=F["s_95_open"],
                              covers=bool(lo <= P["s"] <= hi)))
         s = np.array([x["s"] for x in reps])

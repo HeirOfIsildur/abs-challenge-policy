@@ -1,10 +1,10 @@
-> **Historical.** This file records the derivations as they were developed. The statements
+> **Historical (HONZA-122).** This file records the derivations as they were developed (HONZA-74). The statements
 > and conditions that the paper uses are those of the manuscript and its supplement (Section S1), which supersede this
 > file where they differ (e.g. the moment and density conditions of the square-root theorem).
 
 # Theory: monotone thresholds, the √t law, and why a one-line rule is enough
 
-Draft theory section for the AoAS paper. Each claim is tagged with the kernel check that backs it. The
+Draft theory section for the AoAS paper (HONZA-74). Each claim is tagged with the kernel check that backs it. The
 checks are in `wolfram/proofs.wl`, and their outputs are in `results/proofs.json` (keys `T1…T4`) with the run log in
 `results/proofs-run.json`. Kernel: **Wolfram 15.0.0 for Mac OS X ARM (64-bit) (May 26, 2026)**. Run it with
 `wolframscript -file wolfram/proofs.wl` (about 25 s). All checks are deterministic: they use exact rationals, closed
@@ -193,7 +193,7 @@ D/(g+D) and δ/(g+δ).
 **Why the optimum is flat (envelope).** The unit-density integral underlying bound (ii), r(δ) = g²(D−δ)²/(2(g+D)(g+δ)²)
 (the integral of the Q-gap over I against dp, not against dF), has r(D) = 0, r'(D) = 0 and r''(D) = g²/(g+D)³
 (`T3a_envelope`). It is not the per-state regret of a general law of p (g = D = 1, δ = 2, density 2p: regret 11/324,
-r = 1/36; `wolfram/regret.wl` -> `results/regret-check.json`), but M·r bounds that regret. Under a bounded
+r = 1/36; `wolfram/regret.wl` -> `results/regret-check.json`, HONZA-120), but M·r bounds that regret. Under a bounded
 density, mis-setting the threshold costs nothing to first order, so the loss of the best constant rule is at most
 quadratic in the spread of Δ around δ along the path. The minimising δ sits near the
 occupation-weighted mean of Δ.
@@ -232,7 +232,7 @@ Let s = ess sup(pg).
 
 - (a) V^cons_t(1) ≤ V^NBA_t ≤ min(V^ret_t(1), V^cons_t(2)) and V^cons_t(c) ≤ V^ret_t(c).
 - (b) V^cons_t(c) ≤ c·s and V^NBA_t ≤ 2s for all t.
-- (c) V^ret_t(1) → ∞ whenever, for some g₀ > 0, P(p > 1−ε, g > g₀) > 0 for every ε (with g₀ = 0 the claim fails — q = g = U(0,1) keeps Δ_t(1) < 1; `wolfram/supplement.wl` S6). Under the conditions of Theorem 2,
+- (c) V^ret_t(1) → ∞ whenever, for some g₀ > 0, P(p > 1−ε, g > g₀) > 0 for every ε (HONZA-114: with g₀ = 0 the claim fails — q = g = U(0,1) keeps Δ_t(1) < 1; `wolfram/supplement.wl` S6). Under the conditions of Theorem 2,
   V^ret_t(1) ~ √(E[h g²] t). Hence one retained challenge eventually beats any fixed allotment of consumable ones.
 
 *Proof.*

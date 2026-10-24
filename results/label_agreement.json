@@ -1,18 +1,18 @@
 {
- "pitches": 370407,
- "share_differ": 0.00018358184375565258,
- "n_differ": 68,
+ "pitches": 370761,
+ "share_differ": 0.00015373785268677127,
+ "n_differ": 57,
  "challenged": {
-  "n": 10544,
-  "share_differ": 0.0005690440060698028
+  "n": 10557,
+  "share_differ": 0.0005683432793407218
  },
  "unchallenged": {
-  "n": 359863,
-  "share_differ": 0.0001722877872968324
+  "n": 360204,
+  "share_differ": 0.00014158643435386613
  },
  "likelihood_sample": {
-  "n": 242128,
-  "share_differ": 0.0002601929557919778
+  "n": 242349,
+  "share_differ": 0.00022694543819037834
  },
  "abs_diff_in": {
   "p50": 0.0019,
@@ -22,33 +22,33 @@
  "by_band": [
   {
    "band": "[0.0, 0.25)",
-   "n": 9632,
-   "share_differ": 0.005917774086378737
+   "n": 9643,
+   "share_differ": 0.005703619205641398
   },
   {
    "band": "[0.25, 0.5)",
-   "n": 9859,
+   "n": 9869,
    "share_differ": 0.0
   },
   {
    "band": "[0.5, 1.0)",
-   "n": 19717,
-   "share_differ": 0.00030430592889384796
+   "n": 19742,
+   "share_differ": 0.0
   },
   {
    "band": "[1.0, 2.0)",
-   "n": 38829,
-   "share_differ": 5.150789358469186e-05
+   "n": 38868,
+   "share_differ": 5.145621076463929e-05
   },
   {
    "band": "[2.0, 4.0)",
-   "n": 72353,
-   "share_differ": 1.3821126974693516e-05
+   "n": 72416,
+   "share_differ": 0.0
   },
   {
    "band": "[4.0, 100.0)",
-   "n": 220017,
-   "share_differ": 9.090206665848549e-06
+   "n": 220223,
+   "share_differ": 0.0
   }
  ],
  "note": "label = ABS strike iff signed distance > 0 (geometry.signed_distance, round ball); Statcast 2026 plate_x/plate_z at the plate midpoint vs the live feed's pX/pZ projected to the midpoint"

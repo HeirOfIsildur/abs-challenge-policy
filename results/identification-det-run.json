@@ -4,10 +4,10 @@
     "-file",
     "wolfram/identification_det.wl"
   ],
-  "cwd": ".",
-  "elapsed_seconds": 5.1349877920001745,
+  "cwd": "/Users/honza/multica_workspaces/honza-perso-06080f3a5151/honza-130-f03cb618cb5b/workdir/abs-challenge-policy-private",
+  "elapsed_seconds": 16.290946006774902,
   "return_code": 0,
   "stderr": "",
-  "stdout": "<|wolframVersion -> 15.0.0 for Mac OS X ARM (64-bit) (May 26, 2026), D1_limit_maxabs -> 3.179622249883179720701247923696`5.*^-8, D2_det_minus_closed_form -> 0, D2_rank_batter -> 2, D2_sv_batter -> {0.2817828871093674199`6., 0.0392043729403992625`6.}, D2_rank_catcher -> 2, D2_sv_catcher -> {0.4856956764988490614`6., 0.153612734459326865`6.}, D3_cross_pi_sr -> 0, D3_cross_pi_k -> 0, D4_integral_minus_closed_form_maxabs -> 2.1459792452552`0.4573151907190017*^-25, D4_rel_bias_pct_c03 -> {{1.95000, 1.17651}, {3.12000, 0.461215}}, D5_note -> no sm parameter: the (sm, sr) null direction of the smooth-truth model's check I3 does not exist|>\n",
+  "stdout": "<|wolframVersion -> 15.0.0 for Mac OS X ARM (64-bit) (May 26, 2026), sr_batter -> 2.8793500425161786897`8., sr_catcher -> 1.8161569735477318705`8., D1_limit_maxabs -> 3.660279032807357203349632256427`5.*^-8, D2_det_minus_closed_form -> 0, D2_rank_batter -> 2, D2_sv_batter -> {0.2887462045719212626`6., 0.0398698236460121782`6.}, D2_rank_catcher -> 2, D2_sv_catcher -> {0.50755129117076465`6., 0.1658412802760080582`6.}, D3_cross_pi_sr -> 0, D3_cross_pi_k -> 0, D4_integral_minus_closed_form_maxabs -> 3.4799430443375`0.7729661408484272*^-25, D4_rel_bias_pct_c03 -> {{1.81616, 1.35511}, {2.87935, 0.541315}}, D5_note -> no sm parameter: the (sm, sr) null direction of HONZA-73 I3 does not exist|>\n",
   "timed_out": false
 }

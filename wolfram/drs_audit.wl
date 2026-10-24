@@ -1,4 +1,4 @@
-(* independent audit of the DRS band model: (i) the three-way likelihood components at the Test fit by direct
+(* HONZA-89 audit of the DRS band model: (i) the three-way likelihood components at the Test fit by direct
    integration over (X, S), (ii) the posterior loss probability l = P(X < -kappa | S) used by dp.py.
    Python values from src/drs/model.py probs() and dp.draw(). *)
 dir = DirectoryName[$InputFileName] <> "../results/drs/";

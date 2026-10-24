@@ -1,4 +1,4 @@
-"""Is the Gaussian (probit) shape of the challenge curve right, not just best within a
+"""HONZA-106 (referee comment 2): is the Gaussian (probit) shape of the challenge curve right, not just best within a
 parametric family?  Nonparametric check, by side and zone region: the observed challenge indicator on every eligible
 called pitch is regressed on the truth margin w by isotonic regression (P(challenge | w) is monotone in w under any
 signal-detection model with a location-family noise law), and compared with the fitted main model's challenge
@@ -15,7 +15,7 @@ import sim
 from final_ci import spec_of
 from headline import MAIN
 
-REG = ["bottom", "top", "inside", "outside"]          # lik.REGIONS bottom / top / arm (toward the batter) / glove
+REG = ["bottom", "top", "inside", "outside"]          # lik.REGION_NAMES (legacy lik.REGIONS keys: arm = inside, glove = outside; HONZA-130)
 GRID = np.round(np.arange(-6.0, 6.01, 0.25), 2)
 
 

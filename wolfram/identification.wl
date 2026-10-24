@@ -1,4 +1,4 @@
-(* Why the missed-call noise sm and the perception noise sr are separately identified.
+(* HONZA-73: why the missed-call noise sm and the perception noise sr are separately identified.
    Model (one side, one region): eta ~ N(0, sm^2), eps ~ N(0, sr^2), W = 1{w + eta > 0}, challenge iff w + eta + eps > k.
      Pch(w) = P(challenge | w)          = Phi((w - k)/st),  st = Sqrt[sm^2 + sr^2]
      Pcw(w) = P(challenge, W = 1 | w)   = Int_{-w}^Inf phi_sm(eta) Phi((w + eta - k)/sr) d eta

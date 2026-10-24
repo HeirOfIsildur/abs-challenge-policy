@@ -1,0 +1,4230 @@
+{
+ "design": "2026 stream fixed, behaviour simulated; refit bootstrap of the full policy cross-fit",
+ "results": {
+  "kappa_sr_region_g|kappa_sr_region_g": {
+   "scen": "kappa_sr_region_g",
+   "analysis": "kappa_sr_region_g",
+   "gap": 0.6996865007252993,
+   "gapK": 0.6943965106670307,
+   "gapK_se": 0.005067224141878847,
+   "coverageK": {
+    "percentile": {
+     "covered": 46,
+     "rate": 0.92,
+     "ci": [
+      0.8076572164040372,
+      0.9777720363450703
+     ],
+     "miss_low": 4,
+     "miss_high": 0
+    },
+    "basic": {
+     "covered": 44,
+     "rate": 0.88,
+     "ci": [
+      0.7568986832944374,
+      0.9546646792263361
+     ],
+     "miss_low": 5,
+     "miss_high": 1
+    },
+    "normal": {
+     "covered": 45,
+     "rate": 0.9,
+     "ci": [
+      0.7818646335657977,
+      0.9667249064109775
+     ],
+     "miss_low": 5,
+     "miss_high": 0
+    }
+   },
+   "point_bias_K": -0.031532109934705455,
+   "S": 50,
+   "B": 50,
+   "coverage": {
+    "percentile": {
+     "covered": 46,
+     "rate": 0.92,
+     "ci": [
+      0.8076572164040372,
+      0.9777720363450703
+     ],
+     "miss_low": 4,
+     "miss_high": 0,
+     "mean_width": 0.23166267044317287
+    },
+    "basic": {
+     "covered": 45,
+     "rate": 0.9,
+     "ci": [
+      0.7818646335657977,
+      0.9667249064109775
+     ],
+     "miss_low": 5,
+     "miss_high": 0,
+     "mean_width": 0.23166267044317287
+    },
+    "normal": {
+     "covered": 45,
+     "rate": 0.9,
+     "ci": [
+      0.7818646335657977,
+      0.9667249064109775
+     ],
+     "miss_low": 5,
+     "miss_high": 0,
+     "mean_width": 0.25091312203894495
+    }
+   },
+   "point_mean": 0.6628644007323252,
+   "point_bias": -0.03682209999297403,
+   "point_bias_se": 0.007733423257497348,
+   "point_sd_across_seasons": 0.05468356027162135,
+   "boot_sd_mean": 0.06400844949973085,
+   "boot_mean_minus_point": -0.019622142118546224,
+   "seasons": [
+    {
+     "s": 0,
+     "point": 0.6612273407116449,
+     "B": 50,
+     "boot_sd": 0.06748893067492467,
+     "boot_mean": 0.6358059031090827,
+     "percentile": [
+      0.5080764233328501,
+      0.7331686120471718
+     ],
+     "basic": [
+      0.589286069376118,
+      0.8143782580904397
+     ],
+     "normal": [
+      0.5289490365887926,
+      0.7935056448344973
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 1,
+     "point": 0.7250662861201573,
+     "B": 50,
+     "boot_sd": 0.06470127443081382,
+     "boot_mean": 0.7134244638131086,
+     "percentile": [
+      0.5842529954535264,
+      0.811062088646364
+     ],
+     "basic": [
+      0.6390704835939507,
+      0.8658795767867883
+     ],
+     "normal": [
+      0.5982517882357623,
+      0.8518807840045524
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 2,
+     "point": 0.7360368785728082,
+     "B": 50,
+     "boot_sd": 0.0528144631744284,
+     "boot_mean": 0.686024948340623,
+     "percentile": [
+      0.5755271897427021,
+      0.7818612665285761
+     ],
+     "basic": [
+      0.6902124906170403,
+      0.8965465674029143
+     ],
+     "normal": [
+      0.6325205307509285,
+      0.8395532263946879
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 3,
+     "point": 0.7254206284425591,
+     "B": 50,
+     "boot_sd": 0.07975742258525405,
+     "boot_mean": 0.6955941198630271,
+     "percentile": [
+      0.579165071108536,
+      0.8623538445024532
+     ],
+     "basic": [
+      0.5884874123826649,
+      0.8716761857765821
+     ],
+     "normal": [
+      0.5690960801754611,
+      0.881745176709657
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 4,
+     "point": 0.7448619057278396,
+     "B": 50,
+     "boot_sd": 0.05637207575437156,
+     "boot_mean": 0.7004481285175972,
+     "percentile": [
+      0.5784377992070757,
+      0.8028949231890424
+     ],
+     "basic": [
+      0.6868288882666368,
+      0.9112860122486035
+     ],
+     "normal": [
+      0.6343726372492714,
+      0.8553511742064078
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 5,
+     "point": 0.6694330336531884,
+     "B": 50,
+     "boot_sd": 0.0668869702957846,
+     "boot_mean": 0.6563920584646873,
+     "percentile": [
+      0.5199948620591067,
+      0.7699477755453086
+     ],
+     "basic": [
+      0.5689182917610682,
+      0.8188712052472701
+     ],
+     "normal": [
+      0.5383345718734506,
+      0.8005314954329262
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 6,
+     "point": 0.6737996251547265,
+     "B": 50,
+     "boot_sd": 0.07456054909359826,
+     "boot_mean": 0.6407966732081267,
+     "percentile": [
+      0.49750175989595297,
+      0.7595141506882018
+     ],
+     "basic": [
+      0.5880850996212511,
+      0.8500974904134999
+     ],
+     "normal": [
+      0.5276609489312739,
+      0.819938301378179
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 7,
+     "point": 0.6567642751036993,
+     "B": 50,
+     "boot_sd": 0.06653713537984884,
+     "boot_mean": 0.6250868495928598,
+     "percentile": [
+      0.5010165607066919,
+      0.732512208974369
+     ],
+     "basic": [
+      0.5810163412330296,
+      0.8125119895007067
+     ],
+     "normal": [
+      0.5263514897591955,
+      0.787177060448203
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 8,
+     "point": 0.671155284832182,
+     "B": 50,
+     "boot_sd": 0.06912053720381153,
+     "boot_mean": 0.6715362052869004,
+     "percentile": [
+      0.5549657440847643,
+      0.8044083188484701
+     ],
+     "basic": [
+      0.5379022508158939,
+      0.7873448255795997
+     ],
+     "normal": [
+      0.5356790319127114,
+      0.8066315377516526
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 9,
+     "point": 0.6928224323400234,
+     "B": 50,
+     "boot_sd": 0.06997151932554613,
+     "boot_mean": 0.618408250920764,
+     "percentile": [
+      0.48362619128630924,
+      0.7351201391468565
+     ],
+     "basic": [
+      0.6505247255331903,
+      0.9020186733937375
+     ],
+     "normal": [
+      0.555678254461953,
+      0.8299666102180938
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 10,
+     "point": 0.7363029972687256,
+     "B": 50,
+     "boot_sd": 0.07212578531187509,
+     "boot_mean": 0.6620198249646593,
+     "percentile": [
+      0.5129489531109066,
+      0.7974115308868359
+     ],
+     "basic": [
+      0.6751944636506153,
+      0.9596570414265446
+     ],
+     "normal": [
+      0.5949364580574504,
+      0.8776695364800008
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 11,
+     "point": 0.7202935793822118,
+     "B": 50,
+     "boot_sd": 0.059073943220023926,
+     "boot_mean": 0.6674978947825129,
+     "percentile": [
+      0.5734007889910333,
+      0.7976262809301994
+     ],
+     "basic": [
+      0.6429608778342243,
+      0.8671863697733904
+     ],
+     "normal": [
+      0.6045086506709649,
+      0.8360785080934587
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 12,
+     "point": 0.6998737187261699,
+     "B": 50,
+     "boot_sd": 0.0676349886993133,
+     "boot_mean": 0.7403932233894995,
+     "percentile": [
+      0.645436209444432,
+      0.8839547187069445
+     ],
+     "basic": [
+      0.5157927187453952,
+      0.7543112280079077
+     ],
+     "normal": [
+      0.5673091408755158,
+      0.832438296576824
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 13,
+     "point": 0.6107461920081989,
+     "B": 50,
+     "boot_sd": 0.07072209638736754,
+     "boot_mean": 0.6048379549583048,
+     "percentile": [
+      0.4843534069727786,
+      0.7357116987860846
+     ],
+     "basic": [
+      0.48578068523031326,
+      0.7371389770436192
+     ],
+     "normal": [
+      0.47213088308895856,
+      0.7493615009274393
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 14,
+     "point": 0.6387724918749185,
+     "B": 50,
+     "boot_sd": 0.0754776055773716,
+     "boot_mean": 0.6013620012921388,
+     "percentile": [
+      0.46550010768346517,
+      0.7510946312628887
+     ],
+     "basic": [
+      0.5264503524869483,
+      0.8120448760663718
+     ],
+     "normal": [
+      0.49083638494327014,
+      0.7867085988065667
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 15,
+     "point": 0.7496901112928072,
+     "B": 50,
+     "boot_sd": 0.06494256069220565,
+     "boot_mean": 0.6991713624763524,
+     "percentile": [
+      0.522442648018109,
+      0.8013599483724552
+     ],
+     "basic": [
+      0.6980202742131592,
+      0.9769375745675053
+     ],
+     "normal": [
+      0.6224026923360841,
+      0.8769775302495302
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": false,
+     "coverK_normal": true
+    },
+    {
+     "s": 16,
+     "point": 0.642277414375898,
+     "B": 50,
+     "boot_sd": 0.0567721411550649,
+     "boot_mean": 0.598440382865567,
+     "percentile": [
+      0.5043504079194422,
+      0.7017608775785329
+     ],
+     "basic": [
+      0.5827939511732632,
+      0.7802044208323539
+     ],
+     "normal": [
+      0.5310040177119708,
+      0.7535508110398252
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 17,
+     "point": 0.7278766140103641,
+     "B": 50,
+     "boot_sd": 0.05620457709437918,
+     "boot_mean": 0.6932486527161565,
+     "percentile": [
+      0.5810421226470134,
+      0.7923165863778435
+     ],
+     "basic": [
+      0.6634366416428846,
+      0.8747111053737148
+     ],
+     "normal": [
+      0.617715642905381,
+      0.8380375851153472
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 18,
+     "point": 0.5127298097159909,
+     "B": 50,
+     "boot_sd": 0.07405495732751242,
+     "boot_mean": 0.4783710250291595,
+     "percentile": [
+      0.3535939130318578,
+      0.612667572938285
+     ],
+     "basic": [
+      0.41279204649369683,
+      0.6718657064001241
+     ],
+     "normal": [
+      0.36758209335406655,
+      0.6578775260779153
+     ],
+     "cover_percentile": false,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 19,
+     "point": 0.6405546525529644,
+     "B": 50,
+     "boot_sd": 0.05571354567424377,
+     "boot_mean": 0.6004565197860265,
+     "percentile": [
+      0.5031373483074916,
+      0.7071771098163121
+     ],
+     "basic": [
+      0.5739321952896167,
+      0.7779719567984372
+     ],
+     "normal": [
+      0.5313561030314466,
+      0.7497532020744822
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 20,
+     "point": 0.5819295085715073,
+     "B": 50,
+     "boot_sd": 0.05661622728744058,
+     "boot_mean": 0.6024150517372329,
+     "percentile": [
+      0.49077468686980885,
+      0.6823958037353706
+     ],
+     "basic": [
+      0.481463213407644,
+      0.6730843302732057
+     ],
+     "normal": [
+      0.47096170308812374,
+      0.6928973140548909
+     ],
+     "cover_percentile": false,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 21,
+     "point": 0.6215089850057343,
+     "B": 50,
+     "boot_sd": 0.06366913047908498,
+     "boot_mean": 0.6145014409208888,
+     "percentile": [
+      0.49509536207297133,
+      0.7201024355019344
+     ],
+     "basic": [
+      0.5229155345095341,
+      0.7479226079384972
+     ],
+     "normal": [
+      0.4967174892667277,
+      0.7463004807447409
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 22,
+     "point": 0.7131149921604578,
+     "B": 50,
+     "boot_sd": 0.06674779663195916,
+     "boot_mean": 0.6668434537605024,
+     "percentile": [
+      0.5387450646864587,
+      0.7701073200112104
+     ],
+     "basic": [
+      0.6561226643097052,
+      0.887484919634457
+     ],
+     "normal": [
+      0.5822893107618179,
+      0.8439406735590977
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 23,
+     "point": 0.5705400894376016,
+     "B": 50,
+     "boot_sd": 0.05975527257819434,
+     "boot_mean": 0.6046190368373203,
+     "percentile": [
+      0.49533008711227483,
+      0.7066242334253005
+     ],
+     "basic": [
+      0.43445594544990274,
+      0.6457500917629284
+     ],
+     "normal": [
+      0.4534197551843407,
+      0.6876604236908626
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": true,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 24,
+     "point": 0.7077334953818899,
+     "B": 50,
+     "boot_sd": 0.05803609305418331,
+     "boot_mean": 0.7690428532462444,
+     "percentile": [
+      0.6688513349368419,
+      0.8711856872732504
+     ],
+     "basic": [
+      0.5442813034905294,
+      0.7466156558269379
+     ],
+     "normal": [
+      0.5939827529956906,
+      0.8214842377680892
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 25,
+     "point": 0.6658259962040325,
+     "B": 50,
+     "boot_sd": 0.052751578677152966,
+     "boot_mean": 0.6562762043724879,
+     "percentile": [
+      0.5560501882975901,
+      0.7497527792610855
+     ],
+     "basic": [
+      0.5818992131469795,
+      0.7756018041104749
+     ],
+     "normal": [
+      0.5624329019968126,
+      0.7692190904112524
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 26,
+     "point": 0.6204211057238171,
+     "B": 50,
+     "boot_sd": 0.06310570787502758,
+     "boot_mean": 0.5882494152805832,
+     "percentile": [
+      0.4780123424718827,
+      0.7315110503800528
+     ],
+     "basic": [
+      0.5093311610675815,
+      0.7628298689757516
+     ],
+     "normal": [
+      0.4967339182887631,
+      0.7441082931588712
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 27,
+     "point": 0.6844915410598618,
+     "B": 50,
+     "boot_sd": 0.06480999380279204,
+     "boot_mean": 0.6151045922006033,
+     "percentile": [
+      0.4970147143185184,
+      0.7381366038573599
+     ],
+     "basic": [
+      0.6308464782623636,
+      0.8719683678012051
+     ],
+     "normal": [
+      0.5574639532063894,
+      0.8115191289133341
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 28,
+     "point": 0.6152540594400491,
+     "B": 50,
+     "boot_sd": 0.05904775220477607,
+     "boot_mean": 0.6125642171058862,
+     "percentile": [
+      0.49297016215192374,
+      0.7218444633995189
+     ],
+     "basic": [
+      0.5086636554805792,
+      0.7375379567281743
+     ],
+     "normal": [
+      0.499520465118688,
+      0.7309876537614102
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 29,
+     "point": 0.6197471180305927,
+     "B": 50,
+     "boot_sd": 0.0622217268722609,
+     "boot_mean": 0.5948377308032242,
+     "percentile": [
+      0.47869554162546646,
+      0.7152781947996161
+     ],
+     "basic": [
+      0.5242160412615693,
+      0.7607986944357189
+     ],
+     "normal": [
+      0.4977925333609613,
+      0.7417017027002241
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 30,
+     "point": 0.6098523261096398,
+     "B": 50,
+     "boot_sd": 0.057061982899878454,
+     "boot_mean": 0.626753201691567,
+     "percentile": [
+      0.5187516293088835,
+      0.7375611889199953
+     ],
+     "basic": [
+      0.48214346329928426,
+      0.7009530229103961
+     ],
+     "normal": [
+      0.498010839625878,
+      0.7216938125934016
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 31,
+     "point": 0.6440492205423682,
+     "B": 50,
+     "boot_sd": 0.07047941692509686,
+     "boot_mean": 0.6129889628366219,
+     "percentile": [
+      0.4980470826954256,
+      0.7520800476886143
+     ],
+     "basic": [
+      0.5360183933961222,
+      0.790051358389311
+     ],
+     "normal": [
+      0.5059095633691784,
+      0.7821888777155581
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 32,
+     "point": 0.6545529167493154,
+     "B": 50,
+     "boot_sd": 0.06858170979045954,
+     "boot_mean": 0.6760101490649957,
+     "percentile": [
+      0.5500680856633058,
+      0.8043108197042975
+     ],
+     "basic": [
+      0.5047950137943332,
+      0.759037747835325
+     ],
+     "normal": [
+      0.5201327655600148,
+      0.788973067938616
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 33,
+     "point": 0.6787402953261004,
+     "B": 50,
+     "boot_sd": 0.06438973925864615,
+     "boot_mean": 0.6565736855277682,
+     "percentile": [
+      0.5457948128651025,
+      0.7828603171266001
+     ],
+     "basic": [
+      0.5746202735256006,
+      0.8116857777870983
+     ],
+     "normal": [
+      0.5525364063791539,
+      0.8049441842730468
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 34,
+     "point": 0.7003600244198687,
+     "B": 50,
+     "boot_sd": 0.059727105148586854,
+     "boot_mean": 0.668898793857264,
+     "percentile": [
+      0.5690182296565736,
+      0.7752182235332895
+     ],
+     "basic": [
+      0.6255018253064478,
+      0.8317018191831638
+     ],
+     "normal": [
+      0.5832948983286385,
+      0.8174251505110989
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 35,
+     "point": 0.6580487208885955,
+     "B": 50,
+     "boot_sd": 0.06498001696739902,
+     "boot_mean": 0.6378160483154347,
+     "percentile": [
+      0.5350929870481271,
+      0.7651889397873927
+     ],
+     "basic": [
+      0.5509085019897982,
+      0.7810044547290638
+     ],
+     "normal": [
+      0.5306878876324934,
+      0.7854095541446975
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 36,
+     "point": 0.5533287491624082,
+     "B": 50,
+     "boot_sd": 0.06186895874657329,
+     "boot_mean": 0.5616587640715766,
+     "percentile": [
+      0.4442724658335491,
+      0.6921793538124597
+     ],
+     "basic": [
+      0.41447814451235665,
+      0.6623850324912672
+     ],
+     "normal": [
+      0.4320655900191245,
+      0.6745919083056918
+     ],
+     "cover_percentile": false,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 37,
+     "point": 0.5657232822863763,
+     "B": 50,
+     "boot_sd": 0.047655602405518666,
+     "boot_mean": 0.5877529614954817,
+     "percentile": [
+      0.47273203839135286,
+      0.6843892698101164
+     ],
+     "basic": [
+      0.4470572947626361,
+      0.6587145261813996
+     ],
+     "normal": [
+      0.4723183015715597,
+      0.6591282630011929
+     ],
+     "cover_percentile": false,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 38,
+     "point": 0.6414017589223042,
+     "B": 50,
+     "boot_sd": 0.05686328621438359,
+     "boot_mean": 0.6497554088107736,
+     "percentile": [
+      0.5317520848445889,
+      0.7309939808947568
+     ],
+     "basic": [
+      0.5518095369498517,
+      0.7510514330000195
+     ],
+     "normal": [
+      0.5299497179421124,
+      0.752853799902496
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 39,
+     "point": 0.6463599812044682,
+     "B": 50,
+     "boot_sd": 0.06506241061035534,
+     "boot_mean": 0.5913558092820416,
+     "percentile": [
+      0.4879238031145678,
+      0.7227632515129889
+     ],
+     "basic": [
+      0.5699567108959476,
+      0.8047961592943687
+     ],
+     "normal": [
+      0.5188376564081718,
+      0.7738823060007647
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 40,
+     "point": 0.6292543684516394,
+     "B": 50,
+     "boot_sd": 0.06045195773423337,
+     "boot_mean": 0.6256173405952525,
+     "percentile": [
+      0.5177210400766479,
+      0.7069343104099309
+     ],
+     "basic": [
+      0.5515744264933479,
+      0.7407876968266309
+     ],
+     "normal": [
+      0.510768531292542,
+      0.7477402056107368
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 41,
+     "point": 0.6511420136417181,
+     "B": 50,
+     "boot_sd": 0.07593422011953307,
+     "boot_mean": 0.6240363747325525,
+     "percentile": [
+      0.48975987654660175,
+      0.7531863824639281
+     ],
+     "basic": [
+      0.5490976448195081,
+      0.8125241507368344
+     ],
+     "normal": [
+      0.5023109422074332,
+      0.799973085076003
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 42,
+     "point": 0.7125621901537791,
+     "B": 50,
+     "boot_sd": 0.05952941939612574,
+     "boot_mean": 0.6839077088749461,
+     "percentile": [
+      0.579554045253142,
+      0.789357312197838
+     ],
+     "basic": [
+      0.6357670681097202,
+      0.8455703350544161
+     ],
+     "normal": [
+      0.5958845281373726,
+      0.8292398521701856
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 43,
+     "point": 0.6623844174839824,
+     "B": 50,
+     "boot_sd": 0.06438041378042558,
+     "boot_mean": 0.6469133478046216,
+     "percentile": [
+      0.5410797585174293,
+      0.742438303218789
+     ],
+     "basic": [
+      0.5823305317491757,
+      0.7836890764505354
+     ],
+     "normal": [
+      0.5361988064743483,
+      0.7885700284936165
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 44,
+     "point": 0.6161134211979258,
+     "B": 50,
+     "boot_sd": 0.0712339579095612,
+     "boot_mean": 0.6139817852185134,
+     "percentile": [
+      0.47136026545660686,
+      0.7222327608477587
+     ],
+     "basic": [
+      0.5099940815480929,
+      0.7608665769392446
+     ],
+     "normal": [
+      0.4764948636951858,
+      0.7557319787006658
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 45,
+     "point": 0.7337376361190819,
+     "B": 50,
+     "boot_sd": 0.06096267464789318,
+     "boot_mean": 0.716657071376876,
+     "percentile": [
+      0.6018634108886983,
+      0.8163332507713539
+     ],
+     "basic": [
+      0.65114202146681,
+      0.8656118613494656
+     ],
+     "normal": [
+      0.6142507938092113,
+      0.8532244784289525
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 46,
+     "point": 0.7565895504917819,
+     "B": 50,
+     "boot_sd": 0.06941144414417103,
+     "boot_mean": 0.7765056661673603,
+     "percentile": [
+      0.6542065010880611,
+      0.9068750915598439
+     ],
+     "basic": [
+      0.6063040094237199,
+      0.8589725998955027
+     ],
+     "normal": [
+      0.6205431199692066,
+      0.8926359810143571
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 47,
+     "point": 0.6310130964142888,
+     "B": 50,
+     "boot_sd": 0.06378800393625676,
+     "boot_mean": 0.6272934653811939,
+     "percentile": [
+      0.5205181182217967,
+      0.7462434287285985
+     ],
+     "basic": [
+      0.5157827640999791,
+      0.7415080746067809
+     ],
+     "normal": [
+      0.5059886086992256,
+      0.7560375841293521
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 48,
+     "point": 0.6620424476964066,
+     "B": 50,
+     "boot_sd": 0.07133230264923972,
+     "boot_mean": 0.6123836934927972,
+     "percentile": [
+      0.5038213118091914,
+      0.7271654217063893
+     ],
+     "basic": [
+      0.596919473686424,
+      0.8202635835836218
+     ],
+     "normal": [
+      0.5222311345038968,
+      0.8018537608889165
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 49,
+     "point": 0.6996914564715917,
+     "B": 50,
+     "boot_sd": 0.05903349318159423,
+     "boot_mean": 0.6514822524491852,
+     "percentile": [
+      0.5512017927600392,
+      0.7488083396332815
+     ],
+     "basic": [
+      0.6505745733099019,
+      0.8481811201831442
+     ],
+     "normal": [
+      0.583985809835667,
+      0.8153971031075165
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    }
+   ]
+  },
+  "main_lapse|kappa_sr_region_g": {
+   "scen": "main_lapse",
+   "analysis": "kappa_sr_region_g",
+   "gap": 0.5698843707171606,
+   "gapK": 0.5194418869847239,
+   "gapK_se": 0.005638776109240988,
+   "coverageK": {
+    "percentile": {
+     "covered": 3,
+     "rate": 0.1,
+     "ci": [
+      0.02111713702972257,
+      0.2652884504742081
+     ],
+     "miss_low": 0,
+     "miss_high": 27
+    },
+    "basic": {
+     "covered": 2,
+     "rate": 0.06666666666666667,
+     "ci": [
+      0.008178134460656307,
+      0.22073540152296187
+     ],
+     "miss_low": 0,
+     "miss_high": 28
+    },
+    "normal": {
+     "covered": 3,
+     "rate": 0.1,
+     "ci": [
+      0.02111713702972257,
+      0.2652884504742081
+     ],
+     "miss_low": 0,
+     "miss_high": 27
+    }
+   },
+   "point_bias_K": 0.21195940322741003,
+   "S": 30,
+   "B": 50,
+   "coverage": {
+    "percentile": {
+     "covered": 9,
+     "rate": 0.3,
+     "ci": [
+      0.14734518475470101,
+      0.4939590414625536
+     ],
+     "miss_low": 0,
+     "miss_high": 21,
+     "mean_width": 0.23486664331689916
+    },
+    "basic": {
+     "covered": 5,
+     "rate": 0.16666666666666666,
+     "ci": [
+      0.056421696468071485,
+      0.34721169883414377
+     ],
+     "miss_low": 0,
+     "miss_high": 25,
+     "mean_width": 0.23486664331689916
+    },
+    "normal": {
+     "covered": 7,
+     "rate": 0.23333333333333334,
+     "ci": [
+      0.09933786495801976,
+      0.4228365229782195
+     ],
+     "miss_low": 0,
+     "miss_high": 23,
+     "mean_width": 0.2510256060424377
+    }
+   },
+   "point_mean": 0.731401290212134,
+   "point_bias": 0.16151691949497338,
+   "point_bias_se": 0.00997386672965698,
+   "point_sd_across_seasons": 0.054629117933834084,
+   "boot_sd_mean": 0.06403714439858103,
+   "boot_mean_minus_point": -0.02378313453672238,
+   "seasons": [
+    {
+     "s": 0,
+     "point": 0.7640995672412014,
+     "B": 50,
+     "boot_sd": 0.06643128748724805,
+     "boot_mean": 0.7553971940064205,
+     "percentile": [
+      0.6005887880923878,
+      0.8430536476864531
+     ],
+     "basic": [
+      0.6851454867959498,
+      0.927610346390015
+     ],
+     "normal": [
+      0.6338942437661952,
+      0.8943048907162077
+     ],
+     "cover_percentile": false,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 1,
+     "point": 0.7998285391421724,
+     "B": 50,
+     "boot_sd": 0.059296745869665046,
+     "boot_mean": 0.7946431840934359,
+     "percentile": [
+      0.6653005363163824,
+      0.8833968304064338
+     ],
+     "basic": [
+      0.7162602478779111,
+      0.9343565419679625
+     ],
+     "normal": [
+      0.6836069172376289,
+      0.916050161046716
+     ],
+     "cover_percentile": false,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 2,
+     "point": 0.7568513326219612,
+     "B": 50,
+     "boot_sd": 0.04458570008014821,
+     "boot_mean": 0.7124548545583491,
+     "percentile": [
+      0.624601116225042,
+      0.784625824518985
+     ],
+     "basic": [
+      0.7290768407249375,
+      0.8891015490188805
+     ],
+     "normal": [
+      0.6694633604648708,
+      0.8442393047790517
+     ],
+     "cover_percentile": false,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 3,
+     "point": 0.79762842231318,
+     "B": 50,
+     "boot_sd": 0.07266399548955595,
+     "boot_mean": 0.7738044121412812,
+     "percentile": [
+      0.6393282030835625,
+      0.9106910762913665
+     ],
+     "basic": [
+      0.6845657683349935,
+      0.9559286415427974
+     ],
+     "normal": [
+      0.6552069911536503,
+      0.9400498534727096
+     ],
+     "cover_percentile": false,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 4,
+     "point": 0.764268228650959,
+     "B": 50,
+     "boot_sd": 0.05791231362453666,
+     "boot_mean": 0.7249906303584069,
+     "percentile": [
+      0.5992895710665204,
+      0.8340545000125628
+     ],
+     "basic": [
+      0.6944819572893552,
+      0.9292468862353976
+     ],
+     "normal": [
+      0.6507600939468672,
+      0.8777763633550508
+     ],
+     "cover_percentile": false,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 5,
+     "point": 0.7179949631811264,
+     "B": 50,
+     "boot_sd": 0.06721024576706126,
+     "boot_mean": 0.7120465119699152,
+     "percentile": [
+      0.601974754575044,
+      0.8214582112771581
+     ],
+     "basic": [
+      0.6145317150850947,
+      0.8340151717872089
+     ],
+     "normal": [
+      0.5862628814776863,
+      0.8497270448845665
+     ],
+     "cover_percentile": false,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 6,
+     "point": 0.7580787288901605,
+     "B": 50,
+     "boot_sd": 0.0664381720773874,
+     "boot_mean": 0.7160768513764981,
+     "percentile": [
+      0.5856752818216787,
+      0.8317475720918464
+     ],
+     "basic": [
+      0.6844098856884746,
+      0.9304821759586422
+     ],
+     "normal": [
+      0.6278599116184812,
+      0.8882975461618398
+     ],
+     "cover_percentile": false,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 7,
+     "point": 0.7523771688167749,
+     "B": 50,
+     "boot_sd": 0.07447866578680114,
+     "boot_mean": 0.6956227927723401,
+     "percentile": [
+      0.5436915483601856,
+      0.8457241561729615
+     ],
+     "basic": [
+      0.6590301814605882,
+      0.9610627892733641
+     ],
+     "normal": [
+      0.6063989838746446,
+      0.8983553537589051
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 8,
+     "point": 0.7250352670944507,
+     "B": 50,
+     "boot_sd": 0.0701580904047969,
+     "boot_mean": 0.7252584548986043,
+     "percentile": [
+      0.5985491813103473,
+      0.8703210134316043
+     ],
+     "basic": [
+      0.579749520757297,
+      0.851521352878554
+     ],
+     "normal": [
+      0.5875254099010487,
+      0.8625451242878526
+     ],
+     "cover_percentile": false,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 9,
+     "point": 0.7215952853542102,
+     "B": 50,
+     "boot_sd": 0.07258237562974924,
+     "boot_mean": 0.652340696685541,
+     "percentile": [
+      0.5338986337577193,
+      0.7763421774493011
+     ],
+     "basic": [
+      0.6668483932591194,
+      0.9092919369507012
+     ],
+     "normal": [
+      0.5793338291199017,
+      0.8638567415885188
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 10,
+     "point": 0.7906310955490539,
+     "B": 50,
+     "boot_sd": 0.06717558465211038,
+     "boot_mean": 0.7249449608627602,
+     "percentile": [
+      0.6062680562351137,
+      0.8432076452227659
+     ],
+     "basic": [
+      0.7380545458753418,
+      0.974994134862994
+     ],
+     "normal": [
+      0.6589669496309175,
+      0.9222952414671902
+     ],
+     "cover_percentile": false,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 11,
+     "point": 0.78467403354276,
+     "B": 50,
+     "boot_sd": 0.05918350874785605,
+     "boot_mean": 0.7323277622793593,
+     "percentile": [
+      0.6323349939870412,
+      0.8371185288247115
+     ],
+     "basic": [
+      0.7322295382608085,
+      0.9370130730984788
+     ],
+     "normal": [
+      0.6686743563969622,
+      0.9006737106885578
+     ],
+     "cover_percentile": false,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 12,
+     "point": 0.7650442291911572,
+     "B": 50,
+     "boot_sd": 0.06985886992258941,
+     "boot_mean": 0.7796561617031145,
+     "percentile": [
+      0.6572592474483908,
+      0.9255063644037557
+     ],
+     "basic": [
+      0.6045820939785588,
+      0.8728292109339236
+     ],
+     "normal": [
+      0.6281208441428819,
+      0.9019676142394325
+     ],
+     "cover_percentile": false,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 13,
+     "point": 0.6692138963273546,
+     "B": 50,
+     "boot_sd": 0.07003388588149306,
+     "boot_mean": 0.6655377421454277,
+     "percentile": [
+      0.5422083142135948,
+      0.8056068650712004
+     ],
+     "basic": [
+      0.5328209275835089,
+      0.7962194784411144
+     ],
+     "normal": [
+      0.5319474799996282,
+      0.806480312655081
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 14,
+     "point": 0.6902193852071878,
+     "B": 50,
+     "boot_sd": 0.07919888201027236,
+     "boot_mean": 0.6505200796808801,
+     "percentile": [
+      0.5125468900599089,
+      0.8041317407884376
+     ],
+     "basic": [
+      0.576307029625938,
+      0.8678918803544667
+     ],
+     "normal": [
+      0.534989576467054,
+      0.8454491939473217
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 15,
+     "point": 0.7956194001750094,
+     "B": 50,
+     "boot_sd": 0.06449706444173972,
+     "boot_mean": 0.7521100195073543,
+     "percentile": [
+      0.5798459401490383,
+      0.8361620020432212
+     ],
+     "basic": [
+      0.7550767983067976,
+      1.0113928602009805
+     ],
+     "normal": [
+      0.6692051538691995,
+      0.9220336464808193
+     ],
+     "cover_percentile": false,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 16,
+     "point": 0.7486602567730212,
+     "B": 50,
+     "boot_sd": 0.055363057296596484,
+     "boot_mean": 0.6861113816946005,
+     "percentile": [
+      0.5799506856852064,
+      0.7736982607696661
+     ],
+     "basic": [
+      0.7236222527763763,
+      0.917369827860836
+     ],
+     "normal": [
+      0.640148664471692,
+      0.8571718490743503
+     ],
+     "cover_percentile": false,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 17,
+     "point": 0.8188822524806416,
+     "B": 50,
+     "boot_sd": 0.053349644491430315,
+     "boot_mean": 0.7947649218830393,
+     "percentile": [
+      0.6866913059222922,
+      0.9048503262283759
+     ],
+     "basic": [
+      0.7329141787329073,
+      0.951073199038991
+     ],
+     "normal": [
+      0.7143169492774382,
+      0.9234475556838451
+     ],
+     "cover_percentile": false,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 18,
+     "point": 0.6446645222905678,
+     "B": 50,
+     "boot_sd": 0.08012207645561542,
+     "boot_mean": 0.6190616110904616,
+     "percentile": [
+      0.49729384946777105,
+      0.7518988807777965
+     ],
+     "basic": [
+      0.5374301638033391,
+      0.7920351951133646
+     ],
+     "normal": [
+      0.4876252524375616,
+      0.801703792143574
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": false,
+     "coverK_normal": true
+    },
+    {
+     "s": 19,
+     "point": 0.701651784450017,
+     "B": 50,
+     "boot_sd": 0.05828360747108416,
+     "boot_mean": 0.6678040759259554,
+     "percentile": [
+      0.5799793774660051,
+      0.7851974210849029
+     ],
+     "basic": [
+      0.6181061478151311,
+      0.8233241914340288
+     ],
+     "normal": [
+      0.587415913806692,
+      0.8158876550933419
+     ],
+     "cover_percentile": false,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 20,
+     "point": 0.6875289004902836,
+     "B": 50,
+     "boot_sd": 0.05752413273241374,
+     "boot_mean": 0.6888471136719009,
+     "percentile": [
+      0.5855739065755359,
+      0.7749183859953602
+     ],
+     "basic": [
+      0.600139414985207,
+      0.7894838944050313
+     ],
+     "normal": [
+      0.5747816003347527,
+      0.8002762006458145
+     ],
+     "cover_percentile": false,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 21,
+     "point": 0.7093838249013702,
+     "B": 50,
+     "boot_sd": 0.06873110936505629,
+     "boot_mean": 0.6897402166261543,
+     "percentile": [
+      0.5767862628849963,
+      0.807146455301583
+     ],
+     "basic": [
+      0.6116211945011574,
+      0.841981386917744
+     ],
+     "normal": [
+      0.5746708505458599,
+      0.8440967992568805
+     ],
+     "cover_percentile": false,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 22,
+     "point": 0.7697360978825842,
+     "B": 50,
+     "boot_sd": 0.06644532859856625,
+     "boot_mean": 0.7163718418266235,
+     "percentile": [
+      0.5760433683938039,
+      0.8391932666235418
+     ],
+     "basic": [
+      0.7002789291416267,
+      0.9634288273713646
+     ],
+     "normal": [
+      0.6395032538293943,
+      0.8999689419357741
+     ],
+     "cover_percentile": false,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 23,
+     "point": 0.6376753211802386,
+     "B": 50,
+     "boot_sd": 0.06085912204295062,
+     "boot_mean": 0.6708583392472294,
+     "percentile": [
+      0.5588995923467303,
+      0.7561284986105922
+     ],
+     "basic": [
+      0.5192221437498851,
+      0.716451050013747
+     ],
+     "normal": [
+      0.5183914419760554,
+      0.7569592003844219
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": false,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 24,
+     "point": 0.7377826791664708,
+     "B": 50,
+     "boot_sd": 0.05986220045431053,
+     "boot_mean": 0.8102715616420181,
+     "percentile": [
+      0.6987163792305953,
+      0.9145173737053457
+     ],
+     "basic": [
+      0.5610479846275959,
+      0.7768489791023463
+     ],
+     "normal": [
+      0.6204527662760222,
+      0.8551125920569194
+     ],
+     "cover_percentile": false,
+     "cover_basic": true,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 25,
+     "point": 0.6859279959173237,
+     "B": 50,
+     "boot_sd": 0.047783440385459876,
+     "boot_mean": 0.6845834493665842,
+     "percentile": [
+      0.575694363173622,
+      0.7697765811279815
+     ],
+     "basic": [
+      0.6020794107066658,
+      0.7961616286610254
+     ],
+     "normal": [
+      0.5922724527618223,
+      0.7795835390728251
+     ],
+     "cover_percentile": false,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 26,
+     "point": 0.5950486228702627,
+     "B": 50,
+     "boot_sd": 0.059337922323587325,
+     "boot_mean": 0.577290751006366,
+     "percentile": [
+      0.48576126356042754,
+      0.7247294173504354
+     ],
+     "basic": [
+      0.46536782839009005,
+      0.7043359821800979
+     ],
+     "normal": [
+      0.47874629511603156,
+      0.7113509506244939
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 27,
+     "point": 0.7791045023874785,
+     "B": 50,
+     "boot_sd": 0.06395768116074357,
+     "boot_mean": 0.7247588091046473,
+     "percentile": [
+      0.6003268840937794,
+      0.8316371943339848
+     ],
+     "basic": [
+      0.7265718104409723,
+      0.9578821206811776
+     ],
+     "normal": [
+      0.6537474473124212,
+      0.9044615574625359
+     ],
+     "cover_percentile": false,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 28,
+     "point": 0.6870847460215219,
+     "B": 50,
+     "boot_sd": 0.06351595841711956,
+     "boot_mean": 0.6756016219117693,
+     "percentile": [
+      0.5523303290526549,
+      0.7905057878213031
+     ],
+     "basic": [
+      0.5836637042217407,
+      0.821839162990389
+     ],
+     "normal": [
+      0.5625934675239675,
+      0.8115760245190763
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": true,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 29,
+     "point": 0.6857476562535099,
+     "B": 50,
+     "boot_sd": 0.06427366288948633,
+     "boot_mean": 0.6547466662253021,
+     "percentile": [
+      0.5419692144185518,
+      0.788031133057271
+     ],
+     "basic": [
+      0.5834641794497487,
+      0.8295260980884679
+     ],
+     "normal": [
+      0.5597712769901166,
+      0.8117240355169031
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": true,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    }
+   ]
+  },
+  "re_gh11|re_lapse_gh11": {
+   "scen": "re_gh11",
+   "analysis": "re_lapse_gh11",
+   "gap": 0.7818596593186435,
+   "gapK": 0.7112896614021627,
+   "gapK_se": 0.006200764629787174,
+   "coverageK": {
+    "percentile": {
+     "covered": 11,
+     "rate": 0.9166666666666666,
+     "ci": [
+      0.6152038348490559,
+      0.9978924067681397
+     ],
+     "miss_low": 0,
+     "miss_high": 1
+    },
+    "basic": {
+     "covered": 11,
+     "rate": 0.9166666666666666,
+     "ci": [
+      0.6152038348490559,
+      0.9978924067681397
+     ],
+     "miss_low": 1,
+     "miss_high": 0
+    },
+    "normal": {
+     "covered": 12,
+     "rate": 1.0,
+     "ci": [
+      0.7353515306029488,
+      1.0
+     ],
+     "miss_low": 0,
+     "miss_high": 0
+    }
+   },
+   "point_bias_K": -0.0009743848950803935,
+   "S": 12,
+   "B": 20,
+   "coverage": {
+    "percentile": {
+     "covered": 12,
+     "rate": 1.0,
+     "ci": [
+      0.7353515306029488,
+      1.0
+     ],
+     "miss_low": 0,
+     "miss_high": 0,
+     "mean_width": 0.21717008490750533
+    },
+    "basic": {
+     "covered": 6,
+     "rate": 0.5,
+     "ci": [
+      0.21094463823929666,
+      0.7890553617607033
+     ],
+     "miss_low": 6,
+     "miss_high": 0,
+     "mean_width": 0.21717008490750533
+    },
+    "normal": {
+     "covered": 11,
+     "rate": 0.9166666666666666,
+     "ci": [
+      0.6152038348490559,
+      0.9978924067681397
+     ],
+     "miss_low": 1,
+     "miss_high": 0,
+     "mean_width": 0.25861622681906754
+    }
+   },
+   "point_mean": 0.7103152765070823,
+   "point_bias": -0.07154438281156128,
+   "point_bias_se": 0.011580916149767941,
+   "point_sd_across_seasons": 0.04011747033918603,
+   "boot_sd_mean": 0.06597352724976213,
+   "boot_mean_minus_point": 0.028480764664167973,
+   "seasons": [
+    {
+     "s": 0,
+     "point": 0.6407744950614371,
+     "B": 20,
+     "boot_sd": 0.07664967153823643,
+     "boot_mean": 0.6729364439818257,
+     "percentile": [
+      0.5377803480793908,
+      0.7868876176933473
+     ],
+     "basic": [
+      0.494661372429527,
+      0.7437686420434835
+     ],
+     "normal": [
+      0.49054113884649375,
+      0.7910078512763805
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 1,
+     "point": 0.7487430996196545,
+     "B": 20,
+     "boot_sd": 0.05387212214651941,
+     "boot_mean": 0.7933333189508059,
+     "percentile": [
+      0.7111138843143364,
+      0.8871655229402936
+     ],
+     "basic": [
+      0.6103206762990153,
+      0.7863723149249725
+     ],
+     "normal": [
+      0.6431537402124764,
+      0.8543324590268325
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 2,
+     "point": 0.7614295204005779,
+     "B": 20,
+     "boot_sd": 0.0601625946001829,
+     "boot_mean": 0.760316024774775,
+     "percentile": [
+      0.6700895314471859,
+      0.8618825114327767
+     ],
+     "basic": [
+      0.660976529368379,
+      0.8527695093539699
+     ],
+     "normal": [
+      0.6435108349842193,
+      0.8793482058169364
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 3,
+     "point": 0.7689140293996783,
+     "B": 20,
+     "boot_sd": 0.07438470781458718,
+     "boot_mean": 0.7813784576341186,
+     "percentile": [
+      0.6626567939568989,
+      0.9027737160954199
+     ],
+     "basic": [
+      0.6350543427039368,
+      0.8751712648424578
+     ],
+     "normal": [
+      0.6231200020830875,
+      0.9147080567162692
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 4,
+     "point": 0.7318405851739382,
+     "B": 20,
+     "boot_sd": 0.04818498817333261,
+     "boot_mean": 0.7819548979686297,
+     "percentile": [
+      0.7124275010806478,
+      0.8754290062263923
+     ],
+     "basic": [
+      0.5882521641214842,
+      0.7512536692672287
+     ],
+     "normal": [
+      0.6373980083542063,
+      0.8262831619936701
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": true,
+     "coverK_percentile": false,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 5,
+     "point": 0.6675722571676435,
+     "B": 20,
+     "boot_sd": 0.07714434235408216,
+     "boot_mean": 0.7389841931947964,
+     "percentile": [
+      0.6348522000527022,
+      0.8717951886046273
+     ],
+     "basic": [
+      0.46334932573065957,
+      0.7002923142825848
+     ],
+     "normal": [
+      0.5163693461536425,
+      0.8187751681816444
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": false,
+     "coverK_normal": true
+    },
+    {
+     "s": 6,
+     "point": 0.7263033483416668,
+     "B": 20,
+     "boot_sd": 0.08680643430556072,
+     "boot_mean": 0.7221958683262379,
+     "percentile": [
+      0.5689703917798176,
+      0.8635739341479672
+     ],
+     "basic": [
+      0.5890327625353663,
+      0.883636304903516
+     ],
+     "normal": [
+      0.5561627371027678,
+      0.8964439595805658
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 7,
+     "point": 0.6730804976529159,
+     "B": 20,
+     "boot_sd": 0.055370566692903286,
+     "boot_mean": 0.6985816288512563,
+     "percentile": [
+      0.6125520586611949,
+      0.7836021645142774
+     ],
+     "basic": [
+      0.5625588307915543,
+      0.7336089366446369
+     ],
+     "normal": [
+      0.5645541869348254,
+      0.7816068083710064
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 8,
+     "point": 0.7104216685553597,
+     "B": 20,
+     "boot_sd": 0.06117748006418094,
+     "boot_mean": 0.788228348370337,
+     "percentile": [
+      0.6773938808999219,
+      0.8973115353756024
+     ],
+     "basic": [
+      0.523531801735117,
+      0.7434494562107975
+     ],
+     "normal": [
+      0.5905138076295651,
+      0.8303295294811543
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 9,
+     "point": 0.6728102470972663,
+     "B": 20,
+     "boot_sd": 0.06369241458421865,
+     "boot_mean": 0.7053235784160549,
+     "percentile": [
+      0.5717908766927765,
+      0.7834969628309116
+     ],
+     "basic": [
+      0.562123531363621,
+      0.7738296175017562
+     ],
+     "normal": [
+      0.5479731145121978,
+      0.7976473796823349
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 10,
+     "point": 0.7094236171493344,
+     "B": 20,
+     "boot_sd": 0.07069210111811156,
+     "boot_mean": 0.6878962563076657,
+     "percentile": [
+      0.5478025074915079,
+      0.7919870781959667
+     ],
+     "basic": [
+      0.6268601561027022,
+      0.8710447268071609
+     ],
+     "normal": [
+      0.5708670989578358,
+      0.847980135340833
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 11,
+     "point": 0.712469952465514,
+     "B": 20,
+     "boot_sd": 0.06354490360522991,
+     "boot_mean": 0.7344234772784992,
+     "percentile": [
+      0.625520816161923,
+      0.8330865714507852
+     ],
+     "basic": [
+      0.5918533334802428,
+      0.7994190887691051
+     ],
+     "normal": [
+      0.5879219413992635,
+      0.8370179635317646
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    }
+   ]
+  },
+  "re_lapse_gh11|kappa_sr_region_g": {
+   "scen": "re_lapse_gh11",
+   "analysis": "kappa_sr_region_g",
+   "gap": 0.6478300618940773,
+   "gapK": 0.5827059654133655,
+   "gapK_se": 0.00574144553198352,
+   "coverageK": {
+    "percentile": {
+     "covered": 11,
+     "rate": 0.36666666666666664,
+     "ci": [
+      0.19929862501203444,
+      0.5614401509880425
+     ],
+     "miss_low": 0,
+     "miss_high": 19
+    },
+    "basic": {
+     "covered": 7,
+     "rate": 0.23333333333333334,
+     "ci": [
+      0.09933786495801976,
+      0.4228365229782195
+     ],
+     "miss_low": 0,
+     "miss_high": 23
+    },
+    "normal": {
+     "covered": 8,
+     "rate": 0.26666666666666666,
+     "ci": [
+      0.1227948098723548,
+      0.45889365139475125
+     ],
+     "miss_low": 0,
+     "miss_high": 22
+    }
+   },
+   "point_bias_K": 0.15967716846191504,
+   "S": 30,
+   "B": 50,
+   "coverage": {
+    "percentile": {
+     "covered": 26,
+     "rate": 0.8666666666666667,
+     "ci": [
+      0.6927816497238732,
+      0.9624465036616366
+     ],
+     "miss_low": 0,
+     "miss_high": 4,
+     "mean_width": 0.23036045634680052
+    },
+    "basic": {
+     "covered": 13,
+     "rate": 0.43333333333333335,
+     "ci": [
+      0.254607549903263,
+      0.6257265493907793
+     ],
+     "miss_low": 0,
+     "miss_high": 17,
+     "mean_width": 0.23036045634680052
+    },
+    "normal": {
+     "covered": 21,
+     "rate": 0.7,
+     "ci": [
+      0.5060409585374464,
+      0.8526548152452988
+     ],
+     "miss_low": 0,
+     "miss_high": 9,
+     "mean_width": 0.24900917107934434
+    }
+   },
+   "point_mean": 0.7423831338752805,
+   "point_bias": 0.09455307198120322,
+   "point_bias_se": 0.009468802184231222,
+   "point_sd_across_seasons": 0.05186276548857628,
+   "boot_sd_mean": 0.06352274772432252,
+   "boot_mean_minus_point": -0.0230166367094383,
+   "seasons": [
+    {
+     "s": 0,
+     "point": 0.7959248863312838,
+     "B": 50,
+     "boot_sd": 0.06619628231054701,
+     "boot_mean": 0.775184000737039,
+     "percentile": [
+      0.6382121707714152,
+      0.8694486240228241
+     ],
+     "basic": [
+      0.7224011486397435,
+      0.9536376018911523
+     ],
+     "normal": [
+      0.6661801730026116,
+      0.925669599659956
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 1,
+     "point": 0.8324292400135165,
+     "B": 50,
+     "boot_sd": 0.053333899182295336,
+     "boot_mean": 0.8127216379624879,
+     "percentile": [
+      0.7085624114170029,
+      0.8973473926593503
+     ],
+     "basic": [
+      0.7675110873676827,
+      0.95629606861003
+     ],
+     "normal": [
+      0.7278947976162177,
+      0.9369636824108153
+     ],
+     "cover_percentile": false,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 2,
+     "point": 0.7570348039391885,
+     "B": 50,
+     "boot_sd": 0.05546929085886485,
+     "boot_mean": 0.7342273997122492,
+     "percentile": [
+      0.6405327456814656,
+      0.8320262184517141
+     ],
+     "basic": [
+      0.682043389426663,
+      0.8735368621969115
+     ],
+     "normal": [
+      0.6483149938558135,
+      0.8657546140225636
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 3,
+     "point": 0.79898355601863,
+     "B": 50,
+     "boot_sd": 0.07490689167771894,
+     "boot_mean": 0.7735255036115108,
+     "percentile": [
+      0.6618903677288402,
+      0.9126720433897118
+     ],
+     "basic": [
+      0.6852950686475483,
+      0.9360767443084198
+     ],
+     "normal": [
+      0.6521660483303009,
+      0.9458010637069592
+     ],
+     "cover_percentile": false,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 4,
+     "point": 0.7749041488893282,
+     "B": 50,
+     "boot_sd": 0.05715686176959799,
+     "boot_mean": 0.7336677317888775,
+     "percentile": [
+      0.6225959559410966,
+      0.8255669944275464
+     ],
+     "basic": [
+      0.72424130335111,
+      0.9272123418375599
+     ],
+     "normal": [
+      0.6628766998209161,
+      0.8869315979577403
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 5,
+     "point": 0.7295212657052006,
+     "B": 50,
+     "boot_sd": 0.07152958708758757,
+     "boot_mean": 0.7272579829800634,
+     "percentile": [
+      0.5887071279027187,
+      0.8437510335070941
+     ],
+     "basic": [
+      0.6152914979033071,
+      0.8703354035076825
+     ],
+     "normal": [
+      0.589323275013529,
+      0.8697192563968722
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 6,
+     "point": 0.7511394083026803,
+     "B": 50,
+     "boot_sd": 0.06652522252838525,
+     "boot_mean": 0.712483149038665,
+     "percentile": [
+      0.6154698738214043,
+      0.8233441008557155
+     ],
+     "basic": [
+      0.6789347157496451,
+      0.8868089427839564
+     ],
+     "normal": [
+      0.6207499721470453,
+      0.8815288444583154
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": true,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 7,
+     "point": 0.7613561122815917,
+     "B": 50,
+     "boot_sd": 0.06114793228619255,
+     "boot_mean": 0.7136811088312862,
+     "percentile": [
+      0.6001543708082447,
+      0.8526989179147535
+     ],
+     "basic": [
+      0.67001330664843,
+      0.9225578537549387
+     ],
+     "normal": [
+      0.6415061650006544,
+      0.8812060595625291
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": true,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 8,
+     "point": 0.7306444268319132,
+     "B": 50,
+     "boot_sd": 0.06386862827899564,
+     "boot_mean": 0.7398043033241095,
+     "percentile": [
+      0.6040122043029182,
+      0.8597269615540143
+     ],
+     "basic": [
+      0.6015618921098121,
+      0.8572766493609082
+     ],
+     "normal": [
+      0.6054619154050818,
+      0.8558269382587447
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 9,
+     "point": 0.7482735001397418,
+     "B": 50,
+     "boot_sd": 0.07545680000164338,
+     "boot_mean": 0.6831971651944013,
+     "percentile": [
+      0.5449844998729867,
+      0.8084383370148354
+     ],
+     "basic": [
+      0.6881086632646483,
+      0.9515625004064969
+     ],
+     "normal": [
+      0.6003781721365208,
+      0.8961688281429628
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 10,
+     "point": 0.8154818807602475,
+     "B": 50,
+     "boot_sd": 0.0661114072640742,
+     "boot_mean": 0.7524052499626851,
+     "percentile": [
+      0.6219361762501355,
+      0.8677261409140755
+     ],
+     "basic": [
+      0.7632376206064195,
+      1.0090275852703594
+     ],
+     "normal": [
+      0.6859035225226621,
+      0.945060238997833
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 11,
+     "point": 0.8320543160280911,
+     "B": 50,
+     "boot_sd": 0.05519767337901633,
+     "boot_mean": 0.7666349919728757,
+     "percentile": [
+      0.671465490498546,
+      0.8760999577498646
+     ],
+     "basic": [
+      0.7880086743063176,
+      0.9926431415576362
+     ],
+     "normal": [
+      0.7238668762052191,
+      0.9402417558509631
+     ],
+     "cover_percentile": false,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 12,
+     "point": 0.7505105599431099,
+     "B": 50,
+     "boot_sd": 0.06738741362413689,
+     "boot_mean": 0.7611888643355122,
+     "percentile": [
+      0.6256759295737904,
+      0.8845432179318752
+     ],
+     "basic": [
+      0.6164779019543446,
+      0.8753451903124294
+     ],
+     "normal": [
+      0.6184312292398015,
+      0.8825898906464182
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 13,
+     "point": 0.6744908373802314,
+     "B": 50,
+     "boot_sd": 0.08072375826899739,
+     "boot_mean": 0.6645978362259817,
+     "percentile": [
+      0.5352337005643746,
+      0.8145969208166327
+     ],
+     "basic": [
+      0.5343847539438301,
+      0.8137479741960882
+     ],
+     "normal": [
+      0.5162722711729966,
+      0.8327094035874663
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 14,
+     "point": 0.7121301307492911,
+     "B": 50,
+     "boot_sd": 0.06654888231688452,
+     "boot_mean": 0.6704942536674128,
+     "percentile": [
+      0.5647363921133597,
+      0.7957356346956439
+     ],
+     "basic": [
+      0.6285246268029383,
+      0.8595238693852225
+     ],
+     "normal": [
+      0.5816943214081974,
+      0.8425659400903848
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": false,
+     "coverK_normal": true
+    },
+    {
+     "s": 15,
+     "point": 0.823691934554557,
+     "B": 50,
+     "boot_sd": 0.06530233077126185,
+     "boot_mean": 0.7832942905187756,
+     "percentile": [
+      0.6405676105165066,
+      0.8781601761186334
+     ],
+     "basic": [
+      0.7692236929904807,
+      1.0068162585926075
+     ],
+     "normal": [
+      0.6956993662428839,
+      0.9516845028662302
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 16,
+     "point": 0.721443460238496,
+     "B": 50,
+     "boot_sd": 0.057080778026722595,
+     "boot_mean": 0.6718541419596789,
+     "percentile": [
+      0.5696513198885628,
+      0.7652786020327595
+     ],
+     "basic": [
+      0.6776083184442325,
+      0.8732356005884293
+     ],
+     "normal": [
+      0.6095651353061198,
+      0.8333217851708723
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 17,
+     "point": 0.7465437773974402,
+     "B": 50,
+     "boot_sd": 0.058852300519714906,
+     "boot_mean": 0.7114235038924822,
+     "percentile": [
+      0.5977291341861104,
+      0.8229404577624232
+     ],
+     "basic": [
+      0.6701470970324571,
+      0.8953584206087699
+     ],
+     "normal": [
+      0.631193268378799,
+      0.8618942864160813
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": true,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 18,
+     "point": 0.6683088561225774,
+     "B": 50,
+     "boot_sd": 0.07311182474977414,
+     "boot_mean": 0.6503058860731934,
+     "percentile": [
+      0.5413533113496009,
+      0.8063102326107874
+     ],
+     "basic": [
+      0.5303074796343674,
+      0.795264400895554
+     ],
+     "normal": [
+      0.5250096796130201,
+      0.8116080326321347
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 19,
+     "point": 0.690623203852351,
+     "B": 50,
+     "boot_sd": 0.0630400234345086,
+     "boot_mean": 0.6622403711641515,
+     "percentile": [
+      0.5396389118472551,
+      0.7772710730919481
+     ],
+     "basic": [
+      0.6039753346127539,
+      0.8416074958574469
+     ],
+     "normal": [
+      0.5670647579207142,
+      0.8141816497839878
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": false,
+     "coverK_normal": true
+    },
+    {
+     "s": 20,
+     "point": 0.6730165389135245,
+     "B": 50,
+     "boot_sd": 0.062370544734320126,
+     "boot_mean": 0.6634101411715758,
+     "percentile": [
+      0.546672017767081,
+      0.7717954150942898
+     ],
+     "basic": [
+      0.5742376627327592,
+      0.7993610600599681
+     ],
+     "normal": [
+      0.550770271234257,
+      0.795262806592792
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 21,
+     "point": 0.6742120975543773,
+     "B": 50,
+     "boot_sd": 0.061228719067173115,
+     "boot_mean": 0.675931528764099,
+     "percentile": [
+      0.5775246311842732,
+      0.7937641373214626
+     ],
+     "basic": [
+      0.554660057787292,
+      0.7708995639244813
+     ],
+     "normal": [
+      0.554203808182718,
+      0.7942203869260366
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 22,
+     "point": 0.7564884403186727,
+     "B": 50,
+     "boot_sd": 0.06525640977453262,
+     "boot_mean": 0.7137992114201532,
+     "percentile": [
+      0.6080745126585029,
+      0.8393687492215454
+     ],
+     "basic": [
+      0.6736081314158,
+      0.9049023679788425
+     ],
+     "normal": [
+      0.6285858771605888,
+      0.8843910034767566
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": true,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 23,
+     "point": 0.6371453344831228,
+     "B": 50,
+     "boot_sd": 0.06575148221533844,
+     "boot_mean": 0.674261190849479,
+     "percentile": [
+      0.542806173085121,
+      0.7771733057360217
+     ],
+     "basic": [
+      0.49711736323022393,
+      0.7314844958811246
+     ],
+     "normal": [
+      0.5082724293410594,
+      0.7660182396251862
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 24,
+     "point": 0.7221013963212082,
+     "B": 50,
+     "boot_sd": 0.054950609618539134,
+     "boot_mean": 0.7767472310679853,
+     "percentile": [
+      0.6823871593558231,
+      0.8705487793146779
+     ],
+     "basic": [
+      0.5736540133277385,
+      0.7618156332865933
+     ],
+     "normal": [
+      0.6143982014688715,
+      0.8298045911735449
+     ],
+     "cover_percentile": false,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": false,
+     "coverK_basic": true,
+     "coverK_normal": false
+    },
+    {
+     "s": 25,
+     "point": 0.7076459966458901,
+     "B": 50,
+     "boot_sd": 0.055457157344630345,
+     "boot_mean": 0.7060467156583123,
+     "percentile": [
+      0.5714766893757568,
+      0.8238308745724225
+     ],
+     "basic": [
+      0.5914611187193577,
+      0.8438153039160234
+     ],
+     "normal": [
+      0.5989499682504147,
+      0.8163420250413655
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 26,
+     "point": 0.6867223301079965,
+     "B": 50,
+     "boot_sd": 0.059220795932790934,
+     "boot_mean": 0.6705344401718861,
+     "percentile": [
+      0.5729546856227831,
+      0.8100265147862432
+     ],
+     "basic": [
+      0.5634181454297499,
+      0.80048997459321
+     ],
+     "normal": [
+      0.5706495700797263,
+      0.8027950901362668
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 27,
+     "point": 0.7792875173157219,
+     "B": 50,
+     "boot_sd": 0.05997709726831897,
+     "boot_mean": 0.7262885182637513,
+     "percentile": [
+      0.6278048419089615,
+      0.8444131664605957
+     ],
+     "basic": [
+      0.714161868170848,
+      0.9307701927224823
+     ],
+     "normal": [
+      0.6617324066698167,
+      0.8968426279616271
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 28,
+     "point": 0.7686060825287213,
+     "B": 50,
+     "boot_sd": 0.061960465351793996,
+     "boot_mean": 0.7565749949614998,
+     "percentile": [
+      0.6464108239643905,
+      0.8711935916010839
+     ],
+     "basic": [
+      0.6660185734563587,
+      0.8908013410930521
+     ],
+     "normal": [
+      0.6471635704392051,
+      0.8900485946182375
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": true,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    },
+    {
+     "s": 29,
+     "point": 0.7507779765897129,
+     "B": 50,
+     "boot_sd": 0.06056136208531877,
+     "boot_mean": 0.717211569693086,
+     "percentile": [
+      0.6156514379917212,
+      0.8198887967242202
+     ],
+     "basic": [
+      0.6816671564552056,
+      0.8859045151877046
+     ],
+     "normal": [
+      0.6320777069024881,
+      0.8694782462769377
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": true,
+     "coverK_percentile": false,
+     "coverK_basic": false,
+     "coverK_normal": false
+    }
+   ]
+  },
+  "re_lapse_gh11|re_lapse_gh11": {
+   "scen": "re_lapse_gh11",
+   "analysis": "re_lapse_gh11",
+   "gap": 0.6478300618940773,
+   "gapK": 0.5698051607385479,
+   "gapK_se": 0.005681731338820973,
+   "coverageK": {
+    "percentile": {
+     "covered": 24,
+     "rate": 0.8,
+     "ci": [
+      0.6143334890033929,
+      0.9228644879989344
+     ],
+     "miss_low": 0,
+     "miss_high": 6
+    },
+    "basic": {
+     "covered": 24,
+     "rate": 0.8,
+     "ci": [
+      0.6143334890033929,
+      0.9228644879989344
+     ],
+     "miss_low": 5,
+     "miss_high": 1
+    },
+    "normal": {
+     "covered": 30,
+     "rate": 1.0,
+     "ci": [
+      0.8842966917779722,
+      1.0
+     ],
+     "miss_low": 0,
+     "miss_high": 0
+    }
+   },
+   "point_bias_K": 0.00888473455964045,
+   "S": 30,
+   "B": 30,
+   "coverage": {
+    "percentile": {
+     "covered": 26,
+     "rate": 0.8666666666666667,
+     "ci": [
+      0.6927816497238732,
+      0.9624465036616366
+     ],
+     "miss_low": 4,
+     "miss_high": 0,
+     "mean_width": 0.21700188639841533
+    },
+    "basic": {
+     "covered": 15,
+     "rate": 0.5,
+     "ci": [
+      0.3129702858680275,
+      0.6870297141319726
+     ],
+     "miss_low": 15,
+     "miss_high": 0,
+     "mean_width": 0.21700188639841533
+    },
+    "normal": {
+     "covered": 23,
+     "rate": 0.7666666666666667,
+     "ci": [
+      0.5771634770217805,
+      0.9006621350419802
+     ],
+     "miss_low": 7,
+     "miss_high": 0,
+     "mean_width": 0.24736969529000785
+    }
+   },
+   "point_mean": 0.5786898952981884,
+   "point_bias": -0.06914016659588895,
+   "point_bias_se": 0.011211543219644937,
+   "point_sd_across_seasons": 0.06140815125843629,
+   "boot_sd_mean": 0.06310451410459385,
+   "boot_mean_minus_point": 0.04343896149315903,
+   "seasons": [
+    {
+     "s": 0,
+     "point": 0.6301269084649173,
+     "B": 30,
+     "boot_sd": 0.0646883932436954,
+     "boot_mean": 0.6590647751963092,
+     "percentile": [
+      0.5472698906949442,
+      0.746224573265929
+     ],
+     "basic": [
+      0.5140292436639056,
+      0.7129839262348903
+     ],
+     "normal": [
+      0.5033376577072743,
+      0.7569161592225602
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 1,
+     "point": 0.6648846942193338,
+     "B": 30,
+     "boot_sd": 0.052692841793384196,
+     "boot_mean": 0.698990843863659,
+     "percentile": [
+      0.5810295516332311,
+      0.7855610116078391
+     ],
+     "basic": [
+      0.5442083768308286,
+      0.7487398368054365
+     ],
+     "normal": [
+      0.5616067243043008,
+      0.7681626641343668
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": false,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 2,
+     "point": 0.6466663657750273,
+     "B": 30,
+     "boot_sd": 0.059964859351747155,
+     "boot_mean": 0.6482561878632107,
+     "percentile": [
+      0.5193480261798513,
+      0.7175782531237317
+     ],
+     "basic": [
+      0.575754478426323,
+      0.7739847053702034
+     ],
+     "normal": [
+      0.529135241445603,
+      0.7641974901044517
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": false,
+     "coverK_normal": true
+    },
+    {
+     "s": 3,
+     "point": 0.614322992895401,
+     "B": 30,
+     "boot_sd": 0.05508274786588174,
+     "boot_mean": 0.6546441773718982,
+     "percentile": [
+      0.5481283255447775,
+      0.7468506302972602
+     ],
+     "basic": [
+      0.4817953554935419,
+      0.6805176602460246
+     ],
+     "normal": [
+      0.5063608070782728,
+      0.7222851787125293
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 4,
+     "point": 0.6437594125309132,
+     "B": 30,
+     "boot_sd": 0.06541868032883733,
+     "boot_mean": 0.6670177671609908,
+     "percentile": [
+      0.5713338171393515,
+      0.7879143608612452
+     ],
+     "basic": [
+      0.49960446420058113,
+      0.7161850079224749
+     ],
+     "normal": [
+      0.515538799086392,
+      0.7719800259754344
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": false,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 5,
+     "point": 0.5686249438519231,
+     "B": 30,
+     "boot_sd": 0.0956852678820642,
+     "boot_mean": 0.6268864534994639,
+     "percentile": [
+      0.47758827091533046,
+      0.7913663346453
+     ],
+     "basic": [
+      0.3458835530585461,
+      0.6596616167885156
+     ],
+     "normal": [
+      0.38108181880307723,
+      0.7561680689007689
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 6,
+     "point": 0.5822344846630152,
+     "B": 30,
+     "boot_sd": 0.06443068087007296,
+     "boot_mean": 0.6146683082779243,
+     "percentile": [
+      0.5155063435600226,
+      0.7344620248216261
+     ],
+     "basic": [
+      0.43000694450440424,
+      0.6489626257660078
+     ],
+     "normal": [
+      0.45595035015767216,
+      0.7085186191683582
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 7,
+     "point": 0.5494343018823367,
+     "B": 30,
+     "boot_sd": 0.05445059077783414,
+     "boot_mean": 0.5889454331783638,
+     "percentile": [
+      0.4804953322381157,
+      0.6733285716886509
+     ],
+     "basic": [
+      0.4255400320760224,
+      0.6183732715265576
+     ],
+     "normal": [
+      0.44271114395778177,
+      0.6561574598068916
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 8,
+     "point": 0.5832228197094289,
+     "B": 30,
+     "boot_sd": 0.05703893789036873,
+     "boot_mean": 0.6443728639101779,
+     "percentile": [
+      0.5545841306675111,
+      0.7490042652272024
+     ],
+     "basic": [
+      0.4174413741916554,
+      0.6118615087513467
+     ],
+     "normal": [
+      0.4714265014443062,
+      0.6950191379745516
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 9,
+     "point": 0.543681564813097,
+     "B": 30,
+     "boot_sd": 0.08003684471020385,
+     "boot_mean": 0.5963194290085899,
+     "percentile": [
+      0.4535429872782723,
+      0.73447883059366
+     ],
+     "basic": [
+      0.35288429903253404,
+      0.6338201423479217
+     ],
+     "normal": [
+      0.3868093491810975,
+      0.7005537804450965
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 10,
+     "point": 0.6396259851865294,
+     "B": 30,
+     "boot_sd": 0.06321414441993431,
+     "boot_mean": 0.634732197143495,
+     "percentile": [
+      0.5423909489426132,
+      0.7550843275386813
+     ],
+     "basic": [
+      0.5241676428343774,
+      0.7368610214304455
+     ],
+     "normal": [
+      0.5157262621234581,
+      0.7635257082496006
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 11,
+     "point": 0.671259696449674,
+     "B": 30,
+     "boot_sd": 0.07083766581923194,
+     "boot_mean": 0.7154704579614484,
+     "percentile": [
+      0.6053953775291196,
+      0.8668104827815253
+     ],
+     "basic": [
+      0.4757089101178227,
+      0.7371240153702283
+     ],
+     "normal": [
+      0.5324178714439793,
+      0.8101015214553686
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": false,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 12,
+     "point": 0.6143835068778931,
+     "B": 30,
+     "boot_sd": 0.07804880274682881,
+     "boot_mean": 0.67867024905563,
+     "percentile": [
+      0.5490349530334967,
+      0.8110153481771037
+     ],
+     "basic": [
+      0.4177516655786825,
+      0.6797320607222895
+     ],
+     "normal": [
+      0.4614078534941086,
+      0.7673591602616776
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 13,
+     "point": 0.5539270458073005,
+     "B": 30,
+     "boot_sd": 0.07586631130787937,
+     "boot_mean": 0.6078325889651909,
+     "percentile": [
+      0.4818170562726153,
+      0.7173235581329411
+     ],
+     "basic": [
+      0.3905305334816598,
+      0.6260370353419856
+     ],
+     "normal": [
+      0.4052290756438569,
+      0.702625015970744
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 14,
+     "point": 0.51670207481332,
+     "B": 30,
+     "boot_sd": 0.06723076026641492,
+     "boot_mean": 0.5716837309647054,
+     "percentile": [
+      0.47692861893840627,
+      0.7094277049537043
+     ],
+     "basic": [
+      0.3239764446729356,
+      0.5564755306882336
+     ],
+     "normal": [
+      0.38492978469114675,
+      0.6484743649354932
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": false,
+     "coverK_normal": true
+    },
+    {
+     "s": 15,
+     "point": 0.6259926254856185,
+     "B": 30,
+     "boot_sd": 0.05904429687114507,
+     "boot_mean": 0.6460514255572459,
+     "percentile": [
+      0.5427338517794398,
+      0.7482420626151509
+     ],
+     "basic": [
+      0.5037431883560861,
+      0.7092513991917972
+     ],
+     "normal": [
+      0.5102658036181742,
+      0.7417194473530628
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 16,
+     "point": 0.5303627140984335,
+     "B": 30,
+     "boot_sd": 0.04757499067575691,
+     "boot_mean": 0.5372276920619861,
+     "percentile": [
+      0.457648099214221,
+      0.6196050048206265
+     ],
+     "basic": [
+      0.44112042337624047,
+      0.603077328982646
+     ],
+     "normal": [
+      0.43711573237394996,
+      0.623609695822917
+     ],
+     "cover_percentile": false,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 17,
+     "point": 0.5190994661930066,
+     "B": 30,
+     "boot_sd": 0.05643172464786806,
+     "boot_mean": 0.596671035470311,
+     "percentile": [
+      0.4881373851974009,
+      0.7005963672405581
+     ],
+     "basic": [
+      0.33760256514545517,
+      0.5500615471886123
+     ],
+     "normal": [
+      0.40849328588318523,
+      0.629705646502828
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": true,
+     "coverK_basic": false,
+     "coverK_normal": true
+    },
+    {
+     "s": 18,
+     "point": 0.511122476593401,
+     "B": 30,
+     "boot_sd": 0.05996579979618768,
+     "boot_mean": 0.5302361597112927,
+     "percentile": [
+      0.4343863319220141,
+      0.6265362930279769
+     ],
+     "basic": [
+      0.3957086601588252,
+      0.587858621264788
+     ],
+     "normal": [
+      0.3935895089928732,
+      0.6286554441939289
+     ],
+     "cover_percentile": false,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 19,
+     "point": 0.4969296859473653,
+     "B": 30,
+     "boot_sd": 0.05598714025478116,
+     "boot_mean": 0.5486229572921838,
+     "percentile": [
+      0.43823397137963654,
+      0.6319907293018772
+     ],
+     "basic": [
+      0.36186864259285345,
+      0.555625400515094
+     ],
+     "normal": [
+      0.3871948910479942,
+      0.6066644808467364
+     ],
+     "cover_percentile": false,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": true,
+     "coverK_basic": false,
+     "coverK_normal": true
+    },
+    {
+     "s": 20,
+     "point": 0.5197148729445922,
+     "B": 30,
+     "boot_sd": 0.06336465882263173,
+     "boot_mean": 0.5572435042459851,
+     "percentile": [
+      0.41712972273412846,
+      0.6570757457287606
+     ],
+     "basic": [
+      0.38235400016042376,
+      0.622300023155056
+     ],
+     "normal": [
+      0.395520141652234,
+      0.6439096042369503
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 21,
+     "point": 0.43326503478656875,
+     "B": 30,
+     "boot_sd": 0.0736506412601584,
+     "boot_mean": 0.5526198505219166,
+     "percentile": [
+      0.4409980818362965,
+      0.6947993121558621
+     ],
+     "basic": [
+      0.1717307574172754,
+      0.425531987736841
+     ],
+     "normal": [
+      0.2889097779166583,
+      0.5776202916564792
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": true,
+     "coverK_basic": false,
+     "coverK_normal": true
+    },
+    {
+     "s": 22,
+     "point": 0.5539515574804761,
+     "B": 30,
+     "boot_sd": 0.06853360775282437,
+     "boot_mean": 0.6175304412948038,
+     "percentile": [
+      0.5025978746925307,
+      0.730922944292589
+     ],
+     "basic": [
+      0.3769801706683632,
+      0.6053052402684215
+     ],
+     "normal": [
+      0.41962568628494035,
+      0.6882774286760118
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 23,
+     "point": 0.5638806898590216,
+     "B": 30,
+     "boot_sd": 0.05294171268830882,
+     "boot_mean": 0.6036741760867521,
+     "percentile": [
+      0.5282753446326128,
+      0.7105624878993889
+     ],
+     "basic": [
+      0.4171988918186543,
+      0.5994860350854304
+     ],
+     "normal": [
+      0.46011493298993633,
+      0.6676464467281069
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 24,
+     "point": 0.6420265770829046,
+     "B": 30,
+     "boot_sd": 0.05580631611375073,
+     "boot_mean": 0.6940527624382138,
+     "percentile": [
+      0.6015527644748963,
+      0.7854705998322253
+     ],
+     "basic": [
+      0.4985825543335838,
+      0.6825003896909129
+     ],
+     "normal": [
+      0.5326461974999531,
+      0.751406956665856
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": false,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 25,
+     "point": 0.6180014999240373,
+     "B": 30,
+     "boot_sd": 0.059138013780215264,
+     "boot_mean": 0.6542661951293254,
+     "percentile": [
+      0.5542127791779753,
+      0.7382021242267969
+     ],
+     "basic": [
+      0.4978008756212777,
+      0.6817902206700993
+     ],
+     "normal": [
+      0.5020909929148154,
+      0.7339120069332592
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 26,
+     "point": 0.48437904436211054,
+     "B": 30,
+     "boot_sd": 0.06127177022974831,
+     "boot_mean": 0.5380374313239116,
+     "percentile": [
+      0.4316072604397564,
+      0.6233397888991993
+     ],
+     "basic": [
+      0.3454182998250218,
+      0.5371508282844647
+     ],
+     "normal": [
+      0.36428637471180386,
+      0.6044717140124172
+     ],
+     "cover_percentile": false,
+     "cover_basic": false,
+     "cover_normal": false,
+     "coverK_percentile": true,
+     "coverK_basic": false,
+     "coverK_normal": true
+    },
+    {
+     "s": 27,
+     "point": 0.652269169620824,
+     "B": 30,
+     "boot_sd": 0.05774483432444237,
+     "boot_mean": 0.6856509150282083,
+     "percentile": [
+      0.5841715360681178,
+      0.7968492923980892
+     ],
+     "basic": [
+      0.5076890468435589,
+      0.7203668031735303
+     ],
+     "normal": [
+      0.539089294344917,
+      0.765449044896731
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": false,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 28,
+     "point": 0.6370034498109232,
+     "B": 30,
+     "boot_sd": 0.06024377104059094,
+     "boot_mean": 0.6836054119298308,
+     "percentile": [
+      0.5705016005350069,
+      0.8192962645872709
+     ],
+     "basic": [
+      0.45471063503457543,
+      0.7035052990868395
+     ],
+     "normal": [
+      0.5189256585713649,
+      0.7550812410504815
+     ],
+     "cover_percentile": true,
+     "cover_basic": true,
+     "cover_normal": true,
+     "coverK_percentile": false,
+     "coverK_basic": true,
+     "coverK_normal": true
+    },
+    {
+     "s": 29,
+     "point": 0.5498411968162609,
+     "B": 30,
+     "boot_sd": 0.056748615605026406,
+     "boot_mean": 0.6108202822274014,
+     "percentile": [
+      0.508543360179526,
+      0.7052608920409055
+     ],
+     "basic": [
+      0.39442150159161626,
+      0.5911390334529958
+     ],
+     "normal": [
+      0.43861391023040913,
+      0.6610684834021127
+     ],
+     "cover_percentile": true,
+     "cover_basic": false,
+     "cover_normal": true,
+     "coverK_percentile": true,
+     "coverK_basic": true,
+     "coverK_normal": true
+    }
+   ]
+  }
+ }
+}

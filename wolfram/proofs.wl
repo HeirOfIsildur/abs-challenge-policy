@@ -1,4 +1,4 @@
-(* Kernel checks for the theory section (theory.md).
+(* HONZA-74: kernel checks for the theory section (theory.md).
    Model: t = opportunities left, c = challenges held; at each opportunity (g, p) ~ F_t, g > 0 stake, p calibrated
    success probability.  Retention: success gains g and keeps the challenge, failure loses it.
    V_t(c) = V_{t-1}(c) + phi_t(Delta_{t-1}(c)),  phi_t(d) = E_t[(p g - (1-p) d)^+],  V_t(0) = V_0(.) = 0.

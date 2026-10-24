@@ -1,4 +1,4 @@
-"""Robustness of the score-aware optimum (dp_score.py).
+"""HONZA-86: robustness of the score-aware optimum (dp_score.py).
 (a) score-state clip DM = 6 (main) vs 10;  (b) 2-fold cross-fit: DP pools and token values estimated on the odd
 (even) games, policies evaluated on the other half, so the optimum carries no in-sample optimism.
 usage: python src/dp_checks.py [R]  -> results/dp_checks.json"""

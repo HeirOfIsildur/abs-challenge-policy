@@ -1,4 +1,4 @@
-"""Plain-text cross-references between main.tex and supplement.tex.
+"""HONZA-92: plain-text cross-references between main.tex and supplement.tex.
 
 imsart refuses xr/xr-hyper ("external references are not supported in our workflow"), so each document's labels are
 read from its .aux and written as macros: generated/xref_main.tex (\\Mref{label}, used in supplement.tex) and

@@ -1,7 +1,7 @@
-"""Audit item 9: independent recomputation from the raw parquet files. Does NOT import src/.
+"""HONZA-89 audit item 9: independent recomputation from the raw parquet files. Does NOT import src/.
 Own join, own zone rule, own challenge bookkeeping, own simplified engine (stakes from Statcast's own
 delta_home_win_exp / delta_run_exp cell means), own minimal perception simulation for the Savant rule.
-usage: python audit/independent.py [R] -> audit/independent.json"""
+usage: python src/independent.py [R] -> results/independent.json"""
 import json, sys
 import numpy as np, pandas as pd
 from sklearn.isotonic import IsotonicRegression
@@ -33,7 +33,7 @@ c = x[x.code.isin(["C", "B", "*B"]) & x.plate_x.notna() & x.sz_top.notna()].copy
 c["final_strike"] = c.code.eq("C")
 c["orig_strike"] = c.final_strike ^ c.ch_over
 r_ = 1.45 / 12; hw = 17 / 24
-# round ball: r_ + signed distance of the centre to the unexpanded rectangle, so corners are rounded
+# round ball (HONZA-120): r_ + signed distance of the centre to the unexpanded rectangle, so corners are rounded
 dx = hw - c.plate_x.abs(); dz = np.minimum(c.plate_z - c.sz_bot, c.sz_top - c.plate_z)
 inside = (dx >= 0) & (dz >= 0)
 dist = 12 * (r_ + np.where(inside, np.minimum(dx, dz), -np.hypot(np.clip(-dx, 0, None), np.clip(-dz, 0, None))))
@@ -66,7 +66,7 @@ res["observed_wins_batter"] = float((obs.g * obs.ch_over)[obs.orig_strike].sum()
 res["observed_wins_fielder"] = float((obs.g * obs.ch_over)[~obs.orig_strike].sum() / 30)
 
 # --- minimal perception simulation (sigma_r from the main fit, deterministic truth, pooled calibration per side)
-SIG = {True: 2.91, False: 1.91}          # batter (orig strike) / catcher (orig ball), results/headline
+SIG = {True: 2.91, False: 1.91}          # batter (orig strike) / catcher (orig ball), results/headline (HONZA-88)
 gk = c.game_pk.values; th = c.team_home.values.astype(int); inn = c.inning.values; top = (c.half.values == 0)
 newx = np.r_[False, (inn[1:] >= 10) & top[1:] & ((inn[1:] != inn[:-1]) | (gk[1:] != gk[:-1]))]
 newg = np.r_[True, gk[1:] != gk[:-1]]
@@ -100,5 +100,5 @@ res["sim_R"] = R
 for k, v in acc.items():
     v = np.array(v); res[f"{k}_wins_per_team_season"] = float(v[:, 0].mean()); res[f"{k}_challenges_per_team_game"] = float(v[:, 1].mean())
 res["savant_over_observed"] = res["savant_wins_per_team_season"] / res["observed_wins_per_team_season"]
-json.dump(res, open("audit/independent.json", "w"), indent=1)
+json.dump(res, open("results/independent.json", "w"), indent=1)
 print(json.dumps(res, indent=1))

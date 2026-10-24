@@ -1,10 +1,10 @@
 """Independent recount of DRS reviews from raw Cricsheet JSON (does not import src/).
-Scope mirrors the paper: men's Tests/ODIs/T20Is from 2017-10-01, IPL from 2018-01-01, DRS matches (final rule: a recorded review, or a reviewed match of the same event and season between the same
+Scope mirrors the paper: men's Tests/ODIs/T20Is from 2017-10-01, IPL from 2018-01-01, DRS matches (HONZA-122 rule: a recorded review, or a reviewed match of the same event and season between the same
 teams or at the same city; reviews-missing matches excluded),
 'technical failure' reviews dropped.  Counts per format: batting-side out decisions (lbw / caught / c&b not given on
 a fielding review, plus overturned batting reviews), batting reviews by outcome, fielding reviews by outcome, and
 reviews taken with none left under the allowance schedule (official ICC / IPL dates, see audit_drs.md).
-usage: .venv/bin/python audit/drs/recount.py  ->  audit/drs/recount.json"""
+usage: .venv/bin/python src/drs/recount.py  ->  results/drs/recount.json"""
 import json, glob, collections, datetime as dt
 
 SRC = {"tests": "Test", "odis": "ODI", "t20s": "T20", "ipl": "T20"}
@@ -18,7 +18,7 @@ def allowance(comp, date):
     return 1 if date < "2020-07-01" else 2
 
 C = collections.defaultdict(collections.Counter); types = collections.Counter(); viol = collections.Counter()
-# The sample rule of the paper, coded here independently of src/drs/build.py. A match is a DRS match if it
+# HONZA-122: the sample rule of the paper, coded here independently of src/drs/build.py. A match is a DRS match if it
 # has a recorded review, or none but another match of the same competition, event and season between the same teams
 # or at the same city has one; matches flagged info.missing = reviews are excluded.
 def meta(d_, f):
@@ -70,5 +70,5 @@ for d_, fmt in SRC.items():
                         if side == "bat" and wk[0] == "lbw": c["bat_rev_lbw_failed"] += 1
 out = dict(counts={k: dict(v) for k, v in C.items()}, review_types=dict(types),
            none_left={f"{a}_{b}": n for (a, b), n in viol.items()})
-json.dump(out, open("audit/drs/recount.json", "w"), indent=1)
+json.dump(out, open("results/drs/recount.json", "w"), indent=1)
 print(json.dumps(out, indent=1))

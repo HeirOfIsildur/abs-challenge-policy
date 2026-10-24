@@ -1,5 +1,5 @@
-# Manuscript build. Run from anywhere: make -C paper
-#   make            numbers + figures + main.pdf and supplement.pdf (cross-referenced via xrefs.py)
+# HONZA-77 manuscript build. Run from anywhere: make -C paper
+#   make            numbers + figures + main.pdf and supplement.pdf (HONZA-92; cross-referenced via xrefs.py)
 #   make numbers    paper/generated/*.tex from results/
 #   make figures    paper/figures/ from results/ (+ pipeline figures in figures/)
 #   make submission check + no \todo left, then single-file main-flat.tex for the AoAS upload (no \input);

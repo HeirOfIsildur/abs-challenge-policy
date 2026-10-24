@@ -1,4 +1,4 @@
-"""Score-aware calibrated DP.
+"""Score-aware calibrated DP (HONZA-86; opportunity law and extra innings rebuilt in HONZA-122).
 
 sim.solve_dp pools every opportunity of a half-inning slot regardless of the score, so its continuation value
 Delta(slot, k, c) is the same in a blowout and in a tie game.  The immediate stake g does depend on the score, so the
@@ -16,7 +16,7 @@ of the half-inning (clipped to +-DM), opportunity index k within the half, chall
                          C_k(c) = h_k U_k(c) + (1 - h_k) V_end(c),
                          U_k(c) = E max{C_{k+1}(c), p g + p C_{k+1}(c) + (1 - p) C_{k+1}(c - 1)}
   Delta(slot, d, k, c) = C_{k+1}(c) - C_{k+1}(c-1): the threshold at opportunity k is p >= Delta/(g + Delta).
-N was its rounded mean (64,192 of 257,668 opportunities fell beyond it), the
+HONZA-122 (Fable, Astra, Sol reviews): N was its rounded mean (64,192 of 257,668 opportunities fell beyond it), the
 extra-inning block was a score-free heuristic with a hard-coded continuation factor 0.5, and d was the score at the
 first called pitch, not at the start of the half (different in 477 half-innings).
 Extra innings (exact stationary DP): every extra inning starts tied, with a runner on second and the top-up (a team
@@ -26,6 +26,7 @@ on only if the home team ties exactly; otherwise it is over). Px = runs in an ex
 2026 Statcast. Frame encoding: extra rows have slot 18; top halves carry dbin = topx() = DM + 1 (a lead the home team
 cannot hold at the start of an extra top half), bottom halves dbin = d + DM with d <= 0."""
 import numpy as np, pandas as pd
+from numba import njit
 
 DM = 6; ND = 2 * DM + 1; KMAX = 80; RMAX = 8
 def topx():
@@ -91,23 +92,68 @@ def hazard(counts):
 
 def half_value(step, h, Vend):
     """backward recursion within one half-inning: returns C_0 (value at the start of the half) and
-    Delta[k, c] = C_{k+1}(c) - C_{k+1}(c-1) (k = 0..KMAX-1)."""
-    C = Vend.copy(); Dk = np.zeros((KMAX, 3))
-    for k in range(KMAX - 1, -1, -1):
-        Dk[k, 1], Dk[k, 2] = C[1] - C[0], C[2] - C[1]
-        C = h[k] * step(C) + (1 - h[k]) * Vend
+    Delta[k, c] = C_{k+1}(c) - C_{k+1}(c-1) (k = 0..KMAX-1). step: a stepper(gg, pp) (HONZA-132: compiled with numba
+    via _half_value; identical arithmetic)."""
+    return _half_value(step.gg, step.pp, np.asarray(h, float), np.asarray(Vend, float), KMAX)
+
+
+@njit(cache=True)
+def _half_value(gg, pp, h, Vend, kmax):
+    C = Vend.copy(); Dk = np.zeros((kmax, 3)); n = len(gg)
+    for k in range(kmax - 1, -1, -1):
+        Dk[k, 1] = C[1] - C[0]; Dk[k, 2] = C[2] - C[1]
+        S = C.copy()
+        if n > 0:
+            D1 = C[1] - C[0]; D2 = C[2] - C[1]; a1 = 0.0; a2 = 0.0
+            for j in range(n):
+                x1 = pp[j] * gg[j] - (1 - pp[j]) * D1
+                x2 = pp[j] * gg[j] - (1 - pp[j]) * D2
+                if x1 > 0: a1 += x1
+                if x2 > 0: a2 += x2
+            S[1] = C[1] + a1 / n; S[2] = C[2] + a2 / n
+        C = h[k] * S + (1 - h[k]) * Vend
     return C, Dk
 
 
 def stepper(gg, pp):
-    """Bellman step over one opportunity drawn from the pool (gg, pp): V -> E max(stay, challenge)."""
+    """Bellman step over one opportunity drawn from the pool (gg, pp): V -> E max(stay, challenge). The pool rides
+    along as step.gg / step.pp for the compiled recursion (_half_value)."""
+    gg = np.ascontiguousarray(gg, float); pp = np.ascontiguousarray(pp, float)
     def step(V):
         if len(gg) == 0:
             return V
         D1, D2 = V[1] - V[0], V[2] - V[1]
         a1 = np.maximum(0, pp * gg - (1 - pp) * D1).mean(); a2 = np.maximum(0, pp * gg - (1 - pp) * D2).mean()
         return np.array([V[0], V[1] + a1, V[2] + a2])
+    step.gg, step.pp = gg, pp
     return step
+
+
+# HONZA-130 (GPT-6-Astra review) / HONZA-132 (Sol, Astra): the half-inning universe of the count law used to be the
+# opportunity frame, so a half-inning with no located, eligible called pitch for either side (189 of 43,132 Statcast
+# halves, 8 in extra innings) was missing from the hazards instead of counting as N = 0. FULL_HALVES (default since
+# HONZA-132) adds every Statcast 2026 half-inning of the frame's games with n = 0. On a bootstrap resample, which
+# renumbers games, the frame's orig_game column (final_ci.resample, joint_boot.resample_frame) maps each resampled
+# game to its 2026 game, so a game drawn twice contributes its empty halves twice.
+FULL_HALVES = True
+
+
+def statcast_halves():
+    """every 2026 Statcast half-inning: game, inn, top, slot, d (dbin at the start of the half, as add_dstart), cached."""
+    global _HALVES
+    try:
+        return _HALVES
+    except NameError:
+        pass
+    sc = pd.read_parquet("data/statcast_2026.parquet", columns=["game_pk", "inning", "inning_topbot", "at_bat_number",
+                                                                "pitch_number", "home_score", "away_score"])
+    h = sc.sort_values(["game_pk", "at_bat_number", "pitch_number"]).groupby(["game_pk", "inning", "inning_topbot"]).first().reset_index()
+    top = h.inning_topbot.eq("Top").values; inn = h.inning.values.astype(int)
+    slot = np.where(inn >= 10, 18, (np.clip(inn, 1, 9) - 1) * 2 + (~top).astype(int))
+    d = (np.clip((h.home_score - h.away_score).values.astype(int), -DM, DM) + DM).astype(np.int64)
+    d[(inn >= 10) & top] = topx()
+    _HALVES = pd.DataFrame(dict(game=h.game_pk.values, inn=inn, top=top, slot=slot, d=d))
+    return _HALVES
 
 
 def solve_dp_score(m, pt, team_home):
@@ -118,6 +164,13 @@ def solve_dp_score(m, pt, team_home):
     # the team's opportunity count in every observed half-inning (zeros included), by (slot, dbin)
     key = pd.DataFrame(dict(game=m.game_pk.values, inn=m.inning.values, top=m.top.values, slot=sl_, d=db, own=isht))
     hk = key.groupby(["game", "inn", "top"]).agg(slot=("slot", "first"), d=("d", "first"), n=("own", "sum")).reset_index()
+    if FULL_HALVES:                                  # half-innings without any opportunity count as n = 0
+        orig = m.orig_game.values if "orig_game" in m else m.game_pk.values
+        gm = pd.DataFrame(dict(game=m.game_pk.values, orig=orig)).drop_duplicates("game")
+        sh = statcast_halves().rename(columns={"game": "orig"}).merge(gm, on="orig")
+        miss = sh.merge(hk[["game", "inn", "top"]], on=["game", "inn", "top"], how="left", indicator=True)
+        miss = miss[miss._merge == "left_only"].drop(columns="_merge").assign(n=0)
+        hk = pd.concat([hk, miss[hk.columns]], ignore_index=True)
     H = {(s, d): hazard(grp.n.values) for (s, d), grp in hk.groupby(["slot", "d"])}
     sel = np.flatnonzero(isht)
     pools = {(int(s), int(d)): (g[idx.values], pt[idx.values]) for (s, d), idx in pd.Series(sel).groupby([sl_[sel], db[sel]])}

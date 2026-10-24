@@ -9,42 +9,42 @@
   "sm_top": 0.0,
   "sm_arm": 0.0,
   "sm_glove": 0.0,
-  "contam_pi": 0.0007514559479057347,
-  "off_sr": 2.8852049458083737,
+  "contam_pi": 0.0007504690458491692,
+  "off_sr": 2.884815796144176,
   "off_kappa_region_shift": {
    "bottom": 0.0,
-   "top": 1.419,
+   "top": 1.422,
    "arm": 1.19,
-   "glove": 0.88
+   "glove": 0.883
   },
   "off_sr_region_mult": {
    "bottom": 1.0,
    "top": 1.066,
    "arm": 1.18,
-   "glove": 1.026
+   "glove": 1.028
   },
   "off_kappa_logg_hinges": {
-   "-5.0": -0.7381,
-   "-4.0": 0.3206,
-   "-3.2": -0.3023
+   "-5.0": -0.7342,
+   "-4.0": 0.3245,
+   "-3.2": -0.3255
   },
-  "def_sr": 1.9157748376936528,
+  "def_sr": 1.9159297019763186,
   "def_kappa_region_shift": {
    "bottom": 0.0,
-   "top": 0.824,
-   "arm": 0.15,
-   "glove": 0.113
+   "top": 0.822,
+   "arm": 0.151,
+   "glove": 0.111
   },
   "def_sr_region_mult": {
    "bottom": 1.0,
    "top": 1.227,
-   "arm": 0.956,
+   "arm": 0.957,
    "glove": 0.898
   },
   "def_kappa_logg_hinges": {
-   "-5.0": -0.3592,
-   "-4.0": 0.1583,
-   "-3.2": -0.2874
+   "-5.0": -0.3577,
+   "-4.0": 0.1519,
+   "-3.2": -0.2746
   }
  },
  "fit_test_julsep": {
@@ -57,52 +57,52 @@
   "sm_top": 0.0,
   "sm_arm": 0.0,
   "sm_glove": 0.0,
-  "contam_pi": 0.00019157453930401775,
-  "off_sr": 2.867402218155668,
+  "contam_pi": 0.00019131702083162737,
+  "off_sr": 2.8652570624624207,
   "off_kappa_region_shift": {
    "bottom": 0.0,
-   "top": 1.253,
+   "top": 1.262,
    "arm": 0.89,
-   "glove": 1.166
+   "glove": 1.168
   },
   "off_sr_region_mult": {
    "bottom": 1.0,
-   "top": 1.007,
-   "arm": 1.038,
+   "top": 1.01,
+   "arm": 1.039,
    "glove": 1.035
   },
   "off_kappa_logg_hinges": {
-   "-5.0": -0.8487,
-   "-4.0": 0.2074,
-   "-3.2": 0.0852
+   "-5.0": -0.8469,
+   "-4.0": 0.2035,
+   "-3.2": 0.0988
   },
-  "def_sr": 1.7111951478774512,
+  "def_sr": 1.7119140709398237,
   "def_kappa_region_shift": {
    "bottom": 0.0,
-   "top": 0.644,
-   "arm": 0.316,
-   "glove": 0.04
+   "top": 0.641,
+   "arm": 0.32,
+   "glove": 0.038
   },
   "def_sr_region_mult": {
    "bottom": 1.0,
-   "top": 1.315,
+   "top": 1.313,
    "arm": 1.067,
-   "glove": 0.921
+   "glove": 0.92
   },
   "def_kappa_logg_hinges": {
-   "-5.0": -0.318,
-   "-4.0": 0.1361,
-   "-3.2": -0.6083
+   "-5.0": -0.3144,
+   "-4.0": 0.1359,
+   "-3.2": -0.6128
   }
  },
  "temporal_predict_test_with_train": {
   "off": {
    "games": 1146,
-   "ch_obs": 2271,
-   "ch_pred": 2187.7,
-   "over_obs": 0.5024,
-   "over_pred": 0.5041,
-   "over_pred_given_observed_challenges": 0.5024,
+   "ch_obs": 2275,
+   "ch_pred": 2188.8,
+   "over_obs": 0.502,
+   "over_pred": 0.5037,
+   "over_pred_given_observed_challenges": 0.502,
    "wins_obs_per_team_game": 0.00912,
    "wins_pred_per_team_game": 0.00878,
    "logscore_overturn": -0.0008,
@@ -110,13 +110,13 @@
   },
   "def": {
    "games": 1146,
-   "ch_obs": 2949,
-   "ch_pred": 2417.6,
-   "over_obs": 0.5768,
-   "over_pred": 0.5833,
-   "over_pred_given_observed_challenges": 0.577,
-   "wins_obs_per_team_game": 0.01242,
-   "wins_pred_per_team_game": 0.01045,
+   "ch_obs": 2952,
+   "ch_pred": 2420.3,
+   "over_obs": 0.5769,
+   "over_pred": 0.5831,
+   "over_pred_given_observed_challenges": 0.5771,
+   "wins_obs_per_team_game": 0.01244,
+   "wins_pred_per_team_game": 0.01047,
    "logscore_overturn": -0.0032,
    "brier_overturn": 0.0003
   }
@@ -124,11 +124,11 @@
  "temporal_predict_test_with_test": {
   "off": {
    "games": 1146,
-   "ch_obs": 2271,
-   "ch_pred": 2269.1,
-   "over_obs": 0.5024,
-   "over_pred": 0.5098,
-   "over_pred_given_observed_challenges": 0.5024,
+   "ch_obs": 2275,
+   "ch_pred": 2273.1,
+   "over_obs": 0.502,
+   "over_pred": 0.5095,
+   "over_pred_given_observed_challenges": 0.502,
    "wins_obs_per_team_game": 0.00912,
    "wins_pred_per_team_game": 0.0092,
    "logscore_overturn": -0.0002,
@@ -136,13 +136,13 @@
   },
   "def": {
    "games": 1146,
-   "ch_obs": 2949,
-   "ch_pred": 2940.8,
-   "over_obs": 0.5768,
+   "ch_obs": 2952,
+   "ch_pred": 2943.8,
+   "over_obs": 0.5769,
    "over_pred": 0.578,
-   "over_pred_given_observed_challenges": 0.5771,
-   "wins_obs_per_team_game": 0.01242,
-   "wins_pred_per_team_game": 0.01238,
+   "over_pred_given_observed_challenges": 0.5772,
+   "wins_obs_per_team_game": 0.01244,
+   "wins_pred_per_team_game": 0.0124,
    "logscore_overturn": -0.0031,
    "brier_overturn": 0.0003
   }
@@ -150,11 +150,11 @@
  "temporal_insample_train": {
   "off": {
    "games": 1279,
-   "ch_obs": 2488,
-   "ch_pred": 2483.8,
-   "over_obs": 0.4767,
-   "over_pred": 0.49,
-   "over_pred_given_observed_challenges": 0.4771,
+   "ch_obs": 2491,
+   "ch_pred": 2486.8,
+   "over_obs": 0.4761,
+   "over_pred": 0.4897,
+   "over_pred_given_observed_challenges": 0.4766,
    "wins_obs_per_team_game": 0.00874,
    "wins_pred_per_team_game": 0.00881,
    "logscore_overturn": -0.0094,
@@ -162,60 +162,60 @@
   },
   "def": {
    "games": 1279,
-   "ch_obs": 2835,
-   "ch_pred": 2827.5,
-   "over_obs": 0.5824,
-   "over_pred": 0.5875,
-   "over_pred_given_observed_challenges": 0.5819,
-   "wins_obs_per_team_game": 0.01111,
-   "wins_pred_per_team_game": 0.01079,
+   "ch_obs": 2839,
+   "ch_pred": 2831.6,
+   "over_obs": 0.5826,
+   "over_pred": 0.5874,
+   "over_pred_given_observed_challenges": 0.5821,
+   "wins_obs_per_team_game": 0.01117,
+   "wins_pred_per_team_game": 0.01084,
    "logscore_overturn": -0.0033,
    "brier_overturn": 0.0004
   }
  },
  "wins_lost_train_train_params": {
-  "opt": 3.9434,
-  "observed": 3.216,
-  "obs_rule_sim": 3.1701,
-  "opt_minus_observed": 0.7274,
-  "opt_minus_obs_rule_sim": 0.7733,
+  "opt": 3.9378,
+  "observed": 3.2247,
+  "obs_rule_sim": 3.2101,
+  "opt_minus_observed": 0.7132,
+  "opt_minus_obs_rule_sim": 0.7277,
   "best_stake": "stake_0.008",
-  "best_stake_share": 0.9533,
-  "rule_0008_share": 0.9533
+  "best_stake_share": 0.9589,
+  "rule_0008_share": 0.9589
  },
  "wins_lost_test_train_params": {
-  "opt": 3.9732,
-  "observed": 3.4904,
-  "obs_rule_sim": 3.1294,
-  "opt_minus_observed": 0.4828,
-  "opt_minus_obs_rule_sim": 0.8437,
+  "opt": 4.0305,
+  "observed": 3.4939,
+  "obs_rule_sim": 3.1765,
+  "opt_minus_observed": 0.5367,
+  "opt_minus_obs_rule_sim": 0.8541,
   "best_stake": "stake_0.008",
-  "best_stake_share": 0.9544,
-  "rule_0008_share": 0.9544,
+  "best_stake_share": 0.9572,
+  "rule_0008_share": 0.9572,
   "frozen_delta": 0.008,
-  "frozen_share": 0.9544,
-  "frozen_gap_closed": 0.6248
+  "frozen_share": 0.9572,
+  "frozen_gap_closed": 0.6783
  },
  "wins_lost_test_test_params": {
-  "opt": 4.1352,
-  "observed": 3.4904,
-  "obs_rule_sim": 3.4255,
-  "opt_minus_observed": 0.6448,
-  "opt_minus_obs_rule_sim": 0.7097,
+  "opt": 4.14,
+  "observed": 3.4939,
+  "obs_rule_sim": 3.4991,
+  "opt_minus_observed": 0.6462,
+  "opt_minus_obs_rule_sim": 0.6409,
   "best_stake": "stake_0.008",
-  "best_stake_share": 0.9533,
-  "rule_0008_share": 0.9533,
+  "best_stake_share": 0.958,
+  "rule_0008_share": 0.958,
   "frozen_delta": 0.008,
-  "frozen_share": 0.9533,
-  "frozen_gap_closed": 0.7006
+  "frozen_share": 0.958,
+  "frozen_gap_closed": 0.731
  },
  "spring2026_transport_mlb2026": {
   "off": {
    "games": 447,
    "ch_obs": 886,
-   "ch_pred": 914.9,
+   "ch_pred": 915.1,
    "over_obs": 0.4571,
-   "over_pred": 0.5275,
+   "over_pred": 0.5273,
    "over_pred_given_observed_challenges": 0.4572,
    "wins_obs_per_team_game": 0.00813,
    "wins_pred_per_team_game": 0.0109,
@@ -225,7 +225,7 @@
   "def": {
    "games": 447,
    "ch_obs": 1019,
-   "ch_pred": 1225.2,
+   "ch_pred": 1225.0,
    "over_obs": 0.5947,
    "over_pred": 0.6312,
    "over_pred_given_observed_challenges": 0.5946,
@@ -245,8 +245,8 @@
   "sm_top": 0.0,
   "sm_arm": 0.0,
   "sm_glove": 0.0,
-  "contam_pi": 3.660355621959747e-08,
-  "off_sr": 3.7777407022104494,
+  "contam_pi": 3.6704427713486645e-08,
+  "off_sr": 3.7777407022104685,
   "off_kappa_region_shift": {
    "bottom": 0.0,
    "top": 1.279,
@@ -283,8 +283,8 @@
    "-3.2": -0.1333
   },
   "off_sr_ci95": [
-   3.3892265142203386,
-   4.210791091494954
+   3.3892265142203537,
+   4.210791091494978
   ],
   "def_sr_ci95": [
    2.001229060110095,
@@ -321,9 +321,9 @@
   "off": {
    "games": 2222,
    "ch_obs": 4507,
-   "ch_pred": 4431.6,
+   "ch_pred": 4432.4,
    "over_obs": 0.4502,
-   "over_pred": 0.5011,
+   "over_pred": 0.501,
    "over_pred_given_observed_challenges": 0.4502,
    "wins_obs_per_team_game": 0.0081,
    "wins_pred_per_team_game": 0.00922,
@@ -333,12 +333,12 @@
   "def": {
    "games": 2222,
    "ch_obs": 4832,
-   "ch_pred": 5445.6,
+   "ch_pred": 5444.5,
    "over_obs": 0.5379,
-   "over_pred": 0.5864,
+   "over_pred": 0.5863,
    "over_pred_given_observed_challenges": 0.5376,
    "wins_obs_per_team_game": 0.00939,
-   "wins_pred_per_team_game": 0.01177,
+   "wins_pred_per_team_game": 0.01176,
    "logscore_overturn": -0.0052,
    "brier_overturn": 0.0006
   }
@@ -353,8 +353,8 @@
   "sm_top": 0.0,
   "sm_arm": 0.0,
   "sm_glove": 0.0,
-  "contam_pi": 0.0005353892279708662,
-  "off_sr": 3.2192869000097386,
+  "contam_pi": 0.0005353892279703657,
+  "off_sr": 3.219286900009537,
   "off_kappa_region_shift": {
    "bottom": 0.0,
    "top": 1.553,
@@ -372,7 +372,7 @@
    "-4.0": -0.157,
    "-3.2": 0.2797
   },
-  "def_sr": 2.0925833568908465,
+  "def_sr": 2.0925833568906054,
   "def_kappa_region_shift": {
    "bottom": 0.0,
    "top": 0.641,
@@ -391,12 +391,12 @@
    "-3.2": -0.0713
   },
   "off_sr_ci95": [
-   3.072253006693789,
-   3.3733576375362864
+   3.0722530066936096,
+   3.373357637536061
   ],
   "def_sr_ci95": [
-   2.0067788270225058,
-   2.182056660441064
+   2.0067788270222886,
+   2.182056660440797
   ]
  },
  "aaa2025_refit_score": {
@@ -423,6 +423,174 @@
    "wins_pred_per_team_game": 0.00936,
    "logscore_overturn": -0.0052,
    "brier_overturn": 0.0006
+  }
+ },
+ "frozen_crossfit": {
+  "no_engine": {
+   "R": 20,
+   "seed": 130,
+   "world": "Jul-Sep truths/signals from the Mar-Jun theta",
+   "engine": "full-season WP engine, stakes and run laws (not frozen)",
+   "train_games": 1279,
+   "test_games": 1146,
+   "test_opportunities": 173656,
+   "frozen_delta": 0.007,
+   "train_insample_stake_share": {
+    "0.004": 0.8204,
+    "0.006": 0.9267,
+    "0.007": 0.9462,
+    "0.008": 0.9453,
+    "0.009": 0.9402,
+    "0.01": 0.9294,
+    "0.011": 0.9126,
+    "0.0125": 0.8801,
+    "0.015": 0.8222,
+    "0.02": 0.7024
+   },
+   "test_rows_in_cells_unseen_in_training": 0,
+   "wins": {
+    "frozen_dp": 3.9772,
+    "frozen_rule": 3.7977,
+    "frozen_rule_0008": 3.7923,
+    "observed": 3.4939,
+    "retro_dp_same_draws": 4.0103,
+    "retro_rule_0008_same_draws": 3.8324
+   },
+   "challenges_per_team_game": {
+    "frozen_dp": 2.629,
+    "frozen_rule": 2.363,
+    "frozen_rule_0008": 2.183,
+    "retro_dp": 2.716,
+    "retro_rule": 2.212
+   },
+   "frozen_rule_share_of_retro": 0.947,
+   "frozen_dp_share_of_retro": 0.9918,
+   "frozen_rule_share_of_frozen_dp": 0.9549,
+   "frozen_rule_gap_closed_vs_frozen_dp": 0.6287,
+   "frozen_rule_gap_closed_vs_retro": 0.5884,
+   "wins_lost_vs_frozen_dp": 0.4833,
+   "wins_lost_vs_frozen_dp_mc_se": 0.0134,
+   "wins_lost_vs_retro_same_draws": 0.5164,
+   "frozen_minus_retro_dp": -0.0331,
+   "frozen_minus_retro_dp_mc_se": 0.0127,
+   "frozen_rule_minus_retro_rule_0008": -0.0347,
+   "frozen_rule_minus_retro_rule_0008_mc_se": 0.0114
+  },
+  "retrospective_test_half_benchmark": {
+   "model": "kappa_sr_region_g",
+   "dp": "score-aware (opt_score, dp_score.solve_dp_score)",
+   "note": "theta (and delta) from Mar-Jun; calibration cells, stake cut points, belief maps and DP re-estimated on the half it is evaluated on; full-season WP engine and run laws",
+   "opt": 4.0305,
+   "observed": 3.4939,
+   "frozen_share": 0.9572,
+   "frozen_gap_closed": 0.6783
+  },
+  "halfseason_losses_existing": {
+   "first_half_own_params": 0.7132,
+   "second_half_first_half_params": 0.5367,
+   "second_half_own_params": 0.6462,
+   "model": "kappa_sr_region_g",
+   "dp": "score-aware (opt_score)"
+  },
+  "with_train_engine": {
+   "R": 20,
+   "seed": 130,
+   "world": "Jul-Sep truths/signals from the Mar-Jun theta",
+   "engine": "Mar-Jun Statcast: WP engine, decision stakes, half/extra-inning run laws",
+   "train_games": 1279,
+   "test_games": 1146,
+   "test_opportunities": 173656,
+   "frozen_delta": 0.008,
+   "train_insample_stake_share": {
+    "0.004": 0.817,
+    "0.006": 0.928,
+    "0.007": 0.9465,
+    "0.008": 0.9501,
+    "0.009": 0.9413,
+    "0.01": 0.9302,
+    "0.011": 0.9128,
+    "0.0125": 0.8815,
+    "0.015": 0.8241,
+    "0.02": 0.7039
+   },
+   "test_rows_in_cells_unseen_in_training": 0,
+   "wins": {
+    "frozen_dp": 3.9741,
+    "frozen_rule": 3.7988,
+    "frozen_rule_0008": 3.7988,
+    "observed": 3.4939,
+    "retro_dp_same_draws": 4.0106,
+    "retro_rule_0008_same_draws": 3.8335
+   },
+   "challenges_per_team_game": {
+    "frozen_dp": 2.643,
+    "frozen_rule": 2.206,
+    "frozen_rule_0008": 2.206,
+    "retro_dp": 2.715,
+    "retro_rule": 2.211
+   },
+   "frozen_rule_share_of_retro": 0.9472,
+   "frozen_dp_share_of_retro": 0.9909,
+   "frozen_rule_share_of_frozen_dp": 0.9559,
+   "frozen_rule_gap_closed_vs_frozen_dp": 0.6351,
+   "frozen_rule_gap_closed_vs_retro": 0.5903,
+   "wins_lost_vs_frozen_dp": 0.4802,
+   "wins_lost_vs_frozen_dp_mc_se": 0.0133,
+   "wins_lost_vs_retro_same_draws": 0.5167,
+   "frozen_minus_retro_dp": -0.0365,
+   "frozen_minus_retro_dp_mc_se": 0.0109,
+   "frozen_rule_minus_retro_rule_0008": -0.0346,
+   "frozen_rule_minus_retro_rule_0008_mc_se": 0.0106
+  },
+  "no_engine_world_testfit": {
+   "R": 20,
+   "seed": 130,
+   "world": "Jul-Sep truths/signals from the Jul-Sep refit (beliefs still frozen on Mar-Jun)",
+   "engine": "full-season WP engine, stakes and run laws (not frozen)",
+   "train_games": 1279,
+   "test_games": 1146,
+   "test_opportunities": 173656,
+   "frozen_delta": 0.007,
+   "train_insample_stake_share": {
+    "0.004": 0.8204,
+    "0.006": 0.9267,
+    "0.007": 0.9462,
+    "0.008": 0.9453,
+    "0.009": 0.9402,
+    "0.01": 0.9294,
+    "0.011": 0.9126,
+    "0.0125": 0.8801,
+    "0.015": 0.8222,
+    "0.02": 0.7024
+   },
+   "test_rows_in_cells_unseen_in_training": 0,
+   "wins": {
+    "frozen_dp": 4.0984,
+    "frozen_rule": 3.9294,
+    "frozen_rule_0008": 3.9065,
+    "observed": 3.4939,
+    "retro_dp_same_draws": 4.1644,
+    "retro_rule_0008_same_draws": 3.9652
+   },
+   "challenges_per_team_game": {
+    "frozen_dp": 2.604,
+    "frozen_rule": 2.316,
+    "frozen_rule_0008": 2.124,
+    "retro_dp": 2.774,
+    "retro_rule": 2.283
+   },
+   "frozen_rule_share_of_retro": 0.9436,
+   "frozen_dp_share_of_retro": 0.9841,
+   "frozen_rule_share_of_frozen_dp": 0.9588,
+   "frozen_rule_gap_closed_vs_frozen_dp": 0.7205,
+   "frozen_rule_gap_closed_vs_retro": 0.6495,
+   "wins_lost_vs_frozen_dp": 0.6045,
+   "wins_lost_vs_frozen_dp_mc_se": 0.0125,
+   "wins_lost_vs_retro_same_draws": 0.6706,
+   "frozen_minus_retro_dp": -0.0661,
+   "frozen_minus_retro_dp_mc_se": 0.0147,
+   "frozen_rule_minus_retro_rule_0008": -0.0358,
+   "frozen_rule_minus_retro_rule_0008_mc_se": 0.0096
   }
  }
 }

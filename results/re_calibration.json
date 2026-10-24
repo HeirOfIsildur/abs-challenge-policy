@@ -1,0 +1,20 @@
+{
+ "re_lapse_gh11_off": {
+  "observed": 4766,
+  "integrated": 4622.470441961178,
+  "plug_in": 4588.454135792516
+ },
+ "re_lapse_gh11_def": {
+  "observed": 5791,
+  "integrated": 5842.938669590494,
+  "plug_in": 5742.691661411973
+ },
+ "kappa_sr_region_g_off": {
+  "observed": 4766,
+  "integrated": 4759.685649320892
+ },
+ "kappa_sr_region_g_def": {
+  "observed": 5791,
+  "integrated": 5774.2929312660835
+ }
+}

@@ -1,7 +1,7 @@
 """Ball-level state table for men's Tests, ODIs, T20Is and IPL from Cricsheet JSON.
 One row per delivery: match/innings state before the ball, runs and wickets on the ball, the review (if any) and the
 match result from the batting team's side.  T20Is and IPL are pooled as format 'T20' (comp keeps them apart).
-Match-level review metadata goes to a second table: event / season / city / teams, whether a TV umpire is
+Match-level review metadata (HONZA-122) goes to a second table: event / season / city / teams, whether a TV umpire is
 listed, the number of recorded reviews and Cricsheet's own flag info.missing = ["reviews"] (the scorer did not record
 reviews for that match).  build.py uses it to keep DRS matches with zero reviews and to drop matches whose review
 reporting is missing.

@@ -17,7 +17,7 @@ J(t) = P(X > t, S >= S*) a bivariate normal orthant (corr 1/sqrt(1+s^2)) and q =
   lost    pi_k (q - J(-kappa)), caught: q - J(0)   [const: (1 - rho)(q - J(0))]
 Identified directly: review share, success rate and umpire's-call share in every cell.  As tau moves across cells
 these trace one curve; its shape pins s (see the profile likelihood written to the json).  The free fit uses several
-starts and the 95 % set for s has continuous profile-likelihood endpoints (s_95, root-finding).
+starts and the 95 % set for s has continuous profile-likelihood endpoints (s_95, root-finding; HONZA-122).
 usage: python src/drs/model.py [fmt|all] [band|const]  ->  results/drs/model_<fmt>[_const].json"""
 import json, sys
 import numpy as np, pandas as pd
@@ -121,7 +121,7 @@ S_MIN, S_MAX = 0.05, 20.0           # bounds of s in fit()
 CHI2_95 = 1.920729410347062         # chi2_1(0.95) / 2
 
 def fit_multi(d, starts, s_fixed=None, mode="band"):
-    """best of several local fits (one L-BFGS run can stop at its start value)"""
+    """best of several local fits (HONZA-122: one L-BFGS run can stop at its start value)"""
     return min((fit(d, th, s_fixed, mode) for th in starts), key=lambda x: x["nll"])
 
 def free_starts(thetas, k=3):
@@ -134,7 +134,7 @@ def free_starts(thetas, k=3):
 
 def fit_full(d, mode="band"):
     """profile in s on a grid (warm-started both directions); free fit from several starts; continuous 95 % profile-LR
-    endpoints by root-finding on the profile, 2 (l_p(s) - l_hat) = chi2_1(0.95)."""
+    endpoints by root-finding on the profile, 2 (l_p(s) - l_hat) = chi2_1(0.95) (HONZA-122)."""
     from scipy.optimize import brentq
     prof = {}
     th = None

@@ -1,10 +1,10 @@
-"""Model-free and calibration diagnostics of the mechanism.
+"""HONZA-122 (Opus, Astra reviews): model-free and calibration diagnostics of the mechanism.
 (1) Model-free: challenge rate on wrong calls (w > 0) by stake quintile, by side and distance band (no model).
 (2) Revealed vs optimal confidence thresholds by stake quintile (the slope comparison of Section 4.5 without a
     regression): teams' p* = calibrated belief at kappa(x), the DP benchmark's p* = D/(g + D), at the recorded state.
 (3) The one-line rule as a criterion on the signal, in inches: the signal threshold s* at which the calibrated belief
     reaches delta/(g + delta), against teams' kappa, by stake quintile (what a player would have to shift).
-(4) Stake-weighted calibration on the pitches each policy selects: sum p g against sum W g (a reviewer's diagnostic of the
+(4) Stake-weighted calibration on the pitches each policy selects: sum p g against sum W g (Astra's diagnostic of the
     posterior used by the DP; with calibration cells that include the count and the stake they should agree).
 usage: python src/mechanism.py [R]  -> results/mechanism.json"""
 import json, sys

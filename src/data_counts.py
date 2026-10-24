@@ -1,5 +1,5 @@
-"""Sample sizes quoted in the manuscript -> results/data_counts.json, and the observed challenges by role
--> results/roles_observed.csv (that file used to be an artefact of the first pipeline that no script in the run order wrote).
+"""Sample sizes quoted in the manuscript (HONZA-77) -> results/data_counts.json, and the observed challenges by role
+-> results/roles_observed.csv (HONZA-89: that file used to be a HONZA-71 artefact that no script in the run order wrote).
 usage: python src/data_counts.py   (needs data/ from fetch_challenges.py, build.py and perception.py)"""
 import json
 import numpy as np, pandas as pd

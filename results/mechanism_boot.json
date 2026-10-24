@@ -1,0 +1,766 @@
+{
+ "B": 60,
+ "config": {
+  "point": {
+   "R_decomp": 20,
+   "R_slopes": 4
+  },
+  "boot": {
+   "R_decomp": 4,
+   "R_slopes": 2,
+   "folds": "orig_game"
+  }
+ },
+ "point": {
+  "b": -1,
+  "ok": true,
+  "secs": 1434.2,
+  "slopes": {
+   "off_all_full_teams": 0.08046581279505359,
+   "off_all_full_opt": 0.580711781482298,
+   "off_all_count_fe_teams": 0.07638255715727786,
+   "off_all_count_fe_opt": 0.5599105605934555,
+   "off_all_none_teams": 0.08894294945603284,
+   "off_all_none_opt": 0.5394868094062312,
+   "off_high_full_teams": 0.19290900892392965,
+   "off_high_full_opt": 0.947142045755809,
+   "off_high_count_fe_teams": 0.1888990289067227,
+   "off_high_count_fe_opt": 0.9132214574924497,
+   "off_high_none_teams": 0.41923136743368455,
+   "off_high_none_opt": 1.1185779297330845,
+   "def_all_full_teams": 0.04039173501200305,
+   "def_all_full_opt": 0.5927719599054767,
+   "def_all_count_fe_teams": 0.03916842431129454,
+   "def_all_count_fe_opt": 0.5759877182189336,
+   "def_all_none_teams": 0.08575921174766234,
+   "def_all_none_opt": 0.5857640879772542,
+   "def_high_full_teams": 0.1853526280637188,
+   "def_high_full_opt": 0.9176860437172039,
+   "def_high_count_fe_teams": 0.18804873678875023,
+   "def_high_count_fe_opt": 0.8912445676974434,
+   "def_high_none_teams": 0.5246205749764816,
+   "def_high_none_opt": 1.0696982028048614
+  },
+  "decomp": {
+   "intercept_only": {
+    "gap_closed": 0.528028995929107,
+    "n": 2.9280824742268043
+   },
+   "stake_linear_only": {
+    "gap_closed": 0.8112095199243817,
+    "n": 2.449360824742268
+   },
+   "stake_scale_only": {
+    "gap_closed": 0.6915543871943073,
+    "n": 2.3327628865979384
+   },
+   "both_linear": {
+    "gap_closed": 0.816081599672912,
+    "n": 2.3852989690721653
+   },
+   "both_scale": {
+    "gap_closed": 0.7918777955836322,
+    "n": 2.534824742268041
+   },
+   "observed_n": 2.176701030927835
+  },
+  "full": {
+   "slopes": {
+    "R_opt": 4,
+    "note": "logit scale: logit(1 - p*) on log g (postseason.implied_slope / opt_slope.py); controls full = challenges left, inning, two strikes, three balls; no_count = without the two count indicators; none = log g only. Ranges: high = log g > -5 (top ~60 % of eligible pitches), low = log g <= -5. kappa scale (belief-map free): d kappa / d log g of the fitted criterion averaged over the eligible pitches, and OLS of kappa on log g; s_opt: signal threshold (in) at which the calibrated belief reaches the optimum's p* = D/(g + D)",
+    "sides": {
+     "off": {
+      "n": 106316,
+      "share_high": 0.5631325482523797,
+      "all": {
+       "n": 106316,
+       "teams_logit_full": 0.08046581279505359,
+       "opt_logit_full": 0.580711781482298,
+       "teams_kappa_ols_full": -0.22432241560065,
+       "opt_signal_threshold_ols_full": -1.6631920647364054,
+       "teams_logit_count_fe": 0.07638255715727786,
+       "opt_logit_count_fe": 0.5599105605934555,
+       "teams_kappa_ols_count_fe": -0.20825645188208292,
+       "opt_signal_threshold_ols_count_fe": -1.5788278965297748,
+       "teams_logit_no_count": 0.12312261474680049,
+       "opt_logit_no_count": 0.6214544819615163,
+       "teams_kappa_ols_no_count": -0.405997887436613,
+       "opt_signal_threshold_ols_no_count": -1.8551267130928657,
+       "teams_logit_none": 0.08894294945603284,
+       "opt_logit_none": 0.5394868094062312,
+       "teams_kappa_ols_none": -0.29283232766853845,
+       "opt_signal_threshold_ols_none": -1.606194589844866,
+       "teams_dkappa_dlogg_mean": -0.40663427967097227,
+       "mean_pstar_team": 0.4498524297425105,
+       "mean_pstar_opt": 0.46088935339514037
+      },
+      "high": {
+       "n": 59870,
+       "teams_logit_full": 0.19290900892392965,
+       "opt_logit_full": 0.947142045755809,
+       "teams_kappa_ols_full": -0.7001148150913892,
+       "opt_signal_threshold_ols_full": -2.933928648506295,
+       "teams_logit_count_fe": 0.1888990289067227,
+       "opt_logit_count_fe": 0.9132214574924497,
+       "teams_kappa_ols_count_fe": -0.6799025931096411,
+       "opt_signal_threshold_ols_count_fe": -2.7955158813166388,
+       "teams_logit_no_count": 0.3632676440571054,
+       "opt_logit_no_count": 0.9954932815597631,
+       "teams_kappa_ols_no_count": -1.3982857912043252,
+       "opt_signal_threshold_ols_no_count": -3.221041726254941,
+       "teams_logit_none": 0.41923136743368455,
+       "opt_logit_none": 1.1185779297330845,
+       "teams_kappa_ols_none": -1.5751884436034123,
+       "opt_signal_threshold_ols_none": -3.569578298124146,
+       "teams_dkappa_dlogg_mean": -0.7200480057814493,
+       "mean_pstar_team": 0.42836713529577736,
+       "mean_pstar_opt": 0.35909254773601146
+      },
+      "low": {
+       "n": 46446,
+       "teams_logit_full": 0.01758413153240728,
+       "opt_logit_full": 0.4681750674187608,
+       "teams_kappa_ols_full": -0.005828494650622152,
+       "opt_signal_threshold_ols_full": -1.1251714698610982,
+       "teams_logit_count_fe": 0.01755841236280831,
+       "opt_logit_count_fe": 0.4669667699942462,
+       "teams_kappa_ols_count_fe": -0.005896562956908213,
+       "opt_signal_threshold_ols_count_fe": -1.1207157849410647,
+       "teams_logit_no_count": 0.018732326662240346,
+       "opt_logit_no_count": 0.46964332610417064,
+       "teams_kappa_ols_no_count": -0.011970873956975846,
+       "opt_signal_threshold_ols_no_count": -1.1384949996382578,
+       "teams_logit_none": -0.059562136334414505,
+       "opt_logit_none": 0.24787081760148694,
+       "teams_kappa_ols_none": 0.22697482471882485,
+       "opt_signal_threshold_ols_none": -0.459295300854305,
+       "teams_dkappa_dlogg_mean": -0.0026365235190049237,
+       "mean_pstar_team": 0.477547485905063,
+       "mean_pstar_opt": 0.5921078599363289
+      }
+     },
+     "def": {
+      "n": 237540,
+      "share_high": 0.630432769217816,
+      "all": {
+       "n": 237540,
+       "teams_logit_full": 0.04039173501200305,
+       "opt_logit_full": 0.5927719599054767,
+       "teams_kappa_ols_full": -0.10136993899646275,
+       "opt_signal_threshold_ols_full": -0.9151145979509824,
+       "teams_logit_count_fe": 0.03916842431129454,
+       "opt_logit_count_fe": 0.5759877182189336,
+       "teams_kappa_ols_count_fe": -0.0963184311436634,
+       "opt_signal_threshold_ols_count_fe": -0.887953044546209,
+       "teams_logit_no_count": 0.1323167261088415,
+       "opt_logit_no_count": 0.6557095963826258,
+       "teams_kappa_ols_no_count": -0.22855258556944355,
+       "opt_signal_threshold_ols_no_count": -0.9964403037450041,
+       "teams_logit_none": 0.08575921174766234,
+       "opt_logit_none": 0.5857640879772542,
+       "teams_kappa_ols_none": -0.15842673137785215,
+       "opt_signal_threshold_ols_none": -0.9024299454387223,
+       "teams_dkappa_dlogg_mean": -0.19099906860097546,
+       "mean_pstar_team": 0.44801784145017204,
+       "mean_pstar_opt": 0.4264574939483903
+      },
+      "high": {
+       "n": 149753,
+       "teams_logit_full": 0.1853526280637188,
+       "opt_logit_full": 0.9176860437172039,
+       "teams_kappa_ols_full": -0.31292059950029105,
+       "opt_signal_threshold_ols_full": -1.2908713575397077,
+       "teams_logit_count_fe": 0.18804873678875023,
+       "opt_logit_count_fe": 0.8912445676974434,
+       "teams_kappa_ols_count_fe": -0.309188132992064,
+       "opt_signal_threshold_ols_count_fe": -1.2453771086713197,
+       "teams_logit_no_count": 0.457642569850658,
+       "opt_logit_no_count": 0.9810269913548592,
+       "teams_kappa_ols_no_count": -0.6629765215541223,
+       "opt_signal_threshold_ols_no_count": -1.3333373779463125,
+       "teams_logit_none": 0.5246205749764816,
+       "opt_logit_none": 1.0696982028048614,
+       "teams_kappa_ols_none": -0.7621029833700477,
+       "opt_signal_threshold_ols_none": -1.4521188835673073,
+       "teams_dkappa_dlogg_mean": -0.3090197901240559,
+       "mean_pstar_team": 0.4368438703290579,
+       "mean_pstar_opt": 0.330704775283576
+      },
+      "low": {
+       "n": 87787,
+       "teams_logit_full": -0.014901667175860172,
+       "opt_logit_full": 0.4782384158188795,
+       "teams_kappa_ols_full": 0.011498468171159638,
+       "opt_signal_threshold_ols_full": -0.7615448840458108,
+       "teams_logit_count_fe": -0.014894115573693328,
+       "opt_logit_count_fe": 0.4768988587472088,
+       "teams_kappa_ols_count_fe": 0.011505395344218126,
+       "opt_signal_threshold_ols_count_fe": -0.7607192910446526,
+       "teams_logit_no_count": -0.011296508753384078,
+       "opt_logit_no_count": 0.4819045366890264,
+       "teams_kappa_ols_no_count": 0.005952878831089084,
+       "opt_signal_threshold_ols_no_count": -0.7698782007416319,
+       "teams_logit_none": -0.11316336181331534,
+       "opt_logit_none": 0.2694151889814553,
+       "teams_kappa_ols_none": 0.17086004686135087,
+       "opt_signal_threshold_ols_none": -0.4628171037464022,
+       "teams_dkappa_dlogg_mean": 0.010328657716655554,
+       "mean_pstar_team": 0.4670791568761485,
+       "mean_pstar_opt": 0.5897989554200425
+      }
+     }
+    }
+   },
+   "decomp": {
+    "R": 20,
+    "R_tune": 10,
+    "R_eval": 10,
+    "form_note": "rule s > kappa(x) + a_side + (f_side - 1) * stake_c(x) [scale] or kappa(x) + a_side - stake_c(x) + b_side * (log g - mean) [linear]; stake_c = beta_logg log g + hinges kg, centred within side over opportunities; kappa(x) at the challenges the simulated team holds (sim.kappa_by_count)",
+    "observed": {
+     "wins": 3.329764482341802,
+     "n": 2.176701030927835
+    },
+    "teams_linear_slope_in_per_logg": {
+     "off": -0.22676051383892126,
+     "def": -0.1115966554951515
+    },
+    "rows": {
+     "fitted_rule": {
+      "params": {
+       "a_off": 0.0,
+       "a_def": 0.0,
+       "f_off": 1.0,
+       "f_def": 1.0
+      },
+      "in_sample": {
+       "wins": 3.3264880946580644,
+       "batter": 1.4404445145156919,
+       "fielder": 1.886043580142372,
+       "share_opt": 0.8308153120155453,
+       "gap_closed": -0.0048602478230608355,
+       "n": 2.1563711340206186,
+       "n_batter": 0.9669484536082474,
+       "n_fielder": 1.1894226804123713,
+       "lost_vs_opt": 0.6773958571049996
+      },
+      "out_of_sample": {
+       "wins": 3.2925314237717287,
+       "batter": 1.4158740047109,
+       "fielder": 1.8766574190608292,
+       "share_opt": 0.82420941060028,
+       "gap_closed": -0.05598864809485037,
+       "n": 2.151979381443299,
+       "n_batter": 0.9724536082474226,
+       "n_fielder": 1.1795257731958761,
+       "lost_vs_opt": 0.7022439105377218
+      }
+     },
+     "intercept_only": {
+      "params": {
+       "a_off": -1.0625,
+       "a_def": -0.8125,
+       "f_off": 1.0,
+       "f_def": 1.0
+      },
+      "in_sample": {
+       "wins": 3.6752838410672224,
+       "batter": 1.5715450667395647,
+       "fielder": 2.103738774327658,
+       "share_opt": 0.9179296616348868,
+       "gap_closed": 0.5125491465512071,
+       "n": 2.9210927835051548,
+       "n_batter": 1.2977319587628866,
+       "n_fielder": 1.6233608247422682,
+       "lost_vs_opt": 0.3286001106958416
+      },
+      "out_of_sample": {
+       "wins": 3.6809094947882395,
+       "batter": 1.5738283289106116,
+       "fielder": 2.107081165877628,
+       "share_opt": 0.9214309158200841,
+       "gap_closed": 0.528028995929107,
+       "n": 2.9280824742268043,
+       "n_batter": 1.3120618556701031,
+       "n_fielder": 1.6160206185567012,
+       "lost_vs_opt": 0.31386583952121105
+      },
+      "tuned_on_all": {
+       "params": {
+        "a_off": -1.0625,
+        "a_def": -1.0,
+        "f_off": 1.0,
+        "f_def": 1.0
+       },
+       "wins": 3.6815816803577146,
+       "share_opt": 0.9205496943139424,
+       "gap_closed": 0.5254413142568787,
+       "n": 3.002360824742268
+      }
+     },
+     "stake_scale_only": {
+      "params": {
+       "a_off": 0.0,
+       "a_def": 0.0,
+       "f_off": 3.5,
+       "f_def": 4.125
+      },
+      "in_sample": {
+       "wins": 3.8146577726744266,
+       "batter": 1.778647969744984,
+       "fielder": 2.036009802929443,
+       "share_opt": 0.9527393447541571,
+       "gap_closed": 0.7192987479636364,
+       "n": 2.3383917525773197,
+       "n_batter": 1.1401237113402063,
+       "n_fielder": 1.1982680412371134,
+       "lost_vs_opt": 0.18922617908863737
+      },
+      "out_of_sample": {
+       "wins": 3.7896556545518534,
+       "batter": 1.769375650082906,
+       "fielder": 2.020280004468948,
+       "share_opt": 0.948653012349428,
+       "gap_closed": 0.6915543871943073,
+       "n": 2.3327628865979384,
+       "n_batter": 1.1469072164948453,
+       "n_fielder": 1.1858556701030927,
+       "lost_vs_opt": 0.20511967975759715
+      },
+      "tuned_on_all": {
+       "params": {
+        "a_off": 0.0,
+        "a_def": 0.0,
+        "f_off": 3.375,
+        "f_def": 3.625
+       },
+       "wins": 3.8049715655470036,
+       "share_opt": 0.9514023361820961,
+       "gap_closed": 0.7097249246247064,
+       "n": 2.3225876288659797
+      }
+     },
+     "both_scale": {
+      "params": {
+       "a_off": 0.0,
+       "a_def": -0.4375,
+       "f_off": 3.5,
+       "f_def": 3.0
+      },
+      "in_sample": {
+       "wins": 3.882021583805145,
+       "batter": 1.7234735718745169,
+       "fielder": 2.158548011930628,
+       "share_opt": 0.9695639610373177,
+       "gap_closed": 0.8192273425027482,
+       "n": 2.540453608247423,
+       "n_batter": 1.0991752577319587,
+       "n_fielder": 1.4412783505154638,
+       "lost_vs_opt": 0.12186236795791894
+      },
+      "out_of_sample": {
+       "wins": 3.8563718098371367,
+       "batter": 1.7172759760310652,
+       "fielder": 2.139095833806072,
+       "share_opt": 0.9653538652640553,
+       "gap_closed": 0.7918777955836322,
+       "n": 2.534824742268041,
+       "n_batter": 1.1055876288659794,
+       "n_fielder": 1.4292371134020618,
+       "lost_vs_opt": 0.13840352447231385
+      },
+      "tuned_on_all": {
+       "params": {
+        "a_off": 0.0625,
+        "a_def": -0.625,
+        "f_off": 3.5,
+        "f_def": 3.125
+       },
+       "wins": 3.8742228861688677,
+       "share_opt": 0.9687180682679587,
+       "gap_closed": 0.8131522304152863,
+       "n": 2.61539175257732
+      }
+     },
+     "stake_linear_only": {
+      "params": {
+       "a_off": 0.0,
+       "a_def": 0.0,
+       "b_off": -1.75,
+       "b_def": -1.0
+      },
+      "in_sample": {
+       "wins": 3.879347769471328,
+       "batter": 1.7902429244536175,
+       "fielder": 2.0891048450177103,
+       "share_opt": 0.9688961558846135,
+       "gap_closed": 0.8152609619795562,
+       "n": 2.4563092783505156,
+       "n_batter": 1.2089690721649484,
+       "n_fielder": 1.2473402061855672,
+       "lost_vs_opt": 0.12453618229173591
+      },
+      "out_of_sample": {
+       "wins": 3.869227616310982,
+       "batter": 1.7774761271297228,
+       "fielder": 2.09175148918126,
+       "share_opt": 0.9685720203286048,
+       "gap_closed": 0.8112095199243817,
+       "n": 2.449360824742268,
+       "n_batter": 1.2102886597938143,
+       "n_fielder": 1.2390721649484535,
+       "lost_vs_opt": 0.1255477179984683
+      },
+      "tuned_on_all": {
+       "params": {
+        "a_off": 0.0,
+        "a_def": 0.0,
+        "b_off": -1.75,
+        "b_def": -1.0
+       },
+       "wins": 3.8742876928911554,
+       "share_opt": 0.9687342726642131,
+       "gap_closed": 0.8132490196840416,
+       "n": 2.452835051546392
+      }
+     },
+     "both_linear": {
+      "params": {
+       "a_off": 0.4375,
+       "a_def": 0.0,
+       "b_off": -2.0,
+       "b_def": -1.0
+      },
+      "in_sample": {
+       "wins": 3.891937683345996,
+       "batter": 1.7668144196180477,
+       "fielder": 2.1251232637279487,
+       "share_opt": 0.9720405811542631,
+       "gap_closed": 0.8339370490023457,
+       "n": 2.391917525773196,
+       "n_batter": 1.123175257731959,
+       "n_fielder": 1.268742268041237,
+       "lost_vs_opt": 0.11194626841706778
+      },
+      "out_of_sample": {
+       "wins": 3.8724676022154068,
+       "batter": 1.7523207703999788,
+       "fielder": 2.1201468318154277,
+       "share_opt": 0.9693830761786292,
+       "gap_closed": 0.816081599672912,
+       "n": 2.3852989690721653,
+       "n_batter": 1.1257113402061856,
+       "n_fielder": 1.2595876288659793,
+       "lost_vs_opt": 0.12230773209404378
+      },
+      "tuned_on_all": {
+       "params": {
+        "a_off": 0.5625,
+        "a_def": 0.0,
+        "b_off": -2.0,
+        "b_def": -1.0
+       },
+       "wins": 3.8827844192124212,
+       "share_opt": 0.9708588102941783,
+       "gap_closed": 0.8259389366929453,
+       "n": 2.359350515463918
+      }
+     }
+    },
+    "benchmarks_in_sample": {
+     "opt_score": {
+      "wins": 4.003883951763064,
+      "n": 2.710226804123711
+     },
+     "stake_0008": {
+      "wins": 3.822226208334811,
+      "n": 2.217484536082474,
+      "share_opt": 0.9546296182364971,
+      "gap_closed": 0.7305258909311608
+     },
+     "lost": 0.674119469421262
+    },
+    "benchmarks_out_of_sample": {
+     "opt_score": {
+      "wins": 3.9947753343094505,
+      "n": 2.7050309278350513
+     },
+     "stake_0008": {
+      "wins": 3.8131821666947183,
+      "n": 2.208226804123712,
+      "share_opt": 0.9545423328177921,
+      "gap_closed": 0.7269320236242305
+     },
+     "lost": 0.6650108519676485
+    },
+    "benchmarks_all": {
+     "opt_score": {
+      "wins": 3.999329643036257,
+      "n": 2.7076288659793817
+     },
+     "stake_0008": {
+      "wins": 3.8177041875147646,
+      "n": 2.212855670103093,
+      "share_opt": 0.9545860252260666,
+      "gap_closed": 0.7287411798231626
+     },
+     "lost": 0.669565160694455
+    }
+   }
+  }
+ },
+ "slopes": {
+  "off_all_full_teams": {
+   "point": 0.08046581279505359,
+   "ci": [
+    0.039747722528250595,
+    0.07687797723685687
+   ],
+   "sd": 0.010390685268248536
+  },
+  "off_all_full_opt": {
+   "point": 0.580711781482298,
+   "ci": [
+    0.5752036765658616,
+    0.6298684367923459
+   ],
+   "sd": 0.015151737941614871
+  },
+  "off_all_count_fe_teams": {
+   "point": 0.07638255715727786,
+   "ci": [
+    0.03717465312804331,
+    0.07330376369651061
+   ],
+   "sd": 0.010022915233804386
+  },
+  "off_all_count_fe_opt": {
+   "point": 0.5599105605934555,
+   "ci": [
+    0.5561211855311843,
+    0.6118764757638013
+   ],
+   "sd": 0.01602660052045041
+  },
+  "off_all_none_teams": {
+   "point": 0.08894294945603284,
+   "ci": [
+    0.055622310314110246,
+    0.08863836408990847
+   ],
+   "sd": 0.009985875190640883
+  },
+  "off_all_none_opt": {
+   "point": 0.5394868094062312,
+   "ci": [
+    0.5296277064339663,
+    0.5923336443618912
+   ],
+   "sd": 0.016147815442861205
+  },
+  "off_high_full_teams": {
+   "point": 0.19290900892392965,
+   "ci": [
+    0.1265321911737941,
+    0.2380060556228143
+   ],
+   "sd": 0.03007178589273142
+  },
+  "off_high_full_opt": {
+   "point": 0.947142045755809,
+   "ci": [
+    0.9321797194693628,
+    0.9675823948030334
+   ],
+   "sd": 0.009637386034316449
+  },
+  "off_high_count_fe_teams": {
+   "point": 0.1888990289067227,
+   "ci": [
+    0.128775309802689,
+    0.23469032756354002
+   ],
+   "sd": 0.028910157127972493
+  },
+  "off_high_count_fe_opt": {
+   "point": 0.9132214574924497,
+   "ci": [
+    0.8955886061227437,
+    0.9392942875049527
+   ],
+   "sd": 0.01184311842527002
+  },
+  "off_high_none_teams": {
+   "point": 0.41923136743368455,
+   "ci": [
+    0.35861191323748576,
+    0.4533274361718853
+   ],
+   "sd": 0.026599278658803207
+  },
+  "off_high_none_opt": {
+   "point": 1.1185779297330845,
+   "ci": [
+    1.0986056787792826,
+    1.1276221541778766
+   ],
+   "sd": 0.007744688930565931
+  },
+  "def_all_full_teams": {
+   "point": 0.04039173501200305,
+   "ci": [
+    0.025966227450950903,
+    0.07821847386457219
+   ],
+   "sd": 0.013582970183541786
+  },
+  "def_all_full_opt": {
+   "point": 0.5927719599054767,
+   "ci": [
+    0.5892482312818474,
+    0.6361669849899363
+   ],
+   "sd": 0.012982538863408125
+  },
+  "def_all_count_fe_teams": {
+   "point": 0.03916842431129454,
+   "ci": [
+    0.023820931959356174,
+    0.07722757381596974
+   ],
+   "sd": 0.0135365727994193
+  },
+  "def_all_count_fe_opt": {
+   "point": 0.5759877182189336,
+   "ci": [
+    0.5712645533643459,
+    0.6201686169915482
+   ],
+   "sd": 0.01352574641689965
+  },
+  "def_all_none_teams": {
+   "point": 0.08575921174766234,
+   "ci": [
+    0.07171524164881754,
+    0.12289445628235547
+   ],
+   "sd": 0.012336429715667653
+  },
+  "def_all_none_opt": {
+   "point": 0.5857640879772542,
+   "ci": [
+    0.5801485048836745,
+    0.635579572679327
+   ],
+   "sd": 0.014110884719276113
+  },
+  "def_high_full_teams": {
+   "point": 0.1853526280637188,
+   "ci": [
+    0.11929093224983832,
+    0.2663745616359503
+   ],
+   "sd": 0.03721934793545155
+  },
+  "def_high_full_opt": {
+   "point": 0.9176860437172039,
+   "ci": [
+    0.9139592947155678,
+    0.941864409712326
+   ],
+   "sd": 0.007833591275900926
+  },
+  "def_high_count_fe_teams": {
+   "point": 0.18804873678875023,
+   "ci": [
+    0.12117014181367537,
+    0.2686016435531875
+   ],
+   "sd": 0.03714490888622858
+  },
+  "def_high_count_fe_opt": {
+   "point": 0.8912445676974434,
+   "ci": [
+    0.8874583060248837,
+    0.9208694309627065
+   ],
+   "sd": 0.009110255022770814
+  },
+  "def_high_none_teams": {
+   "point": 0.5246205749764816,
+   "ci": [
+    0.4525532384375837,
+    0.553264214733934
+   ],
+   "sd": 0.027588179346573174
+  },
+  "def_high_none_opt": {
+   "point": 1.0696982028048614,
+   "ci": [
+    1.0556225336839096,
+    1.0781998635875314
+   ],
+   "sd": 0.006650463480751518
+  },
+  "off_all_full_opt_minus_teams": {
+   "ci": [
+    0.5199140467212755,
+    0.5774632155133719
+   ]
+  },
+  "def_all_full_opt_minus_teams": {
+   "ci": [
+    0.5278630831213988,
+    0.5938804074961318
+   ]
+  }
+ },
+ "decomp": {
+  "intercept_only": {
+   "point": 0.528028995929107,
+   "ci": [
+    0.38183893193758356,
+    0.6055372452419734
+   ],
+   "n": 2.9280824742268043
+  },
+  "stake_linear_only": {
+   "point": 0.8112095199243817,
+   "ci": [
+    0.6810451341622581,
+    0.8669533351094963
+   ],
+   "n": 2.449360824742268
+  },
+  "stake_scale_only": {
+   "point": 0.6915543871943073,
+   "ci": [
+    0.5901974000113795,
+    0.7981987609093221
+   ],
+   "n": 2.3327628865979384
+  },
+  "both_linear": {
+   "point": 0.816081599672912,
+   "ci": [
+    0.7111707367720419,
+    0.8560510135593548
+   ],
+   "n": 2.3852989690721653
+  },
+  "both_scale": {
+   "point": 0.7918777955836322,
+   "ci": [
+    0.6863805893360672,
+    0.8646776940401318
+   ],
+   "n": 2.534824742268041
+  },
+  "stake_minus_intercept": {
+   "ci": [
+    0.17375683167280306,
+    0.3859379005513746
+   ],
+   "share_positive": 1.0
+  }
+ }
+}

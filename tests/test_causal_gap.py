@@ -1,4 +1,4 @@
-"""The exact pitch-chain kernel of src/causal_gap.py (no data needed).
+"""HONZA-100: the exact pitch-chain kernel of src/causal_gap.py (no data needed).
 run: python -m pytest tests"""
 import sys
 from pathlib import Path

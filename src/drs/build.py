@@ -1,7 +1,7 @@
 """Review opportunities with their match state, reviews left and outcome.
 
 Scope: men's DRS matches in the retained-umpire's-call era: Tests, ODIs and T20Is from 1 Oct 2017, IPL from 2018.
-Sample (it used to be "matches with >= 1 recorded review", which selects on the outcome): a match is a DRS
+Sample (HONZA-122; it used to be "matches with >= 1 recorded review", which selects on the outcome): a match is a DRS
 match if it has a recorded review, or if it has none but DRS was in use around it -- another match of the same
 competition, event and season, between the same teams or at the same city, has a recorded review (DRS is set per
 series / tournament and host).  Matches that Cricsheet flags as info.missing = ["reviews"] (review reporting missing)
