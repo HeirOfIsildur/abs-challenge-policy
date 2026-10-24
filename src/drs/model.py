@@ -17,7 +17,7 @@ J(t) = P(X > t, S >= S*) a bivariate normal orthant (corr 1/sqrt(1+s^2)) and q =
   lost    pi_k (q - J(-kappa)), caught: q - J(0)   [const: (1 - rho)(q - J(0))]
 Identified directly: review share, success rate and umpire's-call share in every cell.  As tau moves across cells
 these trace one curve; its shape pins s (see the profile likelihood written to the json).  The free fit uses several
-starts and the 95 % set for s has continuous profile-likelihood endpoints (s_95, root-finding).
+starts and the 95 % set for s has continuous profile-likelihood endpoints (s_95, root-finding; ).
 usage: python src/drs/model.py [fmt|all] [band|const]  ->  results/drs/model_<fmt>[_const].json"""
 import json, sys
 import numpy as np, pandas as pd
@@ -117,7 +117,7 @@ def fit_check(d, P):
     return rows
 
 S_GRID = [0.25, 0.35, 0.5, 0.7, 1.0, 1.4, 2.0, 3.0, 4.0]
-S_MIN, S_MAX = 0.05, 20.0           # bounds of s in fit()
+S_MIN, S_MAX = 0.05, 20.0           # bounds of s in fit
 CHI2_95 = 1.920729410347062         # chi2_1(0.95) / 2
 
 def fit_multi(d, starts, s_fixed=None, mode="band"):

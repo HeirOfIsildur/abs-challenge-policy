@@ -13,7 +13,7 @@ D = (1-rho) dU (wolfram/drs_check.wl).
 Policies on the same draws: opt (DP), stake (p >= d/(g+d), best constant d in match value), conf50 (p >= 0.5),
 obs_rule (fitted revealed thresholds tau(c, wickets)), plus the realised value of the real reviews.
 Value = sum of g over successful reviews, in match value (P(win) / Test expected points) per team-match.
-Additions in the final rebuild:
+additions:
   opt_nx  the DP solved without the extra opportunity after a successful review (an overturn moves on to w+1 as the
           replay on the recorded stream does): U(w,c) = a_w E max{U(w+1,c), p g + U(w+1,c) - l dU} + b_w U(w+1,c),
           review iff p g >= l dU.  DP and evaluation then share one process; reported next to opt (key opt_nx).
@@ -41,9 +41,11 @@ def draw(d, P, rng):
     mu = np.array(P["mu"]); s = P["s"]
     kind = np.where(d.kind.values == "lbw", 0, np.where(d.kind.values == "caught", 1, -1))
     unk = kind < 0
-    if unk.any():   # kind of an overturned decision, from its posterior given an overturn at the mean threshold
-        tau = np.full(1, np.mean(P["tau"]))
-        pl = P["pi_lbw"] * probs(tau, mu[0], s)[1][0]; pc = (1 - P["pi_lbw"]) * probs(tau, mu[1], s)[1][0]
+    if unk.any():   # kind of an overturned decision, from its posterior given an overturn
+        # at the row's own threshold tau(reviews left, wickets) -- the cell of the fitted
+        # likelihood (model.nll mixes the kinds of a success cell by cell) -- not at the mean of the nine thresholds
+        tau = np.asarray(P["tau"], float)[cells(d)[unk]]
+        pl = P["pi_lbw"] * probs(tau, mu[0], s)[1]; pc = (1 - P["pi_lbw"]) * probs(tau, mu[1], s)[1]
         kind[unk] = (rng.random(unk.sum()) > pl / (pl + pc)).astype(int)
     m = mu[kind]
     X = m + rng.standard_normal(len(d)); S = X + s * rng.standard_normal(len(d))

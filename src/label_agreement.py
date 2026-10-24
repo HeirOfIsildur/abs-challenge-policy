@@ -1,4 +1,4 @@
-"""How often would the ABS label of an UNCHALLENGED pitch change with the tracking source?
+"""how often would the ABS label of an UNCHALLENGED pitch change with the tracking source?
 The 99.90 % rule reproduction is measured on challenged pitches, where the ruling is observed. For every called pitch
 the Stats API live feed carries its own coordinates and zone limits (build_ext.py mlb2026feed, projected to the
 plate midpoint); a pitch whose ABS label differs between Statcast and the feed has no well-defined known truth.

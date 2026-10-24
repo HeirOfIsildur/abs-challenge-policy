@@ -1,4 +1,4 @@
-"""Known-truth recovery of the DRS selection model (independent audit, item 12).
+"""Known-truth recovery of the DRS selection model (audit, item 12).
 Simulate outcome counts from the fitted model on the real opportunity set (same cells, same kinds of non-overturned
 decisions drawn from the fitted pi_lbw), refit with fit_full (profile in s + free fit), and report the recovered s,
 kappa, mu and how often the 95 % LR set (continuous profile endpoints) covers the truth.  Run for the band model (main) and, as a contrast, the

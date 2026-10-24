@@ -1,6 +1,6 @@
-"""Coverage of the refit-bootstrap interval for the wins lost.
+"""coverage of the refit-bootstrap interval for the wins lost.
 
-Parametric simulation from the fitted main model (kappa_sr_region_g) on the real 2026 call stream. In season s every
+Parametric simulation from the fitted main model (kappa_sr_region_g since ) on the real 2026 call stream. In season s every
 called pitch keeps its tracked location; the ruling is W = 1{w > 0} flipped with the fitted mislabel rate pi, the signal
 is s = w + sr e, and the team challenges iff s > kappa(x) with the challenges it holds in that simulated season (start
 2, -1 per failure, extra-inning top-up; `left` in the design follows the simulated count). The simulated behaviour is
@@ -66,7 +66,7 @@ def rule_inputs(m, th, spec):
     home = np.where(m.side == "off", ~m.top, m.top).astype(bool)
     return dict(w=a2.w.values, sr=a2.sr.values, pi=float(a2.pi.values[0]), kap1=a1.kappa.values, kap2=a2.kappa.values,
                 home=home, gidx=m.game_pk.astype("category").cat.codes.values.astype(np.int64),
-                new_extra=sim.extra_starts(m), elig=sim.opportunity_mask(m))   # The policies' opportunity set
+                new_extra=sim.extra_starts(m), elig=sim.opportunity_mask(m))   # the policies' opportunity set
 
 
 def season(m, ri, seed):

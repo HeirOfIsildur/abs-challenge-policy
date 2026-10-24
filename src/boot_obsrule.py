@@ -1,4 +1,4 @@
-"""Re-evaluate the simulated behavioural rule (obs_rule) in every refit-bootstrap replicate after the
+"""re-evaluate the simulated behavioural rule (obs_rule) in every refit-bootstrap replicate after the
 per-count kappa fix (sim.kappa_by_count), without redoing the refits and the DPs, which the fix does not touch.
 
 Each replicate b repeats headline.one exactly: the same game resample (final_ci.resample, seed 1000 + b), the stored

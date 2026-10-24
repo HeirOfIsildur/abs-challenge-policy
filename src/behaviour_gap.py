@@ -1,4 +1,4 @@
-"""Why does the fitted behavioural rule, simulated, earn less than teams realised, and
+"""why does the fitted behavioural rule, simulated, earn less than teams realised, and
 does that misfit touch the headline (optimum minus realised play)?
 (1) By stake quintile and side: observed vs model-expected challenges, overturns and value (sum of g over overturns),
     the expectation taken pitch by pitch under the main model at the observed challenges left.
@@ -13,7 +13,7 @@ import lik, sim
 from final_ci import spec_of
 from headline import MAIN, evaluate_all, spec_variant, summarise
 
-FLEX = "kappa_sr_region"          # The main criterion is now piecewise in log g; compare with the linear one
+FLEX = "kappa_sr_region"          # the main criterion is now piecewise in log g; compare with the linear one
 
 if __name__ == "__main__":
     R = int(sys.argv[1]) if len(sys.argv) > 1 else 10

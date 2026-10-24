@@ -1,4 +1,4 @@
-"""The simulated perception noise follows the fitted law (unit variance), as in lik.cdf_unit."""
+"""the simulated perception noise follows the fitted law (unit variance), as in lik.cdf_unit."""
 import sys
 from pathlib import Path
 import numpy as np

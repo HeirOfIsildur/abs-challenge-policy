@@ -3,16 +3,16 @@
  "variant": "kappa_sr_region_g",
  "opt": {
   "off": {
-   "n": 106209,
-   "slope_log_g": 0.5812447005810928,
-   "slope_log_g_score_controls": 0.8324449741580768,
-   "mean_pstar": 0.4607606381877016
+   "n": 106316,
+   "slope_log_g": 0.5764140764586018,
+   "slope_log_g_score_controls": 0.8300724757092928,
+   "mean_pstar": 0.4602862126572993
   },
   "def": {
-   "n": 237325,
-   "slope_log_g": 0.5966481941746113,
-   "slope_log_g_score_controls": 0.8625481162568153,
-   "mean_pstar": 0.4263922671148387
+   "n": 237540,
+   "slope_log_g": 0.5900367579510993,
+   "slope_log_g_score_controls": 0.8580810962534683,
+   "mean_pstar": 0.42591916925771817
   }
  }
 }

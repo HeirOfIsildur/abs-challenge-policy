@@ -1,5 +1,5 @@
-"""Numbers and tables of the Supplementary Material, read from results/ (and the committed audit/*.json of
-the independent audit). Called by make_numbers.py, which owns the macro table: every macro here starts with S and every table is
+"""numbers and tables of the Supplementary Material, read from results/ (including the
+). Called by make_numbers.py, which owns the macro table: every macro here starts with S and every table is
 written to paper/generated/tab_s_*.tex. Nothing is typed by hand."""
 import json, math, os, re
 from fractions import Fraction
@@ -7,8 +7,8 @@ from fractions import Fraction
 
 def run(m, R, OUT):
     J = lambda f: json.load(open(os.path.join(R, f)))
-    A = lambda f: json.load(open(os.path.join("audit", f)))
-    from make_numbers import neg                    # Real minus signs, no "-0.00"
+    A = lambda f: json.load(open(os.path.join("results", f)))
+    from make_numbers import neg                    # real minus signs, no "-0.00"
     f1, f2, f3 = (lambda x: neg(f"{x:.1f}")), (lambda x: neg(f"{x:.2f}")), (lambda x: neg(f"{x:.3f}"))
     f4 = lambda x: neg(f"{x:.4f}")
     pct = lambda x, d=1: f"{100 * x:.{d}f}"
@@ -87,7 +87,7 @@ def run(m, R, OUT):
          small(D["D4_integral_minus_closed_form_maxabs"])),
         ("check.wl", "Gaussian convolution of tracking and perception noise (symbolic and 30-digit)",
          allt(C, ["C_conv_symbolic_density"]) + "; " + small(C["C_conv_maxabs"])),
-        ("identification.wl", "I1, I3: in the superseded smooth-truth model only $(\\sigma_m^2+\\sigma_r^2)^{1/2}$ enters the challenge curve",
+        ("identification.wl", "I1, I3: in the smooth-truth model only $(\\sigma_m^2+\\sigma_r^2)^{1/2}$ enters the challenge curve",
          zero(I["I1_sr_dPdsm_minus_sm_dPdsr"]) + f"; rank {I['I3_batter_rank_challenge_only']} of 3"),
         ("proofs.wl", "T1a: Lemma~\\ref{lem:phi} for any law (ForAll over the reals)",
          allt(p, ["T1a_phi_nonincreasing", "T1a_psi_nondecreasing", "T1a_phi_slope_in_[-1,0]"])),
@@ -97,7 +97,7 @@ def run(m, R, OUT):
         ("proofs.wl", "T1d: concavity fails for a law that depends on $c$", allt(p, ["T1d_concavity_fails"])),
         ("proofs.wl", "T2a: $d\\varphi(d)\\to g^2h/2$ and $d^\\alpha\\varphi(d)\\to g^{1+\\alpha}/(1+\\alpha)$",
          "True" if p["T2a_lim_d_phi_generic_density"] == "(g^2*h)/2" and p["T2a_lim_d^a_phi"] == "g^(1 + aa)/(1 + aa)" else FAIL),
-        ("proofs.wl", "T2b: square-increment identity~(\\Mref{eq:sqinc})", zero(p["T2b_square_increment"])),
+        ("proofs.wl", "T2b: square-increment identity~\\eqref{eq:sqinc}", zero(p["T2b_square_increment"])),
         ("proofs.wl", "T2d: exact constants $K_1=9/8$, $K_2=83/144$",
          "True" if p["T2d_K1=lim d phi"] == p["T2d_E[h g^2]/2"] and p["T2d_K2=lim d^2 phi"] == p["T2d_E[g^3]/3"] else FAIL),
         ("proofs.wl", "T2e: $k_2=(\\sqrt5-1)/2$; SA drift decreasing with root $k_c^2$",
@@ -105,9 +105,9 @@ def run(m, R, OUT):
         ("proofs.wl", "T2f: consumption step $x\\le s,\\ Y\\le s\\Rightarrow x+\\E(Y-x)^+\\le s$", allt(p, ["T2f_consumption_bound_step"])),
         ("proofs.wl", "T3a: per-state regret on both sides of $D$; crude bound",
          "True" if p["T3a_regret_closed_form_both_sides"] == "{True, True}" and p["T3a_g^2/((g+D)(g+de)^2) <= 1/(4 de)"] == "True" else FAIL),
-        ("proofs.wl", "T3b: regret identity in the stylized game", f"gap {sci(ri[0] - ri[1])}"),
-        ("supplement.wl", "Substitution and domination bounds in the proof of Theorem~\\Mref{thm:sqrt}", allt(chk["sup"], [k for k in chk["sup"] if k.startswith(("S1", "S2"))])),
-        ("supplement.wl", "Bound (ii) of Theorem~\\Mref{thm:flat}; crude bound (iii)", allt(chk["sup"], [k for k in chk["sup"] if k.startswith(("S3", "S5"))])),
+        ("proofs.wl", "T3b: regret identity in the stylised game", f"gap {sci(ri[0] - ri[1])}"),
+        ("supplement.wl", "Substitution and domination bounds in the proof of Theorem~\\ref{thm:sqrtS}", allt(chk["sup"], [k for k in chk["sup"] if k.startswith(("S1", "S2"))])),
+        ("supplement.wl", "Bound (ii) of Theorem~\\ref{thm:flatS}; crude bound (iii)", allt(chk["sup"], [k for k in chk["sup"] if k.startswith(("S3", "S5"))])),
         ("supplement.wl", "Mean-value step for the rate $t^{1/(1+\\alpha)}$", allt(chk["sup"], [k for k in chk["sup"] if k.startswith("S4")])),
         ("supplement.wl", "Theorem~\\ref{thm:rules}(c): bound $\\varphi(L)\\ge g_0/2\\cdot\\Prob(\\cdot)$; counterexample without $g_0$",
          allt(chk["sup"], [k for k in chk["sup"] if k.startswith("S6") and k != "S6a_Delta_2000"])),
@@ -120,6 +120,12 @@ def run(m, R, OUT):
         ("drs\\_audit.wl", "DRS three-way likelihood and posterior loss probability at the Test fit",
          f"max.\\ error {sci(max(abs(float(chk['drsaudit'][k])) for k in ('success_diff', 'uc_diff', 'lost_diff', 'l_diff')))}"),
     ]
+    iv = J("intervention-check.json")                      # the intervention model (wolfram/intervention.wl)
+    S += [("intervention.wl", "Behavioural noise $\\sqrt\\rho\\,\\sigma_r\\varepsilon_1+\\sqrt{1-\\rho}\\,\\sigma_r\\varepsilon_2\\sim N(0,\\sigma_r^2)$; "
+                                  "$\\partial\\Prob(\\text{challenge}\\mid w)/\\partial\\rho=0$",
+           "True" if iv["convolution_is_N0sr"] == "True" and iv["dPchallenge_drho"] == "0" else "False"),
+          ("intervention.wl", f"Value of the calibrated cutoff decision falls with the signal noise ({iv['grid_points']} grid points)",
+           "True" if iv["value_decreasing_in_noise_on_grid"] else "False")]
     table("checks", "lp{5.9cm}l", ["Script & Claim & Outcome \\\\"], [f"\\texttt{{{a}}} & {b} & {c} \\\\" for a, b, c in S])
     m("SNChecks", str(len(S))); m("SChecksFailed", str(sum(FAIL in c for _, _, c in S)))
 
@@ -188,7 +194,7 @@ def run(m, R, OUT):
     m("SNoLocation", str(dc["challenges"] - dc["called_challenged"]))
 
     # ------------------------------------------------------------------ S4 perception model
-    pv = J("perception_variants.json"); h = J("headline.json"); base = pv["normal"]; main = pv["kappa_sr_region_g"]   # main model
+    pv = J("perception_variants.json"); h = J("headline.json"); base = pv["normal"]; main = pv["kappa_sr_region_g"]   # main
     names = [("sm_edge", "Smooth truth by edge, no mislabel"), ("sm_region", "Smooth truth by region + mislabel"),
              ("normal", "Baseline: deterministic truth + mislabel"), ("logistic", "Logistic $\\varepsilon$"),
              ("t10", "$t_{10}$ $\\varepsilon$"), ("t5", "$t_{5}$ $\\varepsilon$"), ("t3", "$t_{3}$ $\\varepsilon$"),
@@ -196,13 +202,19 @@ def run(m, R, OUT):
              ("sr_region_slope", "$\\sigma_r$ by region + slope"), ("kappa_region", "$\\kappa$ by region"),
              ("kappa_sr_region", "$\\kappa$ and $\\sigma_r$ by region, $\\kappa$ linear in $\\log g$"), ("kappa_sr_region_slope", "Same + $\\sigma_r$ slope"),
              ("linear_lapse", "Same + lapse rate"),
-             ("kappa_sr_region_g", "\\textbf{Same, $\\kappa$ piecewise linear in $\\log g$ (main)}"),
-             ("main_glow", "Main + low-stake hinge in $\\kappa$"), ("main_sr_g", "Main + $\\sigma_r$ varying with $\\log g$"),
-             ("main_logistic", "Main, logistic $\\varepsilon$"), ("main_t10", "Main, $t_{10}$ $\\varepsilon$"),
-             ("main_t5", "Main, $t_{5}$ $\\varepsilon$"), ("main_t3", "Main, $t_{3}$ $\\varepsilon$"),
-             ("main_lapse", "Main + lapse rate"), ("re", "Main + player random effects"),
-             ("re_lapse", "Main + player effects + lapse rate")]
-    lapse_lost = J("lapse_wins.json")["lost"]            # Wins lost of the lapse model (R = 20)
+             ("kappa_sr_region_g", "\\textbf{Same, $\\kappa$ piecewise linear in $\\log g$ (comparator)}"),
+             ("main_glow", "Comparator + low-stake hinge in $\\kappa$"), ("main_sr_g", "Comparator + $\\sigma_r$ varying with $\\log g$"),
+             ("main_logistic", "Comparator, logistic $\\varepsilon$"), ("main_t10", "Comparator, $t_{10}$ $\\varepsilon$"),
+             ("main_t5", "Comparator, $t_{5}$ $\\varepsilon$"), ("main_t3", "Comparator, $t_{3}$ $\\varepsilon$"),
+             ("main_lapse", "Comparator + lapse rate"), ("main_time", "Comparator, second-half shifts in $\\kappa$, $\\sigma_r$"),
+             ("main_time_lapse", "Same + lapse rate"), ("re", "Comparator + player effects ($5\\times5$ nodes)"),
+             ("re_gh11", "Comparator + player effects ($11\\times11$)"), ("re_lapse", "Comparator + player effects + lapse ($5\\times5$)"),
+             ("re_lapse_gh11", "Comparator + player effects + lapse ($11\\times11$, primary)"),
+             ("main_state", "Comparator + game-state terms in $\\kappa$"),
+             ("re_lapse_state_gh11", "Primary + game-state terms in $\\kappa$")]
+    lw = J("lapse_wins.json")
+    # lapse models at the primary intervention (lapses kept, ell = 0) in both columns
+    lapse_lost = lw["opt_score_lapsed"]["wins"] - lw["observed"]["wins"] if "opt_score_lapsed" in lw else lw["lost"]
     rows = []
     for k, nm in names:
         if k not in pv:
@@ -211,13 +223,13 @@ def run(m, R, OUT):
         pi = q["params"].get("contam_pi")
         rows.append(f"{nm} & {q['k']} & ${base['nll'] - q['nll']:+.1f}$ & ${q['bic'] - main['bic']:+.0f}$ & "
                     f"{'---' if pi is None else pct(pi, 2)} & {f2(q['params']['off_sr'])} & {f2(q['params']['def_sr'])} & "
-                    f"{f2(ms['lost']) if 'lost' in ms else '---'} & {f2(ms['lost_pooled_dp']) if 'lost_pooled_dp' in ms else '---'} \\\\")
+                    f"{f2(ms.get('lost_kept', ms.get('lost'))) if 'lost' in ms else '---'} & {f2(ms['lost_pooled_dp']) if 'lost_pooled_dp' in ms else '---'} \\\\")
     table("variants", "lrrrrrrrr", ["Model & $k$ & $\\Delta\\ell$ & $\\Delta$BIC & $\\pi$ (\\%) & \\multicolumn{2}{c}{$\\sigma_r$ (in)} & \\multicolumn{2}{c}{Wins lost} \\\\",
-                                    "& & & & & batter & catcher & score DP & pooled DP \\\\"], rows)
-    P = main["params"]; RE = pv["re"]["params"]
+                                    "& & & & & batter & catcher & score DP & score-free DP \\\\"], rows)
+    P = main["params"]; RE = pv["re_lapse_gh11"]["params"]          # the co-primary model
     cov = ["intercept", "$\\log g$", "one challenge left", "inning$/9$", "two strikes", "three balls"]
     rows = [f"$\\kappa$: {c} & {f2(P['off_beta'][i])} & {f2(P['def_beta'][i])} & {f2(RE['off_beta'][i])} & {f2(RE['def_beta'][i])} \\\\" for i, c in enumerate(cov)]
-    for kn in ("-5.0", "-4.0", "-3.2"):               # Hinges of the piecewise-linear criterion in log g
+    for kn in ("-5.0", "-4.0", "-3.2"):               # hinges of the piecewise-linear criterion in log g
         rows.append(f"$\\kappa$: $(\\log g {'+' if True else ''}{-float(kn):g})_+$ & {f2(P['off_kappa_logg_hinges'][kn])} & {f2(P['def_kappa_logg_hinges'][kn])} & "
                     f"{f2(RE['off_kappa_logg_hinges'][kn])} & {f2(RE['def_kappa_logg_hinges'][kn])} \\\\")
     for r, nm in (("top", "top"), ("arm", "inside"), ("glove", "outside")):
@@ -231,7 +243,8 @@ def run(m, R, OUT):
     rows.append(f"SD of player $\\kappa_i$ (in) & --- & --- & {f2(RE['off_re']['sd_kappa'])} & {f2(RE['def_re']['sd_kappa'])} \\\\")
     rows.append(f"SD of player $\\log\\sigma_{{r,i}}$ & --- & --- & {f2(RE['off_re']['sd_logsr'])} & {f2(RE['def_re']['sd_logsr'])} \\\\")
     rows.append(f"Correlation of player effects & --- & --- & {f2(RE['off_re']['rho'])} & {f2(RE['def_re']['rho'])} \\\\")
-    table("params", "lrrrr", ["& \\multicolumn{2}{c}{Main model} & \\multicolumn{2}{c}{Random effects} \\\\",
+    rows.append(f"Lapse rate $\\lambda$ (\\%) & --- & --- & {pct(RE['off_lapse'], 1)} & {pct(RE['def_lapse'], 1)} \\\\")
+    table("params", "lrrrr", ["& \\multicolumn{2}{c}{Comparator} & \\multicolumn{2}{c}{Player effects + lapse} \\\\",
                               "Parameter & batter & catcher & batter & catcher \\\\"], rows)
     cal = main["calibration"]
     for side, nm in (("off", "Batter"), ("def", "Catcher")):
@@ -277,8 +290,8 @@ def run(m, R, OUT):
         q = br[k]; x = float(k); pb, pc = prof("off", x), prof("def", x)
         rows.append(f"{x:.1f} & {f2(q['opt'])} & ${q['lost']:+.2f}$ & ${q['lost_pooled_dp']:+.2f}$ & "
                     f"{'---' if pb is None else f'{pb:.1f}'} & {'---' if pc is None else f'{pc:.1f}'} \\\\")
-    table("breakeven", "rrrrrr", ["$\\sigma_r$ / estimate & Optimum & \\multicolumn{2}{c}{Wins lost} & \\multicolumn{2}{c}{Profile $-\\Delta\\ell$ (baseline model)} \\\\",
-                                  "& & score DP & pooled DP & batter & catcher \\\\"], rows)
+    table("breakeven", "rrrrrr", ["$\\sigma_r$ / estimate & Benchmark & \\multicolumn{2}{c}{Wins lost} & \\multicolumn{2}{c}{Profile $-\\Delta\\ell$ (baseline model)} \\\\",
+                                  "& & score DP & score-free DP & batter & catcher \\\\"], rows)
     m("SObservedWins", f2(next(iter(br.values()))["observed"]))
     fcj = J("feed_check.json")
     m("SFeedMainSrBatter", f2(fcj["kappa_sr_region_g"]["params"]["off_sr"])); m("SFeedMainSrCatcher", f2(fcj["kappa_sr_region_g"]["params"]["def_sr"]))
@@ -289,7 +302,7 @@ def run(m, R, OUT):
 
     # ------------------------------------------------------------------ S5 policy evaluation
     c = J("causal.json"); gb = h["causal"]["game_bootstrap"]
-    lab = {"opt_score": "Optimum (score-aware DP)", "runs_dp": "Runs-objective rule", "opt": "Pooled DP", "stake_0.008": "One-line rule, $\\delta=0.008$",
+    lab = {"opt_score": "Benchmark (score-aware DP)", "runs_dp": "Runs-objective rule", "opt": "Score-free DP", "stake_0.008": "One-line rule, $\\delta=0.008$",
            "stake_0.01": "One-line rule, $\\delta=0.01$", "card_pub": "48-cell card, published", "card_refit": "48-cell card, refit",
            "obs_rule": "Fitted behavioural rule", "savant": "Fixed 0.2-run rule"}
     rows = []
@@ -307,33 +320,16 @@ def run(m, R, OUT):
     cw = [q["calib_winB_minus_engine"] for q in c["point"].values() if "calib_winB_minus_engine" in q]
     m("SCalibWinBLo", f3(min(cw))); m("SCalibWinBHi", f3(max(cw)))
     Pol = {q["policy"]: q for q in h["policies"]}
-    order = ["opt_score", "runs_dp", "opt", "stake_0.008", "stake_0.01", "card_pub", "card_refit", "observed", "obs_rule", "savant"]
-    lab["observed"] = "Observed 2026 (realised)"
-    rows = [f"{lab[k]} & {f2(Pol[k]['batter'])} & {f2(Pol[k]['fielder'])} & {f2(Pol[k]['challenges'])} {ci(Pol[k]['challenges_ci'])} \\\\" for k in order]
+    order = ["bench", "runs_dp", "opt", "stake_0.008", "stake_0.01", "card_pub", "card_refit", "observed", "obs_rule", "savant"]
+    lab["observed"] = "Observed 2026 (realised)"; lab["bench"] = "Benchmark"
+    rows = [f"{lab[k]} & {f2(Pol[k]['batter'])} & {f2(Pol[k]['fielder'])} & {f2(Pol[k]['n'])} {ci(Pol[k]['n_ci'])} \\\\" for k in order]
     table("roles", "lrrc", ["Policy & Wins, batters & Wins, fielding side & Challenges per team-game \\\\"], rows)
     fb = J("flat_bound.json")
     rows = [f"{r['delta']:.3f} & {pct(r['vdelta'] / r['vstar'])} & {f1(r['loss_pct'])} & {f1(r['local_pct'])} & {f1(r['bound_pct'])} & {sci(r['identity_gap'])} \\\\"
             for r in fb["table"] if round(r["delta"], 3) in (0.004, 0.005, 0.006, 0.007, 0.008, 0.009, 0.01, 0.012, 0.015, 0.02)]
     table("flat", "rrrrrr", ["$\\delta$ & $V^\\delta/V^\\star$ (\\%) & Loss (\\%) & Local approx.\\ (\\%) & Bound (ii) (\\%) & Identity gap \\\\"], rows)
     m("SFlatR", str(fb["R"]))
-    hb = J("headline_boot.json")
-    ok = [r for r in hb["rows"] if r.get("ok")]
-    lost = sorted(r["summary"]["opt_score"]["wins"] - r["summary"]["observed"]["wins"] for r in ok)
-    n = len(lost); mu = sum(lost) / n; sd = (sum((x - mu) ** 2 for x in lost) / (n - 1)) ** 0.5
-    qt = lambda a: lost[min(n - 1, max(0, int(round(a * (n - 1)))))]
-    pt0 = h["wins_lost"]["point"]
-    m("SBootN", str(n)); m("SBootR", str(hb["R"])); m("SBootSD", f3(sd))
-    m("SBootBasic", ci([2 * pt0 - qt(0.975), 2 * pt0 - qt(0.025)]))
-    # One source for the per-draw Monte Carlo SD, the point estimate's R draws in headline.json (the audited
-    # audit/mc_error.json value predates the R = 40 point estimate)
-    mc = h["monte_carlo"]
-    m("SMCSD", f3(mc["lost_sd_per_draw"])); m("SMCN", str(mc["point_R"]))
-    m("SMCShare", f3(mc["lost_sd_per_draw"] / math.sqrt(hb["R"])))
-    m("SBootBRTwo", str(mc["boot_R2"]["B"]))
-    sel = {}
-    for r in ok:
-        sel[r["summary"]["best_stake"]] = sel.get(r["summary"]["best_stake"], 0) + 1
-    m("SBootSelect", ", ".join(f"$\\delta={k.split('_')[1]}$ in {v_}" for k, v_ in sorted(sel.items(), key=lambda kv: -kv[1])))
+    # the engine-fixed bootstrap S-macros (SBoot*, SMC*) are gone; the joint bootstrap is in make_numbers
     cf = A("crossfit_calibration.json")
     d_opt = [r["cross_fit"]["opt_score"] - r["in_sample"]["opt_score"] for r in cf["rows"]]
     d_rule = [r["cross_fit"]["stake_0008"] - r["in_sample"]["stake_0008"] for r in cf["rows"]]
@@ -376,15 +372,15 @@ def run(m, R, OUT):
     shares = [sum(r["s"] > 1 for r in idd[k]["reps"]) / len(idd[k]["reps"]) for k in F]
     m("SDRSOverOneLo", pct(min(shares), 0)); m("SDRSOverOneHi", pct(max(shares), 0)); m("SDRSRecovR", str(idd["Test"]["R"]))
     per = lambda k, key: d[k]["per100"][key]
-    rows = [rowf("Optimum", lambda k: f"{f2(per(k, 'opt')[0])} {ci(per(k, 'opt')[1])}"),
+    rows = [rowf("Benchmark", lambda k: f"{f2(per(k, 'opt')[0])} {ci(per(k, 'opt')[1])}"),
             rowf("One-line rule", lambda k: f"{f2(per(k, 'stake')[0])} ($\\delta={per(k, 'best_delta')}$)"),
-            rowf("\\quad share of optimum (\\%)", lambda k: f"{pct(per(k, 'stake_share')[0])} {ci([100 * x for x in per(k, 'stake_share')[1]], f1)}"),
+            rowf("\\quad share of benchmark (\\%)", lambda k: f"{pct(per(k, 'stake_share')[0])} {ci([100 * x for x in per(k, 'stake_share')[1]], f1)}"),
             rowf("Teams' fitted rule (simulated)", lambda k: f2(per(k, "obs_rule")[0])),
             rowf("Observed (realised)", lambda k: f"{f2(per(k, 'observed')[0])} {ci(per(k, 'observed')[1])}"),
             rowf("Review iff $p\\ge0.5$", lambda k: f2(per(k, "conf50"))),
             rowf("Lost vs fitted rule", lambda k: f"{f3(per(k, 'lost_vs_rule')[0])} {ci(per(k, 'lost_vs_rule')[1], f3)}"),
             rowf("Lost vs realised", lambda k: f"{f2(per(k, 'lost_vs_observed')[0])} {ci(per(k, 'lost_vs_observed')[1])}"),
-            rowf("Reviews per team-match: optimum / rule / observed", lambda k: " / ".join(f2(d[k]["reviews_per_team_match"][x]) for x in ("opt", "stake", "observed")))]
+            rowf("Reviews per team-match: benchmark / rule / observed", lambda k: " / ".join(f2(d[k]["reviews_per_team_match"][x]) for x in ("opt", "stake", "observed")))]
     table("drsresults", "lccc", [" & Test & ODI & T20 \\\\"], rows)
     rows = []
     for k in F:

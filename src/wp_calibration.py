@@ -1,6 +1,6 @@
-"""Audit item 4 / 8: WP engine calibration against realised results, home/away sign, and our run stake RV
+"""/ 8: WP engine calibration against realised results, home/away sign, and our run stake RV
 against an RE288 table estimated directly from Statcast delta_run_exp.  Imports the engine only through stakes.Wpa /
-stakes.Vcount (the objects under audit).  usage: python audit/wp_calibration.py -> audit/wp_calibration.json"""
+stakes.Vcount (the objects under audit).  usage: python src/wp_calibration.py -> results/wp_calibration.json"""
 import json, sys
 import numpy as np, pandas as pd
 sys.path.insert(0, "src")
@@ -60,7 +60,7 @@ res["rv_vs_re288"] = dict(cells=int(len(r)), weighted_mean_ours=float(np.average
                          weighted_corr=float(np.corrcoef(r.ours, r.re288_swing)[0, 1]),
                          weighted_mean_abs_diff=float(np.average(np.abs(r.ours - r.re288_swing), weights=w)),
                          ratio_ours_to_re288=float(np.average(r.ours, weights=w) / np.average(r.re288_swing, weights=w)))
-json.dump(res, open("audit/wp_calibration.json", "w"), indent=1)
+json.dump(res, open("results/wp_calibration.json", "w"), indent=1)
 print(json.dumps({k: v for k, v in res.items() if k not in ("by_inning_score", "calibration_by_decile")}, indent=1))
 print(cal.round(3))
 print(t[t.z.abs() > 2.5].round(3))

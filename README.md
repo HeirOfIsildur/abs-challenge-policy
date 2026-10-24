@@ -1,140 +1,81 @@
-# ABS challenges: wins left on the table
+# ABS challenges: an accounting index of wins left on the table
 
-Code, results and manuscript sources for
+Code, results and manuscript sources for Janoušek & Pešta, *ABS challenges: an accounting index of wins left on the
+table* (submitted to the *Annals of Applied Statistics*). The paper asks how much MLB teams leave on the table, in
+expected wins per team-season, by how they used the 2026 automated ball–strike (ABS) challenge system, and what a simple
+decision rule would recover.
 
-> Janoušek, J. and Pešta, M. (2026). *ABS challenges: wins left on the table.* Manuscript submitted to the
-> *Annals of Applied Statistics*.
+Every number, table and figure in `paper/main.tex` and `paper/supplement.tex` is a macro or an `\input` written by
+`paper/make_numbers.py` from the files in `results/`; nothing in the manuscript is typed by hand.
 
-In 2026 Major League Baseball began letting teams challenge ball–strike calls against an automated ball–strike (ABS)
-system, and a team keeps every challenge that succeeds. The paper asks when a team should challenge and what getting it
-wrong costs. The published zone rule, applied to the public 2026 Statcast pitch locations, reproduces 99.95 % of the
-reviewed calls, so the correct call is known for every called pitch, challenged or not. The challenge decision is
-then a binary-response model on all called pitches whose slope measures the challenger's perception noise. Combined
-with a score-aware dynamic program and an evaluation of policies on the real call stream:
-
-- the one-line rule *challenge iff p ≥ 0.008 / (g + 0.008)*, with p the calibrated probability that the call is wrong
-  and g the win-probability stake, attains 95.4 % of the dynamic-programming benchmark;
-- against that benchmark a team leaves **0.69 [0.58, 0.81]** wins per season on the table under the main model, and
-  0.69–0.92 across the models that fit the data at least as well;
-- most of the loss is in *which* pitches teams challenge, not how often.
-
-The same method is applied to cricket's Decision Review System in the Supplementary Material.
-
-Every number, table and figure in the paper is generated from the committed files in `results/`
-(`paper/make_numbers.py`, `paper/supplement_numbers.py`, `paper/make_figures.py`); nothing is typed by hand.
-
-## Data
-
-The raw data are public but are **not redistributed** here (see `DATA.md`):
-
-- MLB Statcast pitch data (Baseball Savant) and MLB Stats API live game feeds, 2026 regular season and postseason,
-  2026 spring training and 2025 Triple-A;
-- Cricsheet ball-by-ball data (men's Tests, ODIs and T20Is since October 2017; IPL since 2018).
-
-The `src/fetch_*.py` and `src/drs/fetch.py` scripts re-download them into `data/`, which is git-ignored.
-`results/manifest.json` records the commit, the pinned package versions and checksums of the raw inputs used for the
-paper, since public feeds can be revised.
-
-## Setup
-
-Python 3.12+ and, for the symbolic checks, Wolfram Mathematica (`wolframscript`). LaTeX (`latexmk`, `pdftotext`) to
-build the manuscript.
-
-```bash
-uv venv && uv pip install -r requirements-lock.txt   # or requirements.txt for unpinned versions
-make test                                            # unit tests (tests/): geometry guardrails, simulator, causal check
-```
-
-## Run order
-
-Run everything from the repository root. Fetch the data first:
-
-```bash
-python src/fetch_statcast.py data 2026        # Savant Statcast, all pitches
-python src/fetch_challenges.py data 2026      # MLB Stats API live feeds, ABS challenge fields
-python src/fetch_ext.py data spring2026 1 S 2026-02-01 2026-03-31   # out-of-sample: 2026 spring training
-python src/fetch_ext.py data aaa2025 11 R 2025-03-01 2025-10-15     # out-of-sample: 2025 Triple-A
-python src/postseason.py fetch                # 2026 postseason feeds and Statcast
-python src/drs/fetch.py data                  # Cricsheet zips -> data/cricsheet/
-```
-
-`audit/rerun.sh` then rebuilds every result in `results/` in dependency order (several hours on 10 cores; the step
-arguments are the ones used for the paper). The main steps:
-
-```bash
-python src/wp.py                              # count-level win-probability / run-expectancy engine
-python src/build.py data                      # called-pitch table: original call, role, challenges left, ABS-zone distance
-python src/stakes.py                          # g (win-probability swing of a flipped call) and RV (runs)
-python src/truth.py && python src/perception.py   # ABS truth and the selection-corrected perception model
-python src/robust_fit.py                      # all perception / truth variants -> results/perception_variants.json
-python src/headline.py point 40               # all policies at the point estimate, with Monte Carlo SE
-python src/headline.py boot 400 10 5          # game bootstrap with model refits -> results/headline_boot.json
-python src/headline.py noref 150 2 4          # per-player model interval
-python src/joint_boot.py joint 100 4 4        # joint bootstrap (engine + perception from one resample)
-python src/joint_boot.py block 100 4 4        # block bootstrap by home team x month
-python src/wp_boot.py 100 10 3                # engine re-estimated on game resamples
-python src/causal.py 10 1000                  # re-simulation from the first divergence vs path-sum accounting
-python src/headline_report.py                 # -> results/headline.{json,md}
-```
-
-Further checks (all in `audit/rerun.sh`): out-of-sample fits (`src/oos.py`), known-truth recovery (`src/identify.py`),
-threshold structure (`src/refresh_thresholds.py`), the postseason (`src/postseason.py build|analyze`), the geometry
-audit (`src/geometry_audit.py`, `results/geometry_audit.md`) and independent recomputations that do not import `src/`
-(`audit/*.py`). The bootstrap coverage study is run separately: `python src/boot_coverage.py run 50 50 4 6`
-(-> `results/coverage.json`, ~1.3 GB of memory per worker).
-
-Symbolic and exact checks run in Mathematica, each writing a JSON file to `results/`:
-
-```bash
-for f in check proofs identification identification_det headline regret supplement; do
-  wolframscript -file wolfram/$f.wl
-done
-wolframscript -file wolfram/drs_check.wl      # cricket DRS
-```
-
-`theory.md` states the theory (monotone thresholds, √t law, flat-optimum bound, rule comparison) that these files check.
-
-### Cricket DRS (`src/drs/`, outputs in `results/drs/`)
-
-```bash
-python src/drs/parse.py               # ball-level state + reviews
-python src/drs/wp.py                  # WP / expected-points engine per format, stake g of every out decision
-python src/drs/build.py               # review opportunities, reviews left, three-way outcome
-python src/drs/model.py all band      # selection-corrected perception model (umpire's call as a margin band)
-python src/drs/model.py all const     # sensitivity: umpire's call at a constant rate
-python src/drs/dp.py all 10 500       # DP + policy simulation + match bootstrap
-python src/drs/report.py && python src/drs/plots.py
-```
-
-## Manuscript (`paper/`)
-
-IMS `imsart` class (support files from VTeX, `paper/IMSART-LICENSE`).
-
-```bash
-python src/data_counts.py                     # sample sizes and challenges by role
-make -C paper PY=python                       # numbers + tables + figures + main.pdf and supplement.pdf
-make -C paper check PY=python                 # fails on a pending number, an undefined reference, an overfull box or a lint hit
-make check                                    # tests + manuscript check
-```
-
-`make -C paper check` only needs the committed `results/`, not the raw data.
-
-## Layout
+## What is where
 
 | Path | Contents |
 |---|---|
-| `src/` | pipeline (MLB ABS); `src/drs/` cricket DRS |
-| `results/` | every output the paper reads; `headline.json` is the source of the headline numbers |
-| `audit/` | independent recomputations and the full rebuild script `rerun.sh` |
-| `wolfram/` | Mathematica checks of the algebra and identification |
-| `tests/` | unit tests |
-| `paper/` | manuscript and Supplementary Material sources and PDFs |
-| `figures/` | pipeline figures |
+| `src/` | the MLB pipeline: data fetch and build, geometry, WP engine and stakes, decision models (`lik.py`, `robust_fit.py`), simulation and DP (`sim.py`, `dp_score.py`, `policies.py`), the full policy cross-fit (`policy_crossfit.py`), its bootstrap and coverage study (`coverage_pcf.py`), the primary model's recovery study (`recovery_primary.py`), the scoring-engine check (`scoring_bias.py`), the quadrature check (`quadrature_check.py`), robustness checks (`extra_checks.py`: DP monotonicity, far-miss non-challenges, near-edge balance) |
+| `src/drs/` | the exploratory cricket DRS application |
+| `wolfram/` | Mathematica scripts for the exact algebra (identification, the theorems, the intervention model, honest scoring) |
+| `results/` | every output the manuscript reads (JSON, CSV, Markdown reports) |
+| `paper/` | manuscript (`main.tex`, `supplement.tex`, IMS `imsart` class), number and figure generators |
+| `tests/` | geometry and simulation guardrails (`make test`) |
+| `theory.md` | notes on the retained-challenge theory |
+| `rerun.sh` | the full rebuild in dependency order |
 
-## Citation
+Raw data are not redistributed (`DATA.md`): MLB Statcast (Baseball Savant), the MLB Stats API and Cricsheet are public, and the
+`fetch_*` scripts download them into `data/`. `results/manifest.json` records the commit, package versions and checksums
+of the raw inputs, since public feeds can be revised.
 
-See `CITATION.cff`, or cite the paper above.
+## Setup
 
-## License
+```bash
+uv venv && uv pip install -r requirements-lock.txt      # Python 3.13; exact versions used for the paper
+python src/fetch_statcast.py data 2026                   # Statcast, every 2026 pitch
+python src/fetch_challenges.py data 2026                 # Stats API live feeds with the ABS challenge fields
+python src/build.py data                                 # called-pitch table, challenges left, ABS-zone distance
+make test
+```
 
-Code: MIT (`LICENSE`). The `imsart` class files in `paper/` keep their own license (`paper/IMSART-LICENSE`).
+The Mathematica checks need `wolframscript` (the paper used Wolfram 15.0).
+
+## Rebuilding the results
+
+`./rerun.sh <stage>` runs the pipeline in dependency order; `./rerun.sh all` runs everything.
+
+| Stage | What it does | Cost |
+|---|---|---|
+| `fits` | WP engine, stakes, truth and decision models, every model variant | ~1 h |
+| `points` | earlier estimators (stakes-only cross-fit), stakes validation, intervention grid | ~1 h |
+| `pcf` | **the headline**: full policy cross-fit of every model at least as good as the comparator by BIC, with the (ρ, ℓ) grid | ~10 CPU h |
+| `chainA`–`chainF` | bootstraps of the earlier estimator, mechanism, causal re-simulation, out-of-sample and robustness checks | hours each |
+| `chainG` | refit bootstraps of the full policy cross-fit (B = 400; the primary model refits 11 × 11-node likelihoods in every fold) | several hundred CPU h |
+| `chainH` | coverage study of the full policy cross-fit on the 2026 game stream | several hundred CPU h |
+| `report` | Mathematica checks, headline report, manifest, `make -C paper check` | minutes |
+
+The long stages resume from row files in `data/`, which record the configuration they were produced with, and accept
+`[shard/nshard]` arguments so that a cluster can run them in parallel (one row file per shard; the summaries read them
+all). For the paper, `pcf`, `chainG` and `chainH` were run on a Slurm cluster with `OMP_NUM_THREADS=1` and at most 32
+worker processes per node (about 4.5 GB per worker for the player-effects model).
+
+## The estimator in one paragraph
+
+The games are split into K = 5 folds. For each fold, the WP engine and the stakes the policies decide on, the DP's run
+laws, the decision model (and the players' posterior effects), the belief maps and the DP's continuation values are
+learned on the other folds and applied unchanged to the held-out games; every flip and every observed challenge on the
+held-out games is valued by an engine fitted to those games alone (`src/policy_crossfit.py`). The bootstrap repeats
+the whole procedure, refits included, on game resamples with folds drawn over the original games
+(`policy_crossfit.py boot`), and `src/coverage_pcf.py` checks its coverage on simulated seasons that keep the real game
+stream. Point estimates: `results/policy_crossfit.json`; intervals: `results/pcf_boot_<model>.json`; coverage:
+`results/coverage_pcf.json`.
+
+## Manuscript
+
+```bash
+make -C paper PY=$PWD/.venv/bin/python          # numbers, tables, figures, main.pdf and supplement.pdf
+make -C paper check                             # fails on a pending number, an undefined reference, an overfull box or a lint hit
+make -C paper submission                        # single-file main-flat.tex for upload
+```
+
+## Licence and citation
+
+Code: MIT (`LICENSE`). The `imsart` class files in `paper/` are distributed under their own licence
+(`paper/IMSART-LICENSE`). Data sources and their terms: `DATA.md`. How to cite: `CITATION.cff`.

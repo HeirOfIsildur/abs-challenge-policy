@@ -4,14 +4,15 @@ ABS rule (2026): the zone is a 2-D rectangle in the plane through the middle of 
 tip), 17 in wide, between sz_bot = 27 % and sz_top = 53.5 % of the batter's certified height; a pitch is a strike
 when any part of the ball (radius 1.45 in) touches it.
 
-Which y-plane a source reports plate_x / plate_z in (results/geometry_audit.md):
+Which y-plane a source reports plate_x / plate_z in (results/geometry_audit.md, ):
   * Statcast 2026 reports the location already in the ABS plane (the trajectory evaluated at y = 17/24 ft; residual
-    SD 0.035 in). The pre-geometry-fix pipeline treated it as front-of-plate and projected again, lowering every pitch
+    SD 0.035 in). The pre-pipeline treated it as front-of-plate and projected again, lowering every pitch
     by 0.98 in on average; that double projection was the "ABS bottom 1.02 in / top 0.82 in below Statcast" offset.
   * The Stats API live feed (pX / pZ; MLB 2026, Triple-A 2025, spring and postseason 2026) reports the front of the
     plate (y = 17/12 ft), so feed coordinates are projected to the midpoint.
-Raw-coordinate rule on Statcast 2026 reproduces 99.90 % of the 10,551 challenge rulings (99.65 % with the square-corner
-distance used in earlier versions); the projected one about 85 %."""
+Raw-coordinate rule on Statcast 2026 reproduces 99.95 % of the 10,544 correctly joined challenge rulings (5 mismatches;
+99.71 % with the square-corner distance used before 99.90 % of the 10,551 located rulings if the 7 feed-Statcast
+mis-joins are kept -- text update, results/geometry_audit.json); the projected one about 85 %."""
 import numpy as np
 
 PLATE_HALF_WIDTH_FT = 17 / 24
@@ -23,7 +24,7 @@ SZ_TOP_FRAC, SZ_BOT_FRAC = 0.535, 0.27
 
 # THE convention: y-plane (ft) in which each source reports plate_x / plate_z. See results/geometry_audit.md.
 SOURCE_PLANE_Y_FT = {
-    "statcast2026": Y_MID_FT,     # already at the ABS plane -> no projection (geometry fix)
+    "statcast2026": Y_MID_FT,     # already at the ABS plane -> no projection (fix)
     "feed": Y_FRONT_FT,           # Stats API pX / pZ at the front of the plate -> project to the midpoint
 }
 

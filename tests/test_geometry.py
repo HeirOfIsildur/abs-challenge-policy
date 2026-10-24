@@ -50,7 +50,7 @@ def test_signed_distance():
 
 
 def test_corner_contact_is_round():
-    """The ball is round, so at a corner it touches the zone only within R of the corner point."""
+    """the ball is round, so at a corner it touches the zone only within R of the corner point."""
     top, bot = 3.4, 1.7
     hw, R = G.PLATE_HALF_WIDTH_FT, G.BALL_RADIUS_FT
     u = 1 / np.sqrt(2)

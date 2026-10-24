@@ -1,6 +1,6 @@
 {
- "commit": "42ae3c959b233d9840eae7f4053dc9eb1155272d",
- "dirty": true,
+ "commit": "5a6f6aa81ec004683866ef69a5e2319ea07aa9e9",
+ "dirty": false,
  "python": "3.13.11",
  "packages": [
   "certifi==2026.10.18",
@@ -78,65 +78,353 @@
    "modified": "2026-10-20"
   }
  },
+ "cricket_raw_inputs": {
+  "ipl": {
+   "sha256": "51c0524fd68cf5f35305111924c837683ac395109dacbea4f4d0a3d5c54831c1",
+   "files": 1245
+  },
+  "odis": {
+   "sha256": "bd554a22a6378677c7927cc88c837f62adf766578c37ae16ff552959b49efba0",
+   "files": 3215
+  },
+  "t20s": {
+   "sha256": "26037fcc787d898abd019f03210c02ccb7d0dc7363696288df68168edb7ff310",
+   "files": 5812
+  },
+  "tests": {
+   "sha256": "9d0fd5b6e0be37294314b18887e4859549ef5d4cab0a2ddc847a91be738b6db7",
+   "files": 922
+  }
+ },
  "results": {
-  "bar2_boot.json": "2026-10-20 22:09",
-  "behaviour_gap.json": "2026-10-21 06:51",
-  "block_boot.json": "2026-10-21 09:24",
-  "causal.json": "2026-10-21 12:21",
-  "causal_gap.json": "2026-10-21 12:33",
-  "causal_sim.json": "2026-10-21 12:31",
-  "check-run.json": "2026-10-20 22:09",
-  "check.json": "2026-10-21 09:23",
-  "coverage.json": "2026-10-21 23:01",
-  "data_counts.json": "2026-10-21 06:42",
-  "delta_by_remaining.json": "2026-10-20 22:09",
-  "dp_checks.json": "2026-10-21 09:06",
-  "feed_check.json": "2026-10-21 06:47",
-  "feed_counters.json": "2026-10-21 06:42",
-  "final_ci_kappa_sr_region.json": "2026-10-20 22:09",
-  "flat_bound.json": "2026-10-21 08:47",
-  "geometry_audit.json": "2026-10-21 09:32",
-  "headline-check-run.json": "2026-10-20 22:09",
-  "headline-check.json": "2026-10-21 09:24",
-  "headline.json": "2026-10-21 23:01",
-  "headline_boot.json": "2026-10-21 06:05",
-  "headline_boot_R2.json": "2026-10-20 22:09",
-  "headline_noref.json": "2026-10-21 06:43",
-  "headline_variants.json": "2026-10-21 08:43",
-  "identification-check.json": "2026-10-21 09:23",
-  "identification-det-check.json": "2026-10-21 09:23",
-  "identification-det-run.json": "2026-10-20 22:09",
-  "identification-run.json": "2026-10-20 22:09",
-  "identification.json": "2026-10-21 06:44",
-  "isotonic_check.json": "2026-10-21 06:48",
-  "joint.json": "2026-10-20 22:09",
-  "joint_boot.json": "2026-10-21 09:24",
-  "label_agreement.json": "2026-10-21 06:40",
-  "lapse_wins.json": "2026-10-21 08:45",
-  "manifest.json": "2026-10-21 13:02",
-  "mechanism.json": "2026-10-21 09:14",
-  "oos.json": "2026-10-21 06:45",
-  "opt_slope.json": "2026-10-21 08:45",
-  "perception.json": "2026-10-20 22:09",
-  "perception_variants.json": "2026-10-21 02:59",
-  "postseason_preview.json": "2026-10-21 09:11",
-  "proofs-run.json": "2026-10-20 22:09",
-  "proofs.json": "2026-10-21 09:24",
-  "re_quadrature.json": "2026-10-21 03:10",
-  "regret-check.json": "2026-10-21 09:24",
-  "res_flat.json": "2026-10-20 22:09",
-  "res_main.json": "2026-10-20 22:09",
-  "res_naive.json": "2026-10-20 22:09",
-  "res_noextra.json": "2026-10-20 22:09",
-  "res_sr05.json": "2026-10-20 22:09",
-  "res_sr15.json": "2026-10-20 22:09",
-  "sample_flow.json": "2026-10-21 09:25",
-  "sr_breakeven.json": "2026-10-21 09:10",
-  "supplement-check-run.json": "2026-10-20 22:09",
-  "supplement-check.json": "2026-10-21 09:23",
-  "thresholds_score.json": "2026-10-21 06:39",
-  "variant_wins.json": "2026-10-21 06:48",
-  "wp_boot.json": "2026-10-21 09:24"
+  "bar2_boot.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "198daafe191aa59d76ee7cc2caa18c2a923b9522e1167651ef72c8bb84faa3a6"
+  },
+  "behaviour_gap.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "84f9b17444a0bc5771e72c6dc73563a63bc04ff01e89da4b12b102975c037ced"
+  },
+  "block_boot.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "c855e7e7a5631cc0f2b84bf6216ccfe80460eda811ee733ef4947db897cab9ab"
+  },
+  "causal.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "692ad9c9e0075ada17808533849fab6dbd0a5c986789448fd89b003951c19392"
+  },
+  "causal_gap.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "9234103a145948a4b6776782bd004a1baa74cc284531d6f8e516720bca9d1787"
+  },
+  "causal_sim.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "b34c9e79f9d1c2d8486a901cf620b7bfe42990b545d13ba5385fdb4eb276988f"
+  },
+  "check-run.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "a402f4e548108f700ed9d3363b49596cdfcc065151b09c8ac4adb3546ef57a20"
+  },
+  "check.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "4c6a3d93fe589059f84409fc7fb10cacfe3ae6e01ec29d9078cc95dfabf7f52f"
+  },
+  "coverage.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "1f56e867df95484b667db532ebd6164d30e2d9f76c638705e59830a0e29624a3"
+  },
+  "coverage_pcf.json": {
+   "written": "2026-10-24 23:14",
+   "sha256": "8da3477c5f321a0505d383e0136f84677e63a8862d6b8ba0a0e3989b9af503d6"
+  },
+  "coverage_stream.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "4f0d738f8e15479c72cb1144da90e3ffcc4f9bdb7c5c03e75175834bd571d4e0"
+  },
+  "crossfit.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "ef0f3a97401f635fd8504b676833a6b322e1f0191e9bf9c7e3c9433afe2d4a3f"
+  },
+  "crossfit_calibration.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "13b04956d391ff68613a20b6e0ef339f0e191a7e821556ae11c7c44521804f13"
+  },
+  "data_counts.json": {
+   "written": "2026-10-24 23:45",
+   "sha256": "340edff17c95ab571b180b1b33561845cb50cc17cf908577eb47da3dd85f4fb3"
+  },
+  "delta_by_remaining.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "3ac7a8c1a10536dc165cb1c5185bf6b380d79d6f3702b759ddbd731084cdd112"
+  },
+  "dp_checks.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "5c882581562ac6f66b83e968baf1a4e3545141632bac1a8b9634acc983e00246"
+  },
+  "extra_checks.json": {
+   "written": "2026-10-24 17:07",
+   "sha256": "1ddc5d117586089eed26a0c565a14ed908cdf7a9cf0ba7cf47e40a0fca2b050c"
+  },
+  "feed_check.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "181f24cce20705a993f9c9858e09ced6fe59160c7e1da1ba16d7681a81ad8283"
+  },
+  "feed_counters.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "c70d2303ced526646dade965898be2b4b58f7a881c2c37eff3ce47fa4bee1e3a"
+  },
+  "final_ci_kappa_sr_region.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "781d76424bbfd478d8b853ed66dd470aee603b3aba3717a4daf45f7b5f7a911d"
+  },
+  "flat_bound.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "b70f5e9d62738f4f4615059bf654b6363233db968770b9e083e018b4eff3488a"
+  },
+  "geometry_audit.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "c8da7fd63dc2ba54e79ddaffaaba58d97748da65dd62f81ebd347857afacdd8f"
+  },
+  "geometry_current.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "968c90c7c99962aa6f1678f49ebcbc43ebde61ebaf663a6a38f993d2512d492e"
+  },
+  "headline-check-run.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "afbd906ce5c799bf763fb6843428ca377a356378f3b26c8a64a30753a3e3b6a9"
+  },
+  "headline-check.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "db35acb7523a41d3ebf34ecb20d389cb33475607c1b1e4afbd019864e64fbba9"
+  },
+  "headline.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "99aee23098b0a1564ffdfbdf8cd8a8407626f263dee643caf89a4e97f69b9e4f"
+  },
+  "headline_boot_R2.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "cc5fed437de642a561932a39ebb1fb913a72ce55e94779f0dd9370e54c3de556"
+  },
+  "headline_noref.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "71a4d03dbd60fce895bed18e5311b6deb6295a5e442a3f36522e9ead1276683e"
+  },
+  "headline_variants.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "aac602b8136271a4efd9f8f31e2eed86c0f6c30154b2929543be5e52c31e1ccc"
+  },
+  "honest-scoring-check.json": {
+   "written": "2026-10-24 12:13",
+   "sha256": "61cd4b319d7eb900145e462af7041e7a064e815e502bd0964fadc0d4db629dff"
+  },
+  "identification-check.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "c14f6c88c310110c824cfd46eab833a76a80a99728a754a0d513024657e14815"
+  },
+  "identification-det-check.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "9e6bbb7d355761a1381dd6d65eb988f0b294845ee37923bed0e21a7d884b0ea8"
+  },
+  "identification-det-run.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "b84e4e5dae4b185ff8c9594f9b78bf1561d0d4d9f57455321d4904563bd48df2"
+  },
+  "identification-run.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "f86e6ac82fa445cdd87dcff1806a2e8534b49642619fb62feef91edb9d10a3cc"
+  },
+  "identification.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "438e14953fcf7c42b5e86ebbc19e100b9152c7fdcd91eb222adb5aced0ff598f"
+  },
+  "independent.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "1b8424db4e315ad5769258eddcf8faf69997b014192767c8454ab490ea0905d7"
+  },
+  "intervention-check-run.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "c0b341c2ae74de36cb3306d40899da02563b6fa3e102c2fd1dd57f530d872fb3"
+  },
+  "intervention-check.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "23b18e72b064055811c223fc95e567b436d9cd3b9846fe2df397a08ee5f56f22"
+  },
+  "intervention.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "52e2dbaff59c01418c41522925eaac2ba96f33aa018aba3d376f65027f2d321a"
+  },
+  "isotonic_check.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "30c2020ea158d76948a1232787f727ac46a29bf0c4d59018fa1d0f83d212ad47"
+  },
+  "join_audit.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "3a7e1a8b2a829220ed8946b171de5a6b738bbb30843dc792597df69e7985aca5"
+  },
+  "joint.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "af55c2899b0f041ede6d89b6bf0d408ac17153eae0378b4a2f0937fb7393f184"
+  },
+  "joint_boot.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "461a9c8b159151212ee0b2b1011baec156beb34031e70442fd47c40871cbb667"
+  },
+  "joint_boot_R4.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "0be48f7709651e42609f303e770e3d1c3fe0f8b0c1eb00136b4435309d7d123a"
+  },
+  "joint_boot_re_lapse_gh11.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "33a0504f5eec4691c5ccd456fade1c25ab8cc649751ff4fcff6555b0f297e1c2"
+  },
+  "label_agreement.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "844a38323024df6277586677b99fd0e15070be994c9a63dde37431a31f0b3294"
+  },
+  "lapse_wins.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "fc8347f3945d205fe071625a133816dc8418ef7aaa4408295986aab6be1fd8ec"
+  },
+  "manifest.json": {
+   "written": "2026-10-24 23:33",
+   "sha256": "1f457227e79d21aa3720b21c2d34a8342d28ab7f6262d932cf721ae8f7c10deb"
+  },
+  "mechanism.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "ef9773ede98dafb41952d85f46475e191c6d4fc03f3ea7fca412858cb875b48f"
+  },
+  "mechanism_boot.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "9b092c10532ace3b6a3daf6c89228a0b441192ff84428375ddf8415980d6420d"
+  },
+  "oos.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "845361a823504efc755ff86eb96c6fc504ed007f5e1c3a17675da0866e3432ba"
+  },
+  "opt_slope.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "214604ebd7357f4afa1b7aa15862722159fca234cc8af893611231122191f19b"
+  },
+  "pcf_boot_kappa_sr_region_g.json": {
+   "written": "2026-10-24 17:09",
+   "sha256": "1cfd58ad4bd11ef83bd3b3724b1239e106192eaa6c3b13da34bae4b0b8ec87b2"
+  },
+  "pcf_boot_re_lapse_gh11.json": {
+   "written": "2026-10-24 17:13",
+   "sha256": "a1a2988eab4d3e8a5fd92d0e7c44aeb2e72cc2c1a2b5b62d267de3af67cb4d77"
+  },
+  "perception.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "49fded89322fef24f4b948bad01b99c33344a7056bb1a37db5e14ec20e270aff"
+  },
+  "perception_variants.json": {
+   "written": "2026-10-24 11:27",
+   "sha256": "ce4ed3570cd695fe8af4196e8578220c6a0e1bbb434884896c2e81b19acf6c16"
+  },
+  "policy_crossfit.json": {
+   "written": "2026-10-24 23:32",
+   "sha256": "c1d0307b50a1250725142188cf37d1f99da203cf44887d33cb19f9f2c02fee5e"
+  },
+  "postseason_preview.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "fad925f561a0cbf0ff28aca9b501780b97b06173c6b4ee562acad596b36a48d8"
+  },
+  "proofs-run.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "4054d1ace22f4177791b6dd2c709f74c450f674b7dbffc6e26535dbdd4681660"
+  },
+  "proofs.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "6970904662eac1dc985794d70c4d411e1e2b8e5a4f429162fa8df625ee332bf9"
+  },
+  "quadrature_primary.json": {
+   "written": "2026-10-24 23:31",
+   "sha256": "70b19d0adc95d7eae0440ef0cee86a663d03c9078b18191b8b1734575416590f"
+  },
+  "re_calibration.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "48787ce2d96288f7bf8a6fab52180a5b1388482cb44edad425bb94b086689895"
+  },
+  "re_quadrature.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "177ced17dd3fe144a82a03e7f4ef8946f7df05b6b81c838eda2b88443267e715"
+  },
+  "recovery_primary.json": {
+   "written": "2026-10-24 18:56",
+   "sha256": "0476a95ff5b020ca59770ec420bd588f4f0f8f76f5dd73ae5b133bcd4bc1bee9"
+  },
+  "regret-check.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "0d7b2d8c06f08cfdd741bddd3d8c65cfbb5a09f83aefc4a0106af338867a95d1"
+  },
+  "res_flat.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "2fda7d8a2c615e462e2dfbf36993513000b3dc09a8fddc62e826dd420c5bd20f"
+  },
+  "res_main.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "48112221324256a843b520c9d64bbfe9e9dd298ffd9d7251321f16569a90b6df"
+  },
+  "res_naive.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "5a9511b4062f2d41c39ffedaa9ef3a43cbebf6294a0dc7b53c2e9bc0149de7ea"
+  },
+  "res_noextra.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "f7da666e228ac8247fb3ef3b612295e75aa5910bb10f09f049887be5c702e17a"
+  },
+  "res_sr05.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "528265a2168a77704f89620a5beb19cd54d5e913afc176c2043098f30db8fbad"
+  },
+  "res_sr15.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "3a54c53d8271e3ef11bfad278461744c4a3c420179aac2c8b9521a48b736500c"
+  },
+  "robustness_checks.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "f7a90dd99368cfb6ec02a92dcc486359cd50c2976216f011ff5fafc3f2c78a95"
+  },
+  "sample_flow.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "14194abbf6e423991b79e445c6325a8100f5fa7be33e1bffd0fc9d2ffc1c95f3"
+  },
+  "scoring_bias.json": {
+   "written": "2026-10-24 16:59",
+   "sha256": "1e2939deff660496d4f4e8839612f78c097e2311654ff5a74b2263874b6fa6fe"
+  },
+  "sr_breakeven.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "9a20569c9078c75e1d362ce56e04a7267c0cf5f8856a68400587a07c934cca1f"
+  },
+  "stakes_validation.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "ef6e9c29a53b3db31f7c7aa461a13efef861082158612377b31ec5796bf28c1b"
+  },
+  "supplement-check-run.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "e69cd222e05d5372b9ac49a26ef3cc8f5ea5a117c51de997f4874eea8f35b047"
+  },
+  "supplement-check.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "43f8db905a797bbcefe0ccff88e59769ea05d015647e31c96a9be5c43db5eb01"
+  },
+  "thresholds_score.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "640709ffd96b9c8265dde0d4d35533776d90c2c346d1f6e6086b71cbd459545c"
+  },
+  "variant_wins.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "89be52bd25421746540d3ec921085443d6496dbbfd382e68faaeb84aed4c0fee"
+  },
+  "wp_boot.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "f807f46b9a48aaabd30a3cd499aa4dc7a05cff12a890c0d67aaab39952bedcee"
+  },
+  "wp_calibration.json": {
+   "written": "2026-10-24 09:25",
+   "sha256": "eeb769fe55ba4adc4d62c4828a627678c9191418cfba03f268eae0ac95f2c4b8"
+  }
  },
  "note": "raw data are public and not redistributed (src/fetch_*.py re-fetch them; feeds can be revised, so the checksums identify the snapshot used)"
 }

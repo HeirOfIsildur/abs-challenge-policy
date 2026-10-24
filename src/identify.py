@@ -1,10 +1,10 @@
-"""Known-truth recovery.  Simulate challenge decisions and ABS rulings from the fitted baseline
+"""step 4: known-truth recovery.  Simulate challenge decisions and ABS rulings from the fitted baseline
 (region truth + ruling contamination, Gaussian perception) on the real 2026 opportunities (same w, state, stakes,
 eligibility), refit from a deliberately wrong start (sigma_r x 1.5, sigma_m x 2), and compare.  Also two
 misspecified data-generating processes fitted with the baseline model: t5 perception noise, and player-level
 heterogeneity in kappa and log sigma_r (SDs from the random-effects fit).  Plus the profile likelihood of each
 side's sigma_r on the real data.
-The baseline is the deterministic truth (W = 1{w > 0}, mislabel pi), so the recovery is against a known
+the baseline is the deterministic truth (W = 1{w > 0}, mislabel pi), so the recovery is against a known
 truth; an extra misspecified DGP adds 0.3 in of tracking noise between the measured and the ABS location.
 usage: python src/identify.py [R]  -> results/identification.json"""
 import json, sys
@@ -14,7 +14,7 @@ from scipy.optimize import minimize
 sys.path.insert(0, "src")
 import lik
 
-SPEC = lik.spec_of("normal")      # Deterministic truth W = 1{w > 0} + ruling mislabel pi
+SPEC = lik.spec_of("normal")      # deterministic truth W = 1{w > 0} + ruling mislabel pi
 
 
 def simulate(data, th, rng, law="normal", re_sd=None, coord_sd=0.0):

@@ -57,7 +57,7 @@ def extra_starts(m):
 
 def apply_lik(m, variant):
     """row-level truth offset/scale, perception noise and threshold from a lik.py fit.
-    variant: theta (path to .npy), spec (lik spec), optional re (True: per-player effects from data/re_<side>.parquet;
+    variant: theta (path to.npy), spec (lik spec), optional re (True: per-player effects from data/re_<side>.parquet;
     "draw": a fresh draw from each player's EB posterior), theta_override (array, e.g. a bootstrap draw)."""
     import lik
     spec = variant["spec"]
@@ -74,7 +74,7 @@ def apply_lik(m, variant):
     # ruling mislabel rate pi: the ABS ruling disagrees with the tracked truth with probability pi
     m["pi"] = float(1 / (1 + np.exp(-float(P["lpi"])))) if "lpi" in P else 0.0
     X = lik.design(m)
-    # Kappa(x) also at left = 1 and left = 2, so that a simulated team applies the fitted rule with the
+    # kappa(x) also at left = 1 and left = 2, so that a simulated team applies the fitted rule with the
     # challenges it holds in the simulation, not the recorded count (m.kappa keeps the recorded count, for the data)
     Xc = {c: lik.design(m.assign(left=c)) for c in (1, 2)}
     sr = np.zeros(len(m)); kap = np.zeros(len(m)); kapc = {1: np.zeros(len(m)), 2: np.zeros(len(m))}
@@ -90,25 +90,39 @@ def apply_lik(m, variant):
         if "kg" in q: kk += lik.gfeat(m[k]) @ np.asarray(q["kg"])
         if "kgl" in q: kk += lik.glow(m[k]) * float(q["kgl"])                       # low-stake hinge
         if "srg" in q: lsr += float(q["srg"]) * (np.log(np.clip(m.g.values[k], 1e-4, None)) - lik.LG_MID)
+        if "kt" in q or "srt" in q:                                                  # time-varying model
+            TF = lik.tfeat(m[k])
+            if "kt" in q: kk += TF @ np.asarray(q["kt"])
+            if "srt" in q: lsr += float(q["srt"]) * TF[:, 0]
+        if "ks" in q: kk += lik.sfeat(m[k]) @ np.asarray(q["ks"])                  # game-state terms
         if variant.get("re"):
-            tag = variant.get("re_tag", "re")             # Posterior file of this random-effects variant
+            tag = variant.get("re_tag", "re")             # posterior file of this random-effects variant
             post = pd.read_parquet(f"data/re_{side}.parquet" if tag == "re" else f"data/{tag}_{side}.parquet").set_index("player")
             pid = m[lik.PLAYER[side]].values[k]
             a = post.a.reindex(pid).fillna(0).values; b = post.b.reindex(pid).fillna(0).values
             if variant.get("re") == "draw":
-                # One draw per player per replicate from the player's EB posterior (it was one per pitch,
+                # one draw per player per replicate from the player's EB posterior (it was one per pitch,
                 # which averaged the player-effect uncertainty away), with an independent stream for each side
                 rng = np.random.default_rng([variant.get("re_seed", 0), 0 if side == "off" else 1])
                 za = pd.Series(rng.standard_normal(len(post)), index=post.index)
                 zb = pd.Series(rng.standard_normal(len(post)), index=post.index)
-                a = a + za.reindex(pid).fillna(0).values * post.sd_a.reindex(pid).fillna(0).values
-                b = b + zb.reindex(pid).fillna(0).values * post.sd_b.reindex(pid).fillna(0).values
+                if "cov_ab" in post:
+                    # a JOINT draw from the player's bivariate posterior (Cholesky of
+                    # [[sd_a^2, cov], [cov, sd_b^2]]); the independent marginal draws ignored the correlation
+                    sa_, sb_ = post.sd_a.values, post.sd_b.values
+                    r_ = np.clip(post.cov_ab.values / np.maximum(sa_ * sb_, 1e-12), -0.999, 0.999)
+                    ea_ = pd.Series(sa_ * za.values, index=post.index)
+                    eb_ = pd.Series(sb_ * (r_ * za.values + np.sqrt(1 - r_ ** 2) * zb.values), index=post.index)
+                else:
+                    ea_ = za * post.sd_a; eb_ = zb * post.sd_b
+                a = a + ea_.reindex(pid).fillna(0).values
+                b = b + eb_.reindex(pid).fillna(0).values
             kk += a; lsr += b
         sr[k] = np.exp(lsr); kap[k] = kk
         for c in (1, 2):
             kapc[c][k] = kk + shift[c]
     m["sr"] = sr; m["kappa"] = kap; m["kappa1"] = kapc[1]; m["kappa2"] = kapc[2]
-    # The lapse-rate model's behavioural rule challenges with probability (1 - lambda) when
+    # the lapse-rate model's behavioural rule challenges with probability (1 - lambda) when
     # s > kappa; the simulated rule ignored lambda. m.lapse carries lambda by side (0 without a lapse term).
     m["lapse"] = 0.0
     for side in ("off", "def"):
@@ -153,10 +167,13 @@ def law_of(variant):
     return (variant.get("spec") or {}).get("law", "normal") if variant else "normal"
 
 
-def truth_signal(m, rng, law="normal"):
+def truth_signal(m, rng, law="normal", rho=1.0):
+    """truth W and the PLAYER's signal s = w + eta + sqrt(rho) sr e. rho: the share of the fitted decision
+    noise sr^2 that is perceptual, i.e. that a change of decision rule cannot remove; rho = 1 (the primary
+    intervention) is the fitted model's reading, and draws the same random numbers as before."""
     eta = rng.standard_normal(len(m)) * m.sm.values
     W = (m.w.values + eta) > 0
-    s = m.w.values + eta + unit_noise(rng, len(m), law) * m.sr.values
+    s = m.w.values + eta + unit_noise(rng, len(m), law) * m.sr.values * np.sqrt(rho)
     if "pi" in m and m.pi.values.max() > 0:              # ruling mislabel; not seen by the player's signal
         W = W ^ (rng.random(len(m)) < m.pi.values)
     return W, s
@@ -165,20 +182,26 @@ def truth_signal(m, rng, law="normal"):
 N_AUX = 2
 
 
-def draw(m, rng, variant):
+def draw(m, rng, variant, return_maps=False):
     """truth W, signal s and the player's calibrated posterior pt = P(W | s bin, side, group).
     the calibration map is fitted on an independent auxiliary draw of (W, s) on the same pitches, not on the
     W that then scores the policies: a player's belief is learned from experience, and the in-sample fit leaked the
-    realised truth into the decision (+0.015 wins per team-season for the optimum, audit/crossfit_calibration.json)."""
+    realised truth into the decision (+0.015 wins per team-season for the optimum, results/crossfit_calibration.json).
+    return_maps=True also returns the per-cell calibration maps {"side|cell": f[301]} (signal
+    bin b = clip(floor((s + 15) / 0.1), 0, 300) -> posterior), so that causal.py can read a pool pitch's posterior in
+    the cell of the simulated state (stake tercile). Same random numbers and the same (W, s, pt) either way."""
     law = law_of(variant)
-    W, s = truth_signal(m, rng, law)
-    pt = np.zeros(len(m))
+    rho = float(variant.get("rho", 1.0))
+    if rho < 1.0 and law != "normal":
+        raise ValueError("rho < 1 splits Gaussian decision noise; not defined for the law " + law)
+    W, s = truth_signal(m, rng, law, rho)                # s: the player's signal (perceptual noise only)
+    pt = np.zeros(len(m)); maps = {}
     if variant.get("flat_prior"):
         pt = norm.cdf(s / m.sr.values)
     else:
         # auxiliary draws: the experience the belief is learned from (two draws, since the calibration cells
-        # are finer)
-        aux = [truth_signal(m, rng, law) for _ in range(N_AUX)]
+        # are finer); on the player's own (perceptual) signal
+        aux = [truth_signal(m, rng, law, rho) for _ in range(N_AUX)]
         grp = m["cal"].values if "cal" in m else cal_groups(m)
         side_v = m.side.values
         for gname in np.unique(np.char.add(side_v.astype(str), np.char.add("|", grp))):
@@ -194,6 +217,13 @@ def draw(m, rng, variant):
             ok = np.flatnonzero(~np.isnan(f))             # signal bins empty in the auxiliary draws: nearest fitted value
             f = np.interp(np.arange(301), ok, f[ok])
             pt[k] = f[np.clip(np.floor((s[k] + 15) / 0.1).astype(int), 0, 300)]
+            maps[gname] = f
+    if rho < 1.0:
+        # the behavioural rule decides on the player's signal plus the removable criterion noise, so that
+        # its total decision noise is the fitted sr; s returned is that behavioural signal (obs_rule uses it)
+        s = s + rng.standard_normal(len(m)) * m.sr.values * np.sqrt(1.0 - rho)
+    if return_maps:
+        return W, s, pt, (maps if not variant.get("flat_prior") else None)
     return W, s, pt
 
 def solve_dp(m, pt, team_home, nrep_pool=None, extra_value=True):
@@ -309,8 +339,7 @@ def stake_cuts(m):
 
 
 def cal_groups(m, cuts=None):
-    """calibration cells of the player's posterior (the posterior was calibrated by side and
-    zone region only, while the policies also condition on the count and the stake): zone region (x the player's own
+    """calibration cells of the player's posterior: zone region (x the player's own
     noise quintile for the random-effects model) x count class (two strikes / three balls / other) x stake tercile
     within the side. Both the count and the stake are known to the player."""
     cnt = np.where(m.strikes.values == 2, "s2", np.where(m.balls.values == 3, "b3", "o"))

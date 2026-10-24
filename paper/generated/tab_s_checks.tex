@@ -4,26 +4,26 @@ Script & Claim & Outcome \\
 \midrule
 \texttt{check.wl} & Cutoff: challenge iff $p\ge\Delta/(g+\Delta)$ (no counterexample) & True \\
 \texttt{check.wl} & Cutoff increasing in $\Delta$, decreasing in $g$ & True \\
-\texttt{identification\_det.wl} & D1: deterministic truth is the $\sigma_m\to0$ limit of the smooth truth model & max.\ error $3\times10^{-8}$ \\
+\texttt{identification\_det.wl} & D1: deterministic truth is the $\sigma_m\to0$ limit of the smooth truth model & max.\ error $4\times10^{-8}$ \\
 \texttt{identification\_det.wl} & D2: two-point Jacobian determinant $\phi_1\phi_2(w_1-w_2)/\sigma_r^3$ & $0$ (exact) \\
 \texttt{identification\_det.wl} & D2: rank of the challenge-curve Jacobian on the data grid, batter\,/\,catcher & 2\,/\,2 \\
 \texttt{identification\_det.wl} & D3: cross information of $\pi$ with $(\sigma_r,\kappa)$ & $0$ (exact) \\
-\texttt{identification\_det.wl} & D4: tracking noise $c$ gives $\Phi\{(w-\kappa)/(\sigma_r^2+c^2)^{1/2}\}$ & max.\ error $2\times10^{-25}$ \\
+\texttt{identification\_det.wl} & D4: tracking noise $c$ gives $\Phi\{(w-\kappa)/(\sigma_r^2+c^2)^{1/2}\}$ & max.\ error $3\times10^{-25}$ \\
 \texttt{check.wl} & Gaussian convolution of tracking and perception noise (symbolic and 30-digit) & True; max.\ error $4\times10^{-29}$ \\
-\texttt{identification.wl} & I1, I3: in the superseded smooth-truth model only $(\sigma_m^2+\sigma_r^2)^{1/2}$ enters the challenge curve & $0$ (exact); rank 2 of 3 \\
+\texttt{identification.wl} & I1, I3: in the smooth-truth model only $(\sigma_m^2+\sigma_r^2)^{1/2}$ enters the challenge curve & $0$ (exact); rank 2 of 3 \\
 \texttt{proofs.wl} & T1a: Lemma~\ref{lem:phi} for any law (ForAll over the reals) & True \\
 \texttt{proofs.wl} & T1b: induction step of Theorem~\Mref{thm:mono} & True \\
 \texttt{proofs.wl} & T1c: both monotonicities in exact DPs on 300 random laws & True \\
 \texttt{proofs.wl} & T1d: concavity fails for a law that depends on $c$ & True \\
 \texttt{proofs.wl} & T2a: $d\varphi(d)\to g^2h/2$ and $d^\alpha\varphi(d)\to g^{1+\alpha}/(1+\alpha)$ & True \\
-\texttt{proofs.wl} & T2b: square-increment identity~(\Mref{eq:sqinc}) & $0$ (exact) \\
+\texttt{proofs.wl} & T2b: square-increment identity~\eqref{eq:sqinc} & $0$ (exact) \\
 \texttt{proofs.wl} & T2d: exact constants $K_1=9/8$, $K_2=83/144$ & True \\
 \texttt{proofs.wl} & T2e: $k_2=(\sqrt5-1)/2$; SA drift decreasing with root $k_c^2$ & True \\
 \texttt{proofs.wl} & T2f: consumption step $x\le s,\ Y\le s\Rightarrow x+\E(Y-x)^+\le s$ & True \\
 \texttt{proofs.wl} & T3a: per-state regret on both sides of $D$; crude bound & True \\
-\texttt{proofs.wl} & T3b: regret identity in the stylized game & gap $4\times10^{-17}$ \\
-\texttt{supplement.wl} & Substitution and domination bounds in the proof of Theorem~\Mref{thm:sqrt} & True \\
-\texttt{supplement.wl} & Bound (ii) of Theorem~\Mref{thm:flat}; crude bound (iii) & True \\
+\texttt{proofs.wl} & T3b: regret identity in the stylised game & gap $4\times10^{-17}$ \\
+\texttt{supplement.wl} & Substitution and domination bounds in the proof of Theorem~\ref{thm:sqrtS} & True \\
+\texttt{supplement.wl} & Bound (ii) of Theorem~\ref{thm:flatS}; crude bound (iii) & True \\
 \texttt{supplement.wl} & Mean-value step for the rate $t^{1/(1+\alpha)}$ & True \\
 \texttt{supplement.wl} & Theorem~\ref{thm:rules}(c): bound $\varphi(L)\ge g_0/2\cdot\Prob(\cdot)$; counterexample without $g_0$ & True \\
 \texttt{headline.wl} & Per-state regret, both sides; $r'(D)=0$ & True \\
@@ -33,5 +33,7 @@ Script & Claim & Outcome \\
 \texttt{drs\_check.wl} & DRS orthant correlation; bivariate normal CDF of the code & True; max.\ error $1\times10^{-16}$ \\
 \texttt{drs\_check.wl} & DRS review rule with a retained umpire's call & True \\
 \texttt{drs\_audit.wl} & DRS three-way likelihood and posterior loss probability at the Test fit & max.\ error $7\times10^{-17}$ \\
+\texttt{intervention.wl} & Behavioural noise $\sqrt\rho\,\sigma_r\varepsilon_1+\sqrt{1-\rho}\,\sigma_r\varepsilon_2\sim N(0,\sigma_r^2)$; $\partial\Prob(\text{challenge}\mid w)/\partial\rho=0$ & True \\
+\texttt{intervention.wl} & Value of the calibrated cutoff decision falls with the signal noise (12 grid points) & True \\
 \bottomrule
 \end{tabular}

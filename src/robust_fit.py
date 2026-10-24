@@ -1,8 +1,8 @@
-"""Alternative perception laws and player heterogeneity, all fitted with the exact joint
+"""steps 1 and 3: alternative perception laws and player heterogeneity, all fitted with the exact joint
 likelihood of lik.py on the 2026 eligible opportunities.  Reports log-likelihood, AIC/BIC, sigma_r with a Wald CI,
 and the calibration of the challenge rate and of the overturn rate given a challenge (Hosmer-Lemeshow-type
 chi-square over pre-set bins: |w|, challenges left, inning, stake tercile, zone region).
-usage: python src/robust_fit.py [variant ...]  -> data/th_<variant>.npy, data/re_<side>.parquet,
+usage: python src/robust_fit.py [variant...]  -> data/th_<variant>.npy, data/re_<side>.parquet,
        results/perception_variants.json, results/perception_calibration.csv"""
 import json, os, sys, time
 import numpy as np, pandas as pd
@@ -11,7 +11,7 @@ import lik
 
 VARIANTS = {
     "sm_edge": {},                        # smooth truth model, offset and scale by edge, no pi: LR check
-    "sm_region": {},                      # smooth truth by zone region + pi (pre-geometry-fix baseline): LR check
+    "sm_region": {},                      # smooth truth by zone region + pi (pre-baseline): LR check
     "normal": {},                         # baseline: deterministic truth W = 1{w > 0} + ruling mislabel pi
     "logistic": {"law": "logistic"},
     "t10": {"law": "t10"},
@@ -24,9 +24,9 @@ VARIANTS = {
     "kappa_region": {"kappa_region": True},
     "kappa_sr_region": {"kappa_region": True, "sr_region": True},
     "kappa_sr_region_slope": {"kappa_region": True, "sr_region": True, "sr_slope": True},
-    "kappa_sr_region_g": {"kappa_region": True, "sr_region": True, "kappa_g": True},   # Non-linear stake response
+    "kappa_sr_region_g": {"kappa_region": True, "sr_region": True, "kappa_g": True},   # non-linear stake response
     "re": {"kappa_region": True, "sr_region": True, "kappa_g": True, "re": True, "gh": 5},   # player effects on the main fixed part (+ kappa_g)
-    # The noise-law tests on the main specification, and a lapse rate (challenge curve topping out below 1).
+    # the noise-law tests on the main specification, and a lapse rate (challenge curve topping out below 1).
     # "main_" = the new main (kappa_sr_region_g) + one extension; a criterion that can say "nothing at
     # stake" (hinge below g = 0.001), alone and with the lapse rate, to test whether the lapse is a criterion effect at
     # zero stakes; noise that varies with the stake; the lapse and the player effects together
@@ -40,11 +40,24 @@ VARIANTS = {
     "main_sr_g": {"kappa_region": True, "sr_region": True, "kappa_g": True, "sr_g": True},
     "linear_lapse": {"kappa_region": True, "sr_region": True, "lapse": True},       # the lapse model (linear log g)
     "re_lapse": {"kappa_region": True, "sr_region": True, "kappa_g": True, "re": True, "gh": 5, "lapse": True},
+    # the BIC-best model, player effects + lapse, at 11 x 11 Gauss-Hermite nodes (5 x 5
+    # moved the variance components); and a time-varying criterion and noise (second-half shifts of the intercept,
+    # the log g slope and log sigma_r), alone and with the lapse
+    "re_lapse_gh11": {"kappa_region": True, "sr_region": True, "kappa_g": True, "re": True, "gh": 11, "lapse": True},
+    "re_gh11": {"kappa_region": True, "sr_region": True, "kappa_g": True, "re": True, "gh": 11},
+    # game-state terms of the criterion (|score|, late and close, two outs, RISP,
+    # runner on first), on the main model and on the player-effects + lapse model
+    "main_state": {"kappa_region": True, "sr_region": True, "kappa_g": True, "kappa_state": True},
+    "re_lapse_state_gh11": {"kappa_region": True, "sr_region": True, "kappa_g": True, "re": True, "gh": 11, "lapse": True,
+                            "kappa_state": True},
+    "main_time": {"kappa_region": True, "sr_region": True, "kappa_g": True, "kappa_time": True, "sr_time": True},
+    "main_time_lapse": {"kappa_region": True, "sr_region": True, "kappa_g": True, "kappa_time": True, "sr_time": True,
+                        "lapse": True},
 }
 
 
 def bins_table(e, pch, p1):
-    """The overturn check compares the observed overturn rate of a bin with the rate
+    """the overturn check compares the observed overturn rate of a bin with the rate
     among the MODEL's challenges, sum(p1)/sum(pch). The old prediction averaged p1/pch over the pitches actually
     challenged, which under the deterministic truth is pi or 1 - pi on every pitch: it checked the geometry, not the
     selection model."""
@@ -76,7 +89,7 @@ def side_frames(m, data, th, spec):
         e = e.iloc[np.argsort(~e.ch.values, kind="stable")].copy()
         mu = lik.truth_mu(th, spec, e.edge.values == "vert", data[side]["reg"])
         dc = e.dist_in.values - mu; e["w_fit"] = np.where(e.orig_strike.values, -dc, dc)
-        e["reg"] = np.array(lik.REGIONS)[data[side]["reg"]]
+        e["reg"] = np.array(lik.REGION_NAMES)[data[side]["reg"]]   # inside/outside, not arm/glove
         out[side] = e
     return out
 
@@ -94,7 +107,7 @@ def evaluate(m, data, th, spec, name):
                   logscore_overturn=float(np.mean(np.where(
                       fr[side].ch_over.values[c], np.log(p1[c] / pch[c]), np.log(1 - p1[c] / pch[c])))))
         if post is not None:
-            # One posterior file per random-effects variant (re_lapse used to overwrite re's)
+            # one posterior file per random-effects variant (re_lapse used to overwrite re's)
             post.to_parquet(f"data/re_{side}.parquet" if name == "re" else f"data/{name}_{side}.parquet")
             sr0 = float(np.exp(lik.unpack(np.asarray(th), spec)[side]["lsr"]))
             big = post[post.n_ch >= 15]
@@ -123,27 +136,33 @@ if __name__ == "__main__":
         base = lik.base_theta()
         if os.path.exists("data/th_normal.npy") and spec.get("det"):
             base = np.load("data/th_normal.npy")
-        if (name.startswith("main_") or name in ("re_lapse", "linear_lapse")) and os.path.exists("data/th_kappa_sr_region_g.npy"):
+        if (name.startswith("main_") or name in ("re_lapse", "linear_lapse", "re_lapse_state_gh11")) and os.path.exists("data/th_kappa_sr_region_g.npy"):
             # warm start: the common leading block of every side from the main fit (or the player-effects fit for
             # re_lapse), the extensions at their init values
             src = ("re" if name == "re_lapse" and os.path.exists("data/th_re.npy")
+                   else "re_lapse_gh11" if name == "re_lapse_state_gh11"       # + the state terms
                    else "kappa_sr_region" if name == "linear_lapse" else "kappa_sr_region_g")
             t0 = np.load(f"data/th_{src}.npy"); nt = lik.n_truth(spec); ns0 = lik.n_side(lik.spec_of(src)); ns = lik.n_side(spec)
             th0 = lik.init(spec); th0[:nt] = t0[:nt]
             for j in range(2):
                 th0[nt + j * ns: nt + j * ns + ns0] = t0[nt + j * ns0: nt + (j + 1) * ns0]
             r, nll = lik.fit(data, spec, th0=th0, verbose=True)
+        elif name.endswith("_gh11") and os.path.exists(f"data/th_{name[:-5]}.npy"):
+            # the same parameters at finer quadrature, warm-started from the 5 x 5 fit
+            r, nll = lik.fit(data, spec, th0=np.load(f"data/th_{name[:-5]}.npy"), verbose=True)
         elif name == "re" and os.path.exists("data/th_kappa_sr_region_g.npy"):
             # side block of re = [beta, lsr, kreg, region, kg, re]: the main fit's block, then the player-effect params
             t0 = np.load("data/th_kappa_sr_region_g.npy"); nt = lik.n_truth(spec); ns = lik.n_side(dict(spec, re=False))
             th0 = np.r_[t0[:nt], t0[nt:nt + ns], np.log(0.3), np.log(0.2), 0.0, t0[nt + ns:nt + 2 * ns], np.log(0.3), np.log(0.2), 0.0]
             r, nll = lik.fit(data, spec, th0=th0, verbose=True)
         else:
-            r, nll = lik.fit(data, spec, base=base, verbose=True)     # init() takes the last 14 entries (beta, log sr)
+            r, nll = lik.fit(data, spec, base=base, verbose=True)     # init takes the last 14 entries (beta, log sr)
         np.save(f"data/th_{name}.npy", r.x)
         k = len(r.x)
         out = dict(spec=spec, nll=float(r.fun), k=k, aic=float(2 * r.fun + 2 * k), bic=float(2 * r.fun + k * np.log(n_obs)),
                    converged=bool(r.success), grad_max=float(np.abs(r.jac).max()), params=lik.readable(r.x, spec))
+        if spec.get("re") and getattr(r, "hess_fd", None) is not None:
+            np.save(f"data/cov_{name}.npy", np.linalg.inv(r.hess_fd))      # FD Hessian of the exact gradient
         if not spec.get("re"):
             cov = np.linalg.inv(lik.hessian(nll, r.x)); np.save(f"data/cov_{name}.npy", cov)
             i = lik.n_truth(spec)

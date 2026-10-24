@@ -1,4 +1,4 @@
-"""Uncertainty from the WP / RE engine, which the refit bootstrap holds fixed.
+"""uncertainty from the WP / RE engine, which the refit bootstrap holds fixed.
 
 Replicate b resamples the 2026 Statcast games with replacement, re-estimates the PA kernel and solves the WP / RE engine
 (wp.build_T, wp.solve) and the half-inning run distribution of the score-aware DP (dp_score.half_runs_from), recomputes

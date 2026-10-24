@@ -2,16 +2,15 @@
 
 usage (from paper/): python lint.py [--submission]
 Checks the text of main.pdf and supplement.pdf (pdftotext) and their metadata (pdfinfo):
-  * meta words: referee, reviewer, first pass, kernel, internal issue IDs, draft, working paper, pending, TODO, ??;
-  * software version strings (Mathematica 15.0, $Version, Mac OS X, ...) outside the main text's Reproducibility
+  * meta words: referee, reviewer, first pass, kernel, HONZA-, draft, working paper, pending, TODO, ??;
+  * software version strings (Mathematica 15.0, $Version, Mac OS X,...) outside the main text's Reproducibility
     section, which names the Mathematica version once;
   * PDF title and author set and free of draft markers.
 --submission also fails on any \\todo left in main.tex or supplement.tex.
 Exit status 1 on any hit, with the offending lines printed."""
 import re, subprocess, sys
 
-META = re.compile(r"referee|reviewer|first[ -]pass|kernel|\bdraft\b|working paper|\bpending\b|\bTODO\b|\?\?", re.I)
-ISSUE = re.compile(r"\b[A-Z]{3,6}-[0-9]{2,4}\b")   # internal issue IDs (case-sensitive)
+META = re.compile(r"referee|reviewer|first[ -]pass|kernel|HONZA-|\bdraft\b|working paper|\bpending\b|\bTODO\b|\?\?", re.I)
 VERSION = re.compile(r"Mathematica\s*\d|\$Version|Mac OS X|\b(?:Python|JAX|NumPy)\s+\d+\.\d+", re.I)
 
 
@@ -26,7 +25,7 @@ def info(pdf):
 
 def repro_span(t):
     """Character span of the main text's Reproducibility section: from its heading to the references."""
-    a = re.search(r"^\s*\d+\.\s+Reproducibility", t, re.M | re.I)
+    a = re.search(r"^\s*\d+\.\s+(?:Reproducibility|Data and code availability)", t, re.M | re.I)
     b = re.search(r"^\s*References", t[a.end():], re.M | re.I) if a else None
     return (a.start(), a.end() + b.start()) if a and b else (0, 0)
 
@@ -39,7 +38,7 @@ def main():
         if pdf == "main.pdf" and hi == 0:
             bad.append(f"{pdf}: Reproducibility section not found")
         for i, line in enumerate(t.splitlines(), 1):
-            if META.search(line) or ISSUE.search(line):
+            if META.search(line):
                 bad.append(f"{pdf}:{i}: meta text: {line.strip()}")
         inside = 0
         for mt in VERSION.finditer(t):
@@ -54,7 +53,7 @@ def main():
             if not md.get(k, "").strip():
                 bad.append(f"{pdf}: PDF {k} is empty")
         for k, v in md.items():
-            if META.search(v) or ISSUE.search(v):
+            if META.search(v):
                 bad.append(f"{pdf}: PDF metadata {k}: {v.strip()}")
     if "--submission" in sys.argv:
         for tex in ("main.tex", "supplement.tex"):

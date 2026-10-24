@@ -40,7 +40,7 @@ if __name__ == "__main__":
     tag = sys.argv[1]
     f = pd.read_parquet(f"data/ext_{tag}.parquet"); g = pd.read_parquet(f"data/ext_games_{tag}.parquet")
     f = f.merge(g[["game_pk", "date", "home_id", "away_id", "has"]], on="game_pk")
-    f = f[f.has.notna()]            # Has = False is an ABS game without a challenge; only None means no ABS
+    f = f[f.has.notna()]            # has = False is an ABS game without a challenge; only None means no ABS
     f = challenges_left(f)
     f["left_ch"] = np.where(f.ch_team == f.home_id, f.left_home, f.left_away)
     print(tag, "challenges made with 0 left:", int(((f.left_ch <= 0) & f.ch).sum()), "of", int(f.ch.sum()))

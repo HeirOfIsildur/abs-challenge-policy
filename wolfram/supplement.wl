@@ -1,4 +1,4 @@
-(* Kernel checks of the algebraic steps that the Supplementary Material (S1) adds to theory.md.
+(* kernel checks of the algebraic steps that the Supplementary Material (S1) adds to theory.md.
    S1  substitution q = u g/(g+d): pg - (1-p) d = g (1-u) on the line, and dq = g/(g+d) du.
    S2  domination in the proof of Theorem 3: with c = x0/(1-x0),
          g <= c d  =>  u g/(g+d) <= x0 for u in [0,1]   (the local density bound applies),
@@ -6,7 +6,7 @@
    S3  bound (ii): on the disagreement interval the integrand is (g+D)|p - D/(g+D)|; with density <= M,
          M (g+D) L^2/2 with L the interval length equals M g^2 (D-de)^2 / (2 (g+D)(g+de)^2).
    S4  rate t^(1/(1+a)): (x+f)^(1+a) - x^(1+a) = (1+a) xi^a f for some xi in [x, x+f] (mean value form): the
-         derivative and its monotonicity symbolically, the bracketing (1+a) x^a f <= ... <= (1+a) (x+f)^a f at fixed a.
+         derivative and its monotonicity symbolically, the bracketing (1+a) x^a f <=... <= (1+a) (x+f)^a f at fixed a.
    S5  crude bound: g^2/((g+D)(g+de)^2) <= g/(g+de)^2 <= 1/(4 de).
    S6  Theorem S2(c). (a) the old hypothesis P(p > 1-eps, g > 0) > 0 for all eps is not enough:
          q = g = U ~ Unif(0,1) satisfies it, but phi(L) = E (g - q (g+L))^+ = 0 for L >= 1, so Delta_t(1) <= 1;

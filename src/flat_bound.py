@@ -1,4 +1,4 @@
-"""The flat-optimum theorem (theory.md, Theorem 3) evaluated on the calibrated 2026 pools.
+"""item 3: 's flat-optimum theorem (theory.md, Theorem 3) evaluated on the calibrated 2026 pools.
 
 Model world: the score-aware calibrated DP of dp_score.py restricted to regulation (no extra-inning block, so the MDP
 is exact): exogenous states (slot, home differential d at the start of the half-inning), a random number N of
@@ -41,7 +41,7 @@ def pools(m, pt, home):
         if s >= 18:
             continue
         idx = idx.values
-        gg, pp = np.maximum(m.g.values[idx], 1e-12), pt[idx]     # G = 0 now occurs (non-monotone engine cells)
+        gg, pp = np.maximum(m.g.values[idx], 1e-12), pt[idx]     # g = 0 now occurs (non-monotone engine cells)
         qb = np.quantile(gg, [0.2, 0.4, 0.6, 0.8]) if len(gg) >= 50 else np.array([])
         gq = np.searchsorted(qb, gg)
         dens = np.zeros((5, NB))

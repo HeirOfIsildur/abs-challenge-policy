@@ -69,7 +69,17 @@ def decide(pol, pt, s, kappa, g, RV, slot, kin, c, inn, balls, strikes, D, Cn, c
 @njit(cache=True)
 def run_path(gidx, is_home_team, new_extra, slot, kin, inning, balls, strikes, dbin, W, pt, s, g, RV, kappa, isoff,
              pol, Dh, Da, Cnh, Cna, card, q1, q2, dconst, D4h, D4a, ngames):
-    """Path-sum evaluation on the recorded stream (same accounting as sim.run_policy). kappa: [n, 3], the fitted
+    """run_path2 with the flips scored at the stake the policy decides on (gv = g)."""
+    return run_path2(gidx, is_home_team, new_extra, slot, kin, inning, balls, strikes, dbin, W, pt, s, g, g, RV, kappa,
+                     isoff, pol, Dh, Da, Cnh, Cna, card, q1, q2, dconst, D4h, D4a, ngames)
+
+
+@njit(cache=True)
+def run_path2(gidx, is_home_team, new_extra, slot, kin, inning, balls, strikes, dbin, W, pt, s, g, gv, RV, kappa, isoff,
+              pol, Dh, Da, Cnh, Cna, card, q1, q2, dconst, D4h, D4a, ngames):
+    """g is the stake the policy DECIDES on, gv the stake a successful flip is SCORED at (cross-fitted
+    stakes: g from the engine fitted without the pitch's game fold, gv from the engine of its own fold).
+    Path-sum evaluation on the recorded stream (same accounting as sim.run_policy). kappa: [n, 3], the fitted
     criterion by challenges held (sim.kappa_by_count), so obs_rule uses the count the simulated team holds.
     Returns value/challenges/successes [game, team(0 away, 1 home), side(0 def, 1 off)] and, per (game, team),
     the row of the team's first successful challenge (-1 if none) and the challenges it then held -- the branch point
@@ -92,7 +102,7 @@ def run_path(gidx, is_home_team, new_extra, slot, kin, inning, balls, strikes, d
             sd = 1 if isoff[i] else 0
             nch[cur, t, sd] += 1
             if W[i]:
-                val[cur, t, sd] += g[i]; nwin[cur, t, sd] += 1
+                val[cur, t, sd] += gv[i]; nwin[cur, t, sd] += 1
                 if first[cur, t] < 0:
                     first[cur, t] = i; firstc[cur, t] = c[t]
             else:
@@ -145,11 +155,18 @@ def runs_token_values(m, pt, solve_dp):
 
 @njit(cache=True)
 def clairvoyant(gidx, is_home_team, topup, W, pt, g, ngames):
-    """An information-relaxation upper bound for the DP benchmark. For every team-game
-    the policy knows the whole future sequence of (p, g) of its own opportunities (not the truths) and solves the
-    exact finite-horizon DP over it, with the retention rule and the extra-inning top-up; it is then played on the
-    realised truths. Its expected value bounds every non-anticipative policy that uses the same p. topup[i]: an extra
-    inning started since the team's previous opportunity (a team at 0 gets 1). Rows must be in game order.
+    """clairvoyant2 with the flips scored at the decision stake."""
+    return clairvoyant2(gidx, is_home_team, topup, W, pt, g, g, ngames)
+
+
+@njit(cache=True)
+def clairvoyant2(gidx, is_home_team, topup, W, pt, g, gv, ngames):
+    """a clairvoyant comparator for the DP benchmark. For every team-game the policy
+    knows the whole future sequence of (p, g) of its own opportunities (not the truths) and solves the exact
+    finite-horizon DP over it, with the retention rule and the extra-inning top-up; it is then played on the realised
+    truths. It is NOT a certified upper bound for the benchmark: the benchmark's pooled DP and the
+    recorded stream are different processes, and the posteriors p are only calibrated within cells. topup[i]: an
+    extra inning started since the team's previous opportunity (a team at 0 gets 1). Rows must be in game order.
     Returns value/challenges [game, team]."""
     n = len(g)
     val = np.zeros((ngames, 2)); nch = np.zeros((ngames, 2))
@@ -184,7 +201,7 @@ def clairvoyant(gidx, is_home_team, topup, W, pt, g, ngames):
                 if c > 0 and go[j, c]:
                     nch[gidx[i], t] += 1
                     if W[i]:
-                        val[gidx[i], t] += g[i]
+                        val[gidx[i], t] += gv[i]
                     else:
                         c -= 1
         i0 = i1
@@ -202,7 +219,7 @@ def topup_flags(m):
 @njit(cache=True)
 def first_divergence(gidx, is_home_team, new_extra, slot, kin, inning, balls, strikes, dbin, W, pt, s, g, RV, kappa,
                      pol, Dh, Da, Cnh, Cna, card, q1, q2, dconst, D4h, D4a, recsucc, ngames):
-    """The first pitch at which the policy's game and the recorded game part:
+    """the first pitch at which the policy's game and the recorded game part:
     the first row where exactly one of {the policy flips the call, the team flipped it in 2026} holds. Before it the
     two paths coincide, so the policy is evaluated on the recorded path exactly. Returns per (game, team): the row
     (-1: never), its type (+1 the policy flips a call the team left standing, -1 the team flipped a call the policy
@@ -233,3 +250,33 @@ def first_divergence(gidx, is_home_team, new_extra, slot, kin, inning, balls, st
         elif go:
             c[t] -= 1
     return div, typ, dc, pre
+
+
+@njit(cache=True)
+def path_trace(gidx, is_home_team, new_extra, slot, kin, inning, balls, strikes, dbin, W, pt, s, g, RV, kappa,
+               pol, Dh, Da, Cnh, Cna, card, q1, q2, dconst, D4h, D4a):
+    """one policy played along the stream, row by row: succ[i] (the row's team flips the
+    call), fail[i] (it challenges and loses) and held[i, t] (challenges team t holds before row i, top-up applied).
+    The paired causal contrast (causal.py) branches the policy against the SIMULATED behavioural rule at the first row
+    where their successes differ, with both inventories carried from these traces."""
+    n = len(g)
+    succ = np.zeros(n, np.bool_); fail = np.zeros(n, np.bool_); held = np.zeros((n, 2), np.int64)
+    c = np.array([2, 2]); cur = -1
+    for i in range(n):
+        if gidx[i] != cur:
+            cur = gidx[i]; c[0] = 2; c[1] = 2
+        if new_extra[i]:
+            for t in range(2):
+                if c[t] == 0: c[t] = 1
+        held[i, 0] = c[0]; held[i, 1] = c[1]
+        t = 1 if is_home_team[i] else 0
+        if c[t] == 0:
+            continue
+        D = Dh if t == 1 else Da; Cn = Cnh if t == 1 else Cna; D4 = D4h if t == 1 else D4a
+        if decide(pol, pt[i], s[i], kappa[i, min(c[t], 2)], g[i], RV[i], slot[i], kin[i], c[t], inning[i], balls[i],
+                  strikes[i], D, Cn, card, q1, q2, dconst, D4, dbin[i]):
+            if W[i]:
+                succ[i] = True
+            else:
+                fail[i] = True; c[t] -= 1
+    return succ, fail, held

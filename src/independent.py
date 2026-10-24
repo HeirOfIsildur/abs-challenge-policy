@@ -1,7 +1,7 @@
-"""Audit item 9: independent recomputation from the raw parquet files. Does NOT import src/.
+"""independent recomputation from the raw parquet files. Does NOT import src/.
 Own join, own zone rule, own challenge bookkeeping, own simplified engine (stakes from Statcast's own
 delta_home_win_exp / delta_run_exp cell means), own minimal perception simulation for the Savant rule.
-usage: python audit/independent.py [R] -> audit/independent.json"""
+usage: python src/independent.py [R] -> results/independent.json"""
 import json, sys
 import numpy as np, pandas as pd
 from sklearn.isotonic import IsotonicRegression
@@ -100,5 +100,5 @@ res["sim_R"] = R
 for k, v in acc.items():
     v = np.array(v); res[f"{k}_wins_per_team_season"] = float(v[:, 0].mean()); res[f"{k}_challenges_per_team_game"] = float(v[:, 1].mean())
 res["savant_over_observed"] = res["savant_wins_per_team_season"] / res["observed_wins_per_team_season"]
-json.dump(res, open("audit/independent.json", "w"), indent=1)
+json.dump(res, open("results/independent.json", "w"), indent=1)
 print(json.dumps(res, indent=1))

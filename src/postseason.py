@@ -1,18 +1,17 @@
-"""Postseason out-of-sample preview (2026 playoffs so far).
+"""postseason out-of-sample preview (2026 playoffs so far).
 
-Everything is fitted on the 2026 regular season only (BIC-best model kappa_sr_region refitted on the
-raw-coordinate geometry with deterministic truth, data/th_kappa_sr_region.npy; isotonic belief map learned on
+Everything is fitted on the 2026 regular season only (BIC-best model kappa_sr_region refitted on the raw-coordinate geometry with deterministic truth, data/th_kappa_sr_region.npy; isotonic belief map learned on
 an auxiliary draw; score-aware DP).  No playoff row enters any fit except the explicitly labelled
 playoff-only refits in checks 2b and 3.
-  fetch   : Stats API live feeds of the final postseason games (F wild card, D division series, L LCS, W World Series)
+  fetch: Stats API live feeds of the final postseason games (F wild card, D division series, L LCS, W World Series)
             with the series context, plus Savant Statcast for the same games -> data/ext_post2026.parquet,
             data/ext_games_post2026.parquet, data/statcast_post2026.parquet
-  build   : called-pitch table in the layout of data/called_2026_w.parquet (Statcast location/state/catcher joined to
+  build: called-pitch table in the layout of data/called_2026_w.parquet (Statcast location/state/catcher joined to
             the feed's challenge fields, original call, challenger role, challenges left with the extra-inning grant,
             ABS-zone geometry, WP stakes g from the regular-season engine) -> data/called_post2026_w.parquet
-  analyze : (1) sample, (2) perception transfer, (3) stakes response, (4) learning, (5) wins/WP lost
+  analyze: (1) sample, (2) perception transfer, (3) stakes response, (4) learning, (5) wins/WP lost
             -> results/postseason_preview.{json,md}
-  report  : results/postseason_preview.md from the json
+  report: results/postseason_preview.md from the json
 usage: python src/postseason.py fetch | build | analyze [R] [B] | report"""
 import io, json, sys, time, urllib.request
 from concurrent.futures import ThreadPoolExecutor
@@ -111,16 +110,20 @@ def build():
     # on second in extras, which the postseason does not use)
     keep = ["plate_x", "plate_z", "sz_top", "sz_bot", "vx0", "vy0", "vz0", "ax", "ay", "az", "balls", "strikes",
             "outs_when_up", "on_1b", "on_2b", "on_3b", "home_score", "away_score", "fielder_2", "umpire", "description"]
-    f = f.drop(columns=[c for c in keep + ["bases"] if c in f.columns])
-    m = f.merge(sc[["game_pk", "at_bat_number", "pitch_number"] + keep], on=["game_pk", "at_bat_number", "pitch_number"],
-                how="left", indicator=True)
-    called = m.code.isin(["C", "B", "*B"])
-    print("called pitches matched to Statcast:", round(float((m._merge[called] == "both").mean()), 4),
-          "| challenged matched:", round(float((m._merge[called & m.ch] == "both").mean()), 4))
-    m = m[called & (m._merge == "both") & m.plate_x.notna() & m.vy0.notna() & m.sz_top.notna()].drop(columns="_merge").copy()
-    # Drop feed-Statcast mis-joins (the Statcast description contradicts the feed's call code; build.py)
-    mj = ~((m.code.eq("C") & m.description.eq("called_strike")) | (m.code.isin(["B", "*B"]) & m.description.isin(["ball", "blocked_ball"])))
-    print("mis-joined rows dropped:", int(mj.sum())); m = m[~mj].copy()
+    f = f.drop(columns=[c for c in keep + ["bases"] if c in f.columns and c not in ("balls", "strikes")])
+    # join called pitches on the pre-pitch count and call type (src/join.py). The feed's pre-count
+    # is the next pitch's stored count minus the call where the PA goes on, else the stored count of this pitch.
+    import join as J
+    f = f.sort_values(["game_pk", "at_bat_number", "pitch_number"]).reset_index(drop=True)
+    nx = f.groupby(["game_pk", "at_bat_number"])[["balls", "strikes"]].shift(-1)
+    fc = f[f.code.isin(["C", "B", "*B"])].copy(); nxc = nx.loc[fc.index]
+    isk = fc.code.eq("C").values; has = nxc.balls.notna().values
+    fc["pre_b"] = np.where(has, np.where(isk, nxc.balls, nxc.balls - 1), fc.balls).astype(int)
+    fc["pre_s"] = np.where(has, np.where(isk, nxc.strikes - 1, nxc.strikes), fc.strikes).astype(int)
+    m = J.count_join(fc.drop(columns=["balls", "strikes"]), sc, ["game_pk", "at_bat_number", "pitch_number"] + keep)
+    print("called pitches joined on the pre-pitch count:", int((~m.misjoin).sum()), "of", len(m),
+          "| challenged joined:", int((~m.misjoin & m.ch).sum()), "of", int(m.ch.sum()), "| renumbered:", int(m.renumbered.sum()))
+    m = m[~m.misjoin & m.plate_x.notna() & m.vy0.notna() & m.sz_top.notna()].copy()
     m["final_strike"] = m.code.eq("C")
     m["orig_strike"] = np.where(m.ch_over, ~m.final_strike, m.final_strike)
     m["role"] = np.select([~m.ch, m.ch_player == m.batter, m.ch_player == m.pitcher, m.ch_player == m.fielder_2],
@@ -133,10 +136,21 @@ def build():
           "of postseason challenge rulings")
     m["bases"] = m.on_1b.notna().astype(int) + 2 * m.on_2b.notna().astype(int) + 4 * m.on_3b.notna().astype(int)
     m["score_diff_home"] = (m.home_score - m.away_score).astype(int)
+    # home score differential at the START of the half-inning, as build.py d_half_start (first
+    # Statcast pitch of the half, called or not); without it dp_score.add_dstart fell back to the score at the first
+    # called pitch, which can already include runs scored earlier in the half
+    sh = sc.sort_values(["game_pk", "at_bat_number", "pitch_number"]).groupby(["game_pk", "inning", "inning_topbot"]).first()
+    sh = (sh.home_score - sh.away_score).rename("d_half_start").reset_index()
+    sh["top"] = sh.inning_topbot.eq("Top")
+    m = m.merge(sh[["game_pk", "inning", "top", "d_half_start"]], on=["game_pk", "inning", "top"], how="left")
+    m["d_half_start"] = m.d_half_start.fillna(m.score_diff_home).astype(int)
+    fc = m.sort_values(["game_pk", "at_bat_number", "pitch_number"]).groupby(["game_pk", "inning", "top"]).first()
+    print("half-innings whose first called pitch is not at the half's start score:",
+          int((fc.score_diff_home != fc.d_half_start).sum()), "of", len(fc))
     for c in ("inning", "outs_when_up"):
         m[c] = m[c].astype(int)
     m["balls"] = m.balls.clip(0, 3).astype(int); m["strikes"] = m.strikes.clip(0, 2).astype(int)
-    # The postseason has no runner on second in extra innings; stakes come from the
+    # the postseason has no runner on second in extra innings; stakes come from the
     # engine solved without it (wp.py -> data/wp_engine_post.npz), same 2026 PA kernel
     import stakes
     stakes.use_engine("data/wp_engine_post.npz")
@@ -156,6 +170,7 @@ def load_frames():
     """regular season (with official date) and postseason called-pitch tables; w for the |w| < 8 eligibility filter
     of lik.prepare as in the regular-season fit (deterministic truth: w = signed distance on the wrong side)."""
     rs = pd.read_parquet("data/called_2026_w.parquet")
+    rs = rs.drop(columns=[c for c in ("date",) if c in rs])      # build.py now carries the date
     rs = rs.merge(pd.read_parquet("data/feed_games_2026.parquet")[["game_pk", "date"]], on="game_pk")
     po = pd.read_parquet(f"data/called_{TAG}_w.parquet")
     po = po.merge(pd.read_parquet(f"data/ext_games_{TAG}.parquet")[["game_pk", "home_series_w", "away_series_w"]], on="game_pk")
@@ -191,7 +206,7 @@ def ctx():
 
 def score(m, th, spec):
     """observed vs predicted challenges and overturn rates by side (oos.score with the main spec) and z statistics.
-    With the deterministic truth the overturn probability of a pitch that WAS challenged is ~1{w > 0}, so
+    With the deterministic truth  the overturn probability of a pitch that WAS challenged is ~1{w > 0}, so
     over_pred / logscore_overturn / brier_overturn check geometry and the mislabel rate, not perception.  The
     perception tests are the challenge counts, the challenge log score per eligible pitch (skill against a constant
     rate equal to the model's own mean, i.e. discrimination) and over_rate_model = sum p(ch, wrong) / sum p(ch), the
@@ -247,7 +262,7 @@ def cal_maps(m, rng, n=5):
     for _ in range(n):
         W, s = sim.truth_signal(m, rng)
         for side in ("off", "def"):
-            grp = m.cal.values if "cal" in m else m.pgrp.values    # Sim.cal_groups cells
+            grp = m.cal.values if "cal" in m else m.pgrp.values    # sim.cal_groups cells
             for e in np.unique(grp):
                 k = (m.side == side).values & (grp == e)
                 if not k.any():
@@ -282,7 +297,7 @@ def kappa_rows(e, th, spec, side):
     import lik
     q = lik.unpack(th, spec)[side]
     k = lik.design(e) @ np.asarray(q["beta"]) + np.asarray(q["kreg"])[lik.region(e)]
-    if "kg" in q: k = k + lik.gfeat(e) @ np.asarray(q["kg"])          # Main criterion is piecewise in log g
+    if "kg" in q: k = k + lik.gfeat(e) @ np.asarray(q["kg"])          # main criterion is piecewise in log g
     if "kgl" in q: k = k + lik.glow(e) * float(q["kgl"])
     return k
 
@@ -396,7 +411,7 @@ def wins_check(rs, po, spec, R, B, seed=1):
         m["gidx"] = m.game_pk.astype("category").cat.codes
         prep.append(m)
     mrs, mpo = prep
-    cuts = sim.stake_cuts(mrs)                       # Calibration cells with regular-season stake terciles
+    cuts = sim.stake_cuts(mrs)                       # calibration cells with regular-season stake terciles
     mrs["cal"] = sim.cal_groups(mrs, cuts); mpo["cal"] = sim.cal_groups(mpo, cuts)
     rng = np.random.default_rng(seed)
     z3, zc, zcard = np.zeros((19, 80, 3)), np.zeros((19, 3)), np.zeros((4, 3, 2, 2))

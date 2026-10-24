@@ -1,4 +1,4 @@
-(* Kernel checks (signed opponent term): flat-optimum per-state regret, causal (martingale) decomposition, rule equivalences *)
+(* kernel checks (signed opponent term): flat-optimum per-state regret, causal (martingale) decomposition, rule equivalences *)
 res = <|"wolframVersion" -> $Version|>;
 ok[name_, expr_] := (res[name] = ToString[InputForm[expr]]; If[expr =!= True, Print["FAILED ", name, ": ", InputForm[expr]]]);
 (* 1. per-state regret of a constant-delta rule: integral of |p(g+D)-D| over the disagreement interval *)
@@ -18,7 +18,7 @@ winB = vB;
 ok["T2_causal_decomposition", FullSimplify[winA - winB == g + q ch p gA]];
 winA0 = (1 - qB) vB + qB ((1 - ch) vB + ch (p (vB + gB) + (1 - p) vB));
 ok["T2_rb_difference", FullSimplify[(winA - winA0) - g == q ch p gA - qB ch p gB]];
-(* With an opponent that also challenges later (prob qo / qoB of an opportunity,
+(* with an opponent that also challenges later (prob qo / qoB of an opportunity,
    challenge prob cho, success po, stake goA / goB, which lowers the team's win probability), the win difference is the
    branch g plus the team's own later gains minus the opponent's: the RB estimator must difference signed gains. *)
 winAo = winA - qo cho po goA; winA0o = winA0 - qoB cho po goB;

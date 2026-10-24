@@ -1,0 +1,23 @@
+{
+ "old_join": {
+  "called": 371584,
+  "description_ok_count_inconsistent": 94,
+  "description_bad": 358
+ },
+ "count_join": {
+  "called": 370963,
+  "unmatched": 3,
+  "located": 370762,
+  "renumbered": 449,
+  "renumbered_challenged": 15,
+  "renumbered_max_abs_diff_vs_feed_in": 0.012822500747748933,
+  "renumbered_median_abs_diff_vs_feed_in": 0.0019689523053907365,
+  "challenges": 10557,
+  "challenges_located": 10557
+ },
+ "halves": {
+  "statcast_halves": 43132,
+  "without_opportunity_frame_rows": 188,
+  "extra_innings": 8
+ }
+}

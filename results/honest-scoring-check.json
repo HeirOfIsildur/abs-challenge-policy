@@ -1,0 +1,8 @@
+{
+	"wolframVersion":"15.0.0 for Mac OS X ARM (64-bit) (May 26, 2026)",
+	"optimism_without_split":"s\/(E^((c - g)^2\/(2*s^2))*Sqrt[2*Pi])",
+	"optimism_equals_s_phi":"True",
+	"optimism_with_split":"0",
+	"distinct_share_n2425":0.6321964233,
+	"distinct_share_limit":"1 - E^(-1)"
+}
