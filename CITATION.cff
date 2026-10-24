@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this code or these results, please cite the paper."
-title: "ABS challenges: wins left on the table — code and results"
+title: "ABS challenges: an accounting index of wins left on the table — code and results"
 type: software
 license: MIT
 repository-code: "https://github.com/HeirOfIsildur/abs-challenge-policy"
@@ -16,7 +16,7 @@ authors:
     email: "pesta@karlin.mff.cuni.cz"
 preferred-citation:
   type: article
-  title: "ABS challenges: wins left on the table"
+  title: "ABS challenges: an accounting index of wins left on the table"
   authors:
     - family-names: "Janoušek"
       given-names: "Jan"

@@ -1,4 +1,4 @@
-(* Cricket DRS replication: kernel checks of the closed forms used by src/drs/. *)
+(* Cricket DRS replication (HONZA-76): kernel checks of the closed forms used by src/drs/. *)
 dir = DirectoryName[$InputFileName] <> "../results/drs/";
 res = <|"wolframVersion" -> $Version|>;
 Phi[x_] := CDF[NormalDistribution[], x];
@@ -44,7 +44,7 @@ res["D_const_counterexample"] = ToString[InputForm[Reduce[g > 0 && aa >= 0 && dU
 (* (iii) a kept umpire's call lowers the cutoff: dp*/drho < 0 *)
 res["D_drho"] = ToString[InputForm[FullSimplify[D[(1 - rho) dU/(g + aa + (1 - rho) dU), rho], g > 0 && aa >= 0 && dU > 0]]];
 
-(* D (iv) no-extra-opportunity DP: an overturn moves on to w+1, review value p g + u1 - l dU vs u1,
+(* D (iv) HONZA-122 no-extra-opportunity DP: an overturn moves on to w+1, review value p g + u1 - l dU vs u1,
    so review iff p g >= l dU (the general rule with A = 0). *)
 res["D_noextra"] = ToString[InputForm[FullSimplify[(p g + u1 - l dU >= u1) == (p g >= l dU)]]];
 res["D_noextra_is_A0"] = ToString[InputForm[FullSimplify[((p (g + aa) >= l dU) /. aa -> 0) == (p g >= l dU)]]];

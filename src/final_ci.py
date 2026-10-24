@@ -1,4 +1,4 @@
-"""Wins lost against the optimum with a CI that carries parameter uncertainty.
+"""HONZA-73 step 5: wins lost against the optimum with a CI that carries parameter uncertainty.
 Full bootstrap (CI_MODE=refit, default): resample the 2026 games with replacement, refit the perception + truth
 model on the resample (lik.fit, warm start), re-solve the DP and simulate on the resample (R draws), record
 opt - observed and opt - simulated fitted rule per team-season.
@@ -18,7 +18,8 @@ def spec_of(variant):
 
 def resample(by, games, rng):
     pick = rng.choice(games, len(games))
-    return pd.concat([by[g].assign(game_pk=i) for i, g in enumerate(pick)], ignore_index=True)
+    # HONZA-132: orig_game keeps the 2026 game of every resampled game (dp_score.FULL_HALVES needs it)
+    return pd.concat([by[g].assign(game_pk=i, orig_game=g) for i, g in enumerate(pick)], ignore_index=True)
 
 
 def one(args):

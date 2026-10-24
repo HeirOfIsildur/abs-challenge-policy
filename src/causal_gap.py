@@ -1,24 +1,24 @@
-"""Where does the binary-vs-RB gap of the causal check come from?
+"""HONZA-100 (audit R1): where does the binary-vs-RB gap of the causal check come from?
 
 causal.py's two estimators agree only if the WP engine (wp.py, which prices every flip as g) is the value function of
 the pitch-level simulator that replays the game after the flip.  Both ignore the home team and use the same extra-
 inning and walk-off rules, so a gap has to come from the PA dynamics.  The engine's PA kernel T[count, outs, bases] is
-the empirical distribution of the PA's end (outs, bases, runs) from every 2026 pitch at that count.  The original
+the empirical distribution of the PA's end (outs, bases, runs) from every 2026 pitch at that count.  The HONZA-86
 simulator built the PA pitch by pitch from
   ev[count] -> event (called / other strike / foul / in play / HBP / automatic ball), not by outs and bases,
   kip[outs, bases] -> in-play outcome, the same after 0-2 as after 3-0,
   and no baserunning between pitches (steals, wild pitches, pickoffs).
 Each simplification is a Markov chain whose PA kernel and WP table are exact (no Monte Carlo): chain_T() turns
 (ev, kip, called-strike share, baserunning) into a T, wp.solve(T) gives its WP table and stakes.Vcount its g.  Steps:
-  sim    ev[c],        kip[o, b]       (causal.py originally)
+  sim    ev[c],        kip[o, b]       (causal.py up to HONZA-89)
   kc     ev[c],        kip[c, o, b]    (in-play outcome depends on the count)
   kcob   ev[c, o, b],  kip[c, o, b]    (events also depend on outs and bases)
-  run    kcob + between-pitch baserunning M[o, b] -> (o', b', runs)   (causal.py now)
+  run    kcob + between-pitch baserunning M[o, b] -> (o', b', runs)   (causal.py from HONZA-100)
   engine wp.py's T
   homefield  wp.py's T estimated separately for each batting team (the engine has no home-field term, audit R5)
 Sparse cells are shrunk toward the coarser kernel with weight 20, as in wp.py.
 Predicted gap of a policy = sum over its branch pitches of (g_chain - g_engine), in wins per team-season, on the same
-branch pitches (R = 4, seed 1) as causal.py; the measured gap is binary - RB in results/causal_sim.json (original simulator) and
+branch pitches (R = 4, seed 1) as causal.py; the measured gap is binary - RB in results/causal_sim.json (HONZA-86 simulator) and
 results/causal.json (simulator "run").  A Monte Carlo
 check runs causal.play itself (no challenges) from sampled branch states and compares its flip swing with the chain's g.
 usage: python src/causal_gap.py [K_mc] [n_mc] [cached] | md -> results/causal_gap.json, data/gtable_<step>.npz"""
@@ -62,7 +62,7 @@ def kernels(sc=None):
     pa["oe"] = np.where(same, nxt.outs, 3).astype(int); pa["be"] = np.where(same, nxt.bases, 0).astype(int)
     pa["r"] = (pa.end_score - pa.start).clip(0, 4).astype(int)
     ip = pa[(pa["last"] == "X") & (pa.oe >= pa.outs)]
-    # Original kernel (state at the PA's first pitch) and the count kernel (state and count at the in-play pitch)
+    # HONZA-86 kernel (state at the PA's first pitch) and the count kernel (state and count at the in-play pitch)
     k_ob = np.zeros((3, 8, 160)); np.add.at(k_ob, (ip.outs.values, ip.bases.values, ip.oe.values * 40 + ip.be.values * 5 + ip.r.values), 1)
     k_ob = k_ob + 1e-12; k_ob = k_ob / k_ob.sum(2, keepdims=True)
     ipc = ip[(ip.cnt < 12) & (ip.oe >= ip.ol)]
@@ -165,7 +165,7 @@ def gtable(T, W):
                             for st in range(3):
                                 wb, _ = stakes.Vcount(i + 1, h, o, b, d, bl + 1, st)
                                 ws, _ = stakes.Vcount(i + 1, h, o, b, d, bl, st + 1)
-                                G[i, h, o, b, d + 10, bl, st] = max((1 if h else -1) * (wb - ws), 0.0)   # Signed, as stakes.py
+                                G[i, h, o, b, d + 10, bl, st] = max((1 if h else -1) * (wb - ws), 0.0)   # HONZA-122: signed, as stakes.py
     return G
 
 
@@ -209,11 +209,13 @@ def main(K_mc=2000, n_mc=600):
     v = spec_variant(MAIN)
     m, kin, out, draws = evaluate_all(v, R=4, seed=1, keep_draws=True)
     ii = np.minimum(m.inning.values, 10) - 1; hh = (~m.top.values).astype(int)
-    st = (ii, hh, m.outs_when_up.values, m.bases.values, np.clip(m.score_diff_home.values, -10, 10) + 10, m.balls.values, m.strikes.values)
+    I = lambda x: np.asarray(x).astype(np.int64)                  # HONZA-132: state columns can arrive as float
+    st = (I(ii), I(hh), I(m.outs_when_up.values), I(m.bases.values), I(np.clip(m.score_diff_home.values, -10, 10) + 10),
+          I(m.balls.values), I(m.strikes.values))
     g_row = {s: tabs[s][2][st] for s in ["engine"] + STEPS}
     small = np.abs(m.score_diff_home.values) <= 10                 # the tables clip the score at +-10, as causal.py does
     assert np.allclose(g_row["engine"][small], m.g.values[small], atol=1e-9), "engine g table does not reproduce m.g"
-    meas = json.load(open("results/causal_sim.json"))["game_bootstrap"]          # original simulator (earlier run)
+    meas = json.load(open("results/causal_sim.json"))["game_bootstrap"]          # HONZA-86 simulator (HONZA-89 run)
     try:
         cr = json.load(open("results/causal.json"))
         meas_run = cr["game_bootstrap"] if cr.get("simulator") == "run" else None
@@ -261,8 +263,8 @@ def main(K_mc=2000, n_mc=600):
     S_opt = out["opt_score"][0].sum() / 30; S_obs = out["observed"][0].sum() / 30
     eps_opt = float(g_hf[rows].sum() / g_row["engine"][rows].sum() - 1)
     full_m, _ = sim.load(v); fm = full_m[full_m.ch & full_m.ch_over]
-    fi = (np.minimum(fm.inning.values, 10) - 1, (~fm.top.values).astype(int), fm.outs_when_up.values, fm.bases.values,
-          np.clip(fm.score_diff_home.values, -10, 10) + 10, fm.balls.values, fm.strikes.values)
+    fi = (I(np.minimum(fm.inning.values, 10) - 1), I((~fm.top.values).astype(int)), I(fm.outs_when_up.values), I(fm.bases.values),
+          I(np.clip(fm.score_diff_home.values, -10, 10) + 10), I(fm.balls.values), I(fm.strikes.values))
     eps_obs = float(tabs["homefield"][2][fi].sum() / Ge[fi].sum() - 1)
     res["home_field"] = dict(home_wp_first_pitch=float(Wh[0, 0, 0, 0, 20]), home_wp_extra_start=float(Wh[9, 0, 0, 2, 20]),
                              rel_g_opt_branches=round(eps_opt, 4), rel_g_observed_successes=round(eps_obs, 4),
@@ -314,13 +316,13 @@ def write_md(g):
     sg = lambda x: f"{x:+.3f}"
     c3 = lambda x: f"{x[0]:+.3f} [{x[1]:+.3f}, {x[2]:+.3f}]"
     c2 = lambda x: f"{x[0]:.2f} [{x[1]:.2f}, {x[2]:.2f}]"
-    L = ["## Audit R1: why the binary causal estimate sat below the RB one", "",
+    L = ["## Audit R1: why the binary causal estimate sat below the RB one (HONZA-100)", "",
          "### Verdict", "",
-         f"**A simulator bug, now fixed, not a property of the game or of the headline accounting.** The original pitch "
+         f"**A simulator bug, now fixed, not a property of the game or of the headline accounting.** The HONZA-86 pitch "
          f"simulator in `src/causal.py` moved a team's win probability by only **{100 * mc['sim']['chain_over_engine']:.1f} %** of the "
          f"engine's g when a call was flipped. The binary estimator values the branch flip in simulated wins, so it "
          f"inherited that shortfall: {c3(bs['opt_score']['binary_minus_rb'])} wins per team-season for the optimum "
-         f"(earlier run, R = {cs['R']}, K = {cs['K']}). Pricing every branch with the old simulator's own exact g predicts "
+         f"(HONZA-89 run, R = {cs['R']}, K = {cs['K']}). Pricing every branch with the old simulator's own exact g predicts "
          f"**{sg(pr['sim'])}**, which accounts for the whole measured gap with no free parameter. The corrected simulator reaches "
          f"{100 * mc['run']['chain_over_engine']:.1f} % of g. On it binary − RB is {c3(b['opt_score']['binary_minus_rb'])} for the optimum "
          f"(R = {cr['R']}, K = {cr['K']}), against {sg(pr['run'])} predicted, and it averages "
@@ -331,7 +333,7 @@ def write_md(g):
          f"{c2(b['opt_score']['binary_minus_observed'])}, against {c2(b['opt_score']['causal_minus_observed'])} for RB; before the fix "
          f"the binary figure was {c2(bs['opt_score']['binary_minus_observed'])}. The reasons to keep the engine are:", "",
          "1. The engine is the calibrated object. Its PA kernel is the empirical end-of-PA distribution from every 2026 pitch, and it matches "
-         "realised results as well as Statcast's own win expectancy (`audit/wp_calibration.json`). The simulator is a "
+         "realised results as well as Statcast's own win expectancy (`results/wp_calibration.json`). The simulator is a "
          "generative approximation of the same data, used only to replay games after a flip.",
          f"2. With the simulator fixed, the two estimators differ by {b['opt_score']['binary_minus_rb'][0]:+.3f} for the optimum. "
          f"{pr['run']:+.3f} of that is the residual simulator mismatch predicted by the exact chain, and the rest is within the CI "
@@ -352,9 +354,9 @@ def write_md(g):
          f"({o['branches_per_season']:.0f} branch flips per team-season, mean engine g {o['mean_g_branch_engine']:.4f}):", "",
          "| Simulator | Events | In-play outcome | Between-pitch baserunning | g / engine g | Predicted binary − RB | Step |",
          "|---|---|---|---|---|---|---|"]
-    steps = [("sim", "by count", "by the PA's starting outs/bases", "none"),
+    steps = [("sim (HONZA-86)", "by count", "by the PA's starting outs/bases", "none"),
              ("kc", "by count", "by count, outs, bases", "none"), ("kcob", "by count, outs, bases", "by count, outs, bases", "none"),
-             ("run", "by count, outs, bases", "by count, outs, bases", f"yes ({100 * g['p_move_between_pitches']:.1f} % of pitches)")]
+             ("run (HONZA-100)", "by count, outs, bases", "by count, outs, bases", f"yes ({100 * g['p_move_between_pitches']:.1f} % of pitches)")]
     prev = None
     for (lab, e, k, r), s_ in zip(steps, STEPS):
         ratio = mc[s_]["chain_over_engine"] if s_ in mc else None
@@ -363,7 +365,7 @@ def write_md(g):
         prev = s_
     L += [f"| engine (`wp.py`) | empirical end-of-PA kernel by count, outs, bases | | (included) | 100 % | 0 | {sg(-pr['run'])} |", "",
           "Measured binary − RB: "
-          f"{c3(bs['opt_score']['binary_minus_rb'])} with the original simulator, {c3(b['opt_score']['binary_minus_rb'])} with the corrected one.", "",
+          f"{c3(bs['opt_score']['binary_minus_rb'])} with the HONZA-86 simulator, {c3(b['opt_score']['binary_minus_rb'])} with the corrected one.", "",
           "Reading the steps:",
           f"- **Count-dependent contact** (sim → kc) closes {100 * (pr['kc'] - pr['sim']) / -pr['sim']:.0f} % of the gap. Batters ahead in the count hit for more damage "
           "(runs scored on the ball in play, averaged over the 24 base-out states: "
@@ -403,7 +405,7 @@ def write_md(g):
           f"- **K / R Monte Carlo bias.** Both estimators are linear in sample means, hence unbiased in K and R. The old gap's CI "
           f"excluded 0, and the exact chain reproduces it ({sg(pr['sim'])} predicted vs {bs['opt_score']['binary_minus_rb'][0]:+.3f} measured), "
           "so it was not noise.", "",
-          "### Recommended manuscript wording", "",
+          "### Recommended manuscript wording (for HONZA-93)", "",
           "*§5 (causal check), one paragraph:* "
           "\"Summing g along the recorded game ignores that, after a flipped call, the rest of the game would have been "
           "different. We therefore replay every team-game from its first successful challenge in a pitch-level simulator: "

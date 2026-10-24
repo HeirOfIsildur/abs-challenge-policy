@@ -1,4 +1,4 @@
-## Cricket DRS replication of the retained-review model
+## Cricket DRS replication of the retained-review model (HONZA-76)
 
 Run 17–18 Oct 2026 on Cricsheet ball-by-ball data. The question is whether the MLB retained-challenge findings carry over to a second sport.
 
@@ -8,10 +8,10 @@ Run 17–18 Oct 2026 on Cricsheet ball-by-ball data. The question is whether the
 
 | MLB finding | DRS (batting side) | Replicates? |
 |---|---|---|
-| Value curve is flat: a one-line rule p ≥ δ/(g+δ) captures ~96 % of the optimum (after the geometry fix) | 99.8 % (Test), 98.8 % (ODI), 99.2 % (T20) | **yes** |
-| The optimal threshold moves strongly with the state | With 1 review left, the LBW threshold falls 19 pp (Test), 15 pp (ODI) and 8 pp (T20) from the top order to the tail. Holding 1 vs 2 reviews moves it 17 / 13 / 7 pp at the start of the innings | **yes** (Tests similar to MLB's 25.7 pp score-averaged, 6.3 pp at a tied score; after the independent audit) |
+| Value curve is flat: a one-line rule p ≥ δ/(g+δ) captures ~96 % of the optimum (post-HONZA-88) | 99.8 % (Test), 98.8 % (ODI), 99.2 % (T20) | **yes** |
+| The optimal threshold moves strongly with the state | With 1 review left, the LBW threshold falls 19 pp (Test), 15 pp (ODI) and 8 pp (T20) from the top order to the tail. Holding 1 vs 2 reviews moves it 17 / 13 / 7 pp at the start of the innings | **yes** (Tests similar to MLB's 25.7 pp score-averaged, 6.3 pp at a tied score; post-HONZA-89) |
 | Option value ∝ √(opportunities left) | No. A linear fit beats √N in every format (R² 0.98–0.99 vs 0.92–0.94). The power exponent is 1.6–1.9, with 95 % CIs excluding 0.5 | **no** |
-| Teams lose 0.62 [0.50, 0.75] wins per team-season, mostly by under-challenging (after the independent audit) | Teams are within 0.00–0.03 match points per 100 team-matches of the optimum (fitted rule, same draws) | **no** |
+| Teams lose 0.62 [0.50, 0.75] wins per team-season, mostly by under-challenging (post-HONZA-89) | Teams are within 0.00–0.03 match points per 100 team-matches of the optimum (fitted rule, same draws) | **no** |
 | Perception noise is the main referee risk | Same structure, and **better identified**: the umpire's-call share pins it from both sides in Tests and T20 | sharper |
 
 The √t law reads as a regime result, not a universal law. In MLB there are many low-probability opportunities per retained challenge. In DRS a batting innings has on average 5–7 out decisions (median 5 in T20, 6 in ODIs, 7 in Tests; 90th percentile 7–10), and about 30 % of LBW out decisions would be overturned. With so few, high-hit-rate opportunities, the value of the last review is close to (expected reviewable errors ahead) × stake, which is linear or convex in N, not √N.
@@ -51,7 +51,7 @@ Batters review **~70–78 % of LBW out decisions** but only 1–3 % of caught de
    - State: wickets down and reviews left. Transition rates come from the real innings walks.
    - Review iff p(g + A) ≥ ℓ·ΔU, where ℓ is the posterior probability that the review is lost.
    - Policies (optimal, best stake-only rule, the fitted revealed rule, p ≥ 0.5) are simulated on the real decision streams, and the realised value of the real reviews is reported alongside.
-   - Uncertainty: a match bootstrap that refits the selection model, re-solves the DP and re-simulates. B = 500 in every format (T20 re-run at B = 500 by the independent audit, `audit/drs/audit_drs.md`).
+   - Uncertainty: a match bootstrap that refits the selection model, re-solves the DP and re-simulates. B = 500 in every format (T20 re-run at B = 500 by the HONZA-89 audit, `audit/drs/audit_drs.md`).
 5. **`wolfram/drs_check.wl`**: kernel checks. Output in `results/drs/check.json`.
 
 ### What is identified, and what is not
@@ -146,7 +146,7 @@ Script `wolfram/drs_check.wl`; output `results/drs/check.json`.
 - The fielding side is not analysed beyond descriptives (not identified).
 - The best δ is tuned in-sample, which favours the simple rule.
 
-### Audit
+### Audit (HONZA-89)
 
 `audit/drs/audit_drs.md`. The independent recount from the raw JSON matches every count. One low-severity bug was fixed: the simulated fitted rule now uses its own reviews left; lost vs rule moves by ≤ 0.006. T20 was re-run at B = 500. Known-truth recovery (`results/drs/identification.json`) shows s is pinned from below but only weakly from above: 25–35 % of simulated replicates return ŝ > 1 when the truth is ≈ 0.5. WP recalibration and margin-model sensitivity: `results/drs/sensitivity.json`.
 

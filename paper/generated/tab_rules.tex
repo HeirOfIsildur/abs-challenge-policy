@@ -1,0 +1,21 @@
+\begin{tabular}{p{4.2cm}cccc}
+\toprule
+ & \multicolumn{2}{c}{Primary} & \multicolumn{2}{c}{Comparator} \\
+Rule & Gap (\%) & Chall. & Gap (\%) & Chall. \\
+\midrule
+One-line rule, $\delta=0.008$ & 63 [54, 74] & 2.17 & 70 [61, 76] & 2.22 \\
+One-line rule, $\delta$ chosen on the training folds & 64 [54, 73] & 2.27 & 69 [59, 75] & 2.25 \\
+One-line rule, $\delta=0.01$ & 43 & 1.88 & 56 & 1.90 \\
+Runs-objective rule \citep{Namuduri2026runs} & 87 & 2.96 & 87 & 2.97 \\
+48-cell card, published \citep{Arora2026use} & 60 & 2.54 & 65 & 2.59 \\
+48-cell card, training-DP thresholds & 56 & 2.55 & 58 & 2.51 \\
+Savant's form, run cost tuned on training folds & 42 & 2.62 & 50 & 2.55 \\
+Fixed 0.2-run rule \citep{Savant2026abs} & \ensuremath{-}172 [\ensuremath{-}219, \ensuremath{-}99] & 1.12 & \ensuremath{-}142 [\ensuremath{-}209, \ensuremath{-}109] & 1.03 \\
+Teams' rule, intercept re-tuned & 40 & 2.94 & 50 & 3.03 \\
+Teams' rule, slope on $\log g$ re-tuned & 63 & 2.38 & 79 & 2.45 \\
+Teams' rule, intercept and slope re-tuned & 64 & 2.42 & 79 & 2.47 \\
+Teams' fitted rule $s>\kappa(x)$, simulated & \ensuremath{-}16 & 2.16 & \ensuremath{-}7 & 2.16 \\
+Observed 2026 & 0 & 2.18 & 0 & 2.18 \\
+Benchmark & 100 & 2.71 & 100 & 2.70 \\
+\bottomrule
+\end{tabular}

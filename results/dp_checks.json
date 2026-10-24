@@ -4,34 +4,34 @@
  "results": {
   "DM6": {
    "in_sample": {
-    "opt_score": 4.0369,
-    "opt": 3.9281,
-    "runs_dp": 3.958,
-    "stake_0008": 3.8583,
-    "stake_001": 3.7601
+    "opt_score": 4.0377,
+    "opt": 3.9264,
+    "runs_dp": 3.9651,
+    "stake_0008": 3.8507,
+    "stake_001": 3.7622
    },
    "cross_fit": {
-    "opt_score": 4.0316,
-    "opt": 3.9269,
-    "runs_dp": 3.9567,
-    "stake_0008": 3.8583,
-    "stake_001": 3.76
+    "opt_score": 4.0323,
+    "opt": 3.9213,
+    "runs_dp": 3.9635,
+    "stake_0008": 3.8506,
+    "stake_001": 3.7622
    }
   },
   "DM10": {
    "in_sample": {
-    "opt_score": 4.0384,
-    "opt": 3.9281,
-    "runs_dp": 3.958,
-    "stake_0008": 3.8583,
-    "stake_001": 3.7601
+    "opt_score": 4.0405,
+    "opt": 3.9264,
+    "runs_dp": 3.9651,
+    "stake_0008": 3.8507,
+    "stake_001": 3.7622
    },
    "cross_fit": {
-    "opt_score": 4.0341,
-    "opt": 3.9269,
-    "runs_dp": 3.9567,
-    "stake_0008": 3.8583,
-    "stake_001": 3.76
+    "opt_score": 4.0337,
+    "opt": 3.9213,
+    "runs_dp": 3.9635,
+    "stake_0008": 3.8506,
+    "stake_001": 3.7622
    }
   }
  }

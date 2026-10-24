@@ -1,7 +1,7 @@
-"""Audit item 6: is the player's calibrated posterior an in-sample fit?  sim.draw fits the isotonic map
+"""HONZA-89 audit item 6: is the player's calibrated posterior an in-sample fit?  sim.draw fits the isotonic map
 P(W | s bin, side, region) on the same simulated truth W that then scores the policies.  Here the map is fitted on an
 independent draw (A) and applied to the signals of draw B; DPs are re-solved on the cross-fitted posterior.
-usage: python audit/crossfit_calibration.py [R] -> audit/crossfit_calibration.json"""
+usage: python src/crossfit_calibration.py [R] -> results/crossfit_calibration.json"""
 import json, sys
 import numpy as np
 sys.path.insert(0, "src")
@@ -59,5 +59,5 @@ for r in range(R):
     print(r, rows[-1], flush=True)
 summ = {k: {p: float(np.mean([x[k][p] for x in rows])) for p in rows[0][k]} for k in ("in_sample", "cross_fit")}
 summ["diff_in_minus_cross"] = {p: summ["in_sample"][p] - summ["cross_fit"][p] for p in summ["in_sample"]}
-json.dump(dict(R=R, rows=rows, summary=summ), open("audit/crossfit_calibration.json", "w"), indent=1)
+json.dump(dict(R=R, rows=rows, summary=summ), open("results/crossfit_calibration.json", "w"), indent=1)
 print(json.dumps(summ, indent=1))

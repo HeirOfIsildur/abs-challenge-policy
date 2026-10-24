@@ -1,5 +1,6 @@
-"""Stake of each called pitch: g = |WP_home(after ball) - WP_home(after strike)| (WP swing of a flip, same for
-either challenger), and RV = |RE(after ball) - RE(after strike)| in runs (Savant/RE288-style)."""
+"""Stake of each called pitch: g = max(s (WP_home(after ball) - WP_home(after strike)), 0) with s = +1 when the home
+team bats and -1 otherwise -- the batting team's WP swing of a flip, signed, with the non-monotone engine cells set to
+zero (HONZA-122) -- the same for either challenger; RV = max(RE(after ball) - RE(after strike), 0) in runs."""
 import numpy as np, pandas as pd
 z = np.load("data/wp_engine.npz"); T, W, RE, D = z["T"], z["W"], z["RE"], int(z["DMAX"])
 
@@ -45,21 +46,56 @@ def Vcount(inn, half, o, b, diff, balls, strikes):
             rv += (k[oe, :, r] * (r + (RE[oe] if oe < 3 else 0))).sum()
     return wv, rv
 
+def state_table():
+    """HONZA-132: Vcount for EVERY state at once (vectorised; the per-state loop of add_stakes took ~19 s per engine,
+    which the cross-fitted bootstrap calls ten times per replicate). Returns (WV, RV) of shape
+    [inn 1..10 (10 = extras), half, outs 0..2, bases, diff in [-(D+4), D+4], balls 0..4, strikes 0..3], exactly
+    Vcount(inn, half, o, b, diff, balls, strikes) for balls < 4 or strikes < 3 (the score axis is extended by the 4-run
+    maximum of a plate appearance, so clipping the input diff to +-(D+4) is exact)."""
+    DX = D + 4; diffs = np.arange(-DX, DX + 1); ND = len(diffs)
+    WV = np.zeros((10, 2, 3, 8, ND, 5, 4)); RVt = np.zeros_like(WV)
+    REx = np.vstack([RE[:3], np.zeros((1, 8))])                       # RE at outs 3 = 0
+    K = T[:12].reshape(4, 3, 3, 8, 4, 8, 5)                           # [balls, strikes, o, b, oe, be, r]
+    rr = np.arange(5)
+    RVk = np.einsum("lsobxyr,xyr->lsob", K, rr[None, None, :] + REx[:, :, None])
+    for i in range(10):
+        inn = i + 1
+        for h in range(2):
+            sg = 1 if h else -1
+            walkoff = (h == 1 and inn >= 9)
+            dd = diffs[:, None] + sg * rr[None, :]                     # [ND, r]
+            Wc = W[i, h][:, :, np.clip(dd, -D, D) + D]                 # [oe 4, be 8, ND, r]
+            Wc[3] = Wc[3, 0][None]                                     # half over: base state irrelevant
+            if walkoff:
+                Wc = np.where((dd > 0)[None, None], 1.0, Wc)
+            WV[i, h, :, :, :, :4, :3] = np.einsum("lsobxyr,xydr->obdls", K, Wc)
+            RVt[i, h, :, :, :, :4, :3] = np.broadcast_to(np.transpose(RVk, (2, 3, 0, 1))[:, :, None], (3, 8, ND, 4, 3))
+            def Wpa(o, b, d):
+                v = W[i, h, o, (b if o < 3 else 0), np.clip(d, -D, D) + D]
+                return np.where(d > 0, 1.0, v) if walkoff else v
+            for o in range(3):
+                for b in range(8):
+                    nb, r = WALK[b]
+                    WV[i, h, o, b, :, 4, :] = Wpa(o, nb, diffs + sg * r)[:, None]
+                    RVt[i, h, o, b, :, 4, :] = r + RE[o, nb]
+                    WV[i, h, o, b, :, :, 3] = (Wpa(o + 1, b, diffs) if o + 1 < 3 else Wpa(3, 0, diffs))[:, None]
+                    RVt[i, h, o, b, :, :, 3] = RE[o + 1, b] if o + 1 < 3 else 0.0
+    return WV, RVt
+
+
 def add_stakes(m):
     """g = |WP_home(after ball) - WP_home(after strike)| and RV in runs for every row of m (pre-pitch state)."""
     m = m.copy()
     m["half"] = (~m.top).astype(int)
     m["diff"] = m.score_diff_home.astype(int)
     keys = ["inning", "half", "outs_when_up", "bases", "diff", "balls", "strikes"]
-    u = m[keys].drop_duplicates().reset_index(drop=True)
-    res = []
-    for inn, h, o, b, d, bl, st in u.itertuples(index=False):
-        wb, rb = Vcount(inn, h, o, b, d, bl + 1, st)
-        ws, rs = Vcount(inn, h, o, b, d, bl, st + 1)
-        res.append((wb, ws, rb, rs))
-    u[["wp_ball", "wp_strike", "re_ball", "re_strike"]] = np.array(res)
-    m = m.merge(u, on=keys)
-    # Signed stakes oriented to the batting team. The empirical count kernels can make a
+    m[keys] = m[keys].astype(int)        # HONZA-132: state columns can arrive as float (unmatched rows of the join)
+    WV, RVt = state_table()              # HONZA-132: vectorised (was a loop of Vcount calls over the unique states)
+    ii = np.clip(m.inning.values, 1, 10) - 1; hh = m.half.values; oo = m.outs_when_up.values; bb = m.bases.values
+    dd = np.clip(m["diff"].values, -(D + 4), D + 4) + D + 4; bl = m.balls.values; st = m.strikes.values
+    m["wp_ball"] = WV[ii, hh, oo, bb, dd, bl + 1, st]; m["wp_strike"] = WV[ii, hh, oo, bb, dd, bl, st + 1]
+    m["re_ball"] = RVt[ii, hh, oo, bb, dd, bl + 1, st]; m["re_strike"] = RVt[ii, hh, oo, bb, dd, bl, st + 1]
+    # HONZA-122 (Astra, Sol reviews): signed stakes oriented to the batting team. The empirical count kernels can make a
     # ball worth less than a strike to the batting team (a non-monotone engine cell); the absolute value turned those
     # into positive gains. A flip is now worth max(signed swing, 0); g_signed keeps the raw contrast for the audit.
     sg = np.where(m.half.values == 1, 1.0, -1.0)

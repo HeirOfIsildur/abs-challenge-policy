@@ -28,6 +28,6 @@
  "ours_left_differs_from_feed_without_grant": 0,
  "challenges_with_zero_left": 0,
  "extra_inning_challenges": 210,
- "challenges_beyond_8in": 1,
- "challenges_no_location": 13
+ "challenges_beyond_8in": 0,
+ "challenges_no_location": 0
 }

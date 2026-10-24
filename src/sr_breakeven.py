@@ -1,7 +1,7 @@
 """Wins lost on the main model (headline.MAIN, BIC-best fixed effects) when both sides' sigma_r is scaled by a
 multiplier, holding everything else at the fit: how far would sigma_r have to be off for the headline to reach the
-0.25 wins/team-season line of the decision rule?  evaluated on the score-aware optimum (opt_score, as the
-headline), not the pooled DP.  also records the simulated behavioural rule s > kappa(x) (wins and
+0.25 wins/team-season line of the decision rule?  HONZA-88: evaluated on the score-aware optimum (opt_score, as the
+headline), not the pooled DP of HONZA-73.  HONZA-106: also records the simulated behavioural rule s > kappa(x) (wins and
 challenges per team-game) at each multiplier, so the multiplier at which the simulated rule earns what teams realised can
 be read off (the referee's model-vs-reality gap).  usage: python src/sr_breakeven.py [R] -> results/sr_breakeven.json"""
 import json, sys

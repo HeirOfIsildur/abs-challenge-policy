@@ -1,4 +1,4 @@
-"""Wins lost (opt - observed) under every fitted perception variant, the sigma_r x 0.5 / x 1.5 sensitivity
+"""HONZA-73: wins lost (opt - observed) under every fitted perception variant, the sigma_r x 0.5 / x 1.5 sensitivity
 on the new baseline, player-specific sigma_r (random effects), and the confidence-calibration test.
 
 Calibration test.  A threshold on the signal s is observationally equivalent under any monotone belief map, so the
@@ -41,7 +41,7 @@ def calibration_test(variant="normal", seed=3):
         e = m[k]; kap = e.kappa.values
         pc = np.zeros(k.sum())
         cal = sim.cal_groups(m); ce = cal[k]
-        for grp in np.unique(ce):                     # The posterior's calibration cells (sim.cal_groups)
+        for grp in np.unique(ce):                     # HONZA-122: the posterior's calibration cells (sim.cal_groups)
             j = ce == grp; jj = (m.side == side).values & (cal == grp)
             order = np.argsort(s[jj]); ss = s[jj][order]; cum = np.cumsum(W[jj][order].astype(float))
             # calibrated P(W | s = kappa): share of truly wrong calls among the 2,000 simulated signals around kappa
@@ -61,7 +61,7 @@ def calibration_test(variant="normal", seed=3):
 
 
 if __name__ == "__main__":
-    # The manuscript uses only the calibration test, now on the main specification (it was the baseline);
+    # HONZA-122: the manuscript uses only the calibration test, now on the main specification (it was the baseline);
     # the per-variant wins lost come from headline.py variants (score-aware DP), not from the pooled sim.evaluate here
     from headline import MAIN
     path = "results/variant_wins.json"

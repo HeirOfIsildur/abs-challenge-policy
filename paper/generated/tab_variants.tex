@@ -1,26 +1,14 @@
-\begin{tabular}{lrrrcc}
+\begin{tabular}{p{5.6cm}rrcc}
 \toprule
-Model & $k$ & $\Delta\ell$ & BIC & $\sigma_r$ batter / catcher (in) & Wins lost \\
+Model & $k$ & $\Delta$BIC & $\sigma_r$ batter / catcher (in) & Gap \\
 \midrule
-Smooth truth by edge, no mislabel & 18 & $-193$ & 56168 & 3.04 / 1.87 & 0.64 \\
-Smooth truth by region + mislabel & 23 & $+16$ & 55812 & 3.04 / 1.87 & 0.65 \\
-Baseline: deterministic truth + mislabel & 15 & $+0$ & 55745 & 3.04 / 1.87 & 0.65 \\
-Logistic $\varepsilon$ & 15 & $-154$ & 56053 & 2.75 / 1.74 & 0.89 \\
-$t_{10}$ $\varepsilon$ & 15 & $-107$ & 55958 & 2.82 / 1.76 & 0.85 \\
-$t_{5}$ $\varepsilon$ & 15 & $-358$ & 56460 & 2.74 / 1.73 & 1.00 \\
-$t_{3}$ $\varepsilon$ & 15 & $-852$ & 57449 & 2.97 / 1.88 & 1.19 \\
-$\sigma_r$ by edge & 17 & $+63$ & 55643 & 3.16 / 1.97 & 0.66 \\
-$\sigma_r$ by region & 21 & $+173$ & 55473 & 3.39 / 1.94 & 0.69 \\
-$\sigma_r$ linear in $|w|$ & 17 & $+6$ & 55757 & 3.21 / 1.88 & 0.63 \\
-$\kappa$ by region & 21 & $+194$ & 55431 & 2.98 / 1.87 & 0.67 \\
-$\kappa$ and $\sigma_r$ by region, $\kappa$ linear in $\log g$ & 27 & $+264$ & 55366 & 2.89 / 1.82 & 0.70 \\
-Same + $\sigma_r$ slope in $|w|$ & 29 & $+271$ & 55376 & 3.05 / 1.85 & 0.66 \\
-Same + lapse rate & 29 & $+277$ & 55363 & 2.69 / 1.70 & 0.85 \\
-\textbf{Same, $\kappa$ piecewise linear in $\log g$ (main)} & 33 & $+356$ & 55256 & 2.88 / 1.82 & 0.71 \\
-Main + low-stake hinge in $\kappa$ & 35 & $+357$ & 55279 & 2.88 / 1.82 & 0.71 \\
-Main + $\sigma_r$ varying with $\log g$ & 35 & $+361$ & 55271 & 2.89 / 1.82 & 0.74 \\
-Main + lapse rate & 35 & $+371$ & 55251 & 2.68 / 1.69 & 0.86 \\
-Main + player random effects & 39 & $+1031$ & 53980 & 2.84 / 1.82 & 0.78 \\
-Main + player random effects + lapse rate & 41 & $+1047$ & 53973 & 2.69 / 1.69 & 0.92 \\
+\textbf{Primary}: player effects ($11\times11$ nodes) + lapse & 41 & $-1295$ & 2.62 / 1.68 & 0.51 \\
+Primary + game-state terms in $\kappa$ & 51 & $-1527$ & 2.62 / 1.63 & 0.53 \\
+Player effects, no lapse & 39 & $-1283$ & 2.81 / 1.81 & 0.68 \\
+Comparator (homogeneous): $\kappa$ piecewise linear in $\log g$, $\kappa,\sigma_r$ by region & 33 & $+0$ & 2.88 / 1.82 & 0.63 \\
+Comparator + game-state terms in $\kappa$ & 43 & $-220$ & 2.87 / 1.80 & 0.65 \\
+Comparator + lapse rate & 35 & $-5$ & 2.68 / 1.69 & 0.46 \\
+Comparator, second-half shifts in $\kappa$ and $\sigma_r$ & 39 & $-12$ & 2.94 / 1.87 & 0.64 \\
+Same + lapse rate & 41 & $-14$ & 2.74 / 1.77 & 0.47 \\
 \bottomrule
 \end{tabular}

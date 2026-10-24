@@ -4,7 +4,7 @@
     "-file",
     "wolfram/drs_check.wl"
   ],
-  "cwd": ".",
+  "cwd": "/Users/honza/multica_workspaces/honza-perso-06080f3a5151/honza-76-3eef0fddc847/workdir/abs-challenge-policy",
   "elapsed_seconds": 11.15586545799988,
   "return_code": 0,
   "stderr": "",

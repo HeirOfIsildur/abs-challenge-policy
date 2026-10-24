@@ -1,8 +1,8 @@
-"""The flat-optimum theorem (theory.md, Theorem 3) evaluated on the calibrated 2026 pools.
+"""HONZA-86 item 3: HONZA-74's flat-optimum theorem (theory.md, Theorem 3) evaluated on the calibrated 2026 pools.
 
 Model world: the score-aware calibrated DP of dp_score.py restricted to regulation (no extra-inning block, so the MDP
 is exact): exogenous states (slot, home differential d at the start of the half-inning), a random number N of
-opportunities per half-inning with the empirical law of (slot, d) (it was the rounded mean), each drawn
+opportunities per half-inning with the empirical law of (slot, d) (HONZA-122; it was the rounded mean), each drawn
 i.i.d. from the pool of (slot, d) (g, calibrated posterior p), runs between half-innings from
 P(r | slot), game over after the top of the 9th if the home team leads and after the 9th.  Per team side (home/away):
   V*            optimal value (backward induction), Delta_k(c) = W_k(c) - W_k(c-1) the continuation used at step k;
@@ -10,7 +10,7 @@ P(r | slot), game over after the top of the 9th if the home team leads and after
   identity (i)  V* - V^delta = sum_steps sum_{c>=1} P^delta(c) E_pool[|p(g+D) - D| 1{rules disagree}], D = Delta_k(c);
   bound (ii)    the same sum with the inner expectation replaced by (M/2) E_g[g^2 (D-delta)^2 / ((g+D)(g+delta)^2)],
                 M = sup of the conditional density of p given g over the disagreement interval (histogram estimate,
-                bin width HW, by g quintile within the pool). the calibrated posterior
+                bin width HW, by g quintile within the pool). HONZA-122 (Sol, Astra reviews): the calibrated posterior
                 has atoms, so this is a smoothed approximation of the bound, not a certified bound for that law;
                 the identity (i) is exact;
   local (ii')   M replaced by the histogram density at the interval midpoint (second-order approximation).
@@ -41,7 +41,7 @@ def pools(m, pt, home):
         if s >= 18:
             continue
         idx = idx.values
-        gg, pp = np.maximum(m.g.values[idx], 1e-12), pt[idx]     # G = 0 now occurs (non-monotone engine cells)
+        gg, pp = np.maximum(m.g.values[idx], 1e-12), pt[idx]     # HONZA-122: g = 0 now occurs (non-monotone engine cells)
         qb = np.quantile(gg, [0.2, 0.4, 0.6, 0.8]) if len(gg) >= 50 else np.array([])
         gq = np.searchsorted(qb, gg)
         dens = np.zeros((5, NB))

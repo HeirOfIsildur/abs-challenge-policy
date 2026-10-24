@@ -4,7 +4,7 @@
     "-file",
     "wolfram/check.wl"
   ],
-  "cwd": ".",
+  "cwd": "/Users/honza/multica_workspaces/honza-perso-06080f3a5151/honza-71-b349ab185b92/workdir/research_hub/audits/06-abs-decisive-test",
   "elapsed_seconds": 9.336088333977386,
   "return_code": 0,
   "stderr": "",
